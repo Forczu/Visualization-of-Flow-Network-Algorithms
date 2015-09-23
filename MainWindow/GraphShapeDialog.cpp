@@ -3,29 +3,29 @@
 GraphShapeDialog::GraphShapeDialog(QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
-	_currentContext = new VerticeContext(Application::Config::Instance().DefaultVerticeContext());
+	_currentContext = new VertexContext(Application::Config::Instance().DefaultVertexContext());
 
-	QPoint startPoint = ui.verticePreview->pos();
-	int sceneWidth = ui.verticePreview->width();
-	int sceneHeight = ui.verticePreview->height();
+	QPoint startPoint = ui.vertexPreview->pos();
+	int sceneWidth = ui.vertexPreview->width();
+	int sceneHeight = ui.vertexPreview->height();
 
 	_graphScene = new QGraphicsScene( startPoint.x(), startPoint.y(), sceneWidth, sceneHeight );
-	ui.verticePreview->setScene(_graphScene);
+	ui.vertexPreview->setScene(_graphScene);
 
-	_verticePreview = new VerticeImage(*_currentContext);
+	_verticePreview = new VertexImage(*_currentContext);
 	_verticePreview->setPos(startPoint.x() + sceneWidth / 2.0f, startPoint.y() + sceneHeight / 2.0f);
 	_verticePreview->setFlag(QGraphicsItem::ItemIsMovable, false);
-	_verticePreview->setVertice(new Vertice(1));
+	_verticePreview->setVertex(new Vertex(1));
 	_graphScene->addItem(_verticePreview);
 
-	ui.verticeSizeSlider->setValue(_currentContext->Size());
+	ui.vertexSizeSlider->setValue(_currentContext->Size());
 	ui.strokeSizeSlider->setValue(_currentContext->StrokeSize());
-	ui.verticeColorRBox->setValue(_currentContext->Color().red());
-	ui.verticeColorGBox->setValue(_currentContext->Color().green());
-	ui.verticeColorBBox->setValue(_currentContext->Color().blue());
-	ui.strokeColorRBox->setValue(_currentContext->StrokeColor().red());
-	ui.strokeColorGBox->setValue(_currentContext->StrokeColor().green());
-	ui.strokeColorBBox->setValue(_currentContext->StrokeColor().blue());
+	ui.vertexColorRedBox->setValue(_currentContext->Color().red());
+	ui.vertexColorGreenBox->setValue(_currentContext->Color().green());
+	ui.vertexColorBlueBox->setValue(_currentContext->Color().blue());
+	ui.strokeColorRedBox->setValue(_currentContext->StrokeColor().red());
+	ui.strokeColorGreenBox->setValue(_currentContext->StrokeColor().green());
+	ui.strokeColorBlueBox->setValue(_currentContext->StrokeColor().blue());
 
 	createConnections();
 
@@ -45,14 +45,14 @@ void GraphShapeDialog::updatePreview()
 
 void GraphShapeDialog::createConnections()
 {
-	connect(ui.verticeSizeSlider, SIGNAL(valueChanged(int)), this, SLOT(verticeSizeChanged(int)));
+	connect(ui.vertexSizeSlider, SIGNAL(valueChanged(int)), this, SLOT(verticeSizeChanged(int)));
 	connect(ui.strokeSizeSlider, SIGNAL(valueChanged(int)), this, SLOT(strokeSizeChanged(int)));
-	connect(ui.verticeColorRBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorRedChanged(int)));
-	connect(ui.verticeColorGBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorBlueChanged(int)));
-	connect(ui.verticeColorBBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorGreenChanged(int)));
-	connect(ui.strokeColorRBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorRedChanged(int)));
-	connect(ui.strokeColorGBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorBlueChanged(int)));
-	connect(ui.strokeColorBBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorGreenChanged(int)));
+	connect(ui.vertexColorRedBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorRedChanged(int)));
+	connect(ui.vertexColorGreenBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorBlueChanged(int)));
+	connect(ui.vertexColorBlueBox, SIGNAL(valueChanged(int)), this, SLOT(verticeColorGreenChanged(int)));
+	connect(ui.strokeColorRedBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorRedChanged(int)));
+	connect(ui.strokeColorGreenBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorBlueChanged(int)));
+	connect(ui.strokeColorBlueBox, SIGNAL(valueChanged(int)), this, SLOT(strokeColorGreenChanged(int)));
 	connect(ui.okButton, SIGNAL(clicked(bool)), this, SLOT(acceptChanges()));
 	connect(ui.anulujButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
 	connect(ui.zastosujButton, SIGNAL(clicked(bool)), this, SLOT(applyChanges()));
@@ -133,7 +133,7 @@ void GraphShapeDialog::strokeColorBlueChanged(int val)
 
 void GraphShapeDialog::acceptChanges()
 {
-	Application::Config::Instance().DefaultVerticeContext(*_currentContext);
+	Application::Config::Instance().DefaultVertexContext(*_currentContext);
 	close();
 }
 
@@ -144,6 +144,6 @@ void GraphShapeDialog::discardChanges()
 
 void GraphShapeDialog::applyChanges()
 {
-	Application::Config::Instance().DefaultVerticeContext(*_currentContext);
+	Application::Config::Instance().DefaultVertexContext(*_currentContext);
 	ui.zastosujButton->setEnabled(false);
 }

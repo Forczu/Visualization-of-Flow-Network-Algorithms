@@ -26,11 +26,11 @@ namespace Application
 	void Config::ReadVertices(libconfig::Setting const & root)
 	{
 		libconfig::Setting const & vertices = root["application"]["vertices"];
-		ReadVerticeContext(vertices, "default_vertice", _defaultVerticeContext);
-		ReadVerticeContext(vertices, "selected_vertice", _selectedVerticeContext);
+		ReadVertexContext(vertices, "default_vertex", _defaultVertexContext);
+		ReadVertexContext(vertices, "selected_vertex", _selectedVertexContext);
 	}
 
-	void Config::ReadVerticeContext(libconfig::Setting const & vertices, std::string const & nodeName, VerticeContext & context)
+	void Config::ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context)
 	{
 		libconfig::Setting const & df = vertices[nodeName];
 		int size = df["size"];
@@ -44,28 +44,28 @@ namespace Application
 		font.setBold(static_cast<int>(fontNode["bold"]) == 1 ? true : false);
 		font.setPointSize(fontNode["size"]);
 		font.setFamily(QString(fontNode["family"]));
-		context = VerticeContext(size, strokeSize, color, strokeColor, font);
+		context = VertexContext(size, strokeSize, color, strokeColor, font);
 	}
 
 	void Config::WriteVertices(libconfig::Setting const & root)
 	{
 		libconfig::Setting const & vertices = root["application"]["vertices"];
-		WriteVerticeContext(vertices, "default_vertice", _defaultVerticeContext);
-		WriteVerticeContext(vertices, "selected_vertice", _selectedVerticeContext);
+		WriteVertexContext(vertices, "default_vertex", _defaultVertexContext);
+		WriteVertexContext(vertices, "selected_vertex", _selectedVertexContext);
 	}
 
-	void Config::WriteVerticeContext(libconfig::Setting const & vertices, std::string const & nodeName, VerticeContext & context)
+	void Config::WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context)
 	{
 		libconfig::Setting const & df = vertices[nodeName];
-		df["size"] = _defaultVerticeContext.Size();
-		df["stroke"] = _defaultVerticeContext.StrokeSize();
+		df["size"] = _defaultVertexContext.Size();
+		df["stroke"] = _defaultVertexContext.StrokeSize();
 		libconfig::Setting const & colorNode = df["color"];
-		QColor color = _defaultVerticeContext.Color();
+		QColor color = _defaultVertexContext.Color();
 		colorNode["r"] = color.red();
 		colorNode["g"] = color.green();
 		colorNode["b"] = color.blue();
 		libconfig::Setting const & strokeColorNode = df["color_stroke"];
-		color = _defaultVerticeContext.StrokeColor();
+		color = _defaultVertexContext.StrokeColor();
 		strokeColorNode["r"] = color.red();
 		strokeColorNode["g"] = color.green();
 		strokeColorNode["b"] = color.blue();

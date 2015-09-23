@@ -3,7 +3,7 @@
 #include <QColor>
 #include <QFont>
 
-class VerticeContext
+class VertexContext
 {
 	short _size;
 	short _strokeSize;
@@ -11,8 +11,8 @@ class VerticeContext
 	QColor _strokeColor;
 	QFont _font;
 public:
-	VerticeContext();
-	VerticeContext(short size, short strokeSize, QColor const & color, QColor const & strokeColor, QFont const & font);
+	VertexContext();
+	VertexContext(short size, short strokeSize, QColor const & color, QColor const & strokeColor, QFont const & font);
 
 	inline short Size() const { return _size; }
 	void Size(short val) { _size = val; }

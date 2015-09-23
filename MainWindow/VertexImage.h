@@ -3,24 +3,24 @@
 #include <QtWidgets/QtWidgets>
 #include <Qt>
 
-#include "VerticeContext.h"
-#include "Vertice.h"
+#include "VertexContext.h"
+#include "Vertex.h"
 #include "TextItem.h"
 #include "Config.h"
 
-class VerticeImage : public QGraphicsItem
+class VertexImage : public QGraphicsItem
 {
-	Vertice * _vertice;
+	Vertex * _vertex;
 	TextItem * _text;
 
 public:
-	VerticeImage(VerticeContext const & context);
+	VertexImage(VertexContext const & context);
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-	Vertice * getVertice() const { return _vertice; }
-	void setVertice(Vertice * val) { _vertice = val; }
+	Vertex * getVertex() const { return _vertex; }
+	void setVertex(Vertex * val) { _vertex = val; }
 
 	void select(bool selected);
 
@@ -30,10 +30,10 @@ protected:
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-	VerticeContext _context;
+	VertexContext _context;
 	QPointF offset;
 
 public:
-	void Context(VerticeContext const & val) { _context = val; }
-	inline VerticeContext const & Context() const { return _context; }
+	void Context(VertexContext const & val) { _context = val; }
+	inline VertexContext const & Context() const { return _context; }
 };

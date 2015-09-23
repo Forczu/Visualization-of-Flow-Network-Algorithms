@@ -1,7 +1,6 @@
 #pragma once
 #include "EdgeImage.h"
-class StraightEdgeImage :
-	public EdgeImage
+class StraightEdgeImage
 {
 public:
 	StraightEdgeImage();

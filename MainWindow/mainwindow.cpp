@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 		ui.graphView->width(), ui.graphView->height());
 	ui.graphView->setScene(_graphScene);
 
-	_tools[Tool::Vertice]	= ui.actionAddVertice;
+	_tools[Tool::Vertex]	= ui.actionAddVertex;
 	_tools[Tool::Edge]		= ui.actionAddEdge;
 
 	ui.graphView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -34,9 +34,9 @@ void MainWindow::close()
 	QApplication::quit();
 }
 
-void MainWindow::checkAddVerticeButton(bool b)
+void MainWindow::checkAddVertexButton(bool b)
 {
-	checkButton(Tool::Vertice, b);
+	checkButton(Tool::Vertex, b);
 }
 
 void MainWindow::checkAddEdgeButton(bool b)
@@ -58,8 +58,8 @@ void MainWindow::createActions()
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
 
-	connect(ui.actionAddVertice, SIGNAL(triggered(bool)), this, SLOT(checkAddVerticeButton(bool)));
-	ui.actionAddVertice->setCheckable(true);
+	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
+	ui.actionAddVertex->setCheckable(true);
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
 	ui.actionAddEdge->setCheckable(true);
 
@@ -88,40 +88,40 @@ void MainWindow::uncheckButtons()
 	}
 }
 
-void MainWindow::addVertice(QPoint const & position)
+void MainWindow::addVertex(QPoint const & position)
 {
-	Vertice * vertice = _graph.AddVertice();
-	VerticeImage * item = new VerticeImage(Application::Config::Instance().DefaultVerticeContext());
-	item->setVertice(vertice);
+	Vertex * vertex = _graph.AddVertex();
+	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
+	item->setVertex(vertex);
 	item->setPos(ui.graphView->mapToScene(position));
 	item->setFlag(QGraphicsItem::ItemIsMovable, true);
 	item->setFlag(QGraphicsItem::ItemIsSelectable, true);
 	item->setZValue(VERTICE_Z_VALUE);
 	_graphScene->addItem(item);
 	_graphScene->update();
-	_verticeMap[vertice->Id()] = item;
+	_vertexMap[vertex->Id()] = item;
 }
 
 void MainWindow::buildEdge(QGraphicsItem * const item)
 {
 	static std::pair<int, int> pair;
 	static std::pair<QPointF, QPointF> coord;
-	static bool firstVerticeChecked = true;
-	VerticeImage * img = dynamic_cast<VerticeImage*>(item);
+	static bool firstVertexChecked = true;
+	VertexImage * img = dynamic_cast<VertexImage*>(item);
 	if (img != NULL)
 	{
 		// jeœli pierwszy wierzcho³ek
-		if (firstVerticeChecked)
+		if (firstVertexChecked)
 		{
-			pair.first = img->getVertice()->Id();
+			pair.first = img->getVertex()->Id();
 			coord.first = img->pos();
-			firstVerticeChecked = false;
+			firstVertexChecked = false;
 		}
 		else
 		{
-			pair.second = img->getVertice()->Id();
+			pair.second = img->getVertex()->Id();
 			coord.second = img->pos();
-			firstVerticeChecked = true;
+			firstVertexChecked = true;
 			addEdge(pair, coord);
 			img->select(false);
 		}
@@ -130,12 +130,12 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 
 void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
 {
-	Vertice * first = _graph.VerticeNo(pair.first);
-	Vertice * second = _graph.VerticeNo(pair.second);
+	Vertex * first = _graph.VertexNo(pair.first);
+	Vertex * second = _graph.VertexNo(pair.second);
 	Edge * edge = new Edge(first, second);
 	_graph.AddEdge(edge);
 
-	EdgeImage * item = new EdgeImage(_verticeMap[first->Id()], _verticeMap[second->Id()]);
+	EdgeImage * item = new EdgeImage(_vertexMap[first->Id()], _vertexMap[second->Id()]);
 	item->setEdge(edge);
 	item->setFlag(QGraphicsItem::ItemIsMovable, false);
 	item->setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -150,9 +150,9 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 	{
 	case Tool::None:
 		break;
-	case Tool::Vertice:
+	case Tool::Vertex:
 		if (item.size() == 0)
-			addVertice(position);
+			addVertex(position);
 		return;
 	case Tool::Edge:
 		if (item.size() == 0)
@@ -164,7 +164,7 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 	}
 }
 
-void MainWindow::clickVertice(int id)
+void MainWindow::clickVertex(int id)
 {
 
 }

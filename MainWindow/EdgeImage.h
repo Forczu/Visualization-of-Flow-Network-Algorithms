@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QGraphicsItem>
-#include "VerticeImage.h"
+#include "VertexImage.h"
 #include "Edge.h"
 #include <QPainterPath>
 #include <QPainter>
@@ -11,17 +11,17 @@ class EdgeImage : public QGraphicsItem
 {
 	Edge * edge;
 
-	VerticeImage * _verticeFrom;
-	VerticeImage * _verticeTo;
+	VertexImage * _vertexFrom;
+	VertexImage * _vertexTo;
 
 	std::vector<QPointF> _points;
 
 public:
-	EdgeImage(VerticeImage * const verticeFrom, VerticeImage * const verticeTo);
+	EdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo);
 	~EdgeImage();
 
-	//void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-	//QRectF boundingRect() const Q_DECL_OVERRIDE;
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+	QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 	inline Edge * getEdge() const { return edge; }
 	void setEdge(Edge * val) { edge = val; }

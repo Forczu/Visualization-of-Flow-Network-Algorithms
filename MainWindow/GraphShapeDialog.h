@@ -4,8 +4,8 @@
 #include <QDialog>
 #include <QGraphicsScene>
 #include "ui_GraphShapeDialog.h"
-#include "VerticeImage.h"
-#include "Vertice.h"
+#include "VertexImage.h"
+#include "Vertex.h"
 #include "Config.h"
 #include "TextItem.h"
 
@@ -21,8 +21,8 @@ private:
 	Ui::GraphShapeDialog ui;
 
 	QGraphicsScene * _graphScene;
-	VerticeContext * _currentContext;
-	VerticeImage * _verticePreview;
+	VertexContext * _currentContext;
+	VertexImage * _verticePreview;
 
 private slots:
 	void verticeSizeChanged(int val);

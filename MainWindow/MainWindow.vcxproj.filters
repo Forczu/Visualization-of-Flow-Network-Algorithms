@@ -65,9 +65,6 @@
     <ClCompile Include="GeneratedFiles\qrc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="VerticeImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,16 +92,10 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VerticeContext.cpp">
-      <Filter>Source Files\Contexts</Filter>
-    </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Edge.cpp">
@@ -115,6 +106,15 @@
     </ClCompile>
     <ClCompile Include="StraightEdgeImage.cpp">
       <Filter>Source Files\Edges</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexContext.cpp">
+      <Filter>Source Files\Contexts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_mainwindow.h">
       <Filter>Generated Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="VerticeImage.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="GraphView.h">
       <Filter>Header Files</Filter>
@@ -154,36 +151,35 @@
     <CustomBuild Include="Tools.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Config.h">
+    <CustomBuild Include="VertexImage.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VerticeContext.h">
+    </CustomBuild>
+    <CustomBuild Include="Config.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Edge.h">
+      <Filter>Header Files\Edges</Filter>
+    </CustomBuild>
+    <CustomBuild Include="EdgeImage.h">
+      <Filter>Header Files\Edges</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Matrix.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VertexContext.h">
       <Filter>Header Files\Contexts</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Header Files\Edges</Filter>
-    </ClInclude>
-    <ClInclude Include="EdgeImage.h">
-      <Filter>Header Files\Edges</Filter>
-    </ClInclude>
-    <ClInclude Include="StraightEdgeImage.h">
-      <Filter>Header Files\Edges</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Config\config.cfg">
+    </CustomBuild>
+    <CustomBuild Include="Config\config.cfg">
       <Filter>Configuration Files</Filter>
-    </None>
+    </CustomBuild>
+    <CustomBuild Include="StraightEdgeImage.h">
+      <Filter>Header Files\Edges</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

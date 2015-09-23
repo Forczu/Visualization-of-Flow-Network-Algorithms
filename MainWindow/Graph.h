@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vertice.h"
+#include "Vertex.h"
 #include "Edge.h"
 #include "Matrix.h"
 
@@ -8,9 +8,9 @@
 
 class Graph
 {
-	typedef std::vector<Vertice*>					VerticeVector;
+	typedef std::vector<Vertex*>					VertexVector;
 	typedef std::vector<Edge*>						EdgeVector;
-	typedef std::pair<VerticeVector, EdgeVector>	GraphPair;
+	typedef std::pair<VertexVector, EdgeVector>	GraphPair;
 
 	GraphPair * _graph;
 
@@ -21,18 +21,18 @@ public:
 	Graph();
 	~Graph();
 
-	bool VerticeExists(short verticeId) const;
-	Vertice * AddVertice();
-	Vertice * AddVertice(int n);
-	void AddVertice(Vertice * const vertice);
-	Vertice * VerticeNo(short n) const;
+	bool VertexExists(short verticeId) const;
+	Vertex * AddVertex();
+	Vertex * AddVertex(int n);
+	void AddVertex(Vertex * const vertice);
+	Vertex * VertexNo(short n) const;
 
 	Edge * AddEdge();
 	void AddEdge(Edge * const edge);
 
 	Matrix GetNeighborhoodMatrix() const;
 
-	short VerticeNumber() const;
+	short VertexNumber() const;
 
 	void SetSource(short vertice);
 	void SetTarget(short vertice);

@@ -8,12 +8,12 @@
 #include <map>
 
 #include "ui_mainwindow.h"
-#include "VerticeImage.h"
+#include "VertexImage.h"
 #include "Graph.h"
 #include "GraphShapeDialog.h"
 #include "Config.h"
 #include "Tools.h"
-#include "Vertice.h"
+#include "Vertex.h"
 #include <vector>
 #include "EdgeImage.h"
 
@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow
 
 	Tool _currentTool;
 
-	std::map<int, VerticeImage*> _verticeMap;
+	std::map<int, VertexImage*> _vertexMap;
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -49,20 +49,20 @@ protected:
 private slots:
 	void close();
 
-	void checkAddVerticeButton(bool b);
+	void checkAddVertexButton(bool b);
 	void checkAddEdgeButton(bool b);
 
 	void openGraphShapeDialog();
 
 	void clickGraphView(QPoint const & pos, QList<QGraphicsItem*> const & item);
-	void clickVertice(int id);
+	void clickVertex(int id);
 
 private:
 	void createActions();
 	void checkButton(Tool tool, bool b);
 	void uncheckButtons();
 
-	void addVertice(QPoint const & position);
+	void addVertex(QPoint const & position);
 	void buildEdge(QGraphicsItem * const item);
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
 };

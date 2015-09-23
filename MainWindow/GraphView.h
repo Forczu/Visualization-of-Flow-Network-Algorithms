@@ -7,7 +7,7 @@
 
 #include "GraphScrollBar.h"
 #include "Tools.h"
-#include "VerticeImage.h"
+#include "VertexImage.h"
 
 class GraphView : public QGraphicsView
 {

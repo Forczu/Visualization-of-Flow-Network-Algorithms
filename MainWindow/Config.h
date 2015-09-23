@@ -1,7 +1,7 @@
 #pragma once
 
 #include <libconfig.h++>
-#include "VerticeContext.h"
+#include "VertexContext.h"
 
 namespace Application
 {
@@ -11,8 +11,8 @@ namespace Application
 
 		libconfig::Config _cfg;
 
-		VerticeContext _defaultVerticeContext;
-		VerticeContext _selectedVerticeContext;
+		VertexContext _defaultVertexContext;
+		VertexContext _selectedVertexContext;
 
 	public:
 		static Config & Instance()
@@ -31,28 +31,28 @@ namespace Application
 		~Config();
 
 	public:
-		inline VerticeContext const & DefaultVerticeContext() const
+		inline VertexContext const & DefaultVertexContext() const
 		{
-			return _defaultVerticeContext;
+			return _defaultVertexContext;
 		}
-		void DefaultVerticeContext(VerticeContext const & val)
+		void DefaultVertexContext(VertexContext const & val)
 		{
-			_defaultVerticeContext = val;
+			_defaultVertexContext = val;
 		}
-		inline VerticeContext const & SelectedVerticeContext() const
+		inline VertexContext const & SelectedVertexContext() const
 		{
-			return _selectedVerticeContext;
+			return _selectedVertexContext;
 		}
-		void SelectedVerticeContext(VerticeContext const & val)
+		void SelectedVertexContext(VertexContext const & val)
 		{
-			_selectedVerticeContext = val;
+			_selectedVertexContext = val;
 		}
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);
-		void ReadVerticeContext(libconfig::Setting const & vertices, std::string const & nodeName, VerticeContext & context);
+		void ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
 		void WriteVertices(libconfig::Setting const & root);
-		void WriteVerticeContext(libconfig::Setting const & vertices, std::string const & nodeName, VerticeContext & context);
+		void WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
 
 		static void DestroyConfig()
 		{

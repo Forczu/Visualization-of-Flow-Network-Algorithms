@@ -3,13 +3,13 @@
 /// <summary>
 /// Wierzcho³ek grafu.
 /// </summary>
-class Vertice
+class Vertex
 {
 	short _id;
 	
 public:
-	Vertice(short id);
-	~Vertice();
+	Vertex(short id);
+	~Vertex();
 
 #pragma region Getters & Setters
 	inline short Id() const { return _id; }
@@ -18,7 +18,7 @@ public:
 
 
 #pragma region Operators
-	inline bool operator==(Vertice const & other) const
+	inline bool operator==(Vertex const & other) const
 	{
 		Id() == other.Id() ? true : false;
 	}

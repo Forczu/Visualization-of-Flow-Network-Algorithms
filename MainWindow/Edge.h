@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vertice.h"
+#include "Vertex.h"
 #include <utility>
 
 /// <summary>
@@ -8,14 +8,14 @@
 /// </summary>
 class Edge
 {
-	typedef std::pair<Vertice*, Vertice*> vPair;
+	typedef std::pair<Vertex*, Vertex*> vPair;
 
 	vPair _pair;
 
 	short _weight;
 
 public:
-	Edge(Vertice * const u, Vertice * const v);
+	Edge(Vertex * const u, Vertex * const v);
 	~Edge();
 
 	vPair * operator()()

@@ -12,13 +12,13 @@ Graph::~Graph()
 	delete _graph;
 }
 
-bool Graph::VerticeExists(short verticeId) const
+bool Graph::VertexExists(short vertexId) const
 {
 	if (!_graph->first.empty())
 	{
 		for each (auto v in _graph->first)
 		{
-			if (v->Id() == verticeId)
+			if (v->Id() == vertexId)
 			{
 				return true;
 			}
@@ -27,29 +27,29 @@ bool Graph::VerticeExists(short verticeId) const
 	return false;
 }
 
-void Graph::AddVertice(Vertice * const vertice)
+void Graph::AddVertex(Vertex * const vertex)
 {
-	_graph->first.push_back(vertice);
+	_graph->first.push_back(vertex);
 }
 
-Vertice * Graph::AddVertice()
+Vertex * Graph::AddVertex()
 {
 	int id = SmallestMissingIndex();
-	Vertice * vertice = new Vertice(id);
-	AddVertice(vertice);
-	return vertice;
+	Vertex * vertex = new Vertex(id);
+	AddVertex(vertex);
+	return vertex;
 }
 
-Vertice * Graph::AddVertice(int n)
+Vertex * Graph::AddVertex(int n)
 {
-	if (VerticeExists(n))
-		return VerticeNo(n);
-	Vertice * vertice = new Vertice(n);
-	AddVertice(vertice);
+	if (VertexExists(n))
+		return VertexNo(n);
+	Vertex * vertice = new Vertex(n);
+	AddVertex(vertice);
 	return vertice;
 }
 
-Vertice * Graph::VerticeNo(short n) const
+Vertex * Graph::VertexNo(short n) const
 {
 	if (!_graph->first.empty())
 	{
@@ -76,7 +76,7 @@ Edge * Graph::AddEdge()
 
 Matrix Graph::GetNeighborhoodMatrix() const
 {
-	short n = VerticeNumber();
+	short n = VertexNumber();
 	Matrix nMatrix(n, n, 0);
 	for each (auto edge in _graph->second)
 	{
@@ -85,7 +85,7 @@ Matrix Graph::GetNeighborhoodMatrix() const
 	return nMatrix;
 }
 
-short Graph::VerticeNumber() const
+short Graph::VertexNumber() const
 {
 	return _graph->first.size();
 }
@@ -93,14 +93,14 @@ short Graph::VerticeNumber() const
 int Graph::SmallestMissingIndex()
 {
 	int index = 1;	// poszukiwany indeks
-	VerticeVector const & vertice = _graph->first;
+	VertexVector const & vertice = _graph->first;
 	if (vertice.size() == 0)
 		return index;
 	bool notFound = true;
 	for (; index <= _graph->first.size(); ++index)
 	{
 		notFound = true;
-		for (VerticeVector::const_iterator it = vertice.begin(); it != vertice.end(); ++it)
+		for (VertexVector::const_iterator it = vertice.begin(); it != vertice.end(); ++it)
 		{
 			// jeœli liczba jest obecna wœród wierzcho³ków, szukaj dalej
 			if (index == (*it)->Id())

@@ -154,7 +154,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAddVertice"/>
+   <addaction name="actionAddVertex"/>
    <addaction name="separator"/>
    <addaction name="actionAddEdge"/>
   </widget>
@@ -168,7 +168,7 @@
     <string>O programie...</string>
    </property>
   </action>
-  <action name="actionAddVertice">
+  <action name="actionAddVertex">
    <property name="icon">
     <iconset resource="mainwindow.qrc">
      <normaloff>:/MainWindow/AddVerticeIcon.svg</normaloff>:/MainWindow/AddVerticeIcon.svg</iconset>

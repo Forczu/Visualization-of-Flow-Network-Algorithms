@@ -45,11 +45,11 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 	QGraphicsView::mousePressEvent(event);
 	if (chosenItems.size() == 0)
 		return;
-	VerticeImage * myVertice = dynamic_cast<VerticeImage*>(chosenItems.first());
-	if (NULL != myVertice)
+	VertexImage * myVertex = dynamic_cast<VertexImage*>(chosenItems.first());
+	if (NULL != myVertex)
 	{
-		bool selected = !myVertice->isSelected();
-		myVertice->select(selected);
+		bool selected = !myVertex->isSelected();
+		myVertex->select(selected);
 		viewport()->update();
 	}
 }
