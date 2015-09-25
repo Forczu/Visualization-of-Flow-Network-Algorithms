@@ -3,7 +3,7 @@
 
 Graph::Graph()
 {
-	_graph = new GraphPair();
+	_graph = new GraphPair;
 }
 
 
@@ -80,14 +80,9 @@ Matrix Graph::GetNeighborhoodMatrix() const
 	Matrix nMatrix(n, n, 0);
 	for each (auto edge in _graph->second)
 	{
-		nMatrix.Set((*edge)()->first->Id() - 1, (*edge)()->second->Id() - 1, 1);
+		nMatrix.Set(edge->VertexFrom()->Id() - 1, edge->VertexFrom()->Id() - 1, 1);
 	}
 	return nMatrix;
-}
-
-short Graph::VertexNumber() const
-{
-	return _graph->first.size();
 }
 
 int Graph::SmallestMissingIndex()

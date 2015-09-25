@@ -32,7 +32,14 @@ public:
 
 	Matrix GetNeighborhoodMatrix() const;
 
-	short VertexNumber() const;
+	inline short VertexNumber() const
+	{
+		return _graph->first.size();
+	}
+	inline short EdgeNumber() const
+	{
+		return _graph->second.size();
+	}
 
 	void SetSource(short vertice);
 	void SetTarget(short vertice);

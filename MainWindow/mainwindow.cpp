@@ -3,14 +3,11 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool::None)
 {
 	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-
 	ui.setupUi(this);
 
 	createActions();
 
 	_graphScene = new QGraphicsScene(this);
-	_graphScene->setSceneRect(ui.graphView->pos().x(), ui.graphView->pos().y(),
-		ui.graphView->width(), ui.graphView->height());
 	ui.graphView->setScene(_graphScene);
 
 	_tools[Tool::Vertex]	= ui.actionAddVertex;
@@ -91,15 +88,8 @@ void MainWindow::uncheckButtons()
 void MainWindow::addVertex(QPoint const & position)
 {
 	Vertex * vertex = _graph.AddVertex();
-	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
-	item->setVertex(vertex);
-	item->setPos(ui.graphView->mapToScene(position));
-	item->setFlag(QGraphicsItem::ItemIsMovable, true);
-	item->setFlag(QGraphicsItem::ItemIsSelectable, true);
-	item->setZValue(VERTICE_Z_VALUE);
-	_graphScene->addItem(item);
-	_graphScene->update();
-	_vertexMap[vertex->Id()] = item;
+	ui.graphView->addVertexImage(vertex, position);
+	updateGraphStatus();
 }
 
 void MainWindow::buildEdge(QGraphicsItem * const item)
@@ -123,7 +113,7 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 			coord.second = img->pos();
 			firstVertexChecked = true;
 			addEdge(pair, coord);
-			img->select(false);
+			img->setSelected(false);
 		}
 	}
 }
@@ -134,14 +124,15 @@ void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QP
 	Vertex * second = _graph.VertexNo(pair.second);
 	Edge * edge = new Edge(first, second);
 	_graph.AddEdge(edge);
+	ui.graphView->addEdgeImage(edge, pair, coord);
+	updateGraphStatus();
+}
 
-	EdgeImage * item = new EdgeImage(_vertexMap[first->Id()], _vertexMap[second->Id()]);
-	item->setEdge(edge);
-	item->setFlag(QGraphicsItem::ItemIsMovable, false);
-	item->setFlag(QGraphicsItem::ItemIsSelectable, true);
-	item->setZValue(EDGE_Z_VALUE);
-	_graphScene->addItem(item);
-	_graphScene->update();
+void MainWindow::updateGraphStatus()
+{
+	QString newStatus = Application::Config::Instance().GraphStatusString()
+		.arg(_graph.VertexNumber()).arg(_graph.EdgeNumber());
+	ui.graphTextStatus->setText(newStatus);
 }
 
 void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> const & item)

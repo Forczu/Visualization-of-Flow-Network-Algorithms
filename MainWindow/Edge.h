@@ -18,9 +18,13 @@ public:
 	Edge(Vertex * const u, Vertex * const v);
 	~Edge();
 
-	vPair * operator()()
+	inline Vertex * VertexFrom() const
 	{
-		return &_pair;
+		return _pair.first;
+	}
+	inline Vertex * VertexTo() const
+	{
+		return _pair.second;
 	}
 };
 

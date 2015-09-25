@@ -14,46 +14,13 @@
    <string>Praca inżynierska</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>140</y>
-      <width>161</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="buttonLayout">
-     <item>
-      <widget class="QPushButton" name="addVerticeButton">
-       <property name="toolTip">
-        <string>TO są wielkie cycki hehehehehehheheeeeeeeeee noj lunukn y bny b yvb vb b y bhn n uk u n ny b bt v re r dx vgb yn
- uo njm ynbt  cetd  bn i mln bvf r cvu j</string>
-       </property>
-       <property name="text">
-        <string>Dodaj wierzchołek</string>
-       </property>
-       <property name="autoRepeat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="GraphView" name="graphView">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>130</y>
-      <width>601</width>
-      <height>481</height>
+      <x>240</x>
+      <y>60</y>
+      <width>721</width>
+      <height>551</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -90,19 +57,16 @@
      </brush>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QTextBrowser" name="graphTextStatus">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>70</y>
-      <width>110</width>
-      <height>22</height>
+      <x>30</x>
+      <y>61</y>
+      <width>181</width>
+      <height>211</height>
      </rect>
     </property>
    </widget>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>dateEdit</zorder>
-   <zorder>graphView</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

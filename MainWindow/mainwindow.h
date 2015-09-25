@@ -15,14 +15,12 @@
 #include "Tools.h"
 #include "Vertex.h"
 #include <vector>
-#include "EdgeImage.h"
+#include "StraightEdgeImage.h"
+#include "LoopEdgeImage.h"
 
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
-
-	static const int VERTICE_Z_VALUE = 3;
-	static const int EDGE_Z_VALUE = 1;
 
 	Graph _graph;
 
@@ -33,8 +31,6 @@ class MainWindow : public QMainWindow
 	GraphShapeDialog * _graphShapeDialog;
 
 	Tool _currentTool;
-
-	std::map<int, VertexImage*> _vertexMap;
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -65,6 +61,7 @@ private:
 	void addVertex(QPoint const & position);
 	void buildEdge(QGraphicsItem * const item);
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
+	void updateGraphStatus();
 };
 
 #endif // MAINWINDOW_H

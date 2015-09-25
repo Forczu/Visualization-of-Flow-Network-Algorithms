@@ -116,6 +116,9 @@
     <ClCompile Include="VertexContext.cpp">
       <Filter>Source Files\Contexts</Filter>
     </ClCompile>
+    <ClCompile Include="LoopEdgeImage.cpp">
+      <Filter>Source Files\Edges</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -179,6 +182,9 @@
       <Filter>Configuration Files</Filter>
     </CustomBuild>
     <CustomBuild Include="StraightEdgeImage.h">
+      <Filter>Header Files\Edges</Filter>
+    </CustomBuild>
+    <CustomBuild Include="LoopEdgeImage.h">
       <Filter>Header Files\Edges</Filter>
     </CustomBuild>
   </ItemGroup>

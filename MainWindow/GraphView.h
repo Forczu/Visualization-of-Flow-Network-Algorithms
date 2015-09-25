@@ -8,14 +8,20 @@
 #include "GraphScrollBar.h"
 #include "Tools.h"
 #include "VertexImage.h"
+#include "EdgeImage.h"
+#include "LoopEdgeImage.h"
+#include "StraightEdgeImage.h"
 
 class GraphView : public QGraphicsView
 {
 	Q_OBJECT
 
-private:
-	QGraphicsScene * _graphScene;
+	static const int VERTICE_Z_VALUE = 3;
+	static const int EDGE_Z_VALUE = 1;
 
+	std::map<int, VertexImage*> _vertexMap;
+
+private:
 	bool _mouseClicked;
 
 public:
@@ -23,14 +29,26 @@ public:
 	GraphView(QWidget * widget);
 	~GraphView();
 
+	void addVertexImage(Vertex * const vertex, QPoint const & position);
+	void addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
+
+protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
 	void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+	void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
+	void showEvent(QShowEvent * event) Q_DECL_OVERRIDE;
+
+private:
+	void init();
+	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:
 	void clicked(QPoint, QList<QGraphicsItem*>);
 	void moved(QPoint);
 
+private:
+	void changeSelection();
 };
 
