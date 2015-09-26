@@ -17,9 +17,9 @@
    <widget class="GraphView" name="graphView">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>230</x>
       <y>60</y>
-      <width>721</width>
+      <width>751</width>
       <height>551</height>
      </rect>
     </property>
@@ -119,8 +119,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAddVertex"/>
-   <addaction name="separator"/>
    <addaction name="actionAddEdge"/>
+   <addaction name="separator"/>
+   <addaction name="actionGrab"/>
+   <addaction name="actionSelect"/>
   </widget>
   <action name="actionClose">
    <property name="text">
@@ -133,6 +135,9 @@
    </property>
   </action>
   <action name="actionAddVertex">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="mainwindow.qrc">
      <normaloff>:/MainWindow/AddVerticeIcon.svg</normaloff>:/MainWindow/AddVerticeIcon.svg</iconset>
@@ -153,6 +158,9 @@
    </property>
   </action>
   <action name="actionAddEdge">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="mainwindow.qrc">
      <normaloff>:/MainWindow/AddEdgeIcon.svg</normaloff>:/MainWindow/AddEdgeIcon.svg</iconset>
@@ -162,6 +170,36 @@
    </property>
    <property name="toolTip">
     <string>Dodaje krawędź pomiędzy wierzchołkami</string>
+   </property>
+  </action>
+  <action name="actionSelect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/SelectionIcon.svg</normaloff>:/MainWindow/SelectionIcon.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Zaznaczanie</string>
+   </property>
+   <property name="toolTip">
+    <string>Umożliwia zaznaczenie wybranego obszaru</string>
+   </property>
+  </action>
+  <action name="actionGrab">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/GrabIcon.png</normaloff>:/MainWindow/GrabIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chwytanie</string>
+   </property>
+   <property name="toolTip">
+    <string>Umożliwia zaznaczenie i przesuwanie obiektów</string>
    </property>
   </action>
  </widget>

@@ -2,5 +2,5 @@
 
 enum class Tool
 {
-	None, Vertex, Edge
+	None, Vertex, Edge, Grab, RubberBand
 };

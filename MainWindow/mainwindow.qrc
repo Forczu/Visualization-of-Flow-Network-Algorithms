@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="MainWindow">
+    <file>GrabIcon.png</file>
+    <file>SelectionIcon.svg</file>
     <file>AddEdgeIcon.svg</file>
     <file>AddVerticeIcon.svg</file>
   </qresource>

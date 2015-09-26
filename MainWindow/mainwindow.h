@@ -47,6 +47,8 @@ private slots:
 
 	void checkAddVertexButton(bool b);
 	void checkAddEdgeButton(bool b);
+	void checkGrabButton(bool b);
+	void checkSelectionButton(bool b);
 
 	void openGraphShapeDialog();
 
@@ -61,6 +63,7 @@ private:
 	void addVertex(QPoint const & position);
 	void buildEdge(QGraphicsItem * const item);
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
+	void grabItem(QList<QGraphicsItem*> const & item);
 	void updateGraphStatus();
 };
 

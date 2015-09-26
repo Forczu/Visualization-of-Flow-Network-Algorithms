@@ -10,11 +10,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 	_graphScene = new QGraphicsScene(this);
 	ui.graphView->setScene(_graphScene);
 
-	_tools[Tool::Vertex]	= ui.actionAddVertex;
-	_tools[Tool::Edge]		= ui.actionAddEdge;
+	_tools[Tool::Vertex]		= ui.actionAddVertex;
+	_tools[Tool::Edge]			= ui.actionAddEdge;
+	_tools[Tool::Grab]			= ui.actionGrab;
+	_tools[Tool::RubberBand]	= ui.actionSelect;
 
 	ui.graphView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	ui.graphView->setAlignment(Qt::AlignCenter);
+
+	ui.actionGrab->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +45,16 @@ void MainWindow::checkAddEdgeButton(bool b)
 	checkButton(Tool::Edge, b);
 }
 
+void MainWindow::checkGrabButton(bool b)
+{
+	checkButton(Tool::Grab, b);
+}
+
+void MainWindow::checkSelectionButton(bool b)
+{
+	checkButton(Tool::RubberBand, b);
+}
+
 void MainWindow::openGraphShapeDialog()
 {
 	_graphShapeDialog = new GraphShapeDialog(this);
@@ -56,9 +70,9 @@ void MainWindow::createActions()
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
 
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
-	ui.actionAddVertex->setCheckable(true);
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
-	ui.actionAddEdge->setCheckable(true);
+	connect(ui.actionGrab, SIGNAL(triggered(bool)), this, SLOT(checkGrabButton(bool)));
+	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 
 	connect(ui.graphView, SIGNAL(clicked(QPoint, QList<QGraphicsItem*>)), this, SLOT(clickGraphView(QPoint, QList<QGraphicsItem*>)));
 }
@@ -128,6 +142,11 @@ void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QP
 	updateGraphStatus();
 }
 
+void MainWindow::grabItem(QList<QGraphicsItem*> const & item)
+{
+	ui.graphView->grabItem(item);
+}
+
 void MainWindow::updateGraphStatus()
 {
 	QString newStatus = Application::Config::Instance().GraphStatusString()
@@ -150,6 +169,12 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 			return;
 		buildEdge(item.first());
 		return;
+	case Tool::Grab:
+		grabItem(item);
+		return;
+	case Tool::RubberBand:
+		ui.graphView->startRubberBand(position);
+		break;
 	default:
 		break;
 	}
