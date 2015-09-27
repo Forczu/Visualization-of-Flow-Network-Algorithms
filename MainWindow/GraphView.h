@@ -23,11 +23,14 @@ class GraphView : public QGraphicsView
 	std::map<int, VertexImage*> _vertexMap;
 
 	QRubberBand * _rubberBand;
-	bool _rubberFlag;
 	QPoint _origin;
 
 private:
 	bool _mouseClicked;
+	bool _rubberFlag;
+	bool _grabFlag;
+	Tool _toolFlag;
+	QPoint _offset;
 
 public:
 	GraphView();
@@ -36,8 +39,10 @@ public:
 
 	void addVertexImage(Vertex * const vertex, QPoint const & position);
 	void addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
-	void grabItem(QList<QGraphicsItem*> const & item);
+	void grabItem(QPoint const & pos, QList<QGraphicsItem*> const & item);
+	void pointItem(QList<QGraphicsItem*> const & item);
 	void startRubberBand(QPoint const & position);
+	void setTool(Tool tool);
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -55,7 +60,7 @@ private:
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:
-	void clicked(QPoint, QList<QGraphicsItem*>);
+	void clicked(QPoint const & position, QList<QGraphicsItem*>);
 	void moved(QPoint);
 
 private:

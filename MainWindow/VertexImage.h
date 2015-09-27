@@ -23,9 +23,6 @@ public:
 	void setVertex(Vertex * val) { _vertex = val; }
 
 protected:
-	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-	void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
 private:

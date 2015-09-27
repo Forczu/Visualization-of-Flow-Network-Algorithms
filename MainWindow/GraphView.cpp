@@ -1,20 +1,25 @@
 #include "GraphView.h"
 
-GraphView::GraphView() : _mouseClicked(false), _rubberFlag(false)
+GraphView::GraphView()
 {
 	init();
 }
 
 
-GraphView::GraphView(QWidget * widget) : QGraphicsView(widget), _mouseClicked(false)
+GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 {
 	init();
 }
 
 void GraphView::init()
 {
+	_mouseClicked = false;
+	_toolFlag = Tool::None;
+	_rubberFlag = false;
+	_grabFlag = false;
 	_rubberBand = nullptr;
 	setMouseTracking(true);
+	setDragMode(QGraphicsView::ScrollHandDrag);
 	viewport()->setMouseTracking(true);
 }
 
@@ -95,20 +100,24 @@ void GraphView::wheelEvent(QWheelEvent * event)
 	}
 }
 
-void GraphView::grabItem(QList<QGraphicsItem*> const & items)
+void GraphView::grabItem(QPoint const & position, QList<QGraphicsItem*> const & items)
+{
+	if (items.size() == 0 || !items.first()->isSelected())
+		return;
+	setCursor(Qt::ClosedHandCursor);
+	_offset = mapToScene(position).toPoint();
+	_grabFlag = true;
+}
+
+void GraphView::pointItem(QList<QGraphicsItem*> const & items)
 {
 	if (items.size() == 0)
-	{
-		unselectAll();
 		return;
-	}
 	for each (QGraphicsItem* item in items)
 	{
-		if (item->isSelected())
-			continue;
 		item->setSelected(true);
 	}
-	//unselectAll(item);
+	viewport()->update();
 }
 
 void GraphView::startRubberBand(QPoint const & position)
@@ -116,22 +125,29 @@ void GraphView::startRubberBand(QPoint const & position)
 	_origin = position;
 	if (_rubberBand == nullptr)
 		_rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-	_rubberFlag = true;
 	_rubberBand->setGeometry(QRect(_origin, QSize()));
 	_rubberBand->show();
+	_rubberFlag = true;
+}
+
+void GraphView::setTool(Tool tool)
+{
+	_toolFlag = tool;
 }
 
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
 	auto chosenItems = items(event->pos());
 	emit clicked(event->pos(), chosenItems);
-	viewport()->update();
 	QGraphicsView::mousePressEvent(event);
+	viewport()->update();
 }
 
 void GraphView::mouseReleaseEvent(QMouseEvent * event)
 {
-	if (_rubberBand != nullptr && _rubberFlag)
+	if (_grabFlag) 
+		_grabFlag = false;
+	else if (_rubberBand != nullptr && _rubberFlag)
 	{
 		_rubberBand->hide();
 		viewport()->update();
@@ -142,7 +158,18 @@ void GraphView::mouseReleaseEvent(QMouseEvent * event)
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
-	if (_rubberBand != nullptr && _rubberFlag)
+	if (_grabFlag)
+	{
+		auto selectedItems = scene()->selectedItems();
+		QPoint mappedMousePos = mapToScene(event->localPos().toPoint()).toPoint();
+		QPoint delta = mappedMousePos - _offset;
+		for each (QGraphicsItem* item in selectedItems)
+		{
+			item->setPos(item->scenePos() + delta);
+		}
+		_offset = mappedMousePos;
+	}
+	else if (_rubberBand != nullptr && _rubberFlag)
 	{
 		_rubberBand->setGeometry(QRect(_origin, event->pos()).normalized());
 		QRect rubberRect = mapRubberBandToScene();

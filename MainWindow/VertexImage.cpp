@@ -38,32 +38,6 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	painter->drawText(QRectF(-_context.Size(), -_context.Size(), _context.Size() * 2, _context.Size() * 2), QString::number(_vertex->Id()), QTextOption(Qt::AlignCenter));
 }
 
-void VertexImage::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-	if ((flags() | ItemIsMovable) == flags())
-	{
-		setCursor(Qt::ClosedHandCursor);
-		offset = event->scenePos();
-	}
-}
-
-void VertexImage::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-	if ((flags() | ItemIsMovable) == flags() && isSelected())
-	{
-		setPos(scenePos() + event->scenePos() - offset);
-		offset = event->scenePos();
-	}
-}
-
-void VertexImage::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-	if ((flags() | ItemIsMovable) == flags())
-	{
-		setCursor(Qt::OpenHandCursor);
-	}
-}
-
 QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 	if (change == ItemPositionChange && scene()) {

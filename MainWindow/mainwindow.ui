@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1026</width>
-    <height>747</height>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,6 +55,9 @@
        <blue>0</blue>
       </color>
      </brush>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::ScrollHandDrag</enum>
     </property>
    </widget>
    <widget class="QTextBrowser" name="graphTextStatus">
@@ -121,6 +124,7 @@
    <addaction name="actionAddVertex"/>
    <addaction name="actionAddEdge"/>
    <addaction name="separator"/>
+   <addaction name="actionPointer"/>
    <addaction name="actionGrab"/>
    <addaction name="actionSelect"/>
   </widget>
@@ -200,6 +204,21 @@
    </property>
    <property name="toolTip">
     <string>Umożliwia zaznaczenie i przesuwanie obiektów</string>
+   </property>
+  </action>
+  <action name="actionPointer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/PointerIcon.png</normaloff>:/MainWindow/PointerIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Wskaźnik</string>
+   </property>
+   <property name="toolTip">
+    <string>Wybór wskaźnika</string>
    </property>
   </action>
  </widget>

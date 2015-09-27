@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 	_tools[Tool::Edge]			= ui.actionAddEdge;
 	_tools[Tool::Grab]			= ui.actionGrab;
 	_tools[Tool::RubberBand]	= ui.actionSelect;
+	_tools[Tool::Pointer]		= ui.actionPointer;
 
 	ui.graphView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	ui.graphView->setAlignment(Qt::AlignCenter);
@@ -55,6 +56,11 @@ void MainWindow::checkSelectionButton(bool b)
 	checkButton(Tool::RubberBand, b);
 }
 
+void MainWindow::checkPointerButton(bool b)
+{
+	checkButton(Tool::Pointer, b);
+}
+
 void MainWindow::openGraphShapeDialog()
 {
 	_graphShapeDialog = new GraphShapeDialog(this);
@@ -73,6 +79,7 @@ void MainWindow::createActions()
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
 	connect(ui.actionGrab, SIGNAL(triggered(bool)), this, SLOT(checkGrabButton(bool)));
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
+	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 
 	connect(ui.graphView, SIGNAL(clicked(QPoint, QList<QGraphicsItem*>)), this, SLOT(clickGraphView(QPoint, QList<QGraphicsItem*>)));
 }
@@ -82,6 +89,7 @@ void MainWindow::checkButton(Tool tool, bool b)
 	if (b)
 	{
 		_currentTool = tool;
+		ui.graphView->setTool(_currentTool);
 		uncheckButtons();
 	}
 	else
@@ -142,9 +150,14 @@ void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QP
 	updateGraphStatus();
 }
 
-void MainWindow::grabItem(QList<QGraphicsItem*> const & item)
+void MainWindow::grabItem(QPoint const & pos, QList<QGraphicsItem*> const & item)
 {
-	ui.graphView->grabItem(item);
+	ui.graphView->grabItem(pos, item);
+}
+
+void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
+{
+	ui.graphView->pointItem(item);
 }
 
 void MainWindow::updateGraphStatus()
@@ -158,8 +171,6 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 {
 	switch (_currentTool)
 	{
-	case Tool::None:
-		break;
 	case Tool::Vertex:
 		if (item.size() == 0)
 			addVertex(position);
@@ -169,13 +180,16 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 			return;
 		buildEdge(item.first());
 		return;
+	case Tool::Pointer:
+		pointItem(item);
+		return;
 	case Tool::Grab:
-		grabItem(item);
+		grabItem(position, item);
 		return;
 	case Tool::RubberBand:
 		ui.graphView->startRubberBand(position);
 		break;
-	default:
+	default: case Tool::None:
 		break;
 	}
 }
