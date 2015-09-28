@@ -11,10 +11,10 @@
 class VertexImage : public QGraphicsItem
 {
 	Vertex * _vertex;
-	TextItem * _text;
 
 public:
 	VertexImage(VertexContext const & context);
+	~VertexImage();
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

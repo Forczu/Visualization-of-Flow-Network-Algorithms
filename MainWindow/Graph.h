@@ -24,11 +24,15 @@ public:
 	bool VertexExists(short verticeId) const;
 	Vertex * AddVertex();
 	Vertex * AddVertex(int n);
-	void AddVertex(Vertex * const vertice);
+	void AddVertex(Vertex * const vertex);
 	Vertex * VertexNo(short n) const;
+	void RemoveVertex(short n);
+	void RemoveVertex(Vertex * const vertex);
 
 	Edge * AddEdge();
 	void AddEdge(Edge * const edge);
+	void RemoveEdge(Edge * const edge);
+	void RemoveNeighbourEdges(Vertex * const vertex);
 
 	Matrix GetNeighborhoodMatrix() const;
 

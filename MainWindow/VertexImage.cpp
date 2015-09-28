@@ -1,6 +1,6 @@
 #include "VertexImage.h"
 
-VertexImage::VertexImage(VertexContext const & context) : _context(context)
+VertexImage::VertexImage(VertexContext const & context) : _context(context), _vertex(nullptr)
 {
 	setToolTip(QString("Cycusie"));
 	//	.arg(color.red()).arg(color.green()).arg(color.blue())
@@ -17,6 +17,10 @@ VertexImage::VertexImage(VertexContext const & context) : _context(context)
 	//_text->replaceFont(context.Font());
 }
 
+VertexImage::~VertexImage()
+{
+}
+
 QRectF VertexImage::boundingRect() const
 {
 	int size = _context.Size() * 2;
@@ -28,10 +32,13 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	Q_UNUSED(option);
 	Q_UNUSED(widget);
 	painter->setRenderHint(QPainter::RenderHint::HighQualityAntialiasing);
+	QBrush brush;
+	brush.setColor(_context.Color());
+	brush.setStyle(Qt::DiagCrossPattern);
+	painter->setBrush(brush);
 	QPainterPath vertex;
 	vertex.addEllipse(QPointF(0.0f, 0.0f), _context.Size(), _context.Size());
 	painter->setPen(QPen(_context.StrokeColor(), _context.StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
-	painter->setBrush(_context.Color());
 	painter->drawPath(vertex);
 	painter->setFont(_context.Font());
 	painter->setPen(QColor(0, 0, 0));

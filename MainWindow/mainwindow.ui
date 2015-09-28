@@ -57,7 +57,7 @@
      </brush>
     </property>
     <property name="dragMode">
-     <enum>QGraphicsView::ScrollHandDrag</enum>
+     <enum>QGraphicsView::NoDrag</enum>
     </property>
    </widget>
    <widget class="QTextBrowser" name="graphTextStatus">
@@ -121,12 +121,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionPointer"/>
+   <addaction name="separator"/>
    <addaction name="actionAddVertex"/>
    <addaction name="actionAddEdge"/>
+   <addaction name="actionRemove"/>
    <addaction name="separator"/>
-   <addaction name="actionPointer"/>
-   <addaction name="actionGrab"/>
-   <addaction name="actionSelect"/>
   </widget>
   <action name="actionClose">
    <property name="text">
@@ -219,6 +219,21 @@
    </property>
    <property name="toolTip">
     <string>Wybór wskaźnika</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/RemoveIcon.svg</normaloff>:/MainWindow/RemoveIcon.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Usun</string>
+   </property>
+   <property name="toolTip">
+    <string>Usuwa wybrany element z pola</string>
    </property>
   </action>
  </widget>

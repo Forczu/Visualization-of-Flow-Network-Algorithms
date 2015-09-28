@@ -2,6 +2,10 @@
 #include <QtWidgets/QApplication>
 #include <QTime>
 
+#ifdef DEBUG
+#include <vld.h>
+#endif
+
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);

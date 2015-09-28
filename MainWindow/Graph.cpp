@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include <algorithm>
 
 
 Graph::Graph()
@@ -72,6 +73,65 @@ void Graph::AddEdge(Edge * const edge)
 Edge * Graph::AddEdge()
 {
 	return nullptr;
+}
+
+void Graph::RemoveVertex(short n)
+{
+	VertexVector * v = &_graph->first;
+	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
+	{
+		if ((*it)->Id() == n)
+		{
+			RemoveNeighbourEdges(*it);
+			delete *it;
+			v->erase(it);
+			break;
+		}
+	}
+}
+
+void Graph::RemoveVertex(Vertex * const vertex)
+{
+	VertexVector * v = &_graph->first;
+	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
+	{
+		if ((*it) == vertex)
+		{
+			RemoveNeighbourEdges(vertex);
+			delete vertex;
+			v->erase(it);
+			break;
+		}
+	}
+}
+
+void Graph::RemoveEdge(Edge * const edge)
+{
+	EdgeVector * e = &_graph->second;
+	for (EdgeVector::iterator it = e->begin(); it != e->end(); ++it)
+	{
+		if ((*it) == edge)
+		{
+			delete edge;
+			e->erase(it);
+			break;
+		}
+	}
+}
+
+void Graph::RemoveNeighbourEdges(Vertex * const vertex)
+{
+	EdgeVector * e = &_graph->second;
+	for (EdgeVector::iterator it = e->begin(); it != e->end(); )
+	{
+		if ((*it)->VertexFrom() == vertex || (*it)->VertexTo() == vertex)
+		{
+			delete *it;
+			it = e->erase(it);
+		}
+		else
+			++it;
+	}
 }
 
 Matrix Graph::GetNeighborhoodMatrix() const

@@ -10,6 +10,8 @@ class VertexContext
 	QColor _color;
 	QColor _strokeColor;
 	QFont _font;
+	Qt::BrushStyle _style;
+
 public:
 	VertexContext();
 	VertexContext(short size, short strokeSize, QColor const & color, QColor const & strokeColor, QFont const & font);
@@ -24,4 +26,6 @@ public:
 	void StrokeColor(QColor val) { _strokeColor = val; }
 	inline QFont const & Font() const { return _font; }
 	void Font(QFont val) { _font = val; }
+	Qt::BrushStyle Style() const { return _style; }
+	void Style(Qt::BrushStyle val) { _style = val; }
 };

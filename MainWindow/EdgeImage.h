@@ -10,16 +10,18 @@
 class EdgeImage : public QGraphicsItem
 {
 protected:
-	Edge * edge;
+	Edge * _edge;
 
 	VertexImage * _vertexFrom;
 	VertexImage * _vertexTo;
 
 public:
 	EdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo);
-	~EdgeImage();
+	virtual ~EdgeImage();
 
-	inline Edge * getEdge() const { return edge; }
-	void setEdge(Edge * val) { edge = val; }
+	inline Edge * getEdge() const { return _edge; }
+	void setEdge(Edge * val) { _edge = val; }
+	inline VertexImage * VertexFrom() const { return _vertexFrom; }
+	inline VertexImage * VertexTo() const { return _vertexTo; }
 };
 

@@ -20,7 +20,11 @@ class GraphView : public QGraphicsView
 	static const int VERTICE_Z_VALUE = 3;
 	static const int EDGE_Z_VALUE = 1;
 
-	std::map<int, VertexImage*> _vertexMap;
+	typedef std::map<int, VertexImage*>					VertexImageMap;
+	typedef std::map<std::pair<int, int>, EdgeImage*>	EdgeImageMap;
+
+	VertexImageMap	_vertexMap;
+	EdgeImageMap	_edgeMap;
 
 	QRubberBand * _rubberBand;
 	QPoint _origin;
@@ -39,10 +43,12 @@ public:
 
 	void addVertexImage(Vertex * const vertex, QPoint const & position);
 	void addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
-	void grabItem(QPoint const & pos, QList<QGraphicsItem*> const & item);
-	void pointItem(QList<QGraphicsItem*> const & item);
+	void grabItem(QPoint const & pos);
+	void pointItem(QPoint const & position, QList<QGraphicsItem*> const & item);
 	void startRubberBand(QPoint const & position);
 	void setTool(Tool tool);
+	void removeEdge(EdgeImage * const edge);
+	void removeVertex(VertexImage * const vertex);
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -57,6 +63,7 @@ protected:
 
 private:
 	void init();
+	void removeItem(QGraphicsItem * item);
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:

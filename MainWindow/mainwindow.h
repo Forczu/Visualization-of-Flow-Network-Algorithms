@@ -18,6 +18,9 @@
 #include "StraightEdgeImage.h"
 #include "LoopEdgeImage.h"
 
+class VertexImage;
+class EdgeImage;
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -50,6 +53,7 @@ private slots:
 	void checkGrabButton(bool b);
 	void checkSelectionButton(bool b);
 	void checkPointerButton(bool b);
+	void checkRemoveButton(bool b);
 
 	void openGraphShapeDialog();
 
@@ -64,9 +68,10 @@ private:
 	void addVertex(QPoint const & position);
 	void buildEdge(QGraphicsItem * const item);
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
-	void grabItem(QPoint const & pos, QList<QGraphicsItem*> const & item);
+	void grabItem(QPoint const & pos);
 	void pointItem(QList<QGraphicsItem*> const & item);
 	void updateGraphStatus();
+	void removeItem(QList<QGraphicsItem*> const & item);
 };
 
 #endif // MAINWINDOW_H
