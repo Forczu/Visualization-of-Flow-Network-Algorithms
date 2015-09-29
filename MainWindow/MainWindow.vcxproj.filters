@@ -200,4 +200,9 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Typedefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

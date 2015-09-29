@@ -50,7 +50,7 @@ GraphView::~GraphView()
 {
 }
 
-void GraphView::addVertexImage(Vertex * const vertex, QPoint const & position)
+void GraphView::addVertexImage(VertexPtr const & vertex, QPoint const & position)
 {
 	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
 	item->setVertex(vertex);
@@ -180,6 +180,17 @@ void GraphView::removeVertex(VertexImage * const vertex)
 			++it;
 	}
 	removeItem(vertex);
+}
+
+void GraphView::updateAll()
+{
+	std::for_each(_vertexMap.begin(), _vertexMap.end(), [&](std::pair<int, VertexImage*> v)
+	{
+		if (!v.second->isSelected())
+			v.second->Context(Application::Config::Instance().DefaultVertexContext());
+		else
+			v.second->Context(Application::Config::Instance().SelectedVertexContext());
+	});
 }
 
 void GraphView::mousePressEvent(QMouseEvent * event)

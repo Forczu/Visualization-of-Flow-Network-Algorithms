@@ -49,7 +49,7 @@ void GraphShapeDialog::initVertexTab()
 	_verticePreview = new VertexImage(*_defaultVertexContext);
 	_verticePreview->setPos(startPoint.x() + sceneWidth / 2.0f, startPoint.y() + sceneHeight / 2.0f);
 	_verticePreview->setFlag(QGraphicsItem::ItemIsMovable, false);
-	_verticePreview->setVertex(new Vertex(1));
+	_verticePreview->setVertex(VertexPtr(new Vertex(1)));
 	graphScene->addItem(_verticePreview);
 
 	ui.vertexSizeSlider->setValue(_defaultVertexContext->Size());

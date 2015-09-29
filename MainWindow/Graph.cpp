@@ -28,29 +28,34 @@ bool Graph::VertexExists(short vertexId) const
 	return false;
 }
 
+VertexPtr Graph::AddVertex()
+{
+	int id = SmallestMissingIndex();
+	VertexPtr vertex = VertexPtr(new Vertex(id));
+	AddVertex(vertex);
+	return vertex;
+}
+
+VertexPtr Graph::AddVertex(int n)
+{
+	if (VertexExists(n))
+		return VertexNo(n);
+	VertexPtr vertex = VertexPtr(new Vertex(n));
+	AddVertex(vertex);
+	return vertex;
+}
+
 void Graph::AddVertex(Vertex * const vertex)
 {
 	_graph->first.push_back(VertexPtr(vertex));
 }
 
-Vertex * Graph::AddVertex()
+void Graph::AddVertex(VertexPtr const & vertex)
 {
-	int id = SmallestMissingIndex();
-	Vertex * vertex = new Vertex(id);
-	AddVertex(vertex);
-	return vertex;
+	_graph->first.push_back(vertex);
 }
 
-Vertex * Graph::AddVertex(int n)
-{
-	if (VertexExists(n))
-		return VertexNo(n);
-	Vertex * vertice = new Vertex(n);
-	AddVertex(vertice);
-	return vertice;
-}
-
-Vertex * Graph::VertexNo(short n) const
+VertexPtr Graph::VertexNo(short n) const
 {
 	if (!_graph->first.empty())
 	{
@@ -58,21 +63,21 @@ Vertex * Graph::VertexNo(short n) const
 		{
 			if (v->Id() == n)
 			{
-				return v.get();
+				return v;
 			}
 		}
 	}
 	return nullptr;
 }
 
+void Graph::AddEdge(EdgePtr const & edge)
+{
+	_graph->second.push_back(edge);
+}
+
 void Graph::AddEdge(Edge * const edge)
 {
 	_graph->second.push_back(EdgePtr(edge));
-}
-
-Edge * Graph::AddEdge()
-{
-	return nullptr;
 }
 
 void Graph::RemoveVertex(short n)
@@ -97,7 +102,6 @@ void Graph::RemoveVertex(Vertex * const vertex)
 		if ((*it).get() == vertex)
 		{
 			RemoveNeighbourEdges(*it);
-			delete vertex;
 			v->erase(it);
 			break;
 		}

@@ -8,12 +8,15 @@
 #include "Vertex.h"
 #include "Config.h"
 #include "Labels.h"
+#include "Typedefs.h"
 
 class VertexImage : public QGraphicsItem
 {
-	std::shared_ptr<Vertex> _vertex;
+	VertexPtr _vertex;
 	EdgeLabel _edgeLabel;
 	QString _label;
+	VertexContext _context;
+	QPointF offset;
 
 public:
 	VertexImage(VertexContext const & context);
@@ -27,13 +30,9 @@ public:
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
-private:
-	VertexContext _context;
-	QPointF offset;
-
 public:
 	void Context(VertexContext const & val) { _context = val; }
 	inline VertexContext const & Context() const { return _context; }
-	Vertex * getVertex() const { return _vertex.get(); }
-	void setVertex(Vertex * val) { _vertex = std::shared_ptr<Vertex>(val); }
+	inline VertexPtr getVertex() const { return _vertex; }
+	void setVertex(VertexPtr const & val) { _vertex = val; }
 };

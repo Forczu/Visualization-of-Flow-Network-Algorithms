@@ -500,6 +500,9 @@
       </AdditionalInputs>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Typedefs.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

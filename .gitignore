@@ -286,3 +286,10 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 
+*.hie
+*.u1f
+*.tae
+*.y3r
+*.ael
+*.5g5
+*.wvn

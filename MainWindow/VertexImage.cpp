@@ -1,7 +1,7 @@
 #include "VertexImage.h"
 
 VertexImage::VertexImage(VertexContext const & context)
-: _context(context), _vertex(nullptr), _edgeLabel(EdgeLabel::None)
+: _context(context), _edgeLabel(EdgeLabel::None)
 {
 	setToolTip(QString("Cycusie"));
 	//	.arg(color.red()).arg(color.green()).arg(color.blue())

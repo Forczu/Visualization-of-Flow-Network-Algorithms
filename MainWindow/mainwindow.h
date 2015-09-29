@@ -17,6 +17,7 @@
 #include <vector>
 #include "StraightEdgeImage.h"
 #include "LoopEdgeImage.h"
+#include "Typedefs.h"
 
 class VertexImage;
 class EdgeImage;
@@ -31,7 +32,6 @@ class MainWindow : public QMainWindow
 	ToolMap _tools;
 
 	QGraphicsScene * _graphScene;
-	//GraphShapeDialog * _graphShapeDialog;
 
 	Tool _currentTool;
 

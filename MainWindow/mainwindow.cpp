@@ -74,9 +74,10 @@ void MainWindow::checkRemoveButton(bool b)
 
 void MainWindow::openGraphShapeDialog()
 {
-	GraphShapeDialog graphShapeDialog = new GraphShapeDialog(this);
+	GraphShapeDialog graphShapeDialog = GraphShapeDialog(this);
 	graphShapeDialog.setModal(false);
 	graphShapeDialog.exec();
+	ui.graphView->updateAll();
 }
 
 void MainWindow::createActions()
@@ -122,7 +123,7 @@ void MainWindow::uncheckButtons()
 
 void MainWindow::addVertex(QPoint const & position)
 {
-	Vertex * vertex = _graph.AddVertex();
+	VertexPtr vertex = _graph.AddVertex();
 	ui.graphView->addVertexImage(vertex, position);
 	updateGraphStatus();
 }
@@ -156,8 +157,8 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 
 void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
 {
-	Vertex * first = _graph.VertexNo(pair.first);
-	Vertex * second = _graph.VertexNo(pair.second);
+	Vertex * first = _graph.VertexNo(pair.first).get();
+	Vertex * second = _graph.VertexNo(pair.second).get();
 	Edge * edge = new Edge(first, second);
 	_graph.AddEdge(edge);
 	ui.graphView->addEdgeImage(edge, pair, coord);
@@ -189,7 +190,7 @@ void MainWindow::removeItem(QList<QGraphicsItem*> const & items)
 			VertexImage * vImg = dynamic_cast<VertexImage*>(item);
 			if (NULL != vImg)
 			{
-				_graph.RemoveVertex(vImg->getVertex());
+				_graph.RemoveVertex(vImg->getVertex().get());
 				ui.graphView->removeVertex(vImg);
 				continue;
 			}

@@ -41,7 +41,7 @@ public:
 	GraphView(QWidget * widget);
 	~GraphView();
 
-	void addVertexImage(Vertex * const vertex, QPoint const & position);
+	void addVertexImage(VertexPtr const & vertex, QPoint const & position);
 	void addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
 	void grabItem(QPoint const & pos);
 	void pointItem(QPoint const & position, QList<QGraphicsItem*> const & item);
@@ -49,6 +49,8 @@ public:
 	void setTool(Tool tool);
 	void removeEdge(EdgeImage * const edge);
 	void removeVertex(VertexImage * const vertex);
+
+	void updateAll();
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
