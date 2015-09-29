@@ -13,7 +13,7 @@ TextItem::TextItem(const QString& text, QGraphicsItem* parent) : QGraphicsTextIt
 
 void TextItem::init()
 {
-	_option.setAlignment(Qt::AlignCenter);
+	_option.setAlignment(Qt::AlignLeft);
 	_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 }
 
@@ -25,6 +25,16 @@ void TextItem::replaceFont(QFont const & font)
 void TextItem::setBoundingRect(qreal x, qreal y, qreal w, qreal h)
 {
 	_rect.setRect(x, y, w, h);
+}
+
+void TextItem::setBoundingRect(QRect const & rect)
+{
+	_rect = rect;
+}
+
+void TextItem::setAlignment(Qt::AlignmentFlag flag)
+{
+	_option.setAlignment(flag);
 }
 
 void TextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)

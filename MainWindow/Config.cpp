@@ -35,6 +35,7 @@ namespace Application
 	{
 		libconfig::Setting const & root = _cfg.getRoot();
 		WriteVertices(root);
+		WriteEdges(root);
 	}
 
 	void Config::ReadVertices(libconfig::Setting const & root)

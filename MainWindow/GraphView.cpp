@@ -13,13 +13,33 @@ GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 
 void GraphView::init()
 {
+	_graphScene = new QGraphicsScene;
+	_graphScene->setSceneRect(QRect(-2000, -2000, 4000, 4000));
+	setScene(_graphScene);
+
 	_mouseClicked = false;
 	_toolFlag = Tool::None;
 	_rubberFlag = false;
 	_grabFlag = false;
 	_rubberBand = nullptr;
+	_edgeFlag = EdgeFlag::None;
 	setMouseTracking(true);
 	viewport()->setMouseTracking(true);
+
+	_labelMap["source"] = new TextItem("Source");
+	_labelMap["target"] = new TextItem("Target");
+	scene()->addItem(_labelMap["source"]);
+	scene()->addItem(_labelMap["target"]);
+
+	QFont font;
+	font.setBold(true);
+	font.setItalic(true);
+	font.setPointSize(16);
+	font.setFamily(QString("Calibri"));
+	_labelMap["source"]->replaceFont(font);
+	_labelMap["target"]->replaceFont(font);
+	_labelMap["source"]->setAlignment(Qt::AlignLeft);
+	_labelMap["target"]->setAlignment(Qt::AlignRight);
 }
 
 void GraphView::unselectAll(QGraphicsItem * const except)
@@ -90,8 +110,7 @@ void GraphView::addEdgeImage(Edge * const edge, std::pair<int, int> const & pair
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-	// Scale the view / do the zoom
-	double scaleFactor = 1.15;
+	const double scaleFactor = 1.15;
 	if (event->delta() > 0) {
 		// Zoom in
 		scale(scaleFactor, scaleFactor);
@@ -182,17 +201,6 @@ void GraphView::removeVertex(VertexImage * const vertex)
 	removeItem(vertex);
 }
 
-void GraphView::updateAll()
-{
-	std::for_each(_vertexMap.begin(), _vertexMap.end(), [&](std::pair<int, VertexImage*> v)
-	{
-		if (!v.second->isSelected())
-			v.second->Context(Application::Config::Instance().DefaultVertexContext());
-		else
-			v.second->Context(Application::Config::Instance().SelectedVertexContext());
-	});
-}
-
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
 	auto chosenItems = items(event->pos());
@@ -203,18 +211,36 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
-	//if (_grabFlag)
-	//{
-	//	auto selectedItems = scene()->selectedItems();
-	//	QPoint mappedMousePos = mapToScene(event->localPos().toPoint()).toPoint();
-	//	QPoint delta = mappedMousePos - _offset;
-	//	for each (QGraphicsItem* item in selectedItems)
-	//	{
-	//		item->setPos(item->scenePos() + delta);
-	//	}
-	//	_offset = mappedMousePos;
-	//}
-	/*else*/ if (_rubberBand != nullptr && _rubberFlag)
+	QPointF point(mapToScene(event->pos()));
+	auto item = scene()->itemAt(point, transform());
+	VertexImage * img = dynamic_cast<VertexImage*>(item);
+	if (NULL != img)
+	{
+		switch (_edgeFlag)
+		{
+		case EdgeFlag::Source:
+			_labelMap["source"]->setBoundingRect(QRect(
+				img->scenePos().x() - img->Context()->Size(),
+				img->scenePos().y() - img->Context()->Size() - 40,
+				img->Context()->Size() * 2,
+				40));
+			break;
+		case EdgeFlag::Target:
+			_labelMap["target"]->setBoundingRect(QRect(
+				img->scenePos().x() - img->Context()->Size(),
+				img->scenePos().y() - img->Context()->Size() - 40,
+				img->Context()->Size() * 2,
+				40));
+			break;
+		default:
+			std::for_each(_labelMap.begin(), _labelMap.end(), [](std::pair<std::string, TextItem*> label)
+			{
+				label.second->setBoundingRect(QRect());
+			});
+			break;
+		}
+	}
+	if (_rubberBand != nullptr && _rubberFlag)
 	{
 		_rubberBand->setGeometry(QRect(_origin, event->pos()).normalized());
 		QRect rubberRect = mapRubberBandToScene();
@@ -255,21 +281,4 @@ QRect GraphView::mapRubberBandToScene()
 	QPointF p2 = mapToScene(QPoint(rubberRect.right(), rubberRect.bottom()));
 	rubberRect.setCoords(p1.x(), p1.y(), p2.x(), p2.y());
 	return rubberRect;
-}
-
-void GraphView::resizeEvent(QResizeEvent * event)
-{
-	//fitInView(sceneRect(), Qt::KeepAspectRatio);
-	QGraphicsView::resizeEvent(event);
-}
-
-void GraphView::showEvent(QShowEvent * event)
-{
-	// wywo³ywane tylko w momencie uruchomienia
-	QPoint startPoint = pos();
-	int sceneWidth = width();
-	int sceneHeight = height();
-	QRectF sceneRect = QRectF(startPoint.x(), startPoint.y(), sceneWidth, sceneHeight);
-	scene()->setSceneRect(sceneRect);
-	QGraphicsView::showEvent(event);
 }

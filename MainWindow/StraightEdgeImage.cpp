@@ -15,7 +15,7 @@ StraightEdgeImage::~StraightEdgeImage()
 void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	painter->setRenderHint(QPainter::Antialiasing, true);
-	painter->setPen(QPen(_context.Color(), _context.Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 	_line.setPoints(_vertexFrom->pos(), _vertexTo->pos());
 	painter->drawLine(_line);
 }

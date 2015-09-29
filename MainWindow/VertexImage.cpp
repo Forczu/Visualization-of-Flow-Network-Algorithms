@@ -1,7 +1,7 @@
 #include "VertexImage.h"
 
 VertexImage::VertexImage(VertexContext const & context)
-: _context(context), _edgeLabel(EdgeLabel::None)
+: _context(&context)
 {
 	setToolTip(QString("Cycusie"));
 	//	.arg(color.red()).arg(color.green()).arg(color.blue())
@@ -19,8 +19,8 @@ VertexImage::~VertexImage()
 
 QRectF VertexImage::boundingRect() const
 {
-	int size = _context.Size() * 2;
-	return QRectF(-_context.Size(), -_context.Size(), size, size);
+	int size = _context->Size() * 2;
+	return QRectF(-_context->Size(), -_context->Size(), size, size);
 }
 
 void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -29,25 +29,16 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	Q_UNUSED(widget);
 	painter->setRenderHint(QPainter::RenderHint::HighQualityAntialiasing);
 	QBrush brush;
-	brush.setColor(_context.Color());
-	brush.setStyle(Qt::DiagCrossPattern);
+	brush.setColor(_context->Color());
+	brush.setStyle(Qt::SolidPattern);
 	painter->setBrush(brush);
 	QPainterPath vertex;
-	vertex.addEllipse(QPointF(0.0f, 0.0f), _context.Size(), _context.Size());
-	painter->setPen(QPen(_context.StrokeColor(), _context.StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
+	vertex.addEllipse(QPointF(0.0f, 0.0f), _context->Size(), _context->Size());
+	painter->setPen(QPen(_context->StrokeColor(), _context->StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
 	painter->drawPath(vertex);
-	painter->setFont(_context.Font());
+	painter->setFont(_context->Font());
 	painter->setPen(QColor(0, 0, 0));
-	painter->drawText(QRectF(-_context.Size(), -_context.Size(), _context.Size() * 2, _context.Size() * 2), QString::number(_vertex->Id()), QTextOption(Qt::AlignCenter));
-
-	QFont font;
-	font.setBold(true);
-	font.setItalic(true);
-	font.setPointSize(16);
-	font.setFamily(QString("Calibri"));
-	painter->setFont(font);
-	painter->setPen(QColor(0, 0, 0));
-	painter->drawText(QRectF(-_context.Size(), -(_context.Size() + 40), _context.Size() * 2, 40), _label, QTextOption(Qt::AlignLeft));
+	painter->drawText(QRectF(-_context->Size(), -_context->Size(), _context->Size() * 2, _context->Size() * 2), QString::number(_vertex->Id()), QTextOption(Qt::AlignCenter));
 }
 
 QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -67,31 +58,13 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 	{
 		if (value.toBool() == true)
 		{
-			_context = Application::Config::Instance().SelectedVertexContext();
+			_context = &Application::Config::Instance().SelectedVertexContext();
 		}
 		else
 		{
-			_context = Application::Config::Instance().DefaultVertexContext();
+			_context = &Application::Config::Instance().DefaultVertexContext();
 		}
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
 
-void VertexImage::setEdgeLabel(EdgeLabel val)
-{
-	_edgeLabel = val;
-	switch (_edgeLabel)
-	{
-	case EdgeLabel::None:
-		_label = QString();
-		break;
-	case EdgeLabel::Source:
-		_label = QString("Source");
-		break;
-	case EdgeLabel::Target:
-		_label = QString("Target");
-		break;
-	default:
-		break;
-	}
-}

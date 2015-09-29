@@ -31,8 +31,6 @@ class MainWindow : public QMainWindow
 	typedef std::map<Tool, QAction*>  ToolMap;
 	ToolMap _tools;
 
-	QGraphicsScene * _graphScene;
-
 	Tool _currentTool;
 
 public:

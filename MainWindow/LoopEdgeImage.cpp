@@ -5,7 +5,7 @@ LoopEdgeImage::LoopEdgeImage(VertexImage * const vertexFrom, VertexImage * const
 {
 	QPointF start = vertexFrom->pos();
 	QPointF end = vertexTo->pos();
-	int size = vertexFrom->Context().Size();
+	int size = vertexFrom->Context()->Size();
 	_points.push_back(start);
 	_points.push_back(QPointF(start.x() + 4 * size, start.y() - 6 * size));
 	_points.push_back(QPointF(start.x() - 4 * size, start.y() - 6 * size));

@@ -49,9 +49,9 @@ namespace Application
 		{
 			return _graphStatusString;
 		}
-		inline EdgeContext DefaultEdgeContext() const { return _defaultEdgeContext; }
+		inline EdgeContext const & DefaultEdgeContext() const { return _defaultEdgeContext; }
 		void DefaultEdgeContext(EdgeContext const &  val) { _defaultEdgeContext = val; }
-		inline EdgeContext SelectedEdgeContext() const { return _selectedEdgeContext; }
+		inline EdgeContext const & SelectedEdgeContext() const { return _selectedEdgeContext; }
 		void SelectedEdgeContext(EdgeContext const & val) { _selectedEdgeContext = val; }
 
 	private:

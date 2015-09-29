@@ -18,6 +18,8 @@ public:
 	}
 
 	void setBoundingRect(qreal x, qreal y, qreal w, qreal h);
+	void setBoundingRect(QRect const & rect);
+	void setAlignment(Qt::AlignmentFlag flag);
 
 protected:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;

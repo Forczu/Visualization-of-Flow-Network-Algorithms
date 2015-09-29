@@ -12,6 +12,12 @@
 #include "EdgeImage.h"
 #include "LoopEdgeImage.h"
 #include "StraightEdgeImage.h"
+#include "TextItem.h"
+
+enum class EdgeFlag
+{
+	None, Source, Target
+};
 
 class GraphView : public QGraphicsView
 {
@@ -25,7 +31,9 @@ class GraphView : public QGraphicsView
 
 	VertexImageMap	_vertexMap;
 	EdgeImageMap	_edgeMap;
+	std::map<std::string, TextItem*> _labelMap;
 
+	QGraphicsScene * _graphScene;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
 
@@ -33,6 +41,7 @@ private:
 	bool _mouseClicked;
 	bool _rubberFlag;
 	bool _grabFlag;
+	EdgeFlag _edgeFlag;
 	Tool _toolFlag;
 	QPoint _offset;
 
@@ -50,7 +59,8 @@ public:
 	void removeEdge(EdgeImage * const edge);
 	void removeVertex(VertexImage * const vertex);
 
-	void updateAll();
+	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
+	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -59,9 +69,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 
 	QRect mapRubberBandToScene();
-
-	void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
-	void showEvent(QShowEvent * event) Q_DECL_OVERRIDE;
 
 private:
 	void init();

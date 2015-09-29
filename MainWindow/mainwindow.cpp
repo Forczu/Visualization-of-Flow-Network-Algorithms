@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 
 	createActions();
 
-	_graphScene = new QGraphicsScene(this);
-	ui.graphView->setScene(_graphScene);
-
 	_tools[Tool::Vertex]		= ui.actionAddVertex;
 	_tools[Tool::Edge]			= ui.actionAddEdge;
 	_tools[Tool::Grab]			= ui.actionGrab;
@@ -25,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 
 MainWindow::~MainWindow()
 {
-	delete _graphScene;
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
@@ -47,6 +43,10 @@ void MainWindow::checkAddEdgeButton(bool b)
 {
 	checkButton(Tool::Edge, b);
 	ui.graphView->setCursor(Qt::ArrowCursor);
+	if (b)
+		ui.graphView->setEdgeFlag(EdgeFlag::Source);
+	else
+		ui.graphView->setEdgeFlag(EdgeFlag::None);
 }
 
 void MainWindow::checkGrabButton(bool b)
@@ -77,7 +77,6 @@ void MainWindow::openGraphShapeDialog()
 	GraphShapeDialog graphShapeDialog = GraphShapeDialog(this);
 	graphShapeDialog.setModal(false);
 	graphShapeDialog.exec();
-	ui.graphView->updateAll();
 }
 
 void MainWindow::createActions()
@@ -141,15 +140,15 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 		{
 			pair.first = img->getVertex()->Id();
 			coord.first = img->pos();
-			img->setEdgeLabel(EdgeLabel::Source);
+			ui.graphView->setEdgeFlag(EdgeFlag::Target);
 			firstVertexChecked = false;
 		}
 		else
 		{
 			pair.second = img->getVertex()->Id();
 			coord.second = img->pos();
+			ui.graphView->setEdgeFlag(EdgeFlag::None);
 			firstVertexChecked = true;
-			img->setEdgeLabel(EdgeLabel::Target);
 			addEdge(pair, coord);
 		}
 	}
