@@ -30,7 +30,7 @@ bool Graph::VertexExists(short vertexId) const
 
 void Graph::AddVertex(Vertex * const vertex)
 {
-	_graph->first.push_back(vertex);
+	_graph->first.push_back(VertexPtr(vertex));
 }
 
 Vertex * Graph::AddVertex()
@@ -58,7 +58,7 @@ Vertex * Graph::VertexNo(short n) const
 		{
 			if (v->Id() == n)
 			{
-				return v;
+				return v.get();
 			}
 		}
 	}
@@ -67,7 +67,7 @@ Vertex * Graph::VertexNo(short n) const
 
 void Graph::AddEdge(Edge * const edge)
 {
-	_graph->second.push_back(edge);
+	_graph->second.push_back(EdgePtr(edge));
 }
 
 Edge * Graph::AddEdge()
@@ -83,7 +83,6 @@ void Graph::RemoveVertex(short n)
 		if ((*it)->Id() == n)
 		{
 			RemoveNeighbourEdges(*it);
-			delete *it;
 			v->erase(it);
 			break;
 		}
@@ -95,9 +94,9 @@ void Graph::RemoveVertex(Vertex * const vertex)
 	VertexVector * v = &_graph->first;
 	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
 	{
-		if ((*it) == vertex)
+		if ((*it).get() == vertex)
 		{
-			RemoveNeighbourEdges(vertex);
+			RemoveNeighbourEdges(*it);
 			delete vertex;
 			v->erase(it);
 			break;
@@ -110,23 +109,21 @@ void Graph::RemoveEdge(Edge * const edge)
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); ++it)
 	{
-		if ((*it) == edge)
+		if ((*it).get() == edge)
 		{
-			delete edge;
 			e->erase(it);
 			break;
 		}
 	}
 }
 
-void Graph::RemoveNeighbourEdges(Vertex * const vertex)
+void Graph::RemoveNeighbourEdges(VertexPtr const & vertex)
 {
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); )
 	{
-		if ((*it)->VertexFrom() == vertex || (*it)->VertexTo() == vertex)
+		if ((*it)->VertexFrom() == vertex.get() || (*it)->VertexTo() == vertex.get())
 		{
-			delete *it;
 			it = e->erase(it);
 		}
 		else

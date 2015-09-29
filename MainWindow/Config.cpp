@@ -4,6 +4,18 @@ namespace Application
 {
 	Config * Config::_pInstance = 0;
 
+	Config & Config::Instance()
+	{
+		static bool __initialized = false;
+		if (!__initialized)
+		{
+			_pInstance = new Config;
+			atexit(DestroyConfig);
+			__initialized = true;
+		}
+		return *_pInstance;
+	}
+
 	Config::Config()
 	{
 		try
@@ -11,6 +23,7 @@ namespace Application
 			_cfg.readFile("Config\\config.cfg");
 			libconfig::Setting const & root = _cfg.getRoot();
 			ReadVertices(root);
+			ReadEdges(root);
 			ReadStatusString(root);
 		}
 		catch (libconfig::FileIOException e)
@@ -58,18 +71,53 @@ namespace Application
 	void Config::WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context)
 	{
 		libconfig::Setting const & df = vertices[nodeName];
-		df["size"] = _defaultVertexContext.Size();
-		df["stroke"] = _defaultVertexContext.StrokeSize();
+		df["size"] = context.Size();
+		df["stroke"] = context.StrokeSize();
 		libconfig::Setting const & colorNode = df["color"];
-		QColor color = _defaultVertexContext.Color();
+		QColor color = context.Color();
 		colorNode["r"] = color.red();
 		colorNode["g"] = color.green();
 		colorNode["b"] = color.blue();
 		libconfig::Setting const & strokeColorNode = df["color_stroke"];
-		color = _defaultVertexContext.StrokeColor();
+		color = context.StrokeColor();
 		strokeColorNode["r"] = color.red();
 		strokeColorNode["g"] = color.green();
 		strokeColorNode["b"] = color.blue();
+		_cfg.writeFile("Config\\config.cfg");
+	}
+
+	void Config::ReadEdges(libconfig::Setting const & root)
+	{
+		libconfig::Setting const & vertices = root["application"]["edges"];
+		ReadEdgeContext(vertices, "default_edge", _defaultEdgeContext);
+		ReadEdgeContext(vertices, "selected_edge", _selectedEdgeContext);
+	}
+
+	void Config::ReadEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context)
+	{
+		libconfig::Setting const & df = edges[nodeName];
+		int size = df["size"];
+		libconfig::Setting const & colorNode = df["color"];
+		QColor color = QColor(colorNode["r"], colorNode["g"], colorNode["b"]);
+		context = EdgeContext(size, color);
+	}
+
+	void Config::WriteEdges(libconfig::Setting const & root)
+	{
+		libconfig::Setting const & edges = root["application"]["edges"];
+		WriteEdgeContext(edges, "default_edge", _defaultEdgeContext);
+		WriteEdgeContext(edges, "selected_edge", _selectedEdgeContext);
+	}
+
+	void Config::WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context)
+	{
+		libconfig::Setting const & df = edges[nodeName];
+		df["size"] = context.Size();
+		libconfig::Setting const & colorNode = df["color"];
+		QColor color = context.Color();
+		colorNode["r"] = color.red();
+		colorNode["g"] = color.green();
+		colorNode["b"] = color.blue();
 		_cfg.writeFile("Config\\config.cfg");
 	}
 
@@ -79,5 +127,10 @@ namespace Application
 		libconfig::Setting const & graphNode = root["application"]["graph"];
 		std::string tmp = graphNode["status"].c_str();
 		_graphStatusString = QString::fromLocal8Bit(graphNode["status"]);
+	}
+
+	void Config::DestroyConfig()
+	{
+		delete _pInstance;
 	}
 }

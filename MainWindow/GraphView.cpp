@@ -72,15 +72,15 @@ void GraphView::addEdgeImage(Edge * const edge, std::pair<int, int> const & pair
 	if (std::abs(coord.first.x() - coord.second.x()) <= size &&
 		std::abs(coord.first.y() - coord.second.y()) <= size)
 	{
-		item = new LoopEdgeImage(vertexFrom, vertexTo);
+		item = new LoopEdgeImage(vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
 	}
 	else
 	{
-		item = new StraightEdgeImage(vertexFrom, vertexTo);
+		item = new StraightEdgeImage(vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
 	}
 	item->setEdge(edge);
 	item->setFlag(QGraphicsItem::ItemIsMovable, false);
-	item->setFlag(QGraphicsItem::ItemIsSelectable, true);
+	item->setFlag(QGraphicsItem::ItemIsSelectable, false);
 	item->setZValue(EDGE_Z_VALUE);
 	scene()->addItem(item);
 	scene()->update();
@@ -192,18 +192,18 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
-	if (_grabFlag)
-	{
-		auto selectedItems = scene()->selectedItems();
-		QPoint mappedMousePos = mapToScene(event->localPos().toPoint()).toPoint();
-		QPoint delta = mappedMousePos - _offset;
-		for each (QGraphicsItem* item in selectedItems)
-		{
-			item->setPos(item->scenePos() + delta);
-		}
-		_offset = mappedMousePos;
-	}
-	else if (_rubberBand != nullptr && _rubberFlag)
+	//if (_grabFlag)
+	//{
+	//	auto selectedItems = scene()->selectedItems();
+	//	QPoint mappedMousePos = mapToScene(event->localPos().toPoint()).toPoint();
+	//	QPoint delta = mappedMousePos - _offset;
+	//	for each (QGraphicsItem* item in selectedItems)
+	//	{
+	//		item->setPos(item->scenePos() + delta);
+	//	}
+	//	_offset = mappedMousePos;
+	//}
+	/*else*/ if (_rubberBand != nullptr && _rubberFlag)
 	{
 		_rubberBand->setGeometry(QRect(_origin, event->pos()).normalized());
 		QRect rubberRect = mapRubberBandToScene();

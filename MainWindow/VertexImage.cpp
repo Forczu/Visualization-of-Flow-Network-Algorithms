@@ -1,6 +1,7 @@
 #include "VertexImage.h"
 
-VertexImage::VertexImage(VertexContext const & context) : _context(context), _vertex(nullptr)
+VertexImage::VertexImage(VertexContext const & context)
+: _context(context), _vertex(nullptr), _edgeLabel(EdgeLabel::None)
 {
 	setToolTip(QString("Cycusie"));
 	//	.arg(color.red()).arg(color.green()).arg(color.blue())
@@ -10,11 +11,6 @@ VertexImage::VertexImage(VertexContext const & context) : _context(context), _ve
 	setAcceptedMouseButtons(Qt::LeftButton);
 	setFlag(QGraphicsItem::ItemIsSelectable);
 	setSelected(false);
-
-	//_text = new TextItem(std::to_string(_vertice->Id()));
-	//_text->setPos(startPoint.x(), startPoint.y());
-	//_text->setBoundingRect(0, 0, context.Size() * 2, context.Size() * 2);
-	//_text->replaceFont(context.Font());
 }
 
 VertexImage::~VertexImage()
@@ -43,6 +39,15 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	painter->setFont(_context.Font());
 	painter->setPen(QColor(0, 0, 0));
 	painter->drawText(QRectF(-_context.Size(), -_context.Size(), _context.Size() * 2, _context.Size() * 2), QString::number(_vertex->Id()), QTextOption(Qt::AlignCenter));
+
+	QFont font;
+	font.setBold(true);
+	font.setItalic(true);
+	font.setPointSize(16);
+	font.setFamily(QString("Calibri"));
+	painter->setFont(font);
+	painter->setPen(QColor(0, 0, 0));
+	painter->drawText(QRectF(-_context.Size(), -(_context.Size() + 40), _context.Size() * 2, 40), _label, QTextOption(Qt::AlignLeft));
 }
 
 QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -70,4 +75,23 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 		}
 	}
 	return QGraphicsItem::itemChange(change, value);
+}
+
+void VertexImage::setEdgeLabel(EdgeLabel val)
+{
+	_edgeLabel = val;
+	switch (_edgeLabel)
+	{
+	case EdgeLabel::None:
+		_label = QString();
+		break;
+	case EdgeLabel::Source:
+		_label = QString("Source");
+		break;
+	case EdgeLabel::Target:
+		_label = QString("Target");
+		break;
+	default:
+		break;
+	}
 }

@@ -5,11 +5,14 @@
 #include "Matrix.h"
 
 #include <vector>
+#include <memory>
 
 class Graph
 {
-	typedef std::vector<Vertex*>					VertexVector;
-	typedef std::vector<Edge*>						EdgeVector;
+	typedef std::shared_ptr<Vertex>	VertexPtr;
+	typedef std::shared_ptr<Edge>	EdgePtr;
+	typedef std::vector<VertexPtr>	VertexVector;
+	typedef std::vector<EdgePtr>	EdgeVector;
 	typedef std::pair<VertexVector, EdgeVector>	GraphPair;
 
 	GraphPair * _graph;
@@ -32,7 +35,7 @@ public:
 	Edge * AddEdge();
 	void AddEdge(Edge * const edge);
 	void RemoveEdge(Edge * const edge);
-	void RemoveNeighbourEdges(Vertex * const vertex);
+	void RemoveNeighbourEdges(VertexPtr const & vertex);
 
 	Matrix GetNeighborhoodMatrix() const;
 

@@ -74,8 +74,9 @@ void MainWindow::checkRemoveButton(bool b)
 
 void MainWindow::openGraphShapeDialog()
 {
-	_graphShapeDialog = new GraphShapeDialog(this);
-	_graphShapeDialog->show();
+	GraphShapeDialog graphShapeDialog = new GraphShapeDialog(this);
+	graphShapeDialog.setModal(false);
+	graphShapeDialog.exec();
 }
 
 void MainWindow::createActions()
@@ -139,6 +140,7 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 		{
 			pair.first = img->getVertex()->Id();
 			coord.first = img->pos();
+			img->setEdgeLabel(EdgeLabel::Source);
 			firstVertexChecked = false;
 		}
 		else
@@ -146,6 +148,7 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 			pair.second = img->getVertex()->Id();
 			coord.second = img->pos();
 			firstVertexChecked = true;
+			img->setEdgeLabel(EdgeLabel::Target);
 			addEdge(pair, coord);
 		}
 	}

@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow
 	ToolMap _tools;
 
 	QGraphicsScene * _graphScene;
-	GraphShapeDialog * _graphShapeDialog;
+	//GraphShapeDialog * _graphShapeDialog;
 
 	Tool _currentTool;
 

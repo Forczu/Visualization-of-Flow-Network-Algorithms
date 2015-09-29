@@ -1,12 +1,11 @@
 #include "LoopEdgeImage.h"
 
-LoopEdgeImage::LoopEdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo)
-: EdgeImage(vertexFrom, vertexTo)
+LoopEdgeImage::LoopEdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
+: EdgeImage(vertexFrom, vertexTo, context)
 {
 	QPointF start = vertexFrom->pos();
 	QPointF end = vertexTo->pos();
-	VertexContext context = vertexFrom->Context();
-	int size = context.Size();
+	int size = vertexFrom->Context().Size();
 	_points.push_back(start);
 	_points.push_back(QPointF(start.x() + 4 * size, start.y() - 6 * size));
 	_points.push_back(QPointF(start.x() - 4 * size, start.y() - 6 * size));

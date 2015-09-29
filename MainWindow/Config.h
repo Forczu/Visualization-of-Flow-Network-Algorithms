@@ -1,9 +1,11 @@
 #pragma once
 
 #include <libconfig.h++>
-#include "VertexContext.h"
 #include <QTextCodec>
 #include <QString>
+
+#include "VertexContext.h"
+#include "EdgeContext.h"
 
 namespace Application
 {
@@ -16,20 +18,12 @@ namespace Application
 		VertexContext _defaultVertexContext;
 		VertexContext _selectedVertexContext;
 
+		EdgeContext _defaultEdgeContext;
+		EdgeContext _selectedEdgeContext;
 		QString _graphStatusString;
 
 	public:
-		static Config & Instance()
-		{
-			static bool __initialized = false;
-			if (!__initialized)
-			{
-				_pInstance = new Config;
-				atexit(DestroyConfig);
-				__initialized = true;
-			}
-			return *_pInstance;
-		}
+		static Config & Instance();
 	private:
 		Config();
 		~Config();
@@ -55,17 +49,23 @@ namespace Application
 		{
 			return _graphStatusString;
 		}
+		inline EdgeContext DefaultEdgeContext() const { return _defaultEdgeContext; }
+		void DefaultEdgeContext(EdgeContext const &  val) { _defaultEdgeContext = val; }
+		inline EdgeContext SelectedEdgeContext() const { return _selectedEdgeContext; }
+		void SelectedEdgeContext(EdgeContext const & val) { _selectedEdgeContext = val; }
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);
 		void ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
 		void WriteVertices(libconfig::Setting const & root);
 		void WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
-		void ReadStatusString(libconfig::Setting const & root);
 
-		static void DestroyConfig()
-		{
-			delete _pInstance;
-		}
+		void ReadEdges(libconfig::Setting const & root);
+		void ReadEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context);
+		void WriteEdges(libconfig::Setting const & root);
+		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context);
+
+		void ReadStatusString(libconfig::Setting const & root);
+		static void DestroyConfig();
 	};
 }
