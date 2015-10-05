@@ -4,23 +4,20 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLayout>
 #include <qtextcodec.h>
-
 #include <map>
-
-#include "ui_mainwindow.h"
-#include "VertexImage.h"
-#include "Graph.h"
-#include "GraphShapeDialog.h"
-#include "Config.h"
-#include "Tools.h"
-#include "Vertex.h"
 #include <vector>
-#include "StraightEdgeImage.h"
-#include "LoopEdgeImage.h"
+#include "ui_mainwindow.h"
+#include "Graph.h"
+#include "Tools.h"
 #include "Typedefs.h"
 
-class VertexImage;
+class Config;
 class EdgeImage;
+class GraphShapeDialog;
+class LoopEdgeImage;
+class StraightEdgeImage;
+class Vertex;
+class VertexImage;
 
 class MainWindow : public QMainWindow
 {

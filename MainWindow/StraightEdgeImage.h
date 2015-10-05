@@ -3,6 +3,9 @@
 #include <QLineF>
 #include "EdgeImage.h"
 
+class VertexImage;
+class TextItem;
+
 class StraightEdgeImage : public EdgeImage
 {
 	QLineF _line;

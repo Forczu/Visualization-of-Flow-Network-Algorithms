@@ -1,14 +1,16 @@
 #pragma once
 
 #include <QGraphicsItem>
-#include "EdgeContext.h"
-#include "Edge.h"
 #include <QPainterPath>
 #include <QPainter>
 #include <vector>
-#include "TextItem.h"
 #include "Typedefs.h"
-#include "ArrowHeadImage.h"
+
+class ArrowHeadImage;
+class Edge;
+class EdgeContext;
+class TextItem;
+class VertexImage;
 
 class VertexImage;
 
@@ -43,7 +45,7 @@ public:
 	float Angle() const;
 	void correctEdge(bool type, float theta);
 	void addArrowHead();
-	void removeArrowHead();
+	void deleteArrowHead();
 
 protected:
 	void calculateNewLine();

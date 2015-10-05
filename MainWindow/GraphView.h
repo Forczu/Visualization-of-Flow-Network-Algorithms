@@ -2,18 +2,20 @@
 
 #include <QtWidgets/QGraphicsView>
 #include <QGraphicsScene>
-#include "QTimeLine"
-#include "QWheelEvent"
+#include <QTimeLine>
+#include <QWheelEvent>
 #include <QRubberBand>
 
-#include "GraphScrollBar.h"
 #include "Tools.h"
-#include "VertexImage.h"
-#include "EdgeImage.h"
-#include "LoopEdgeImage.h"
-#include "StraightEdgeImage.h"
-#include "TextItem.h"
-#include "ArrowHeadImage.h"
+#include "Typedefs.h"
+
+class GraphScrollBar;
+class VertexImage;
+class EdgeImage;
+class LoopEdgeImage;
+class StraightEdgeImage;
+class TextItem;
+class ArrowHeadImage;
 
 enum class EdgeFlag
 {

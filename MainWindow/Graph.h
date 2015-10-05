@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Vertex.h"
-#include "Edge.h"
-#include "Matrix.h"
-#include "Typedefs.h"
-
+#include <algorithm>
 #include <vector>
 #include <memory>
+#include "Typedefs.h"
+
+class Vertex;
+class Edge;
+class Matrix;
 
 class Graph
 {

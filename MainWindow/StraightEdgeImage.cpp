@@ -2,6 +2,7 @@
 #include "VertexImage.h"
 #include "ArrowHeadImage.h"
 #include "Config.h"
+#include "TextItem.h"
 
 StraightEdgeImage::StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
 : EdgeImage(edge, vertexFrom, vertexTo, context)

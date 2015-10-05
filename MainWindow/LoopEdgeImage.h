@@ -1,7 +1,10 @@
 #pragma once
 
-#include "EdgeImage.h"
 #include <QPainterPath>
+#include "EdgeImage.h"
+
+class EdgeContext;
+class VertexImage;
 
 class LoopEdgeImage : public EdgeImage
 {

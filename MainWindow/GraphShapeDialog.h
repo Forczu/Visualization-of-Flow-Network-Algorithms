@@ -4,10 +4,15 @@
 #include <QDialog>
 #include <QGraphicsScene>
 #include "ui_GraphShapeDialog.h"
-#include "Config.h"
-#include "VertexImage.h"
-#include "StraightEdgeImage.h"
-#include "ArrowHeadImage.h"
+
+class ArrowHeadImage;
+class Config;
+class Edge;
+class EdgeContext;
+class StraightEdgeImage;
+class Vertex;
+class VertexImage;
+class VertexContext;
 
 class GraphShapeDialog : public QDialog
 {

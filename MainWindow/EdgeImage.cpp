@@ -1,6 +1,10 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "ArrowHeadImage.h"
+#include "EdgeContext.h"
+#include "Edge.h"
+#include "TextItem.h"
+#include "ArrowHeadImage.h"
 
 EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
 : _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(&context), _arrow(nullptr)
@@ -21,6 +25,7 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 
 EdgeImage::~EdgeImage()
 {
+	deleteArrowHead();
 }
 
 float EdgeImage::Angle() const
@@ -34,7 +39,7 @@ void EdgeImage::correctEdge(bool type, float theta)
 	_offset.second = theta;
 }
 
-void EdgeImage::removeArrowHead()
+void EdgeImage::deleteArrowHead()
 {
 	delete _arrow;
 	_arrow = nullptr;

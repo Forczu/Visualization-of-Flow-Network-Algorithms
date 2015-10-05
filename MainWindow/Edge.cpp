@@ -1,5 +1,5 @@
 #include "Edge.h"
-
+#include "Vertex.h"
 
 Edge::Edge(Vertex * const u, Vertex * const v, int weight) : _weight(weight)
 {

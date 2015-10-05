@@ -1,4 +1,11 @@
 #include "mainwindow.h"
+#include "VertexImage.h"
+
+#include "GraphShapeDialog.h"
+#include "Config.h"
+#include "Vertex.h"
+#include "StraightEdgeImage.h"
+#include "LoopEdgeImage.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool::None)
 {

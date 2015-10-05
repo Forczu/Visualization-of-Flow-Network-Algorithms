@@ -1,6 +1,7 @@
 #include "Graph.h"
-#include <algorithm>
-
+#include "Vertex.h"
+#include "Edge.h"
+#include "Matrix.h"
 
 Graph::Graph()
 {

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Vertex.h"
 #include <utility>
+
+class Vertex;
 
 /// <summary>
 /// £uk grafu. Relacja binarna pomiêdzy wierzcho³kami.

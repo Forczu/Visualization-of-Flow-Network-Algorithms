@@ -1,4 +1,11 @@
 #include "GraphView.h"
+#include "GraphScrollBar.h"
+#include "VertexImage.h"
+#include "EdgeImage.h"
+#include "LoopEdgeImage.h"
+#include "StraightEdgeImage.h"
+#include "TextItem.h"
+#include "ArrowHeadImage.h"
 
 GraphView::GraphView()
 {
@@ -256,7 +263,7 @@ void GraphView::makeUndirected()
 {
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		(*it).second->removeArrowHead();
+		(*it).second->deleteArrowHead();
 	}
 }
 

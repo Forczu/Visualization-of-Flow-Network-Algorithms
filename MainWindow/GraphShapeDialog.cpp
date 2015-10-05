@@ -1,4 +1,8 @@
 #include "GraphShapeDialog.h"
+#include "Config.h"
+#include "VertexImage.h"
+#include "StraightEdgeImage.h"
+#include "ArrowHeadImage.h"
 
 GraphShapeDialog::GraphShapeDialog(QWidget *parent) : QDialog(parent)
 {
