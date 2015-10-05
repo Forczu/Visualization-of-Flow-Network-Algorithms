@@ -26,6 +26,7 @@ protected:
 	void init();
 public:
 	void replaceFont(QFont const & font);
+	void setText(QString const & text);
 
 private:
 	QRectF _rect;

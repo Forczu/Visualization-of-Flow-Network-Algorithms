@@ -7,6 +7,7 @@
 #include "Config.h"
 #include "VertexImage.h"
 #include "StraightEdgeImage.h"
+#include "ArrowHeadImage.h"
 
 class GraphShapeDialog : public QDialog
 {
@@ -24,6 +25,9 @@ private:
 
 	VertexImage * _verticePreview, *_v1, *_v2;
 	StraightEdgeImage * _edgePreview;
+	ArrowHeadImage * _arrow;
+	Vertex * _vertex;
+	Edge * _edge;
 
 	void initVertexTab();
 	void initEdgeTab();

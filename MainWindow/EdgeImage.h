@@ -2,11 +2,14 @@
 
 #include <QGraphicsItem>
 #include "EdgeContext.h"
-#include "VertexImage.h"
 #include "Edge.h"
 #include <QPainterPath>
 #include <QPainter>
 #include <vector>
+#include "TextItem.h"
+#include "Typedefs.h"
+
+class VertexImage;
 
 class EdgeImage : public QGraphicsItem
 {
@@ -16,15 +19,29 @@ protected:
 
 	VertexImage * _vertexFrom;
 	VertexImage * _vertexTo;
+
+	QLineF _actualLine;
+	TextItem * _text;
+
+	std::pair<bool, float> _offset;
+
 public:
-	EdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
+	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
 	virtual ~EdgeImage();
 
 	inline Edge * getEdge() const { return _edge; }
-	void setEdge(Edge * val) { _edge = val; }
+	void setEdge(Edge * const val) { _edge = val; }
 	inline VertexImage * VertexFrom() const { return _vertexFrom; }
 	inline VertexImage * VertexTo() const { return _vertexTo; }
 	inline EdgeContext const * Context() const { return _context; }
 	void Context(EdgeContext const & val) { _context = &val; }
+	inline QLineF ActualLine() const { return _actualLine; }
+	void ActualLine(QLineF const & val) { _actualLine = val; }
+
+	float Angle() const;
+	void correctEdge(bool type, float theta);
+
+protected:
+	void calculateNewLine();
 };
 

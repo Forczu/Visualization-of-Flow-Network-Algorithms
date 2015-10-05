@@ -23,6 +23,7 @@ GraphShapeDialog::~GraphShapeDialog()
 	delete _selectedEdgeContext;
 	delete _v1;
 	delete _v2;
+	delete _vertex, _edge;
 }
 
 void GraphShapeDialog::clearPreview(QGraphicsView * const preview)
@@ -49,7 +50,7 @@ void GraphShapeDialog::initVertexTab()
 	_verticePreview = new VertexImage(*_defaultVertexContext);
 	_verticePreview->setPos(startPoint.x() + sceneWidth / 2.0f, startPoint.y() + sceneHeight / 2.0f);
 	_verticePreview->setFlag(QGraphicsItem::ItemIsMovable, false);
-	_verticePreview->setVertex(VertexPtr(new Vertex(1)));
+	_verticePreview->setVertex(_vertex = new Vertex(1));
 	graphScene->addItem(_verticePreview);
 
 	ui.vertexSizeSlider->setValue(_defaultVertexContext->Size());
@@ -67,8 +68,8 @@ void GraphShapeDialog::initEdgeTab()
 	QPoint sceneStart = ui.edgePreview->pos();
 	int sceneWidth = ui.edgePreview->width();
 	int sceneHeight = ui.edgePreview->height();
-	QPoint startPoint = QPoint(sceneStart.x() + 30, sceneStart.y() + 30);
-	QPoint endPoint = QPoint(startPoint.x() + sceneWidth - 60, startPoint.y() + sceneHeight - 60);
+	QPoint startPoint = QPoint(sceneStart.x() + 10, sceneStart.y() + 10);
+	QPoint endPoint = QPoint(startPoint.x() + sceneWidth - 10, startPoint.y() + sceneHeight - 10);
 
 	QGraphicsScene * graphScene = new QGraphicsScene(sceneStart.x(), sceneStart.y(), sceneWidth, sceneHeight);
 	ui.edgePreview->setScene(graphScene);
@@ -77,13 +78,26 @@ void GraphShapeDialog::initEdgeTab()
 	_v2 = new VertexImage(*_defaultVertexContext);
 	_v1->setPos(startPoint);
 	_v2->setPos(endPoint);
-	_edgePreview = new StraightEdgeImage(_v1, _v2, *_defaultEdgeContext);
+	int size = _defaultVertexContext->Size();
+	_edgePreview = new StraightEdgeImage(_edge = new Edge(), _v1, _v2, *_defaultEdgeContext);
 	graphScene->addItem(_edgePreview);
+
+	int dx = -(endPoint.x() - startPoint.x());
+	int dy = -(endPoint.y() - startPoint.y());
+	float angle = std::atan2(dy, dx);
+	size = _defaultEdgeContext->Size();
+	_arrow = new ArrowHeadImage(4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
+	_arrow->setPos(endPoint);
+	_arrow->setZValue(3);
+	_arrow->setColor(_defaultEdgeContext->Color());
+	_arrow->setParentItem(_edgePreview);
 
 	ui.edgeSizeSlider->setValue(_defaultEdgeContext->Size());
 	ui.edgeColorRedBox->setValue(_defaultEdgeContext->Color().red());
 	ui.edgeColorGreenBox->setValue(_defaultEdgeContext->Color().green());
 	ui.edgeColorBlueBox->setValue(_defaultEdgeContext->Color().blue());
+
+	ui.edgePreview->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 }
 
 void GraphShapeDialog::updateVertexPreview()
@@ -191,8 +205,22 @@ void GraphShapeDialog::strokeColorBlueChanged(int val)
 
 void GraphShapeDialog::edgeSizeChanged(int val)
 {
+	QPoint sceneStart = ui.edgePreview->pos();
+	QPoint startPoint = QPoint(sceneStart.x() + 10, sceneStart.y() + 10);
+	QPointF endPoint = _v2->pos();
 	_defaultEdgeContext->Size(val);
 	_selectedEdgeContext->Size(val);
+	int dx = -(endPoint.x() - startPoint.x());
+	int dy = -(endPoint.y() - startPoint.y());
+	float angle = std::atan2(dy, dx);
+	
+	delete _arrow;
+	float size = _defaultEdgeContext->Size();
+	_arrow = new ArrowHeadImage(4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
+	_arrow->setPos(endPoint);
+	_arrow->setZValue(3);
+	_arrow->setColor(_defaultEdgeContext->Color());
+	_arrow->setParentItem(_edgePreview);
 	updateEdgePreview();
 }
 
@@ -201,6 +229,7 @@ void GraphShapeDialog::edgeColorRedChanged(int val)
 	QColor color = _defaultEdgeContext->Color();
 	color.setRed(val);
 	_defaultEdgeContext->Color(color);
+	_arrow->setColor(_defaultEdgeContext->Color());
 	updateEdgePreview();
 }
 
@@ -209,6 +238,7 @@ void GraphShapeDialog::edgeColorGreenChanged(int val)
 	QColor color = _defaultEdgeContext->Color();
 	color.setGreen(val);
 	_defaultEdgeContext->Color(color);
+	_arrow->setColor(_defaultEdgeContext->Color());
 	updateEdgePreview();
 }
 
@@ -217,6 +247,7 @@ void GraphShapeDialog::edgeColorBlueChanged(int val)
 	QColor color = _defaultEdgeContext->Color();
 	color.setBlue(val);
 	_defaultEdgeContext->Color(color);
+	_arrow->setColor(_defaultEdgeContext->Color());
 	updateEdgePreview();
 }
 

@@ -10,6 +10,16 @@ Graph::Graph()
 
 Graph::~Graph()
 {
+	for (VertexVector::iterator it = _graph->first.begin(); it != _graph->first.end(); ++it)
+	{
+		if (*it != NULL)
+			delete *it;
+	}
+	for (EdgeVector::iterator it = _graph->second.begin(); it != _graph->second.end(); ++it)
+	{
+		if (*it != NULL)
+			delete *it;
+	}
 	delete _graph;
 }
 
@@ -28,34 +38,29 @@ bool Graph::VertexExists(short vertexId) const
 	return false;
 }
 
-VertexPtr Graph::AddVertex()
+Vertex * Graph::AddVertex()
 {
-	int id = SmallestMissingIndex();
-	VertexPtr vertex = VertexPtr(new Vertex(id));
+	int id = SmallestMissingVertexIndex();
+	Vertex * vertex = new Vertex(id);
 	AddVertex(vertex);
 	return vertex;
 }
 
-VertexPtr Graph::AddVertex(int n)
+Vertex * Graph::AddVertex(int n)
 {
 	if (VertexExists(n))
 		return VertexNo(n);
-	VertexPtr vertex = VertexPtr(new Vertex(n));
+	Vertex * vertex = new Vertex(n);
 	AddVertex(vertex);
 	return vertex;
 }
 
 void Graph::AddVertex(Vertex * const vertex)
 {
-	_graph->first.push_back(VertexPtr(vertex));
-}
-
-void Graph::AddVertex(VertexPtr const & vertex)
-{
 	_graph->first.push_back(vertex);
 }
 
-VertexPtr Graph::VertexNo(short n) const
+Vertex * Graph::VertexNo(short n) const
 {
 	if (!_graph->first.empty())
 	{
@@ -70,14 +75,22 @@ VertexPtr Graph::VertexNo(short n) const
 	return nullptr;
 }
 
-void Graph::AddEdge(EdgePtr const & edge)
+void Graph::AddEdge(Edge * const edge)
 {
 	_graph->second.push_back(edge);
 }
 
-void Graph::AddEdge(Edge * const edge)
+Edge * Graph::AddEdge(int first, int second)
 {
-	_graph->second.push_back(EdgePtr(edge));
+	if (EdgeExists(first, second))
+		return nullptr;
+	int id = SmallestMissingEdgeIndex();
+	Vertex * from = VertexNo(first);
+	Vertex * to = VertexNo(second);
+	Edge * edge = new Edge(from, to);
+	edge->Id(id);
+	AddEdge(edge);
+	return edge;
 }
 
 void Graph::RemoveVertex(short n)
@@ -88,6 +101,7 @@ void Graph::RemoveVertex(short n)
 		if ((*it)->Id() == n)
 		{
 			RemoveNeighbourEdges(*it);
+			delete *it;
 			v->erase(it);
 			break;
 		}
@@ -99,9 +113,10 @@ void Graph::RemoveVertex(Vertex * const vertex)
 	VertexVector * v = &_graph->first;
 	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
 	{
-		if ((*it).get() == vertex)
+		if ((*it) == vertex)
 		{
 			RemoveNeighbourEdges(*it);
+			delete *it;
 			v->erase(it);
 			break;
 		}
@@ -113,21 +128,23 @@ void Graph::RemoveEdge(Edge * const edge)
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); ++it)
 	{
-		if ((*it).get() == edge)
+		if ((*it) == edge)
 		{
+			delete *it;
 			e->erase(it);
 			break;
 		}
 	}
 }
 
-void Graph::RemoveNeighbourEdges(VertexPtr const & vertex)
+void Graph::RemoveNeighbourEdges(Vertex * const vertex)
 {
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); )
 	{
-		if ((*it)->VertexFrom() == vertex.get() || (*it)->VertexTo() == vertex.get())
+		if ((*it)->VertexFrom() == vertex || (*it)->VertexTo() == vertex)
 		{
+			delete *it;
 			it = e->erase(it);
 		}
 		else
@@ -146,17 +163,32 @@ Matrix Graph::GetNeighborhoodMatrix() const
 	return nMatrix;
 }
 
-int Graph::SmallestMissingIndex()
+Edge * Graph::GetNeighborEdge(Edge * const edge)
+{
+	Vertex * first = edge->VertexFrom();
+	Vertex * second = edge->VertexTo();
+	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
+	{
+		if (e->VertexFrom() == second && e->VertexTo() == first)
+			return true;
+		return false;
+	});
+	if (it != _graph->second.end())
+		return *it;
+	return nullptr;
+}
+
+int Graph::SmallestMissingVertexIndex()
 {
 	int index = 1;	// poszukiwany indeks
-	VertexVector const & vertice = _graph->first;
-	if (vertice.size() == 0)
+	VertexVector const & vertices = _graph->first;
+	if (vertices.size() == 0)
 		return index;
 	bool notFound = true;
-	for (; index <= _graph->first.size(); ++index)
+	for (; index <= vertices.size(); ++index)
 	{
 		notFound = true;
-		for (VertexVector::const_iterator it = vertice.begin(); it != vertice.end(); ++it)
+		for (VertexVector::const_iterator it = vertices.begin(); it != vertices.end(); ++it)
 		{
 			// jeœli liczba jest obecna wœród wierzcho³ków, szukaj dalej
 			if (index == (*it)->Id())
@@ -171,3 +203,41 @@ int Graph::SmallestMissingIndex()
 	}
 	return index;
 }
+
+int Graph::SmallestMissingEdgeIndex()
+{
+	int index = 1;
+	EdgeVector const & edges = _graph->second;
+	if (edges.size() == 0)
+		return index;
+	bool notFound = true;
+	for (; index <= edges.size(); ++index)
+	{
+		notFound = true;
+		for (EdgeVector::const_iterator it = edges.begin(); it != edges.end(); ++it)
+		{
+			if (index == (*it)->Id())
+			{
+				notFound = false;
+				break;
+			}
+		}
+		if (notFound)
+			return index;
+	}
+	return index;
+}
+
+bool Graph::EdgeExists(int from, int to)
+{
+	Vertex * first = VertexNo(from);
+	Vertex * second = VertexNo(to);
+	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
+	{
+		if (e->VertexFrom() == first && e->VertexTo() == second)
+			return true;
+		return false;
+	});
+	return it != _graph->second.end();
+}
+

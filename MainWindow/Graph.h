@@ -20,18 +20,17 @@ public:
 	~Graph();
 
 	bool VertexExists(short verticeId) const;
-	VertexPtr AddVertex();
-	VertexPtr AddVertex(int n);
+	Vertex * AddVertex();
+	Vertex * AddVertex(int n);
 	void AddVertex(Vertex * const vertex);
-	void AddVertex(VertexPtr const & vertex);
-	VertexPtr VertexNo(short n) const;
+	Vertex * VertexNo(short n) const;
 	void RemoveVertex(short n);
 	void RemoveVertex(Vertex * const vertex);
 
-	void AddEdge(EdgePtr const & edge);
+	Edge * AddEdge(int first, int second);
 	void AddEdge(Edge * const edge);
 	void RemoveEdge(Edge * const edge);
-	void RemoveNeighbourEdges(VertexPtr const & vertex);
+	void RemoveNeighbourEdges(Vertex * const vertex);
 
 	Matrix GetNeighborhoodMatrix() const;
 
@@ -44,10 +43,15 @@ public:
 		return _graph->second.size();
 	}
 
-	void SetSource(short vertice);
-	void SetTarget(short vertice);
+	void SetSource(short vertex);
+	void SetTarget(short vertex);
+
+	Edge * GetNeighborEdge(Edge * const edge);
 
 private:
-	int SmallestMissingIndex();
+	int SmallestMissingVertexIndex();
+	int SmallestMissingEdgeIndex();
+	bool EdgeExists(int from, int to);
+
 };
 

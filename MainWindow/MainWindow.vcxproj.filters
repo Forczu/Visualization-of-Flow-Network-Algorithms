@@ -125,6 +125,9 @@
     <ClCompile Include="EdgeContext.cpp">
       <Filter>Source Files\Contexts</Filter>
     </ClCompile>
+    <ClCompile Include="ArrowHeadImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -199,10 +202,17 @@
     <CustomBuild Include="VertexImage.h">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="ArrowHeadImage.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="resource.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Typedefs.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Typedefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,10 @@
 #include "VertexImage.h"
+#include "EdgeImage.h"
 
 VertexImage::VertexImage(VertexContext const & context)
 : _context(&context)
 {
-	setToolTip(QString("Cycusie"));
+	setToolTip(QString("Notatka"));
 	//	.arg(color.red()).arg(color.green()).arg(color.blue())
 	//	.arg(static_cast<int>(scenePos().x())).arg(scenePos().y())
 	//	.arg("Click and drag this color onto the robot!"));
@@ -30,7 +31,7 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	painter->setRenderHint(QPainter::RenderHint::HighQualityAntialiasing);
 	QBrush brush;
 	brush.setColor(_context->Color());
-	brush.setStyle(Qt::SolidPattern);
+	brush.setStyle(Qt::Dense2Pattern);
 	painter->setBrush(brush);
 	QPainterPath vertex;
 	vertex.addEllipse(QPointF(0.0f, 0.0f), _context->Size(), _context->Size());
@@ -47,6 +48,11 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 		// value is the new position.
 		QPointF newPos = value.toPointF();
 		QRectF rect = scene()->sceneRect();
+		QPointF offset = newPos - pos();
+		for (QMap<int, QPointF>::iterator it = _pointList.begin(); it != _pointList.end(); ++it)
+		{
+			(*it) += offset;
+		}
 		if (!rect.contains(newPos)) {
 			// Keep the item inside the scene rect.
 			newPos.setX(qMin(rect.right(), qMax(newPos.x(), rect.left())));
@@ -66,5 +72,44 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 		}
 	}
 	return QGraphicsItem::itemChange(change, value);
+}
+
+void VertexImage::addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool first)
+{
+	float angle = edge->Angle();
+	if (!first)
+	{
+		if (pos().y() < vertex->pos().y())
+		{
+			angle += 180;
+		}
+		else
+		{
+			angle -= 180;
+		}
+	}
+	QPointF point = findPointOnCircle(angle);
+	_pointList[edge->getEdge()->Id()] = point;
+}
+
+void VertexImage::setPointForEdge(int edgeId, float angle)
+{
+	_pointList[edgeId] = findPointOnCircle(angle);
+}
+
+QPointF VertexImage::findPointOnCircle(float angle)
+{
+	const float ANGLE_INTERVAL = 10.0f;
+	float foundAngle = 0.0f;
+	for (int i = 0; i < 360; i += ANGLE_INTERVAL)
+	{
+		if (i < angle - 2.0f)
+			continue;
+		foundAngle = i;
+		break;
+	}
+	return QPointF(
+		pos().x() + Context()->Size() * std::cos(-foundAngle * M_PI / 180.0f),
+		pos().y() + Context()->Size() * std::sin(-foundAngle * M_PI / 180.0f));
 }
 

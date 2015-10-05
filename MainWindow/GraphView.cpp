@@ -11,6 +11,23 @@ GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 	init();
 }
 
+GraphView::~GraphView()
+{
+	for (LabelMap::iterator it = _labelMap.begin(); it != _labelMap.end(); ++it)
+	{
+		delete (*it).second;
+	}
+	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
+	{
+		delete (*it).second;
+	}
+	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	{
+		delete (*it).second;
+	}
+	delete _graphScene;
+}
+
 void GraphView::init()
 {
 	_graphScene = new QGraphicsScene;
@@ -19,8 +36,7 @@ void GraphView::init()
 
 	_mouseClicked = false;
 	_toolFlag = Tool::None;
-	_rubberFlag = false;
-	_grabFlag = false;
+	_grabFlag = _addEdgeFlag = _rubberFlag = false;
 	_rubberBand = nullptr;
 	_edgeFlag = EdgeFlag::None;
 	setMouseTracking(true);
@@ -66,11 +82,7 @@ void GraphView::changeSelection()
 
 }
 
-GraphView::~GraphView()
-{
-}
-
-void GraphView::addVertexImage(VertexPtr const & vertex, QPoint const & position)
+void GraphView::addVertexImage(Vertex * const vertex, QPoint const & position)
 {
 	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
 	item->setVertex(vertex);
@@ -79,32 +91,39 @@ void GraphView::addVertexImage(VertexPtr const & vertex, QPoint const & position
 	item->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	item->setZValue(VERTICE_Z_VALUE);
 	scene()->addItem(item);
-	scene()->update();
 	_vertexMap[vertex->Id()] = item;
 }
 
 void GraphView::addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
 {
 	int size = Application::Config::Instance().DefaultVertexContext().Size();
-	EdgeImage * item;
+	EdgeImage * edgeImg;
 	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
 	VertexImage * vertexTo = _vertexMap[edge->VertexTo()->Id()];
 	if (std::abs(coord.first.x() - coord.second.x()) <= size &&
 		std::abs(coord.first.y() - coord.second.y()) <= size)
 	{
-		item = new LoopEdgeImage(vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
+		edgeImg = new LoopEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
 	}
 	else
 	{
-		item = new StraightEdgeImage(vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
+		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
 	}
-	item->setEdge(edge);
-	item->setFlag(QGraphicsItem::ItemIsMovable, false);
-	item->setFlag(QGraphicsItem::ItemIsSelectable, false);
-	item->setZValue(EDGE_Z_VALUE);
-	scene()->addItem(item);
-	scene()->update();
-	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = item;
+	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
+	edgeImg->setZValue(EDGE_Z_VALUE);
+	scene()->addItem(edgeImg);
+	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
+	
+	AddArrowHeadToEdge(edgeImg, vertexTo);
+}
+
+void GraphView::AddArrowHeadToEdge(EdgeImage * edgeImg, VertexImage * vertexTo)
+{
+	float angle = -edgeImg->Angle() - 90;
+	ArrowHeadImage * arrow = new ArrowHeadImage(50, 70, angle, true);
+	arrow->setPos(vertexTo->PointAt(edgeImg->getEdge()->Id()));
+	arrow->setZValue(ARROWHEAD_Z_VALUE);
+	arrow->setParentItem(edgeImg);
 }
 
 void GraphView::wheelEvent(QWheelEvent * event)
@@ -167,8 +186,8 @@ void GraphView::setTool(Tool tool)
 
 void GraphView::removeItem(QGraphicsItem * item)
 {
-	scene()->removeItem(item);
-	delete item;
+	if (item->parentItem() == NULL)
+		delete item;
 }
 
 void GraphView::removeEdge(EdgeImage * const edge)
@@ -179,7 +198,7 @@ void GraphView::removeEdge(EdgeImage * const edge)
 		if (edge == item)
 		{
 			removeItem(edge);
-			it = _edgeMap.erase(it);
+			_edgeMap.erase(it);
 			break;
 		}
 	}
@@ -201,6 +220,23 @@ void GraphView::removeVertex(VertexImage * const vertex)
 	removeItem(vertex);
 }
 
+void GraphView::correctNeighborEdges(Edge * const first, Edge * const second)
+{
+	EdgeImage * edgeImg;
+	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	{
+		edgeImg = it->second;
+		if (edgeImg->VertexFrom()->getVertex() == first->VertexFrom())
+		{
+			edgeImg->correctEdge(true, EDGE_OFFSET);
+		}
+		else if (edgeImg->VertexTo()->getVertex() == second->VertexTo())
+		{
+			edgeImg->correctEdge(true, EDGE_OFFSET);
+		}
+	}
+}
+
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
 	auto chosenItems = items(event->pos());
@@ -211,34 +247,9 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
-	QPointF point(mapToScene(event->pos()));
-	auto item = scene()->itemAt(point, transform());
-	VertexImage * img = dynamic_cast<VertexImage*>(item);
-	if (NULL != img)
+	if (_addEdgeFlag)
 	{
-		switch (_edgeFlag)
-		{
-		case EdgeFlag::Source:
-			_labelMap["source"]->setBoundingRect(QRect(
-				img->scenePos().x() - img->Context()->Size(),
-				img->scenePos().y() - img->Context()->Size() - 40,
-				img->Context()->Size() * 2,
-				40));
-			break;
-		case EdgeFlag::Target:
-			_labelMap["target"]->setBoundingRect(QRect(
-				img->scenePos().x() - img->Context()->Size(),
-				img->scenePos().y() - img->Context()->Size() - 40,
-				img->Context()->Size() * 2,
-				40));
-			break;
-		default:
-			std::for_each(_labelMap.begin(), _labelMap.end(), [](std::pair<std::string, TextItem*> label)
-			{
-				label.second->setBoundingRect(QRect());
-			});
-			break;
-		}
+		changeVerticesLabels(event->pos());
 	}
 	if (_rubberBand != nullptr && _rubberFlag)
 	{
@@ -256,6 +267,39 @@ void GraphView::mouseMoveEvent(QMouseEvent * event)
 	}
 	QGraphicsView::mouseMoveEvent(event);
 	viewport()->update();
+}
+
+void GraphView::changeVerticesLabels(QPoint const & position)
+{
+	QPointF point(mapToScene(position));
+	auto item = scene()->itemAt(point, transform());
+	VertexImage * img = dynamic_cast<VertexImage*>(item);
+	if (NULL == img)
+		return;
+	switch (_edgeFlag)
+	{
+	case EdgeFlag::Source:
+		_labelMap["source"]->setBoundingRect(QRect(
+			img->scenePos().x() - img->Context()->Size(),
+			img->scenePos().y() - img->Context()->Size() - 40,
+			img->Context()->Size() * 2,
+			40));
+		break;
+	case EdgeFlag::Target:
+		_labelMap["target"]->setBoundingRect(QRect(
+			img->scenePos().x() - img->Context()->Size(),
+			img->scenePos().y() - img->Context()->Size() - 40,
+			img->Context()->Size() * 2,
+			40));
+		break;
+	default:
+		std::for_each(_labelMap.begin(), _labelMap.end(), [](std::pair<std::string, TextItem*> label)
+		{
+			label.second->setBoundingRect(QRect());
+		});
+		setEdgeFlag(EdgeFlag::Source);
+		break;
+	}
 }
 
 void GraphView::mouseReleaseEvent(QMouseEvent * event)

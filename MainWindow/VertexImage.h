@@ -10,11 +10,15 @@
 #include "Labels.h"
 #include "Typedefs.h"
 
+class EdgeImage;
+
 class VertexImage : public QGraphicsItem
 {
-	VertexPtr _vertex;
+	Vertex * _vertex;
 	VertexContext const * _context;
 	QPointF offset;
+
+	QMap<int, QPointF> _pointList;
 
 public:
 	VertexImage(VertexContext const & context);
@@ -31,6 +35,18 @@ protected:
 public:
 	void Context(VertexContext const & val) { _context = &val; }
 	inline VertexContext const * Context() const { return _context; }
-	inline VertexPtr getVertex() const { return _vertex; }
-	void setVertex(VertexPtr const & val) { _vertex = val; }
+	inline Vertex * getVertex() const { return _vertex; }
+	void setVertex(Vertex * const val) { _vertex = val; }
+
+	void addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool first);
+
+	inline QPointF PointAt(int edgeId) const
+	{
+		return _pointList[edgeId];
+	}
+
+	void setPointForEdge(int edgeId, float angle);
+	
+private:
+	QPointF findPointOnCircle(float angle);
 };

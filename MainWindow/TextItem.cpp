@@ -20,6 +20,19 @@ void TextItem::init()
 void TextItem::replaceFont(QFont const & font)
 {
 	_font = font;
+	QFontMetrics metrics = QFontMetrics(_font);
+	int width = metrics.width(_text);
+	int height = metrics.height();
+	setBoundingRect(pos().x(), pos().y(), width, height);
+}
+
+void TextItem::setText(QString const & text)
+{
+	_text = text;
+	QFontMetrics metrics = QFontMetrics(_font);
+	int width = metrics.width(_text);
+	int height = metrics.height();
+	setBoundingRect(pos().x(), pos().y(), width, height);
 }
 
 void TextItem::setBoundingRect(qreal x, qreal y, qreal w, qreal h)
@@ -40,5 +53,6 @@ void TextItem::setAlignment(Qt::AlignmentFlag flag)
 void TextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
 {
 	painter->setFont(_font);
+	painter->fillRect(_rect, QBrush(QColor("white")));
 	painter->drawText(boundingRect(), _text, _option);
 }

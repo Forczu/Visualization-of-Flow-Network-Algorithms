@@ -1,7 +1,8 @@
 #include "LoopEdgeImage.h"
+#include "VertexImage.h"
 
-LoopEdgeImage::LoopEdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
-: EdgeImage(vertexFrom, vertexTo, context)
+LoopEdgeImage::LoopEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
+: EdgeImage(edge, vertexFrom, vertexTo, context)
 {
 	QPointF start = vertexFrom->pos();
 	QPointF end = vertexTo->pos();

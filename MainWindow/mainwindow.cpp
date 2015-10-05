@@ -47,6 +47,7 @@ void MainWindow::checkAddEdgeButton(bool b)
 		ui.graphView->setEdgeFlag(EdgeFlag::Source);
 	else
 		ui.graphView->setEdgeFlag(EdgeFlag::None);
+	ui.graphView->AddEdgeFlag(b);
 }
 
 void MainWindow::checkGrabButton(bool b)
@@ -122,7 +123,7 @@ void MainWindow::uncheckButtons()
 
 void MainWindow::addVertex(QPoint const & position)
 {
-	VertexPtr vertex = _graph.AddVertex();
+	Vertex * vertex = _graph.AddVertex();
 	ui.graphView->addVertexImage(vertex, position);
 	updateGraphStatus();
 }
@@ -133,34 +134,35 @@ void MainWindow::buildEdge(QGraphicsItem * const item)
 	static std::pair<QPointF, QPointF> coord;
 	static bool firstVertexChecked = true;
 	VertexImage * img = dynamic_cast<VertexImage*>(item);
-	if (img != NULL)
+	if (img == NULL)
+		return;
+	// jeœli pierwszy wierzcho³ek
+	if (firstVertexChecked)
 	{
-		// jeœli pierwszy wierzcho³ek
-		if (firstVertexChecked)
-		{
-			pair.first = img->getVertex()->Id();
-			coord.first = img->pos();
-			ui.graphView->setEdgeFlag(EdgeFlag::Target);
-			firstVertexChecked = false;
-		}
-		else
-		{
-			pair.second = img->getVertex()->Id();
-			coord.second = img->pos();
-			ui.graphView->setEdgeFlag(EdgeFlag::None);
-			firstVertexChecked = true;
-			addEdge(pair, coord);
-		}
+		pair.first = img->getVertex()->Id();
+		coord.first = img->pos();
+		ui.graphView->setEdgeFlag(EdgeFlag::Target);
+		firstVertexChecked = false;
+	}
+	else
+	{
+		pair.second = img->getVertex()->Id();
+		coord.second = img->pos();
+		ui.graphView->setEdgeFlag(EdgeFlag::None);
+		firstVertexChecked = true;
+		addEdge(pair, coord);
 	}
 }
 
 void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
 {
-	Vertex * first = _graph.VertexNo(pair.first).get();
-	Vertex * second = _graph.VertexNo(pair.second).get();
-	Edge * edge = new Edge(first, second);
-	_graph.AddEdge(edge);
+	Edge * edge = _graph.AddEdge(pair.first, pair.second);
+	if (edge == nullptr)
+		return;
 	ui.graphView->addEdgeImage(edge, pair, coord);
+	Edge * neighbor = _graph.GetNeighborEdge(edge);
+	if (neighbor != nullptr)
+		ui.graphView->correctNeighborEdges(edge, neighbor);
 	updateGraphStatus();
 }
 
@@ -189,14 +191,16 @@ void MainWindow::removeItem(QList<QGraphicsItem*> const & items)
 			VertexImage * vImg = dynamic_cast<VertexImage*>(item);
 			if (NULL != vImg)
 			{
-				_graph.RemoveVertex(vImg->getVertex().get());
+				Vertex * vertex = vImg->getVertex();
+				_graph.RemoveVertex(vertex);
 				ui.graphView->removeVertex(vImg);
 				continue;
 			}
 			EdgeImage * eImg = dynamic_cast<EdgeImage*>(item);
 			if (NULL != eImg)
 			{
-				_graph.RemoveEdge(eImg->getEdge());
+				Edge * edge = eImg->getEdge();
+				_graph.RemoveEdge(edge);
 				ui.graphView->removeEdge(eImg);
 				continue;
 			}

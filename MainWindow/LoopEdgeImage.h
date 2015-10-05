@@ -9,7 +9,7 @@ class LoopEdgeImage : public EdgeImage
 	std::vector<QPointF> _points;
 
 public:
-	LoopEdgeImage(VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
+	LoopEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
 	~LoopEdgeImage();
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
