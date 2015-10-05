@@ -58,6 +58,11 @@ private slots:
 	void clickGraphView(QPoint const & position, QList<QGraphicsItem*> const & item);
 	void clickVertex(int id);
 
+	void clickOrderDirected(bool val);
+	void clickOrderUndirected(bool val);
+	void clickWeighted(bool val);
+	void clickUnweighted(bool val);
+
 private:
 	void createActions();
 	void checkButton(Tool tool, bool b);

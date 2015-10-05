@@ -1,4 +1,5 @@
 #include "ArrowHeadImage.h"
+#include "EdgeImage.h"
 
 ArrowHeadImage::ArrowHeadImage(int width, int height, float theta, bool filled)
 : _width(width), _height(height), _filled(filled)

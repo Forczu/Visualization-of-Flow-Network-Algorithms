@@ -53,6 +53,11 @@ void TextItem::setAlignment(Qt::AlignmentFlag flag)
 void TextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
 {
 	painter->setFont(_font);
-	painter->fillRect(_rect, QBrush(QColor("white")));
+	painter->setRenderHint(QPainter::Antialiasing);
+	QPainterPath path;
+	path.addRoundedRect(_rect, 10, 10);
+	QPen pen(Qt::black, 10);
+	painter->setPen(pen);
+	painter->fillPath(path, Qt::white);
 	painter->drawText(boundingRect(), _text, _option);
 }

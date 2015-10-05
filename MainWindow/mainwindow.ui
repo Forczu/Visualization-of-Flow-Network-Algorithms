@@ -94,9 +94,26 @@
    </widget>
    <widget class="QMenu" name="menuUstawienia">
     <property name="title">
-     <string>Grafy</string>
+     <string>Graf</string>
     </property>
+    <widget class="QMenu" name="menuOrder">
+     <property name="title">
+      <string>Porządek</string>
+     </property>
+     <addaction name="actionDirectedGraph"/>
+     <addaction name="actionUndirectedGraph"/>
+    </widget>
+    <widget class="QMenu" name="menuWeighted">
+     <property name="title">
+      <string>Wagi</string>
+     </property>
+     <addaction name="actionWeightedGraph"/>
+     <addaction name="actionUnweightedGraph"/>
+    </widget>
     <addaction name="actionShape"/>
+    <addaction name="separator"/>
+    <addaction name="menuOrder"/>
+    <addaction name="menuWeighted"/>
    </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuUstawienia"/>
@@ -234,6 +251,50 @@
    </property>
    <property name="toolTip">
     <string>Usuwa wybrany element z pola</string>
+   </property>
+  </action>
+  <action name="actionDirectedGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Graf skierowany</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actionUndirectedGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Graf nieskierowany</string>
+   </property>
+  </action>
+  <action name="actionWeightedGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Graf ważony</string>
+   </property>
+  </action>
+  <action name="actionUnweightedGraph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Graf nieważony</string>
    </property>
   </action>
  </widget>

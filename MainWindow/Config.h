@@ -22,6 +22,9 @@ namespace Application
 		EdgeContext _selectedEdgeContext;
 		QString _graphStatusString;
 
+		bool _weighted;
+		bool _directed;
+
 	public:
 		static Config & Instance();
 	private:
@@ -53,6 +56,10 @@ namespace Application
 		void DefaultEdgeContext(EdgeContext const &  val) { _defaultEdgeContext = val; }
 		inline EdgeContext const & SelectedEdgeContext() const { return _selectedEdgeContext; }
 		void SelectedEdgeContext(EdgeContext const & val) { _selectedEdgeContext = val; }
+		inline bool IsGraphWeighted() const { return _weighted; }
+		void SetGraphWeighted(bool val) { _weighted = val; }
+		inline bool IsGraphDirected() const { return _directed; }
+		void SetGraphDirected(bool val) { _directed = val; }
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);

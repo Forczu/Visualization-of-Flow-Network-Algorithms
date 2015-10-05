@@ -47,11 +47,11 @@ public:
 	void SetTarget(short vertex);
 
 	Edge * GetNeighborEdge(Edge * const edge);
+	EdgeVector GetNeighbours();
 
 private:
 	int SmallestMissingVertexIndex();
 	int SmallestMissingEdgeIndex();
 	bool EdgeExists(int from, int to);
-
 };
 

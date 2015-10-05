@@ -8,6 +8,7 @@
 #include <vector>
 #include "TextItem.h"
 #include "Typedefs.h"
+#include "ArrowHeadImage.h"
 
 class VertexImage;
 
@@ -19,6 +20,7 @@ protected:
 
 	VertexImage * _vertexFrom;
 	VertexImage * _vertexTo;
+	ArrowHeadImage * _arrow;
 
 	QLineF _actualLine;
 	TextItem * _text;
@@ -40,6 +42,8 @@ public:
 
 	float Angle() const;
 	void correctEdge(bool type, float theta);
+	void addArrowHead();
+	void removeArrowHead();
 
 protected:
 	void calculateNewLine();

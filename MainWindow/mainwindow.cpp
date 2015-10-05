@@ -96,6 +96,11 @@ void MainWindow::createActions()
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
 
 	connect(ui.graphView, SIGNAL(clicked(QPoint, QList<QGraphicsItem*>)), this, SLOT(clickGraphView(QPoint, QList<QGraphicsItem*>)));
+
+	connect(ui.actionDirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderDirected(bool)));
+	connect(ui.actionUndirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderUndirected(bool)));
+	connect(ui.actionWeightedGraph, SIGNAL(triggered(bool)), this, SLOT(clickWeighted(bool)));
+	connect(ui.actionUnweightedGraph, SIGNAL(triggered(bool)), this, SLOT(clickUnweighted(bool)));
 }
 
 void MainWindow::checkButton(Tool tool, bool b)
@@ -251,4 +256,88 @@ void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> c
 void MainWindow::clickVertex(int id)
 {
 
+}
+
+void MainWindow::clickOrderDirected(bool val)
+{
+	bool checked = true;
+	if (val)
+	{
+		ui.actionDirectedGraph->setChecked(true);
+		ui.actionUndirectedGraph->setChecked(false);
+		ui.graphView->makeDirected();
+	}
+	else if (!val && !ui.actionDirectedGraph->isChecked())
+	{
+		ui.actionDirectedGraph->setChecked(true);
+	}
+	else
+	{
+		checked = false;
+	}
+	Application::Config::Instance().SetGraphDirected(checked);
+}
+
+void MainWindow::clickOrderUndirected(bool val)
+{
+	bool checked = false;
+	if (val)
+	{
+		ui.actionUndirectedGraph->setChecked(true);
+		ui.actionDirectedGraph->setChecked(false);
+		ui.graphView->makeUndirected();
+		EdgeVector vectorToRemove = _graph.GetNeighbours();
+		ui.graphView->removeEdges(vectorToRemove);
+		std::for_each(vectorToRemove.begin(), vectorToRemove.end(), [&](Edge * edge)
+		{
+			_graph.RemoveEdge(edge);
+		});
+	}
+	else if (!val && !ui.actionUndirectedGraph->isChecked())
+	{
+		ui.actionUndirectedGraph->setChecked(true);
+	}
+	else
+	{
+		checked = true;
+	}
+	Application::Config::Instance().SetGraphDirected(checked);
+}
+
+void MainWindow::clickWeighted(bool val)
+{
+	bool checked = true;
+	if (val)
+	{
+		ui.actionWeightedGraph->setChecked(true);
+		ui.actionUnweightedGraph->setChecked(false);
+	}
+	else if (!val && !ui.actionWeightedGraph->isChecked())
+	{
+		ui.actionWeightedGraph->setChecked(true);
+	}
+	else
+	{
+		checked = false;
+	}
+	Application::Config::Instance().SetGraphWeighted(checked);
+}
+
+void MainWindow::clickUnweighted(bool val)
+{
+	bool checked = false;
+	if (val)
+	{
+		ui.actionUnweightedGraph->setChecked(true);
+		ui.actionWeightedGraph->setChecked(false);
+	}
+	else if (!val && !ui.actionUnweightedGraph->isChecked())
+	{
+		ui.actionUnweightedGraph->setChecked(true);
+	}
+	else
+	{
+		checked = true;
+	}
+	Application::Config::Instance().SetGraphWeighted(checked);
 }

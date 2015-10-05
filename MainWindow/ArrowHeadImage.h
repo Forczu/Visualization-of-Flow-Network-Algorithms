@@ -2,8 +2,8 @@
 
 #include <QGraphicsItem>
 #include <math.h>
-#include "EdgeImage.h"
-#include "Config.h"
+
+class EdgeImage;
 
 class ArrowHeadImage : public QGraphicsItem
 {

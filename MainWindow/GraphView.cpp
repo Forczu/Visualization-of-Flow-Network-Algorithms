@@ -82,6 +82,22 @@ void GraphView::changeSelection()
 
 }
 
+void GraphView::removeEdges(EdgeVector const & vector)
+{
+	std::for_each(vector.begin(), vector.end(), [&](Edge * edge)
+	{
+		for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+		{
+			if (edge == (*it).second->getEdge())
+			{
+				delete (*it).second;
+				_edgeMap.erase(it);
+				break;
+			}
+		}
+	});
+}
+
 void GraphView::addVertexImage(Vertex * const vertex, QPoint const & position)
 {
 	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
@@ -113,17 +129,8 @@ void GraphView::addEdgeImage(Edge * const edge, std::pair<int, int> const & pair
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	scene()->addItem(edgeImg);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
-	
-	AddArrowHeadToEdge(edgeImg, vertexTo);
-}
-
-void GraphView::AddArrowHeadToEdge(EdgeImage * edgeImg, VertexImage * vertexTo)
-{
-	float angle = -edgeImg->Angle() - 90;
-	ArrowHeadImage * arrow = new ArrowHeadImage(50, 70, angle, true);
-	arrow->setPos(vertexTo->PointAt(edgeImg->getEdge()->Id()));
-	arrow->setZValue(ARROWHEAD_Z_VALUE);
-	arrow->setParentItem(edgeImg);
+	if (Application::Config::Instance().IsGraphDirected())
+		edgeImg->addArrowHead();
 }
 
 void GraphView::wheelEvent(QWheelEvent * event)
@@ -234,6 +241,22 @@ void GraphView::correctNeighborEdges(Edge * const first, Edge * const second)
 		{
 			edgeImg->correctEdge(true, EDGE_OFFSET);
 		}
+	}
+}
+
+void GraphView::makeDirected()
+{
+	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	{
+		(*it).second->addArrowHead();
+	}
+}
+
+void GraphView::makeUndirected()
+{
+	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	{
+		(*it).second->removeArrowHead();
 	}
 }
 

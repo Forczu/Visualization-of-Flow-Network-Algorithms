@@ -3,7 +3,7 @@
 #include "ArrowHeadImage.h"
 
 EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
-: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(&context)
+: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(&context), _arrow(nullptr)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
@@ -32,6 +32,23 @@ void EdgeImage::correctEdge(bool type, float theta)
 {
 	_offset.first = type;
 	_offset.second = theta;
+}
+
+void EdgeImage::removeArrowHead()
+{
+	delete _arrow;
+	_arrow = nullptr;
+}
+
+void EdgeImage::addArrowHead()
+{
+	if (_arrow != nullptr)
+		return;
+	float angle = -Angle() - 90;
+	_arrow = new ArrowHeadImage(50, 70, angle, true);
+	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()));
+	_arrow->setZValue(3);
+	scene()->addItem(_arrow);
 }
 
 void EdgeImage::calculateNewLine()

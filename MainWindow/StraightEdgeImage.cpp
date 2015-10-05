@@ -18,27 +18,19 @@ StraightEdgeImage::~StraightEdgeImage()
 void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	calculateNewLine();
-	auto items = childItems();
+	bool isArrow = Application::Config::Instance().IsGraphDirected();
 	QPointF arrowCenter;
-	if (items.size() != 0)
+	if (isArrow && _arrow != nullptr)
 	{
-		std::for_each(items.begin(), items.end(), [&](QGraphicsItem * item)
-		{
-			ArrowHeadImage * arrow = dynamic_cast<ArrowHeadImage *>(item);
-			if (NULL != arrow)
-			{
-				arrow->setRotation(-_line.angle() - 90);
-				arrow->setPos(_vertexTo->PointAt(_edge->Id()));
-				arrow->updateCenterPoint();
-				arrowCenter = arrow->Center();
-			}
-		});
+		_arrow->setRotation(-_line.angle() - 90);
+		_arrow->setPos(_vertexTo->PointAt(_edge->Id()));
+		_arrow->updateCenterPoint();
+		arrowCenter = _arrow->Center();
 	}
 	calculateTextItemPos();
-
 	painter->setRenderHint(QPainter::Antialiasing, true);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), arrowCenter);
+	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
 	painter->drawLine(_line);
 }
 

@@ -241,3 +241,20 @@ bool Graph::EdgeExists(int from, int to)
 	return it != _graph->second.end();
 }
 
+EdgeVector Graph::GetNeighbours()
+{
+	EdgeVector result;
+	for (EdgeVector::iterator it = _graph->second.begin(); it != _graph->second.end(); ++it)
+	{
+		for (EdgeVector::iterator n_it = it; n_it != _graph->second.end(); ++n_it)
+		{
+			if ((*it)->VertexFrom() == (*n_it)->VertexTo() && (*it)->VertexTo() == (*n_it)->VertexFrom())
+			{
+				result.push_back(*it);
+				break;
+			}
+		}
+	}
+	return result;
+}
+

@@ -70,6 +70,9 @@ public:
 	void AddEdgeFlag(bool val) { _addEdgeFlag = val; }
 
 	void correctNeighborEdges(Edge * const first, Edge * const second);
+	void makeDirected();
+	void makeUndirected();
+	void removeEdges(EdgeVector const & vector);
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -92,6 +95,5 @@ signals:
 
 private:
 	void changeSelection();
-	void AddArrowHeadToEdge(EdgeImage * edgeImg, VertexImage * vertexTo);
 };
 
