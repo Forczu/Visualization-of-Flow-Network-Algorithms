@@ -6,6 +6,8 @@
 #include <QWheelEvent>
 #include <QRubberBand>
 
+#include "Orders.h"
+#include "Weights.h"
 #include "Tools.h"
 #include "Typedefs.h"
 
@@ -16,6 +18,7 @@ class LoopEdgeImage;
 class StraightEdgeImage;
 class TextItem;
 class ArrowHeadImage;
+class GraphImage;
 
 enum class EdgeFlag
 {
@@ -26,23 +29,13 @@ class GraphView : public QGraphicsView
 {
 	Q_OBJECT
 
-	static const int ARROWHEAD_Z_VALUE = 3;
-	static const int VERTICE_Z_VALUE = 2;
-	static const int EDGE_Z_VALUE = 1;
-	static const int EDGE_OFFSET = 30;
-
-	typedef std::map<int, VertexImage*>					VertexImageMap;
-	typedef std::map<std::pair<int, int>, EdgeImage*>	EdgeImageMap;
-	typedef std::map<std::string, TextItem*>			LabelMap;
-
-	VertexImageMap	_vertexMap;
-	EdgeImageMap	_edgeMap;
 	LabelMap _labelMap;
 
 	QGraphicsScene * _graphScene;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
 
+	GraphImage * _graph;
 private:
 	bool _mouseClicked;
 	bool _rubberFlag;
@@ -53,28 +46,27 @@ private:
 	QPoint _offset;
 
 public:
-	GraphView();
+	GraphView(Order order, Weight weighted);
 	GraphView(QWidget * widget);
 	~GraphView();
 
-	void addVertexImage(Vertex * const vertex, QPoint const & position);
-	void addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
+	void buildEdge(QGraphicsItem * const item);
 
 	void grabItem(QPoint const & pos);
 	void pointItem(QPoint const & position, QList<QGraphicsItem*> const & item);
 	void startRubberBand(QPoint const & position);
 	void setTool(Tool tool);
-	void removeEdge(EdgeImage * const edge);
-	void removeVertex(VertexImage * const vertex);
 
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 	void AddEdgeFlag(bool val) { _addEdgeFlag = val; }
 
-	void correctNeighborEdges(Edge * const first, Edge * const second);
 	void makeDirected();
 	void makeUndirected();
 	void removeEdges(EdgeVector const & vector);
+
+	inline GraphImage * getGraphImage() const { return _graph; }
+	void setGraphImage(GraphImage * val) { _graph = val; }
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -83,17 +75,18 @@ protected:
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 
 	void changeVerticesLabels(QPoint const & position);
+	void clickElement(QPoint const & position, QList<QGraphicsItem*> const & items);
 
 	QRect mapRubberBandToScene();
 
 private:
 	void init();
-	void removeItem(QGraphicsItem * item);
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:
 	void clicked(QPoint const & position, QList<QGraphicsItem*>);
 	void moved(QPoint);
+	void graphChanged();
 
 private:
 	void changeSelection();

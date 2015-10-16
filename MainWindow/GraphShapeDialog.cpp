@@ -3,6 +3,7 @@
 #include "VertexImage.h"
 #include "StraightEdgeImage.h"
 #include "ArrowHeadImage.h"
+#include "Edge.h"
 
 GraphShapeDialog::GraphShapeDialog(QWidget *parent) : QDialog(parent)
 {

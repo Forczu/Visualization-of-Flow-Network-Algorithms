@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "VertexImage.h"
-
 #include "GraphShapeDialog.h"
 #include "Config.h"
 #include "Vertex.h"
 #include "StraightEdgeImage.h"
 #include "LoopEdgeImage.h"
+#include "GraphView.h"
+#include "GraphImage.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool::None)
+MainWindow::MainWindow(QWidget *parent)
+: QMainWindow(parent)
 {
 	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 	ui.setupUi(this);
@@ -21,10 +23,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _currentTool(Tool
 	_tools[Tool::Pointer]		= ui.actionPointer;
 	_tools[Tool::Remove]		= ui.actionRemove;
 
-	ui.graphView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-	ui.graphView->setAlignment(Qt::AlignCenter);
-
 	ui.actionPointer->setChecked(true);
+	_graphTabs.setParent(this);
+	_graphTabs.show();
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +36,17 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
 }
 
+void MainWindow::newFile()
+{
+	int index = _graphTabs.count() + 1;
+	CreateNewGraphDialog dialog(index);
+	dialog.show();
+	dialog.exec();
+	if (!dialog.Confirmed())
+		return;
+	_graphTabs.addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
+}
+
 void MainWindow::close()
 {
 	QApplication::quit();
@@ -43,24 +55,27 @@ void MainWindow::close()
 void MainWindow::checkAddVertexButton(bool b)
 {
 	checkButton(Tool::Vertex, b);
-	ui.graphView->setCursor(Qt::ArrowCursor);
+	_graphTabs.currentWidget()->setCursor(Qt::ArrowCursor);
 }
 
 void MainWindow::checkAddEdgeButton(bool b)
 {
 	checkButton(Tool::Edge, b);
-	ui.graphView->setCursor(Qt::ArrowCursor);
+	GraphView * currentView = _graphTabs.currentGraphView();
+	if (currentView == nullptr)
+		return;
+	currentView->setCursor(Qt::ArrowCursor);
 	if (b)
-		ui.graphView->setEdgeFlag(EdgeFlag::Source);
+		currentView->setEdgeFlag(EdgeFlag::Source);
 	else
-		ui.graphView->setEdgeFlag(EdgeFlag::None);
-	ui.graphView->AddEdgeFlag(b);
+		currentView->setEdgeFlag(EdgeFlag::None);
+	currentView->AddEdgeFlag(b);
 }
 
 void MainWindow::checkGrabButton(bool b)
 {
 	checkButton(Tool::Grab, b);
-	ui.graphView->setCursor(Qt::OpenHandCursor);
+	_graphTabs.currentWidget()->setCursor(Qt::OpenHandCursor);
 }
 
 void MainWindow::checkSelectionButton(bool b)
@@ -71,13 +86,13 @@ void MainWindow::checkSelectionButton(bool b)
 void MainWindow::checkPointerButton(bool b)
 {
 	checkButton(Tool::Pointer, b);
-	ui.graphView->setCursor(Qt::ArrowCursor);
+	_graphTabs.currentWidget()->setCursor(Qt::ArrowCursor);
 }
 
 void MainWindow::checkRemoveButton(bool b)
 {
 	checkButton(Tool::Remove, b);
-	ui.graphView->setCursor(Qt::CrossCursor);
+	_graphTabs.currentWidget()->setCursor(Qt::CrossCursor);
 }
 
 void MainWindow::openGraphShapeDialog()
@@ -91,9 +106,14 @@ void MainWindow::createActions()
 {
 	ui.actionClose->setShortcuts(QKeySequence::Close);
 	ui.actionClose->setStatusTip(tr("Zamyka program"));
+
+	connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newFile()));
 	connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
+
+	connect(&_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(updateGraphStatus()));
+	connect(&_graphTabs, SIGNAL(graphChanged()), this, SLOT(updateGraphStatus()));
 
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
@@ -101,9 +121,6 @@ void MainWindow::createActions()
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
-
-	connect(ui.graphView, SIGNAL(clicked(QPoint, QList<QGraphicsItem*>)), this, SLOT(clickGraphView(QPoint, QList<QGraphicsItem*>)));
-
 	connect(ui.actionDirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderDirected(bool)));
 	connect(ui.actionUndirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderUndirected(bool)));
 	connect(ui.actionWeightedGraph, SIGNAL(triggered(bool)), this, SLOT(clickWeighted(bool)));
@@ -114,73 +131,29 @@ void MainWindow::checkButton(Tool tool, bool b)
 {
 	if (b)
 	{
-		_currentTool = tool;
-		ui.graphView->setTool(_currentTool);
+		Application::Config::Instance().CurrentTool(tool);
+		_graphTabs.currentGraphView()->setTool(tool);
 		uncheckButtons();
 	}
 	else
-		_currentTool = Tool::None;
+		Application::Config::Instance().CurrentTool(Tool::None);
 }
 
 void MainWindow::uncheckButtons()
 {
+	Tool currentTool = Application::Config::Instance().CurrentTool();
 	for (ToolMap::iterator it = _tools.begin(); it != _tools.end(); ++it)
 	{
-		if (it->first != _currentTool)
+		if (it->first != currentTool)
 		{
 			it->second->setChecked(false);
 		}
 	}
 }
 
-void MainWindow::addVertex(QPoint const & position)
-{
-	Vertex * vertex = _graph.AddVertex();
-	ui.graphView->addVertexImage(vertex, position);
-	updateGraphStatus();
-}
-
-void MainWindow::buildEdge(QGraphicsItem * const item)
-{
-	static std::pair<int, int> pair;
-	static std::pair<QPointF, QPointF> coord;
-	static bool firstVertexChecked = true;
-	VertexImage * img = dynamic_cast<VertexImage*>(item);
-	if (img == NULL)
-		return;
-	// jeœli pierwszy wierzcho³ek
-	if (firstVertexChecked)
-	{
-		pair.first = img->getVertex()->Id();
-		coord.first = img->pos();
-		ui.graphView->setEdgeFlag(EdgeFlag::Target);
-		firstVertexChecked = false;
-	}
-	else
-	{
-		pair.second = img->getVertex()->Id();
-		coord.second = img->pos();
-		ui.graphView->setEdgeFlag(EdgeFlag::None);
-		firstVertexChecked = true;
-		addEdge(pair, coord);
-	}
-}
-
-void MainWindow::addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
-{
-	Edge * edge = _graph.AddEdge(pair.first, pair.second);
-	if (edge == nullptr)
-		return;
-	ui.graphView->addEdgeImage(edge, pair, coord);
-	Edge * neighbor = _graph.GetNeighborEdge(edge);
-	if (neighbor != nullptr)
-		ui.graphView->correctNeighborEdges(edge, neighbor);
-	updateGraphStatus();
-}
-
 void MainWindow::grabItem(QPoint const & pos)
 {
-	ui.graphView->grabItem(pos);
+	_graphTabs.currentGraphView()->grabItem(pos);
 }
 
 void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
@@ -189,75 +162,13 @@ void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 
 void MainWindow::updateGraphStatus()
 {
+	GraphView * graphView = _graphTabs.currentGraphView();
+	if (graphView == nullptr)
+		return;
+	Graph * graph = graphView->getGraphImage()->getGraph();
 	QString newStatus = Application::Config::Instance().GraphStatusString()
-		.arg(_graph.VertexNumber()).arg(_graph.EdgeNumber());
+		.arg(graph->VertexNumber()).arg(graph->EdgeNumber());
 	ui.graphTextStatus->setText(newStatus);
-}
-
-void MainWindow::removeItem(QList<QGraphicsItem*> const & items)
-{
-	for each (QGraphicsItem* item in items)
-	{
-		try
-		{
-			VertexImage * vImg = dynamic_cast<VertexImage*>(item);
-			if (NULL != vImg)
-			{
-				Vertex * vertex = vImg->getVertex();
-				_graph.RemoveVertex(vertex);
-				ui.graphView->removeVertex(vImg);
-				continue;
-			}
-			EdgeImage * eImg = dynamic_cast<EdgeImage*>(item);
-			if (NULL != eImg)
-			{
-				Edge * edge = eImg->getEdge();
-				_graph.RemoveEdge(edge);
-				ui.graphView->removeEdge(eImg);
-				continue;
-			}
-		}
-		catch (std::exception & e)
-		{
-		}
-	}
-}
-
-void MainWindow::clickGraphView(QPoint const & position, QList<QGraphicsItem*> const & items)
-{
-	switch (_currentTool)
-	{
-	case Tool::Vertex:
-		if (items.size() == 0)
-			addVertex(position);
-		return;
-	case Tool::Edge:
-		if (items.size() == 0)
-			return;
-		buildEdge(items.first());
-		return;
-	case Tool::Pointer:
-		ui.graphView->pointItem(position, items);
-		return;
-	case Tool::Grab:
-		grabItem(position);
-		return;
-	case Tool::RubberBand:
-		ui.graphView->startRubberBand(position);
-		break;
-	case Tool::Remove:
-		if (items.size() != 0)
-		{
-			if (!items.first()->isSelected())
-				removeItem(items);
-			else
-				removeItem(ui.graphView->scene()->selectedItems());
-			updateGraphStatus();
-		}
-		return;
-	default: case Tool::None:
-		break;
-	}
 }
 
 void MainWindow::clickVertex(int id)
@@ -272,7 +183,7 @@ void MainWindow::clickOrderDirected(bool val)
 	{
 		ui.actionDirectedGraph->setChecked(true);
 		ui.actionUndirectedGraph->setChecked(false);
-		ui.graphView->makeDirected();
+		_graphTabs.currentGraphView()->makeDirected();
 	}
 	else if (!val && !ui.actionDirectedGraph->isChecked())
 	{
@@ -290,15 +201,15 @@ void MainWindow::clickOrderUndirected(bool val)
 	bool checked = false;
 	if (val)
 	{
-		ui.actionUndirectedGraph->setChecked(true);
-		ui.actionDirectedGraph->setChecked(false);
-		ui.graphView->makeUndirected();
-		EdgeVector vectorToRemove = _graph.GetNeighbours();
-		ui.graphView->removeEdges(vectorToRemove);
-		std::for_each(vectorToRemove.begin(), vectorToRemove.end(), [&](Edge * edge)
-		{
-			_graph.RemoveEdge(edge);
-		});
+		//ui.actionUndirectedGraph->setChecked(true);
+		//ui.actionDirectedGraph->setChecked(false);
+		//_graphTabs->currentGraphView()->makeUndirected();
+		////EdgeVector vectorToRemove = _graph.GetNeighbours();
+		////_graphTabs->currentGraphView()->removeEdges(vectorToRemove);
+		//std::for_each(vectorToRemove.begin(), vectorToRemove.end(), [&](Edge * edge)
+		//{
+		//	//_graph.RemoveEdge(edge);
+		//});
 	}
 	else if (!val && !ui.actionUndirectedGraph->isChecked())
 	{

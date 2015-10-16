@@ -14,52 +14,6 @@
    <string>Praca inżynierska</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="GraphView" name="graphView">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>60</y>
-      <width>751</width>
-      <height>551</height>
-     </rect>
-    </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::WinPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="midLineWidth">
-     <number>0</number>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
-    </property>
-    <property name="backgroundBrush">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
-    </property>
-    <property name="dragMode">
-     <enum>QGraphicsView::NoDrag</enum>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="graphTextStatus">
     <property name="geometry">
      <rect>
@@ -84,6 +38,8 @@
     <property name="title">
      <string>Plik</string>
     </property>
+    <addaction name="actionNew"/>
+    <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
@@ -297,15 +253,19 @@
     <string>Graf nieważony</string>
    </property>
   </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>Nowy...</string>
+   </property>
+   <property name="toolTip">
+    <string>Utworzenie nowego grafu</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>GraphView</class>
-   <extends>QGraphicsView</extends>
-   <header>GraphView.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="mainwindow.qrc"/>
  </resources>

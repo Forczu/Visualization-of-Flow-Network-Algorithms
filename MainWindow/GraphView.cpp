@@ -6,8 +6,9 @@
 #include "StraightEdgeImage.h"
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
+#include "GraphImage.h"
 
-GraphView::GraphView()
+GraphView::GraphView(Order order, Weight weighted)
 {
 	init();
 }
@@ -24,19 +25,16 @@ GraphView::~GraphView()
 	{
 		delete (*it).second;
 	}
-	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
-	{
-		delete (*it).second;
-	}
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		delete (*it).second;
-	}
 	delete _graphScene;
+	delete _graph;
 }
 
 void GraphView::init()
 {
+	setFrameShape(QFrame::WinPanel);
+	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+	setAlignment(Qt::AlignCenter);
+
 	_graphScene = new QGraphicsScene;
 	_graphScene->setSceneRect(QRect(-2000, -2000, 4000, 4000));
 	setScene(_graphScene);
@@ -53,6 +51,8 @@ void GraphView::init()
 	_labelMap["target"] = new TextItem("Target");
 	scene()->addItem(_labelMap["source"]);
 	scene()->addItem(_labelMap["target"]);
+
+	_graph = new GraphImage(scene());
 
 	QFont font;
 	font.setBold(true);
@@ -86,58 +86,6 @@ void GraphView::unselectAll(QGraphicsItem * const except)
 
 void GraphView::changeSelection()
 {
-
-}
-
-void GraphView::removeEdges(EdgeVector const & vector)
-{
-	std::for_each(vector.begin(), vector.end(), [&](Edge * edge)
-	{
-		for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-		{
-			if (edge == (*it).second->getEdge())
-			{
-				delete (*it).second;
-				_edgeMap.erase(it);
-				break;
-			}
-		}
-	});
-}
-
-void GraphView::addVertexImage(Vertex * const vertex, QPoint const & position)
-{
-	VertexImage * item = new VertexImage(Application::Config::Instance().DefaultVertexContext());
-	item->setVertex(vertex);
-	item->setPos(mapToScene(position));
-	item->setFlag(QGraphicsItem::ItemIsMovable, true);
-	item->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-	item->setZValue(VERTICE_Z_VALUE);
-	scene()->addItem(item);
-	_vertexMap[vertex->Id()] = item;
-}
-
-void GraphView::addEdgeImage(Edge * const edge, std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord)
-{
-	int size = Application::Config::Instance().DefaultVertexContext().Size();
-	EdgeImage * edgeImg;
-	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
-	VertexImage * vertexTo = _vertexMap[edge->VertexTo()->Id()];
-	if (std::abs(coord.first.x() - coord.second.x()) <= size &&
-		std::abs(coord.first.y() - coord.second.y()) <= size)
-	{
-		edgeImg = new LoopEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
-	}
-	else
-	{
-		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
-	}
-	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
-	edgeImg->setZValue(EDGE_Z_VALUE);
-	scene()->addItem(edgeImg);
-	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
-	if (Application::Config::Instance().IsGraphDirected())
-		edgeImg->addArrowHead();
 }
 
 void GraphView::wheelEvent(QWheelEvent * event)
@@ -198,79 +146,20 @@ void GraphView::setTool(Tool tool)
 	_toolFlag = tool;
 }
 
-void GraphView::removeItem(QGraphicsItem * item)
-{
-	if (item->parentItem() == NULL)
-		delete item;
-}
-
-void GraphView::removeEdge(EdgeImage * const edge)
-{
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		EdgeImage * item = (*it).second;
-		if (edge == item)
-		{
-			removeItem(edge);
-			_edgeMap.erase(it);
-			break;
-		}
-	}
-}
-
-void GraphView::removeVertex(VertexImage * const vertex)
-{
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); )
-	{
-		EdgeImage * edge = (*it).second;
-		if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
-		{
-			removeItem(edge);
-			it = _edgeMap.erase(it);
-		}
-		else
-			++it;
-	}
-	removeItem(vertex);
-}
-
-void GraphView::correctNeighborEdges(Edge * const first, Edge * const second)
-{
-	EdgeImage * edgeImg;
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		edgeImg = it->second;
-		if (edgeImg->VertexFrom()->getVertex() == first->VertexFrom())
-		{
-			edgeImg->correctEdge(true, EDGE_OFFSET);
-		}
-		else if (edgeImg->VertexTo()->getVertex() == second->VertexTo())
-		{
-			edgeImg->correctEdge(true, EDGE_OFFSET);
-		}
-	}
-}
-
 void GraphView::makeDirected()
 {
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		(*it).second->addArrowHead();
-	}
+	_graph->makeDirected();
 }
 
 void GraphView::makeUndirected()
 {
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		(*it).second->deleteArrowHead();
-	}
+	_graph->makeUndirected();
 }
 
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
 	auto chosenItems = items(event->pos());
-	emit clicked(event->pos(), chosenItems);
+	clickElement(event->pos(), chosenItems);
 	QGraphicsView::mousePressEvent(event);
 	viewport()->update();
 }
@@ -355,4 +244,71 @@ QRect GraphView::mapRubberBandToScene()
 	QPointF p2 = mapToScene(QPoint(rubberRect.right(), rubberRect.bottom()));
 	rubberRect.setCoords(p1.x(), p1.y(), p2.x(), p2.y());
 	return rubberRect;
+}
+
+void GraphView::buildEdge(QGraphicsItem * const item)
+{
+	static std::pair<int, int> pair;
+	static std::pair<QPointF, QPointF> coord;
+	static bool firstVertexChecked = true;
+	VertexImage * img = dynamic_cast<VertexImage*>(item);
+	if (img == NULL)
+		return;
+	// jeœli to pierwszy wierzcho³ek
+	if (firstVertexChecked)
+	{
+		pair.first = img->getVertex()->Id();
+		coord.first = img->pos();
+		setEdgeFlag(EdgeFlag::Target);
+		firstVertexChecked = false;
+	}
+	else
+	{
+		pair.second = img->getVertex()->Id();
+		coord.second = img->pos();
+		setEdgeFlag(EdgeFlag::None);
+		firstVertexChecked = true;
+		_graph->addEdge(pair.first, pair.second, coord.first, coord.second);
+	}
+}
+
+void GraphView::clickElement(QPoint const & position, QList<QGraphicsItem*> const & items)
+{
+	switch (Application::Config::Instance().CurrentTool())
+	{
+	case Tool::Vertex:
+		if (items.size() == 0)
+		{
+			_graph->addVertex(mapToScene(position));
+			emit graphChanged();
+		}
+		return;
+	case Tool::Edge:
+		if (items.size() == 0)
+			return;
+		buildEdge(items.first());
+		emit graphChanged();
+		return;
+	case Tool::Pointer:
+		pointItem(position, items);
+		return;
+	case Tool::Grab:
+		grabItem(position);
+		return;
+	case Tool::RubberBand:
+		startRubberBand(position);
+		break;
+	case Tool::Remove:
+		if (items.size() != 0)
+		{
+			if (!items.first()->isSelected())
+				_graph->removeItem(items);
+			else
+				_graph->removeItem(scene()->selectedItems());
+			emit graphChanged();
+		}
+		return;
+	default: case Tool::None:
+		break;
+	}
 }

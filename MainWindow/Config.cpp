@@ -16,7 +16,7 @@ namespace Application
 		return *_pInstance;
 	}
 
-	Config::Config()
+	Config::Config() : _currentTool(Tool::None)
 	{
 		try
 		{

@@ -5,6 +5,7 @@
 #include <QString>
 
 #include "VertexContext.h"
+#include "Tools.h"
 #include "EdgeContext.h"
 
 namespace Application
@@ -25,6 +26,7 @@ namespace Application
 		bool _weighted;
 		bool _directed;
 
+		Tool _currentTool;
 	public:
 		static Config & Instance();
 	private:
@@ -60,6 +62,8 @@ namespace Application
 		void SetGraphWeighted(bool val) { _weighted = val; }
 		inline bool IsGraphDirected() const { return _directed; }
 		void SetGraphDirected(bool val) { _directed = val; }
+		Tool CurrentTool() const { return _currentTool; }
+		void CurrentTool(Tool val) { _currentTool = val; }
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);

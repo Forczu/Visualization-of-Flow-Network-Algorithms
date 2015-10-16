@@ -1,5 +1,6 @@
 #include "VertexImage.h"
 #include "EdgeImage.h"
+#include "Edge.h"
 
 VertexImage::VertexImage(VertexContext const & context)
 : _context(&context)

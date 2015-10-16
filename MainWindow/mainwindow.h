@@ -8,12 +8,14 @@
 #include <vector>
 #include "ui_mainwindow.h"
 #include "Graph.h"
-#include "Tools.h"
 #include "Typedefs.h"
+#include "GraphTabWidget.h"
+#include "CreateNewGraphDialog.h"
 
 class Config;
 class EdgeImage;
 class GraphShapeDialog;
+class GraphView;
 class LoopEdgeImage;
 class StraightEdgeImage;
 class Vertex;
@@ -23,12 +25,10 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-	Graph _graph;
-
 	typedef std::map<Tool, QAction*>  ToolMap;
 	ToolMap _tools;
 
-	Tool _currentTool;
+	GraphTabWidget _graphTabs;
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -41,6 +41,7 @@ protected:
 	void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
+	void newFile();
 	void close();
 
 	void checkAddVertexButton(bool b);
@@ -51,8 +52,6 @@ private slots:
 	void checkRemoveButton(bool b);
 
 	void openGraphShapeDialog();
-
-	void clickGraphView(QPoint const & position, QList<QGraphicsItem*> const & item);
 	void clickVertex(int id);
 
 	void clickOrderDirected(bool val);
@@ -60,17 +59,16 @@ private slots:
 	void clickWeighted(bool val);
 	void clickUnweighted(bool val);
 
+	void updateGraphStatus();
+
 private:
 	void createActions();
 	void checkButton(Tool tool, bool b);
 	void uncheckButtons();
 
-	void addVertex(QPoint const & position);
-	void buildEdge(QGraphicsItem * const item);
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
 	void grabItem(QPoint const & pos);
 	void pointItem(QList<QGraphicsItem*> const & item);
-	void updateGraphStatus();
 	void removeItem(QList<QGraphicsItem*> const & item);
 };
 
