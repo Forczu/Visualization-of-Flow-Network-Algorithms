@@ -80,7 +80,7 @@ protected:
 	QRect mapRubberBandToScene();
 
 private:
-	void init();
+	void init(Order order, Weight weighted);
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:

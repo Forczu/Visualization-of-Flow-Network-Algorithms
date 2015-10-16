@@ -5,12 +5,13 @@
 
 class Edge;
 class EdgeImage;
+class Graph;
 class Vertex;
 class VertexImage;
-class Graph;
 
 class GraphImage
 {
+protected:
 	static const int ARROWHEAD_Z_VALUE = 3;
 	static const int VERTICE_Z_VALUE = 2;
 	static const int EDGE_Z_VALUE = 1;
@@ -23,10 +24,14 @@ class GraphImage
 
 public:
 	GraphImage(QGraphicsScene * scene);
-	~GraphImage();
+	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
-	void addEdge(int vertexId1, int vertexId2, QPointF const & coord1, QPointF const & coord2);
+	virtual void addEdge(int vertexId1, int vertexId2, QPointF const & coord1, QPointF const & coord2) = 0;
+
+protected:
+	EdgeImage * CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF const &p2);
+public:
 	void removeItem(QList<QGraphicsItem*> const & items);
 
 	void removeItem(QGraphicsItem * item);

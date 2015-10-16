@@ -20,9 +20,9 @@ StraightEdgeImage::~StraightEdgeImage()
 void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	calculateNewLine();
-	bool isArrow = Application::Config::Instance().IsGraphDirected();
+	bool isArrow = _arrow != nullptr;
 	QPointF arrowCenter;
-	if (isArrow && _arrow != nullptr)
+	if (isArrow)
 	{
 		_arrow->setRotation(-_line.angle() - 90);
 		_arrow->setPos(_vertexTo->PointAt(_edge->Id()));

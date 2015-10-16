@@ -38,12 +38,8 @@ void GraphImage::addVertex(QPointF const & position)
 	_vertexMap[vertex->Id()] = vertexImg;
 }
 
-void GraphImage::addEdge(int vertexId1, int vertexId2, QPointF const & p1, QPointF const & p2)
+EdgeImage * GraphImage::CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF const &p2)
 {
-	Edge * edge = _graph->AddEdge(vertexId1, vertexId2);
-	if (edge == nullptr)
-		return;
-
 	int size = Application::Config::Instance().DefaultVertexContext().Size();
 	EdgeImage * edgeImg;
 	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
@@ -60,12 +56,7 @@ void GraphImage::addEdge(int vertexId1, int vertexId2, QPointF const & p1, QPoin
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	_scene->addItem(edgeImg);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
-	if (Application::Config::Instance().IsGraphDirected())
-		edgeImg->addArrowHead();
-
-	Edge * neighbor = _graph->GetNeighborEdge(edge);
-	if (neighbor != nullptr)
-		correctNeighborEdges(edge, neighbor);
+	return edgeImg;
 }
 
 void GraphImage::removeItem(QList<QGraphicsItem*> const & items)

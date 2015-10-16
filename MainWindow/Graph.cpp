@@ -94,6 +94,19 @@ Edge * Graph::AddEdge(int first, int second)
 	return edge;
 }
 
+Edge * Graph::AddEdgeSingle(int first, int second)
+{
+	if (EdgeExists(first, second))
+		return nullptr;
+	int id = SmallestMissingEdgeIndex();
+	Vertex * from = VertexNo(first);
+	Vertex * to = VertexNo(second);
+	Edge * edge = new Edge(from, to);
+	edge->Id(id);
+	AddEdge(edge);
+	return edge;
+}
+
 void Graph::RemoveVertex(short n)
 {
 	VertexVector * v = &_graph->first;
@@ -236,6 +249,20 @@ bool Graph::EdgeExists(int from, int to)
 	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
 	{
 		if (e->VertexFrom() == first && e->VertexTo() == second)
+			return true;
+		return false;
+	});
+	return it != _graph->second.end();
+}
+
+bool Graph::EdgeExistsSingle(int from, int to)
+{
+	Vertex * first = VertexNo(from);
+	Vertex * second = VertexNo(to);
+	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
+	{
+		if (e->VertexFrom() == first && e->VertexTo() == second ||
+			e->VertexFrom() == second && e->VertexTo() == first)
 			return true;
 		return false;
 	});

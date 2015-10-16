@@ -7,16 +7,18 @@
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
 #include "GraphImage.h"
+#include "DirectedGraphImage.h"
+#include "UndirectedGraphImage.h"
 
 GraphView::GraphView(Order order, Weight weighted)
 {
-	init();
+	init(order, weighted);
 }
 
 
 GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 {
-	init();
+	init(Order::Undirected, Weight::Unwieghted);
 }
 
 GraphView::~GraphView()
@@ -29,7 +31,7 @@ GraphView::~GraphView()
 	delete _graph;
 }
 
-void GraphView::init()
+void GraphView::init(Order order, Weight weighted)
 {
 	setFrameShape(QFrame::WinPanel);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -52,7 +54,15 @@ void GraphView::init()
 	scene()->addItem(_labelMap["source"]);
 	scene()->addItem(_labelMap["target"]);
 
-	_graph = new GraphImage(scene());
+	switch (order)
+	{
+	case Order::Directed:
+		_graph = new DirectedGraphImage(scene());
+		break;
+	default: case Order::Undirected:
+		_graph = new UndirectedGraphImage(scene());
+		break;
+	}
 
 	QFont font;
 	font.setBold(true);

@@ -155,6 +155,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_CreateNewGraphDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="DirectedGraphImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UndirectedGraphImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -263,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="Weights.h">
       <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedGraphImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UndirectedGraphImage.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

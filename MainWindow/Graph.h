@@ -30,6 +30,7 @@ public:
 
 	Edge * AddEdge(int first, int second);
 	void AddEdge(Edge * const edge);
+	Edge * AddEdgeSingle(int first, int second);
 	void RemoveEdge(Edge * const edge);
 	void RemoveNeighbourEdges(Vertex * const vertex);
 
@@ -54,5 +55,6 @@ private:
 	int SmallestMissingVertexIndex();
 	int SmallestMissingEdgeIndex();
 	bool EdgeExists(int from, int to);
+	bool EdgeExistsSingle(int from, int to);
 };
 

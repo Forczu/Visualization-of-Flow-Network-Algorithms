@@ -79,6 +79,7 @@
     <ClCompile Include="ArrowHeadImage.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateNewGraphDialog.cpp" />
+    <ClCompile Include="DirectedGraphImage.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="EdgeContext.cpp" />
     <ClCompile Include="EdgeImage.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="StraightEdgeImage.cpp" />
     <ClCompile Include="TextItem.cpp" />
+    <ClCompile Include="UndirectedGraphImage.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexContext.cpp" />
     <ClCompile Include="VertexImage.cpp" />
@@ -642,7 +644,9 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectedGraphImage.h" />
     <ClInclude Include="Orders.h" />
+    <ClInclude Include="UndirectedGraphImage.h" />
     <ClInclude Include="Weights.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
