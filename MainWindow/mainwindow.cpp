@@ -55,7 +55,14 @@ void MainWindow::close()
 void MainWindow::checkAddVertexButton(bool b)
 {
 	checkButton(Tool::Vertex, b);
-	_graphTabs.currentWidget()->setCursor(Qt::ArrowCursor);
+	setCursorForWidget(_graphTabs.currentWidget(), Qt::ArrowCursor);
+}
+
+void MainWindow::setCursorForWidget(QWidget * widget, Qt::CursorShape shape)
+{
+	if (!widget)
+		return;
+	widget->setCursor(shape);
 }
 
 void MainWindow::checkAddEdgeButton(bool b)
@@ -75,7 +82,7 @@ void MainWindow::checkAddEdgeButton(bool b)
 void MainWindow::checkGrabButton(bool b)
 {
 	checkButton(Tool::Grab, b);
-	_graphTabs.currentWidget()->setCursor(Qt::OpenHandCursor);
+	setCursorForWidget(_graphTabs.currentWidget(), Qt::OpenHandCursor);
 }
 
 void MainWindow::checkSelectionButton(bool b)
@@ -86,13 +93,13 @@ void MainWindow::checkSelectionButton(bool b)
 void MainWindow::checkPointerButton(bool b)
 {
 	checkButton(Tool::Pointer, b);
-	_graphTabs.currentWidget()->setCursor(Qt::ArrowCursor);
+	setCursorForWidget(_graphTabs.currentWidget(), Qt::ArrowCursor);
 }
 
 void MainWindow::checkRemoveButton(bool b)
 {
 	checkButton(Tool::Remove, b);
-	_graphTabs.currentWidget()->setCursor(Qt::CrossCursor);
+	setCursorForWidget(_graphTabs.currentWidget(), Qt::CrossCursor);
 }
 
 void MainWindow::openGraphShapeDialog()
@@ -132,7 +139,6 @@ void MainWindow::checkButton(Tool tool, bool b)
 	if (b)
 	{
 		Application::Config::Instance().CurrentTool(tool);
-		_graphTabs.currentGraphView()->setTool(tool);
 		uncheckButtons();
 	}
 	else

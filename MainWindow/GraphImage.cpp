@@ -7,6 +7,7 @@
 #include "VertexImage.h"
 #include "Config.h"
 #include "Graph.h"
+#include "AddWeightToEdgeDialog.h"
 
 GraphImage::GraphImage(QGraphicsScene * scene) : _scene(scene)
 {
@@ -17,11 +18,13 @@ GraphImage::~GraphImage()
 {
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
 	{
-		delete (*it).second;
+		VertexImage * item = (*it).second;
+		if (item) delete item;
 	}
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		delete (*it).second;
+		EdgeImage * item = (*it).second;
+		if (item) delete item;
 	}
 }
 
@@ -54,9 +57,33 @@ EdgeImage * GraphImage::CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF 
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
+	bool succeeded = AddWeight(vertexFrom, vertexTo, edgeImg);
+	if (!succeeded)
+		return nullptr;
 	_scene->addItem(edgeImg);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
+}
+
+bool GraphImage::AddWeight(VertexImage * vertexFrom, VertexImage * vertexTo, EdgeImage * edgeImg)
+{
+	bool succeeded;
+	if (_weighted)
+	{
+		AddWeightToEdgeDialog dialog(vertexFrom->getVertex()->Id(), vertexTo->getVertex()->Id());
+		dialog.show();
+		dialog.exec();
+		if (succeeded = dialog.isConfirmed())
+		{
+			edgeImg->setWeight(dialog.getWeight());
+		}
+		else
+		{
+			_graph->RemoveEdge(edgeImg->getEdge());
+			delete edgeImg;
+		}
+	}
+	return succeeded;
 }
 
 void GraphImage::removeItem(QList<QGraphicsItem*> const & items)

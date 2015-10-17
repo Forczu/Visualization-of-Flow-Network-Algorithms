@@ -36,6 +36,7 @@ public:
 
 private:
 	Ui::MainWindowClass ui;
+	void setCursorForWidget(QWidget * widget, Qt::CursorShape shape);
 
 protected:
 	void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
@@ -45,6 +46,7 @@ private slots:
 	void close();
 
 	void checkAddVertexButton(bool b);
+
 	void checkAddEdgeButton(bool b);
 	void checkGrabButton(bool b);
 	void checkSelectionButton(bool b);

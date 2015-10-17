@@ -91,7 +91,7 @@ void GraphShapeDialog::initEdgeTab()
 	int dy = -(endPoint.y() - startPoint.y());
 	float angle = std::atan2(dy, dx);
 	size = _defaultEdgeContext->Size();
-	_arrow = new ArrowHeadImage(4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
+	_arrow = new ArrowHeadImage(_edgePreview, 4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
 	_arrow->setPos(endPoint);
 	_arrow->setZValue(3);
 	_arrow->setColor(_defaultEdgeContext->Color());
@@ -221,7 +221,7 @@ void GraphShapeDialog::edgeSizeChanged(int val)
 	
 	delete _arrow;
 	float size = _defaultEdgeContext->Size();
-	_arrow = new ArrowHeadImage(4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
+	_arrow = new ArrowHeadImage(_edgePreview, .0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
 	_arrow->setPos(endPoint);
 	_arrow->setZValue(3);
 	_arrow->setColor(_defaultEdgeContext->Color());

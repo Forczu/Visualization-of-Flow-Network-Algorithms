@@ -161,6 +161,18 @@
     <ClCompile Include="UndirectedGraphImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Decorator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddWeightToEdgeDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_AddWeightToEdgeDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_AddWeightToEdgeDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -259,22 +271,32 @@
     <CustomBuild Include="GeneratedFiles\ui_CreateNewGraphDialog.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="AddWeightToEdgeDialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="AddWeightToEdgeDialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Orders.h">
+      <Filter>Header Files\Enums</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Weights.h">
+      <Filter>Header Files\Enums</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DirectedGraphImage.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UndirectedGraphImage.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Decorator.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedFiles\ui_AddWeightToEdgeDialog.h">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Orders.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="Weights.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectedGraphImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UndirectedGraphImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

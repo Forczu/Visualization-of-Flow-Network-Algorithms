@@ -17,6 +17,8 @@ void DirectedGraphImage::addEdge(int vertexId1, int vertexId2, QPointF const & p
 	if (edge == nullptr)
 		return;
 	EdgeImage * edgeImg = CreateEdgeImage(edge, p1, p2);
+	if (edgeImg == nullptr)
+		return;
 	edgeImg->addArrowHead();
 	Edge * neighbor = _graph->GetNeighborEdge(edge);
 	if (neighbor != nullptr)

@@ -28,6 +28,7 @@ protected:
 	TextItem * _text;
 
 	std::pair<bool, float> _offset;
+	QGraphicsItem * _component;
 
 public:
 	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
@@ -46,6 +47,7 @@ public:
 	void correctEdge(bool type, float theta);
 	void addArrowHead();
 	void deleteArrowHead();
+	void setWeight(int weight);
 
 protected:
 	void calculateNewLine();

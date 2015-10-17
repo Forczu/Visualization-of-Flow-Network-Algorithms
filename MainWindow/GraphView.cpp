@@ -10,7 +10,7 @@
 #include "DirectedGraphImage.h"
 #include "UndirectedGraphImage.h"
 
-GraphView::GraphView(Order order, Weight weighted)
+GraphView::GraphView(Order order, Weight weighted) : _weighted(weighted)
 {
 	init(order, weighted);
 }
@@ -42,7 +42,6 @@ void GraphView::init(Order order, Weight weighted)
 	setScene(_graphScene);
 
 	_mouseClicked = false;
-	_toolFlag = Tool::None;
 	_grabFlag = _addEdgeFlag = _rubberFlag = false;
 	_rubberBand = nullptr;
 	_edgeFlag = EdgeFlag::None;
@@ -63,6 +62,7 @@ void GraphView::init(Order order, Weight weighted)
 		_graph = new UndirectedGraphImage(scene());
 		break;
 	}
+	_graph->Weighted(_weighted == Weight::Weighted ? true : false);
 
 	QFont font;
 	font.setBold(true);
@@ -149,11 +149,6 @@ void GraphView::startRubberBand(QPoint const & position)
 	_rubberBand->setGeometry(QRect(_origin, QSize()));
 	_rubberBand->show();
 	_rubberFlag = true;
-}
-
-void GraphView::setTool(Tool tool)
-{
-	_toolFlag = tool;
 }
 
 void GraphView::makeDirected()
@@ -279,6 +274,7 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 		setEdgeFlag(EdgeFlag::None);
 		firstVertexChecked = true;
 		_graph->addEdge(pair.first, pair.second, coord.first, coord.second);
+		emit graphChanged();
 	}
 }
 
@@ -297,7 +293,6 @@ void GraphView::clickElement(QPoint const & position, QList<QGraphicsItem*> cons
 		if (items.size() == 0)
 			return;
 		buildEdge(items.first());
-		emit graphChanged();
 		return;
 	case Tool::Pointer:
 		pointItem(position, items);

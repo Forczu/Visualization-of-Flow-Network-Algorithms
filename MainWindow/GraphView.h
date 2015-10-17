@@ -42,8 +42,8 @@ private:
 	bool _grabFlag;
 	bool _addEdgeFlag;
 	EdgeFlag _edgeFlag;
-	Tool _toolFlag;
 	QPoint _offset;
+	Weight _weighted;
 
 public:
 	GraphView(Order order, Weight weighted);

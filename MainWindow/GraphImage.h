@@ -22,6 +22,7 @@ protected:
 	VertexImageMap	_vertexMap;
 	EdgeImageMap	_edgeMap;
 
+	bool _weighted;
 public:
 	GraphImage(QGraphicsScene * scene);
 	virtual ~GraphImage();
@@ -31,6 +32,8 @@ public:
 
 protected:
 	EdgeImage * CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF const &p2);
+	bool AddWeight(VertexImage * vertexFrom, VertexImage * vertexTo, EdgeImage * edgeImg);
+
 public:
 	void removeItem(QList<QGraphicsItem*> const & items);
 
@@ -45,5 +48,7 @@ public:
 
 	inline Graph * getGraph() const { return _graph; }
 	void setGraph(Graph * val) { _graph = val; }
+	inline bool Weighted() const { return _weighted; }
+	void Weighted(bool val) { _weighted = val; }
 };
 
