@@ -34,8 +34,6 @@ void GraphImage::addVertex(QPointF const & position)
 	VertexImage * vertexImg = new VertexImage(Application::Config::Instance().DefaultVertexContext());
 	vertexImg->setVertex(vertex);
 	vertexImg->setPos(position);
-	vertexImg->setFlag(QGraphicsItem::ItemIsMovable, true);
-	vertexImg->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 	vertexImg->setZValue(VERTICE_Z_VALUE);
 	_scene->addItem(vertexImg);
 	_vertexMap[vertex->Id()] = vertexImg;

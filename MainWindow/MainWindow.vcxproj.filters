@@ -229,9 +229,6 @@
     <CustomBuild Include="EdgeContext.h">
       <Filter>Header Files\Contexts</Filter>
     </CustomBuild>
-    <CustomBuild Include="VertexImage.h">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="ArrowHeadImage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -294,6 +291,9 @@
     </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_AddWeightToEdgeDialog.h">
       <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VertexImage.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

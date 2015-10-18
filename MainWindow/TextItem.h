@@ -5,33 +5,41 @@
 #include <QTextCursor>
 #include <QPainter>
 #include <QFont>
+#include <QGraphicsSceneMouseEvent>
+#include <QColor>
 
-class TextItem : public QGraphicsTextItem
+class TextItem : public QGraphicsItem
 {
 public:
-	TextItem(QGraphicsItem* parent = 0);
+	TextItem(int x, int y, QGraphicsItem* parent = 0);
 	TextItem(const QString& text, QGraphicsItem* parent = 0);
 
-	QRectF boundingRect() const  Q_DECL_OVERRIDE
-	{
-		return _rect;
-	}
-
+	QRectF boundingRect() const  Q_DECL_OVERRIDE;
 	void setBoundingRect(qreal x, qreal y, qreal w, qreal h);
 	void setBoundingRect(QRect const & rect);
 	void setAlignment(Qt::AlignmentFlag flag);
 
 protected:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
+	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
+	QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 	void init();
+
+	void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
 public:
 	void replaceFont(QFont const & font);
-	void setText(QString const & text);
 
+	void setText(QString const & text);
+	void setTextInteraction(bool on, bool selectAll = false);
+	
 private:
 	QRectF _rect;
 	QTextOption _option;
 	QString _text;
 	QFont _font;
-};
+	QColor _textColor;
+	QGraphicsTextItem * _textEdit;
 
+	void updateBoundingRect();
+};

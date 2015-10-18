@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QPainterPath>
 #include <QPainter>
 #include <vector>
 #include "Typedefs.h"
+#include "TextItem.h"
 
 class ArrowHeadImage;
 class Edge;

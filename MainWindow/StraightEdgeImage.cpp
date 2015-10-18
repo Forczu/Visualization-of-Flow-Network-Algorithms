@@ -9,7 +9,6 @@ StraightEdgeImage::StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom
 : EdgeImage(edge, vertexFrom, vertexTo, context)
 {
 	_line = QLineF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id()));
-	calculateTextItemPos();
 }
 
 
@@ -20,6 +19,24 @@ StraightEdgeImage::~StraightEdgeImage()
 void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	calculateNewLine();
+	QPointF oldCenter = _center;
+	updateCenterPoint();
+	if (_center != oldCenter)
+	{
+		int dx = _center.x() - oldCenter.x();
+		int dy = _center.y() - oldCenter.y();
+		QPointF textPos = QPointF(
+			_text->pos().x() + dx,
+			_text->pos().y() + dy);
+		_text->setPos(textPos);
+	}
+	if (_text->isSelected())
+	{
+		QLineF connection = QLineF(_center, _text->pos());
+		painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
+		painter->drawLine(connection);
+	}
+
 	bool isArrow = _arrow != nullptr;
 	QPointF arrowCenter;
 	if (isArrow)
@@ -29,10 +46,9 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		_arrow->updateCenterPoint();
 		arrowCenter = _arrow->Center();
 	}
-	calculateTextItemPos();
+	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
 	painter->setRenderHint(QPainter::Antialiasing, true);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
 	painter->drawLine(_line);
 }
 
@@ -41,11 +57,9 @@ QRectF StraightEdgeImage::boundingRect() const
 	return QRectF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id())).normalized();
 }
 
-void StraightEdgeImage::calculateTextItemPos()
+void StraightEdgeImage::updateCenterPoint()
 {
 	QPointF p1 = _line.p1();
 	QPointF p2 = _line.p2();
-	QPointF center = QPointF((p2.x() + p1.x()) / 2.0f, (p2.y() + p1.y()) / 2.0f);
-	if (_text != nullptr)
-		_text->setPos(center);
+	_center = QPointF((p2.x() + p1.x()) / 2.0f, (p2.y() + p1.y()) / 2.0f);
 }

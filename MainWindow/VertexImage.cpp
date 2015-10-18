@@ -11,7 +11,7 @@ VertexImage::VertexImage(VertexContext const & context)
 	//	.arg("Click and drag this color onto the robot!"));
 	setCursor(Qt::OpenHandCursor);
 	setAcceptedMouseButtons(Qt::LeftButton);
-	setFlag(QGraphicsItem::ItemIsSelectable);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
 	setSelected(false);
 }
 

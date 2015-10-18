@@ -12,10 +12,7 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
 	vertexTo->addEdgePoint(this, vertexFrom, false);
-	_text = new TextItem();
-	_text->setFlag(QGraphicsItem::ItemIsMovable);
-	_text->setFlag(QGraphicsItem::ItemIsSelectable);
-	_text->setPos(pos().x(), pos().y() - 75);
+	_text = new TextItem(pos().x(), pos().y());
 	_text->replaceFont(QFont("Calibri", 30, 0, false));
 	_text->setParentItem(this);
 	_offset.first = false;
