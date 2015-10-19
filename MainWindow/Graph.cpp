@@ -269,6 +269,22 @@ bool Graph::EdgeExistsSingle(int from, int to)
 	return it != _graph->second.end();
 }
 
+std::pair<int, int> Graph::getDegree(Vertex * vertex)
+{
+	std::pair<int, int> degree;
+	int indgree = 0, outdegre = 0;
+	for (Edge * edge : _graph->second)
+	{
+		if (edge->VertexFrom() == vertex)
+			++outdegre;
+		else if (edge->VertexTo() == vertex)
+			++indgree;
+	}
+	degree.first = indgree;
+	degree.second = outdegre;
+	return degree;
+}
+
 EdgeVector Graph::GetNeighbours()
 {
 	EdgeVector result;

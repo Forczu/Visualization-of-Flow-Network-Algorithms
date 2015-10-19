@@ -46,6 +46,8 @@ public:
 	}
 
 	void setPointForEdge(int edgeId, float angle);
+	void setToolTip(int degree);
+	void setToolTip(int indegree, int outdegree);
 	
 private:
 	QPointF findPointOnCircle(float angle);

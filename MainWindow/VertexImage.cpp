@@ -5,10 +5,6 @@
 VertexImage::VertexImage(VertexContext const & context)
 : _context(&context)
 {
-	setToolTip(QString("Notatka"));
-	//	.arg(color.red()).arg(color.green()).arg(color.blue())
-	//	.arg(static_cast<int>(scenePos().x())).arg(scenePos().y())
-	//	.arg("Click and drag this color onto the robot!"));
 	setCursor(Qt::OpenHandCursor);
 	setAcceptedMouseButtons(Qt::LeftButton);
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
@@ -96,6 +92,18 @@ void VertexImage::addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool firs
 void VertexImage::setPointForEdge(int edgeId, float angle)
 {
 	_pointList[edgeId] = findPointOnCircle(angle);
+}
+
+void VertexImage::setToolTip(int degree)
+{
+	QGraphicsItem::setToolTip(QString("Stopieñ: %1").arg(degree));
+}
+
+void VertexImage::setToolTip(int indegree, int outdegree)
+{
+	QGraphicsItem::setToolTip(QString::fromUtf8(
+		"Stopieñ wejœciowy: %1\nStopieñ wyjœciowy: %2\nSuma stopni: %3")
+		.arg(indegree).arg(outdegree).arg(indegree + outdegree));
 }
 
 QPointF VertexImage::findPointOnCircle(float angle)

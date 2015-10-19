@@ -11,7 +11,6 @@
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
 {
-	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 	ui.setupUi(this);
 
 	createActions();
@@ -25,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	ui.actionPointer->setChecked(true);
 	_graphTabs.setParent(this);
-	_graphTabs.show();
+	_graphTabs.hide();
 }
 
 MainWindow::~MainWindow()
@@ -44,6 +43,8 @@ void MainWindow::newFile()
 	dialog.exec();
 	if (!dialog.Confirmed())
 		return;
+	if (_graphTabs.isHidden())
+		_graphTabs.show();
 	_graphTabs.addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
 }
 

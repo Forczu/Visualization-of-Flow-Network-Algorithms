@@ -50,6 +50,7 @@ public:
 
 	Edge * GetNeighborEdge(Edge * const edge);
 	EdgeVector GetNeighbours();
+	std::pair<int, int> getDegree(Vertex * vertex);
 
 private:
 	int SmallestMissingVertexIndex();

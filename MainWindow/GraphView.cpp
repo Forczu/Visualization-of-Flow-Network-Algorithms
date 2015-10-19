@@ -38,7 +38,7 @@ void GraphView::init(Order order, Weight weighted)
 	setAlignment(Qt::AlignCenter);
 
 	_graphScene = new QGraphicsScene;
-	_graphScene->setSceneRect(QRect(-2000, -2000, 4000, 4000));
+	_graphScene->setSceneRect(QRect(-2000, -2000, 5710, 3810));
 	setScene(_graphScene);
 
 	_mouseClicked = false;
