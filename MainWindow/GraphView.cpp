@@ -10,6 +10,10 @@
 #include "DirectedGraphImage.h"
 #include "UndirectedGraphImage.h"
 
+const float GraphView::MIN_SCALE = 0.0625f;
+const float GraphView::MAX_SCALE = 16.0f;
+const float GraphView::SCALE_FACTOR = 1.25f;
+
 GraphView::GraphView(Order order, Weight weighted) : _weighted(weighted)
 {
 	init(order, weighted);
@@ -33,12 +37,13 @@ GraphView::~GraphView()
 
 void GraphView::init(Order order, Weight weighted)
 {
+	_scale = 1.0f;
 	setFrameShape(QFrame::WinPanel);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	setAlignment(Qt::AlignCenter);
 
 	_graphScene = new QGraphicsScene;
-	_graphScene->setSceneRect(QRect(-2000, -2000, 5710, 3810));
+	_graphScene->setSceneRect(QRect(-2000, -2000, 4000, 4000));
 	setScene(_graphScene);
 
 	_mouseClicked = false;
@@ -101,14 +106,18 @@ void GraphView::changeSelection()
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-	const double scaleFactor = 1.15;
-	if (event->delta() > 0) {
-		// Zoom in
-		scale(scaleFactor, scaleFactor);
+	// Zoom in
+	if (event->delta() > 0 && _scale <= MAX_SCALE) {
+		scale(SCALE_FACTOR, SCALE_FACTOR);
+		_scale *= SCALE_FACTOR;
+		emit scaleChanged(_scale);
 	}
-	else {
-		// Zooming out
-		scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+	// Zoom out
+	else if (event->delta() < 0 && _scale >= MIN_SCALE) {
+		float factor = 1.0f / SCALE_FACTOR;
+		scale(factor, factor);
+		_scale *= factor;
+		emit scaleChanged(_scale);
 	}
 }
 
@@ -149,16 +158,6 @@ void GraphView::startRubberBand(QPoint const & position)
 	_rubberBand->setGeometry(QRect(_origin, QSize()));
 	_rubberBand->show();
 	_rubberFlag = true;
-}
-
-void GraphView::makeDirected()
-{
-	_graph->makeDirected();
-}
-
-void GraphView::makeUndirected()
-{
-	_graph->makeUndirected();
 }
 
 void GraphView::mousePressEvent(QMouseEvent * event)

@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
 {
 	ui.setupUi(this);
-
+	_graphTabs = new GraphTabWidget(this);
+	ui.mainLayout->addWidget(_graphTabs, 0, 1, 1, 2);
+	ui.mainLayout->setColumnStretch(0, 1);
+	_graphTabs->hide();
 	createActions();
 
 	_tools[Tool::Vertex]		= ui.actionAddVertex;
@@ -23,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent)
 	_tools[Tool::Remove]		= ui.actionRemove;
 
 	ui.actionPointer->setChecked(true);
-	_graphTabs.setParent(this);
-	_graphTabs.hide();
 }
 
 MainWindow::~MainWindow()
@@ -37,15 +38,15 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 void MainWindow::newFile()
 {
-	int index = _graphTabs.count() + 1;
+	int index = _graphTabs->count() + 1;
 	CreateNewGraphDialog dialog(index);
 	dialog.show();
 	dialog.exec();
 	if (!dialog.Confirmed())
 		return;
-	if (_graphTabs.isHidden())
-		_graphTabs.show();
-	_graphTabs.addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
+	if (_graphTabs->isHidden())
+		_graphTabs->show();
+	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
 }
 
 void MainWindow::close()
@@ -56,7 +57,7 @@ void MainWindow::close()
 void MainWindow::checkAddVertexButton(bool b)
 {
 	checkButton(Tool::Vertex, b);
-	setCursorForWidget(_graphTabs.currentWidget(), Qt::ArrowCursor);
+	setCursorForWidget(_graphTabs->currentWidget(), Qt::ArrowCursor);
 }
 
 void MainWindow::setCursorForWidget(QWidget * widget, Qt::CursorShape shape)
@@ -69,7 +70,7 @@ void MainWindow::setCursorForWidget(QWidget * widget, Qt::CursorShape shape)
 void MainWindow::checkAddEdgeButton(bool b)
 {
 	checkButton(Tool::Edge, b);
-	GraphView * currentView = _graphTabs.currentGraphView();
+	GraphView * currentView = _graphTabs->currentGraphView();
 	if (currentView == nullptr)
 		return;
 	currentView->setCursor(Qt::ArrowCursor);
@@ -83,7 +84,7 @@ void MainWindow::checkAddEdgeButton(bool b)
 void MainWindow::checkGrabButton(bool b)
 {
 	checkButton(Tool::Grab, b);
-	setCursorForWidget(_graphTabs.currentWidget(), Qt::OpenHandCursor);
+	setCursorForWidget(_graphTabs->currentWidget(), Qt::OpenHandCursor);
 }
 
 void MainWindow::checkSelectionButton(bool b)
@@ -94,13 +95,13 @@ void MainWindow::checkSelectionButton(bool b)
 void MainWindow::checkPointerButton(bool b)
 {
 	checkButton(Tool::Pointer, b);
-	setCursorForWidget(_graphTabs.currentWidget(), Qt::ArrowCursor);
+	setCursorForWidget(_graphTabs->currentWidget(), Qt::ArrowCursor);
 }
 
 void MainWindow::checkRemoveButton(bool b)
 {
 	checkButton(Tool::Remove, b);
-	setCursorForWidget(_graphTabs.currentWidget(), Qt::CrossCursor);
+	setCursorForWidget(_graphTabs->currentWidget(), Qt::CrossCursor);
 }
 
 void MainWindow::openGraphShapeDialog()
@@ -120,8 +121,8 @@ void MainWindow::createActions()
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
 
-	connect(&_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(updateGraphStatus()));
-	connect(&_graphTabs, SIGNAL(graphChanged()), this, SLOT(updateGraphStatus()));
+	connect(_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(updateGraphStatus()));
+	connect(_graphTabs, SIGNAL(graphChanged()), this, SLOT(updateGraphStatus()));
 
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
@@ -129,10 +130,6 @@ void MainWindow::createActions()
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
-	connect(ui.actionDirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderDirected(bool)));
-	connect(ui.actionUndirectedGraph, SIGNAL(triggered(bool)), this, SLOT(clickOrderUndirected(bool)));
-	connect(ui.actionWeightedGraph, SIGNAL(triggered(bool)), this, SLOT(clickWeighted(bool)));
-	connect(ui.actionUnweightedGraph, SIGNAL(triggered(bool)), this, SLOT(clickUnweighted(bool)));
 }
 
 void MainWindow::checkButton(Tool tool, bool b)
@@ -160,7 +157,7 @@ void MainWindow::uncheckButtons()
 
 void MainWindow::grabItem(QPoint const & pos)
 {
-	_graphTabs.currentGraphView()->grabItem(pos);
+	_graphTabs->currentGraphView()->grabItem(pos);
 }
 
 void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
@@ -169,100 +166,11 @@ void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 
 void MainWindow::updateGraphStatus()
 {
-	GraphView * graphView = _graphTabs.currentGraphView();
+	GraphView * graphView = _graphTabs->currentGraphView();
 	if (graphView == nullptr)
 		return;
 	Graph * graph = graphView->getGraphImage()->getGraph();
 	QString newStatus = Application::Config::Instance().GraphStatusString()
 		.arg(graph->VertexNumber()).arg(graph->EdgeNumber());
 	ui.graphTextStatus->setText(newStatus);
-}
-
-void MainWindow::clickVertex(int id)
-{
-
-}
-
-void MainWindow::clickOrderDirected(bool val)
-{
-	bool checked = true;
-	if (val)
-	{
-		ui.actionDirectedGraph->setChecked(true);
-		ui.actionUndirectedGraph->setChecked(false);
-		_graphTabs.currentGraphView()->makeDirected();
-	}
-	else if (!val && !ui.actionDirectedGraph->isChecked())
-	{
-		ui.actionDirectedGraph->setChecked(true);
-	}
-	else
-	{
-		checked = false;
-	}
-	Application::Config::Instance().SetGraphDirected(checked);
-}
-
-void MainWindow::clickOrderUndirected(bool val)
-{
-	bool checked = false;
-	if (val)
-	{
-		//ui.actionUndirectedGraph->setChecked(true);
-		//ui.actionDirectedGraph->setChecked(false);
-		//_graphTabs->currentGraphView()->makeUndirected();
-		////EdgeVector vectorToRemove = _graph.GetNeighbours();
-		////_graphTabs->currentGraphView()->removeEdges(vectorToRemove);
-		//std::for_each(vectorToRemove.begin(), vectorToRemove.end(), [&](Edge * edge)
-		//{
-		//	//_graph.RemoveEdge(edge);
-		//});
-	}
-	else if (!val && !ui.actionUndirectedGraph->isChecked())
-	{
-		ui.actionUndirectedGraph->setChecked(true);
-	}
-	else
-	{
-		checked = true;
-	}
-	Application::Config::Instance().SetGraphDirected(checked);
-}
-
-void MainWindow::clickWeighted(bool val)
-{
-	bool checked = true;
-	if (val)
-	{
-		ui.actionWeightedGraph->setChecked(true);
-		ui.actionUnweightedGraph->setChecked(false);
-	}
-	else if (!val && !ui.actionWeightedGraph->isChecked())
-	{
-		ui.actionWeightedGraph->setChecked(true);
-	}
-	else
-	{
-		checked = false;
-	}
-	Application::Config::Instance().SetGraphWeighted(checked);
-}
-
-void MainWindow::clickUnweighted(bool val)
-{
-	bool checked = false;
-	if (val)
-	{
-		ui.actionUnweightedGraph->setChecked(true);
-		ui.actionWeightedGraph->setChecked(false);
-	}
-	else if (!val && !ui.actionUnweightedGraph->isChecked())
-	{
-		ui.actionUnweightedGraph->setChecked(true);
-	}
-	else
-	{
-		checked = true;
-	}
-	Application::Config::Instance().SetGraphWeighted(checked);
 }

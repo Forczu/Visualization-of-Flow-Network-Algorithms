@@ -28,7 +28,7 @@ class MainWindow : public QMainWindow
 	typedef std::map<Tool, QAction*>  ToolMap;
 	ToolMap _tools;
 
-	GraphTabWidget _graphTabs;
+	GraphTabWidget * _graphTabs;
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -54,13 +54,6 @@ private slots:
 	void checkRemoveButton(bool b);
 
 	void openGraphShapeDialog();
-	void clickVertex(int id);
-
-	void clickOrderDirected(bool val);
-	void clickOrderUndirected(bool val);
-	void clickWeighted(bool val);
-	void clickUnweighted(bool val);
-
 	void updateGraphStatus();
 
 private:
@@ -72,6 +65,7 @@ private:
 	void grabItem(QPoint const & pos);
 	void pointItem(QList<QGraphicsItem*> const & item);
 	void removeItem(QList<QGraphicsItem*> const & item);
+	void hideGraphTab();
 };
 
 #endif // MAINWINDOW_H

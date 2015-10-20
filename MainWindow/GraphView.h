@@ -29,13 +29,16 @@ class GraphView : public QGraphicsView
 {
 	Q_OBJECT
 
-	LabelMap _labelMap;
+	static const float MIN_SCALE;
+	static const float MAX_SCALE;
+	static const float SCALE_FACTOR;
 
+	LabelMap _labelMap;
 	QGraphicsScene * _graphScene;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
-
 	GraphImage * _graph;
+
 private:
 	bool _mouseClicked;
 	bool _rubberFlag;
@@ -44,6 +47,7 @@ private:
 	EdgeFlag _edgeFlag;
 	QPoint _offset;
 	Weight _weighted;
+	float _scale;
 
 public:
 	GraphView(Order order, Weight weighted);
@@ -61,12 +65,11 @@ public:
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 	void AddEdgeFlag(bool val) { _addEdgeFlag = val; }
 
-	void makeDirected();
-	void makeUndirected();
 	void removeEdges(EdgeVector const & vector);
 
 	inline GraphImage * getGraphImage() const { return _graph; }
 	void setGraphImage(GraphImage * val) { _graph = val; }
+	inline float getScale() const { return _scale; }
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -87,6 +90,7 @@ signals:
 	void clicked(QPoint const & position, QList<QGraphicsItem*>);
 	void moved(QPoint);
 	void graphChanged();
+	void scaleChanged(float);
 
 private:
 	void changeSelection();

@@ -8,8 +8,10 @@ class GraphTabWidget : public QTabWidget
 {
 	Q_OBJECT
 
+	std::map<int, QString> _tabNameMap;
+
 public:
-	GraphTabWidget(QWidget * parent = 0);
+	GraphTabWidget(QWidget * parent);
 	~GraphTabWidget();
 
 	void addTab(QString const & name, Order order, Weight weighted);
@@ -20,9 +22,14 @@ public:
 		return view != NULL ? view : nullptr;
 	}
 
+private:
+	QString getTabName(int index, QString const & scaleStr);
+	QString getPercentScale(float scaleFactor);
+
 private slots:
 	void closeTab(int index);
 	void viewChanged();
+	void changeScale(float scaleFactor);
 
 signals:
 	void graphChanged();

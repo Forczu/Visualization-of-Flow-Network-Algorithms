@@ -6,31 +6,52 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1026</width>
-    <height>735</height>
+    <width>1021</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Praca inżynierska</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTextBrowser" name="graphTextStatus">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>61</y>
-      <width>181</width>
-      <height>211</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="mainLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QTextBrowser" name="graphTextStatus">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1026</width>
+     <width>1021</width>
      <height>21</height>
     </rect>
    </property>
