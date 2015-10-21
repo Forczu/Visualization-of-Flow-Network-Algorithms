@@ -2,8 +2,7 @@
 #include "EdgeImage.h"
 #include "Edge.h"
 
-VertexImage::VertexImage(VertexContext const & context)
-: _context(&context)
+VertexImage::VertexImage(VertexContext * context) : _context(context)
 {
 	setCursor(Qt::OpenHandCursor);
 	setAcceptedMouseButtons(Qt::LeftButton);
@@ -61,11 +60,11 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 	{
 		if (value.toBool() == true)
 		{
-			_context = &Application::Config::Instance().SelectedVertexContext();
+			_context = getParent()->getConfig()->SelectedVertexContext();
 		}
 		else
 		{
-			_context = &Application::Config::Instance().DefaultVertexContext();
+			_context = getParent()->getConfig()->NormalVertexContext();
 		}
 	}
 	return QGraphicsItem::itemChange(change, value);

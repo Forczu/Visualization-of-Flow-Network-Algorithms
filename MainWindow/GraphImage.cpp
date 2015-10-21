@@ -9,7 +9,8 @@
 #include "Graph.h"
 #include "AddWeightToEdgeDialog.h"
 
-GraphImage::GraphImage(QGraphicsScene * scene) : _scene(scene)
+GraphImage::GraphImage(GraphConfig * graphConfig, QGraphicsScene * scene)
+: _scene(scene), _config(graphConfig)
 {
 	_graph = new Graph();
 }
@@ -31,27 +32,28 @@ GraphImage::~GraphImage()
 void GraphImage::addVertex(QPointF const & position)
 {
 	Vertex * vertex = _graph->AddVertex();
-	VertexImage * vertexImg = new VertexImage(Application::Config::Instance().DefaultVertexContext());
+	VertexImage * vertexImg = new VertexImage(_config->NormalVertexContext()->clone());
 	vertexImg->setVertex(vertex);
 	vertexImg->setPos(position);
 	vertexImg->setZValue(VERTICE_Z_VALUE);
+	vertexImg->setParent(this);
 	_scene->addItem(vertexImg);
 	_vertexMap[vertex->Id()] = vertexImg;
 }
 
 EdgeImage * GraphImage::CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF const &p2)
 {
-	int size = Application::Config::Instance().DefaultVertexContext().Size();
+	int size = _config->NormalVertexContext()->Size();
 	EdgeImage * edgeImg;
 	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
 	VertexImage * vertexTo = _vertexMap[edge->VertexTo()->Id()];
 	if (std::abs(p1.x() - p2.x()) <= size && std::abs(p1.y() - p2.y()) <= size)
 	{
-		edgeImg = new LoopEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
+		edgeImg = new LoopEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
 	}
 	else
 	{
-		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, Application::Config::Instance().DefaultEdgeContext());
+		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);

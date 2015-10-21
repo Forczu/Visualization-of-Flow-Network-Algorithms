@@ -7,6 +7,7 @@
 #include "VertexContext.h"
 #include "Tools.h"
 #include "EdgeContext.h"
+#include "VertexBuilder.h"
 
 namespace Application
 {
@@ -16,11 +17,11 @@ namespace Application
 
 		libconfig::Config _cfg;
 
-		VertexContext _defaultVertexContext;
-		VertexContext _selectedVertexContext;
+		VertexContext * _defaultVertexContext;
+		VertexContext * _selectedVertexContext;
 
-		EdgeContext _defaultEdgeContext;
-		EdgeContext _selectedEdgeContext;
+		EdgeContext * _defaultEdgeContext;
+		EdgeContext * _selectedEdgeContext;
 		QString _graphStatusString;
 
 		bool _weighted;
@@ -34,19 +35,19 @@ namespace Application
 		~Config();
 
 	public:
-		inline VertexContext const & DefaultVertexContext() const
+		inline VertexContext * DefaultVertexContext() const
 		{
 			return _defaultVertexContext;
 		}
-		void DefaultVertexContext(VertexContext const & val)
+		void DefaultVertexContext(VertexContext * const val)
 		{
 			_defaultVertexContext = val;
 		}
-		inline VertexContext const & SelectedVertexContext() const
+		inline VertexContext * SelectedVertexContext() const
 		{
 			return _selectedVertexContext;
 		}
-		void SelectedVertexContext(VertexContext const & val)
+		void SelectedVertexContext(VertexContext * const val)
 		{
 			_selectedVertexContext = val;
 		}
@@ -54,10 +55,10 @@ namespace Application
 		{
 			return _graphStatusString;
 		}
-		inline EdgeContext const & DefaultEdgeContext() const { return _defaultEdgeContext; }
-		void DefaultEdgeContext(EdgeContext const &  val) { _defaultEdgeContext = val; }
-		inline EdgeContext const & SelectedEdgeContext() const { return _selectedEdgeContext; }
-		void SelectedEdgeContext(EdgeContext const & val) { _selectedEdgeContext = val; }
+		inline EdgeContext * DefaultEdgeContext() const { return _defaultEdgeContext; }
+		void DefaultEdgeContext(EdgeContext * const  val) { _defaultEdgeContext = val; }
+		inline EdgeContext * SelectedEdgeContext() const { return _selectedEdgeContext; }
+		void SelectedEdgeContext(EdgeContext * const val) { _selectedEdgeContext = val; }
 		inline bool IsGraphWeighted() const { return _weighted; }
 		void SetGraphWeighted(bool val) { _weighted = val; }
 		inline bool IsGraphDirected() const { return _directed; }
@@ -67,14 +68,14 @@ namespace Application
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);
-		void ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
+		void ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext *& context);
 		void WriteVertices(libconfig::Setting const & root);
-		void WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext & context);
+		void WriteVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext * context);
 
 		void ReadEdges(libconfig::Setting const & root);
-		void ReadEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context);
+		void ReadEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext *& context);
 		void WriteEdges(libconfig::Setting const & root);
-		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext & context);
+		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext * context);
 
 		void ReadStatusString(libconfig::Setting const & root);
 		static void DestroyConfig();

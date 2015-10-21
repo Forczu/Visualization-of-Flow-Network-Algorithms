@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QGraphicsScene>
 #include "ui_GraphShapeDialog.h"
+#include "GraphConfig.h"
 
 class ArrowHeadImage;
 class Config;
@@ -17,16 +18,16 @@ class VertexContext;
 class GraphShapeDialog : public QDialog
 {
 	Q_OBJECT
+	GraphConfig * _config;
 
 public:
-	GraphShapeDialog(QWidget *parent = 0);
+	GraphShapeDialog(GraphConfig * config, QWidget *parent = 0);
 	~GraphShapeDialog();
 
 private:
 	Ui::GraphShapeDialog ui;
 
-	VertexContext *_defaultVertexContext, *_selectedVertexContext;
-	EdgeContext * _defaultEdgeContext, *_selectedEdgeContext;
+	GraphConfig * _backupConfig;
 
 	VertexImage * _verticePreview, *_v1, *_v2;
 	StraightEdgeImage * _edgePreview;

@@ -3,7 +3,8 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 
-DirectedGraphImage::DirectedGraphImage(QGraphicsScene * scene) : GraphImage(scene)
+DirectedGraphImage::DirectedGraphImage(GraphConfig * config, QGraphicsScene * scene)
+: GraphImage(config, scene)
 {
 
 }

@@ -2,6 +2,7 @@
 #include <QGraphicsScene>
 #include <vector>
 #include "Typedefs.h"
+#include "GraphConfig.h"
 
 class Edge;
 class EdgeImage;
@@ -17,6 +18,8 @@ protected:
 	static const int EDGE_Z_VALUE = 1;
 	static const int EDGE_OFFSET = 30;
 
+	
+	GraphConfig * _config;
 	QGraphicsScene * _scene;
 	Graph * _graph;
 	VertexImageMap	_vertexMap;
@@ -24,7 +27,7 @@ protected:
 
 	bool _weighted;
 public:
-	GraphImage(QGraphicsScene * scene);
+	GraphImage(GraphConfig * graphConfig, QGraphicsScene * scene);
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
@@ -50,5 +53,8 @@ public:
 	void setGraph(Graph * val) { _graph = val; }
 	inline bool Weighted() const { return _weighted; }
 	void Weighted(bool val) { _weighted = val; }
+	inline GraphConfig * getConfig() const { return _config; }
+	void setConfig(GraphConfig * val) { _config = val; }
+	
 };
 

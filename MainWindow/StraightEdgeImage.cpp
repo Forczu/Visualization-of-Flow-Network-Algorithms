@@ -5,7 +5,7 @@
 #include "TextItem.h"
 #include "Edge.h"
 
-StraightEdgeImage::StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
+StraightEdgeImage::StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
 : EdgeImage(edge, vertexFrom, vertexTo, context)
 {
 	_line = QLineF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id()));

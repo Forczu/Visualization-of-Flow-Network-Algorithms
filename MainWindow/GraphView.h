@@ -12,7 +12,9 @@
 #include "Typedefs.h"
 
 class GraphScrollBar;
+class VertexContext;
 class VertexImage;
+class EdgeContext;
 class EdgeImage;
 class LoopEdgeImage;
 class StraightEdgeImage;

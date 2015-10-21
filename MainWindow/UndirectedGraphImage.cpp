@@ -2,7 +2,8 @@
 #include "Graph.h"
 #include "VertexImage.h"
 
-UndirectedGraphImage::UndirectedGraphImage(QGraphicsScene * scene) : GraphImage(scene)
+UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config, QGraphicsScene * scene)
+: GraphImage(config, scene)
 {
 }
 

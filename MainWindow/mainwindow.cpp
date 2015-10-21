@@ -106,7 +106,8 @@ void MainWindow::checkRemoveButton(bool b)
 
 void MainWindow::openGraphShapeDialog()
 {
-	GraphShapeDialog graphShapeDialog = GraphShapeDialog(this);
+	GraphConfig * config = _graphTabs->currentGraphView()->getGraphImage()->getConfig();
+	GraphShapeDialog graphShapeDialog = GraphShapeDialog(config, this);
 	graphShapeDialog.setModal(false);
 	graphShapeDialog.exec();
 }

@@ -9,19 +9,21 @@
 #include "Config.h"
 #include "Labels.h"
 #include "Typedefs.h"
+#include "GraphImage.h"
 
 class EdgeImage;
 
 class VertexImage : public QGraphicsItem
 {
+	GraphImage * parent;
 	Vertex * _vertex;
-	VertexContext const * _context;
+	VertexContext * _context;
 	QPointF offset;
 
 	QMap<int, QPointF> _pointList;
 
 public:
-	VertexImage(VertexContext const & context);
+	VertexImage(VertexContext * context);
 	~VertexImage();
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -33,7 +35,7 @@ protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
 public:
-	void Context(VertexContext const & val) { _context = &val; }
+	void Context(VertexContext * val) { _context = val; }
 	inline VertexContext const * Context() const { return _context; }
 	inline Vertex * getVertex() const { return _vertex; }
 	void setVertex(Vertex * const val) { _vertex = val; }
@@ -48,6 +50,9 @@ public:
 	void setPointForEdge(int edgeId, float angle);
 	void setToolTip(int degree);
 	void setToolTip(int indegree, int outdegree);
+
+	inline GraphImage * getParent() const { return parent; }
+	void setParent(GraphImage * val) { parent = val; }
 	
 private:
 	QPointF findPointOnCircle(float angle);

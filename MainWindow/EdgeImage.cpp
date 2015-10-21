@@ -6,8 +6,8 @@
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
 
-EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context)
-: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(&context), _arrow(nullptr), _component(nullptr)
+EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
+: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _component(nullptr)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);

@@ -3,6 +3,8 @@
 #include <QColor>
 #include <QFont>
 
+class VertexBuilder;
+
 class VertexContext
 {
 	short _size;
@@ -13,9 +15,10 @@ class VertexContext
 	Qt::BrushStyle _style;
 
 public:
-	VertexContext();
-	VertexContext(short size, short strokeSize, QColor const & color, QColor const & strokeColor, QFont const & font);
-
+	VertexContext(VertexBuilder * builder);
+	VertexContext(VertexContext const & other);
+	
+public:
 	inline short Size() const { return _size; }
 	void Size(short val) { _size = val; }
 	inline short StrokeSize() const { return _strokeSize; }
@@ -28,4 +31,6 @@ public:
 	void Font(QFont val) { _font = val; }
 	Qt::BrushStyle Style() const { return _style; }
 	void Style(Qt::BrushStyle val) { _style = val; }
+
+	inline VertexContext * clone() { return new VertexContext(*this); }
 };

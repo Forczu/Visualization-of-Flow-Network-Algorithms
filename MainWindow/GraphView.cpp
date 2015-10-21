@@ -9,6 +9,8 @@
 #include "GraphImage.h"
 #include "DirectedGraphImage.h"
 #include "UndirectedGraphImage.h"
+#include "EdgeContext.h"
+#include "Config.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
 const float GraphView::MAX_SCALE = 16.0f;
@@ -58,16 +60,25 @@ void GraphView::init(Order order, Weight weighted)
 	scene()->addItem(_labelMap["source"]);
 	scene()->addItem(_labelMap["target"]);
 
+	bool isWeighted = _weighted == Weight::Weighted;
+
+	GraphConfig * config = new GraphConfig(
+		Application::Config::Instance().DefaultVertexContext()->clone(),
+		Application::Config::Instance().DefaultEdgeContext()->clone(),
+		Application::Config::Instance().SelectedVertexContext()->clone(),
+		Application::Config::Instance().SelectedEdgeContext()->clone(),
+		isWeighted);
+
 	switch (order)
 	{
 	case Order::Directed:
-		_graph = new DirectedGraphImage(scene());
+		_graph = new DirectedGraphImage(config, scene());
 		break;
 	default: case Order::Undirected:
-		_graph = new UndirectedGraphImage(scene());
+		_graph = new UndirectedGraphImage(config, scene());
 		break;
 	}
-	_graph->Weighted(_weighted == Weight::Weighted ? true : false);
+	_graph->Weighted(_weighted == Weight::Weighted);
 
 	QFont font;
 	font.setBold(true);

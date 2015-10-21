@@ -20,7 +20,7 @@ class EdgeImage : public QGraphicsItem
 {
 protected:
 	Edge * _edge;
-	EdgeContext const * _context;
+	EdgeContext * _context;
 
 	VertexImage * _vertexFrom;
 	VertexImage * _vertexTo;
@@ -33,15 +33,15 @@ protected:
 	QGraphicsItem * _component;
 
 public:
-	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext const & context);
+	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
 	virtual ~EdgeImage();
 
 	inline Edge * getEdge() const { return _edge; }
 	void setEdge(Edge * const val) { _edge = val; }
 	inline VertexImage * VertexFrom() const { return _vertexFrom; }
 	inline VertexImage * VertexTo() const { return _vertexTo; }
-	inline EdgeContext const * Context() const { return _context; }
-	void Context(EdgeContext const & val) { _context = &val; }
+	inline EdgeContext * Context() const { return _context; }
+	void Context(EdgeContext * val) { _context = val; }
 	inline QLineF ActualLine() const { return _actualLine; }
 	void ActualLine(QLineF const & val) { _actualLine = val; }
 

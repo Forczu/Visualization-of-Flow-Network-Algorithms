@@ -5,14 +5,13 @@
 #include "ArrowHeadImage.h"
 #include "Edge.h"
 
-GraphShapeDialog::GraphShapeDialog(QWidget *parent) : QDialog(parent)
+GraphShapeDialog::GraphShapeDialog(GraphConfig * config, QWidget *parent)
+: QDialog(parent), _config(config)
 {
 	ui.setupUi(this);
 	ui.applyButton->setEnabled(false);
-	_defaultVertexContext = new VertexContext(Application::Config::Instance().DefaultVertexContext());
-	_defaultEdgeContext = new EdgeContext(Application::Config::Instance().DefaultEdgeContext());
-	_selectedVertexContext = new VertexContext(Application::Config::Instance().SelectedVertexContext());
-	_selectedEdgeContext = new EdgeContext(Application::Config::Instance().SelectedEdgeContext());
+	// utworzenie kopii zapasowej ustawieñ
+	_backupConfig = _config->clone();
 	initVertexTab();
 	initEdgeTab();
 	createConnections();
@@ -22,10 +21,7 @@ GraphShapeDialog::~GraphShapeDialog()
 {
 	clearPreview(ui.vertexPreview);
 	clearPreview(ui.edgePreview);
-	delete _defaultVertexContext;
-	delete _defaultEdgeContext;
-	delete _selectedVertexContext;
-	delete _selectedEdgeContext;
+	delete _backupConfig;
 	delete _v1;
 	delete _v2;
 	delete _vertex, _edge;
@@ -52,20 +48,21 @@ void GraphShapeDialog::initVertexTab()
 	QGraphicsScene * graphScene = new QGraphicsScene(startPoint.x(), startPoint.y(), sceneWidth, sceneHeight);
 	ui.vertexPreview->setScene(graphScene);
 
-	_verticePreview = new VertexImage(*_defaultVertexContext);
+	auto vertexConext = _config->NormalVertexContext();
+	_verticePreview = new VertexImage(vertexConext->clone());
 	_verticePreview->setPos(startPoint.x() + sceneWidth / 2.0f, startPoint.y() + sceneHeight / 2.0f);
 	_verticePreview->setFlag(QGraphicsItem::ItemIsMovable, false);
 	_verticePreview->setVertex(_vertex = new Vertex(1));
 	graphScene->addItem(_verticePreview);
 
-	ui.vertexSizeSlider->setValue(_defaultVertexContext->Size());
-	ui.strokeSizeSlider->setValue(_defaultVertexContext->StrokeSize());
-	ui.vertexColorRedBox->setValue(_defaultVertexContext->Color().red());
-	ui.vertexColorGreenBox->setValue(_defaultVertexContext->Color().green());
-	ui.vertexColorBlueBox->setValue(_defaultVertexContext->Color().blue());
-	ui.strokeColorRedBox->setValue(_defaultVertexContext->StrokeColor().red());
-	ui.strokeColorGreenBox->setValue(_defaultVertexContext->StrokeColor().green());
-	ui.strokeColorBlueBox->setValue(_defaultVertexContext->StrokeColor().blue());
+	ui.vertexSizeSlider->setValue(vertexConext->Size());
+	ui.strokeSizeSlider->setValue(vertexConext->StrokeSize());
+	ui.vertexColorRedBox->setValue(vertexConext->Color().red());
+	ui.vertexColorGreenBox->setValue(vertexConext->Color().green());
+	ui.vertexColorBlueBox->setValue(vertexConext->Color().blue());
+	ui.strokeColorRedBox->setValue(vertexConext->StrokeColor().red());
+	ui.strokeColorGreenBox->setValue(vertexConext->StrokeColor().green());
+	ui.strokeColorBlueBox->setValue(vertexConext->StrokeColor().blue());
 }
 
 void GraphShapeDialog::initEdgeTab()
@@ -78,43 +75,44 @@ void GraphShapeDialog::initEdgeTab()
 
 	QGraphicsScene * graphScene = new QGraphicsScene(sceneStart.x(), sceneStart.y(), sceneWidth, sceneHeight);
 	ui.edgePreview->setScene(graphScene);
-
-	_v1 = new VertexImage(*_defaultVertexContext);
-	_v2 = new VertexImage(*_defaultVertexContext);
+	auto vertexConext = _config->NormalVertexContext();
+	auto edgeContext = _config->NormalEdgeContext();
+	_v1 = new VertexImage(vertexConext->clone());
+	_v2 = new VertexImage(vertexConext->clone());
 	_v1->setPos(startPoint);
 	_v2->setPos(endPoint);
-	int size = _defaultVertexContext->Size();
-	_edgePreview = new StraightEdgeImage(_edge = new Edge(), _v1, _v2, *_defaultEdgeContext);
+	int size = vertexConext->Size();
+	_edgePreview = new StraightEdgeImage(_edge = new Edge(), _v1, _v2, edgeContext);
 	graphScene->addItem(_edgePreview);
 
 	int dx = -(endPoint.x() - startPoint.x());
 	int dy = -(endPoint.y() - startPoint.y());
 	float angle = std::atan2(dy, dx);
-	size = _defaultEdgeContext->Size();
+	size = edgeContext->Size();
 	_arrow = new ArrowHeadImage(_edgePreview, 4.0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
 	_arrow->setPos(endPoint);
 	_arrow->setZValue(3);
-	_arrow->setColor(_defaultEdgeContext->Color());
+	_arrow->setColor(edgeContext->Color());
 	_arrow->setParentItem(_edgePreview);
 
-	ui.edgeSizeSlider->setValue(_defaultEdgeContext->Size());
-	ui.edgeColorRedBox->setValue(_defaultEdgeContext->Color().red());
-	ui.edgeColorGreenBox->setValue(_defaultEdgeContext->Color().green());
-	ui.edgeColorBlueBox->setValue(_defaultEdgeContext->Color().blue());
+	ui.edgeSizeSlider->setValue(edgeContext->Size());
+	ui.edgeColorRedBox->setValue(edgeContext->Color().red());
+	ui.edgeColorGreenBox->setValue(edgeContext->Color().green());
+	ui.edgeColorBlueBox->setValue(edgeContext->Color().blue());
 
 	ui.edgePreview->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 }
 
 void GraphShapeDialog::updateVertexPreview()
 {
-	_verticePreview->Context(*_defaultVertexContext);
+	_verticePreview->Context(_config->NormalVertexContext());
 	ui.vertexPreview->viewport()->update();
 	enableApplyButton();
 }
 
 void GraphShapeDialog::updateEdgePreview()
 {
-	_edgePreview->Context(*_defaultEdgeContext);
+	_edgePreview->Context(_config->NormalEdgeContext());
 	ui.edgePreview->viewport()->update();
 	enableApplyButton();
 }
@@ -148,63 +146,63 @@ void GraphShapeDialog::enableApplyButton()
 
 void GraphShapeDialog::vertexSizeChanged(int val)
 {
-	_defaultVertexContext->Size(val);
-	_selectedVertexContext->Size(val);
+	_config->NormalVertexContext()->Size(val);
+	_config->SelectedVertexContext()->Size(val);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::strokeSizeChanged(int val)
 {
-	_defaultVertexContext->StrokeSize(val);
-	_selectedVertexContext->StrokeSize(val);
+	_config->NormalVertexContext()->StrokeSize(val);
+	_config->SelectedVertexContext()->StrokeSize(val);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::vertexColorRedChanged(int val)
 {
-	QColor color = _defaultVertexContext->Color();
+	QColor color = _config->NormalVertexContext()->Color();
 	color.setRed(val);
-	_defaultVertexContext->Color(color);
+	_config->NormalVertexContext()->Color(color);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::vertexColorGreenChanged(int val)
 {
-	QColor color = _defaultVertexContext->Color();
+	QColor color = _config->NormalVertexContext()->Color();
 	color.setGreen(val);
-	_defaultVertexContext->Color(color);
+	_config->NormalVertexContext()->Color(color);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::vertexColorBlueChanged(int val)
 {
-	QColor color = _defaultVertexContext->Color();
+	QColor color = _config->NormalVertexContext()->Color();
 	color.setBlue(val);
-	_defaultVertexContext->Color(color);
+	_config->NormalVertexContext()->Color(color);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::strokeColorRedChanged(int val)
 {
-	QColor color = _defaultVertexContext->StrokeColor();
+	QColor color = _config->NormalVertexContext()->StrokeColor();
 	color.setRed(val);
-	_defaultVertexContext->StrokeColor(color);
+	_config->NormalVertexContext()->StrokeColor(color);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::strokeColorGreenChanged(int val)
 {
-	QColor color = _defaultVertexContext->StrokeColor();
+	QColor color = _config->NormalVertexContext()->StrokeColor();
 	color.setGreen(val);
-	_defaultVertexContext->StrokeColor(color);
+	_config->NormalVertexContext()->StrokeColor(color);
 	updateVertexPreview();
 }
 
 void GraphShapeDialog::strokeColorBlueChanged(int val)
 {
-	QColor color = _defaultVertexContext->StrokeColor();
+	QColor color = _config->NormalVertexContext()->StrokeColor();
 	color.setBlue(val);
-	_defaultVertexContext->StrokeColor(color);
+	_config->NormalVertexContext()->StrokeColor(color);
 	updateVertexPreview();
 }
 
@@ -213,46 +211,46 @@ void GraphShapeDialog::edgeSizeChanged(int val)
 	QPoint sceneStart = ui.edgePreview->pos();
 	QPoint startPoint = QPoint(sceneStart.x() + 10, sceneStart.y() + 10);
 	QPointF endPoint = _v2->pos();
-	_defaultEdgeContext->Size(val);
-	_selectedEdgeContext->Size(val);
+	_config->NormalEdgeContext()->Size(val);
+	_config->SelectedEdgeContext()->Size(val);
 	int dx = -(endPoint.x() - startPoint.x());
 	int dy = -(endPoint.y() - startPoint.y());
 	float angle = std::atan2(dy, dx);
 	
 	delete _arrow;
-	float size = _defaultEdgeContext->Size();
+	float size = _config->NormalEdgeContext()->Size();
 	_arrow = new ArrowHeadImage(_edgePreview, .0f * size, 6.0f * size, angle * 180.0f / M_PI + 90, true);
 	_arrow->setPos(endPoint);
 	_arrow->setZValue(3);
-	_arrow->setColor(_defaultEdgeContext->Color());
+	_arrow->setColor(_config->NormalEdgeContext()->Color());
 	_arrow->setParentItem(_edgePreview);
 	updateEdgePreview();
 }
 
 void GraphShapeDialog::edgeColorRedChanged(int val)
 {
-	QColor color = _defaultEdgeContext->Color();
+	QColor color = _config->NormalEdgeContext()->Color();
 	color.setRed(val);
-	_defaultEdgeContext->Color(color);
-	_arrow->setColor(_defaultEdgeContext->Color());
+	_config->NormalEdgeContext()->Color(color);
+	_arrow->setColor(_config->NormalEdgeContext()->Color());
 	updateEdgePreview();
 }
 
 void GraphShapeDialog::edgeColorGreenChanged(int val)
 {
-	QColor color = _defaultEdgeContext->Color();
+	QColor color = _config->NormalEdgeContext()->Color();
 	color.setGreen(val);
-	_defaultEdgeContext->Color(color);
-	_arrow->setColor(_defaultEdgeContext->Color());
+	_config->NormalEdgeContext()->Color(color);
+	_arrow->setColor(_config->NormalEdgeContext()->Color());
 	updateEdgePreview();
 }
 
 void GraphShapeDialog::edgeColorBlueChanged(int val)
 {
-	QColor color = _defaultEdgeContext->Color();
+	QColor color = _config->NormalEdgeContext()->Color();
 	color.setBlue(val);
-	_defaultEdgeContext->Color(color);
-	_arrow->setColor(_defaultEdgeContext->Color());
+	_config->NormalEdgeContext()->Color(color);
+	_arrow->setColor(_config->NormalEdgeContext()->Color());
 	updateEdgePreview();
 }
 
@@ -264,6 +262,7 @@ void GraphShapeDialog::acceptChanges()
 
 void GraphShapeDialog::discardChanges()
 {
+	_config = _backupConfig->clone();
 	close();
 }
 
@@ -275,8 +274,5 @@ void GraphShapeDialog::applyChanges()
 
 void GraphShapeDialog::saveChanges()
 {
-	Application::Config::Instance().DefaultVertexContext(*_defaultVertexContext);
-	Application::Config::Instance().DefaultEdgeContext(*_defaultEdgeContext);
-	Application::Config::Instance().SelectedVertexContext(*_selectedVertexContext);
-	Application::Config::Instance().SelectedEdgeContext(*_selectedEdgeContext);
+	_backupConfig = _config->clone();
 }

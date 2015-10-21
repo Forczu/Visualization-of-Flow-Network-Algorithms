@@ -45,9 +45,6 @@
     <Filter Include="Header Files\Edges">
       <UniqueIdentifier>{0026c2b2-8fac-4485-ba36-e2224d9ee29e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Edges">
-      <UniqueIdentifier>{b1713ee2-3da7-4713-a86c-1f250bc624ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Enums">
       <UniqueIdentifier>{fcdc4999-606c-4dbf-ad01-0c1141358e45}</UniqueIdentifier>
     </Filter>
@@ -56,6 +53,9 @@
     </Filter>
     <Filter Include="Source Files\Widgets">
       <UniqueIdentifier>{180e52d7-a023-4fee-8d85-2168a5f884c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Edges">
+      <UniqueIdentifier>{b1713ee2-3da7-4713-a86c-1f250bc624ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_AddWeightToEdgeDialog.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphConfig.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,5 +301,13 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GraphConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
