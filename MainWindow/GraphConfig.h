@@ -9,12 +9,10 @@ protected:
 	EdgeContext * _normalEdgeContext;
 	VertexContext * _selectedVertexContext;
 	EdgeContext * _selectedEdgeContext;
-	bool _isWeighted;
 
 public:
 	GraphConfig(VertexContext * normalVertexContext, EdgeContext * normalEdgeContext,
-		VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext,
-		bool weighted);
+		VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext);
 	GraphConfig(GraphConfig const & other);
 	~GraphConfig();
 

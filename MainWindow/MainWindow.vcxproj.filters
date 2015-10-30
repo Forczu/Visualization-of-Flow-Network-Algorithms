@@ -161,9 +161,6 @@
     <ClCompile Include="UndirectedGraphImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Decorator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AddWeightToEdgeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GraphConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -289,13 +289,16 @@
     <CustomBuild Include="UndirectedGraphImage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Decorator.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_AddWeightToEdgeDialog.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="VertexImage.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GraphConfig.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VertexBuilder.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -303,10 +306,7 @@
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuilder.h">
+    <ClInclude Include="GraphSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

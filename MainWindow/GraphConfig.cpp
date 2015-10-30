@@ -1,11 +1,9 @@
 #include "GraphConfig.h"
 
 GraphConfig::GraphConfig(VertexContext * vertexContext, EdgeContext * edgeContext,
-	VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext,
-	bool weighted)
+	VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext)
 	: _normalVertexContext(vertexContext), _normalEdgeContext(edgeContext),
-	_selectedVertexContext(selectedVertexContext), _selectedEdgeContext(selectedEdgeContext),
-	_isWeighted(weighted)
+	_selectedVertexContext(selectedVertexContext), _selectedEdgeContext(selectedEdgeContext)
 {
 }
 

@@ -66,8 +66,7 @@ void GraphView::init(Order order, Weight weighted)
 		Application::Config::Instance().DefaultVertexContext()->clone(),
 		Application::Config::Instance().DefaultEdgeContext()->clone(),
 		Application::Config::Instance().SelectedVertexContext()->clone(),
-		Application::Config::Instance().SelectedEdgeContext()->clone(),
-		isWeighted);
+		Application::Config::Instance().SelectedEdgeContext()->clone());
 
 	switch (order)
 	{
