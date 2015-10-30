@@ -3,13 +3,10 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "Edge.h"
-#include "GraphSerializer.h"
 
 DirectedGraphImage::DirectedGraphImage(GraphConfig * config, QGraphicsScene * scene)
 : GraphImage(config, scene)
 {
-	GraphSerializer s;
-	s.save(*this);
 }
 
 DirectedGraphImage::~DirectedGraphImage()

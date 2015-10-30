@@ -45,9 +45,9 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 		QPointF newPos = value.toPointF();
 		QRectF rect = scene()->sceneRect();
 		QPointF offset = newPos - pos();
-		for (QMap<int, QPointF>::iterator it = _pointList.begin(); it != _pointList.end(); ++it)
+		for (PointMap::iterator it = _pointList.begin(); it != _pointList.end(); ++it)
 		{
-			(*it) += offset;
+			(*it).second += offset;
 		}
 		if (!rect.contains(newPos)) {
 			// Keep the item inside the scene rect.

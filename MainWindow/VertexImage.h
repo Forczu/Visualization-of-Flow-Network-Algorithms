@@ -18,9 +18,7 @@ class VertexImage : public QGraphicsItem
 	GraphImage * parent;
 	Vertex * _vertex;
 	VertexContext * _context;
-	QPointF offset;
-
-	QMap<int, QPointF> _pointList;
+	PointMap _pointList;
 
 public:
 	VertexImage(VertexContext * context);
@@ -42,10 +40,8 @@ public:
 
 	void addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool first);
 
-	inline QPointF PointAt(int edgeId) const
-	{
-		return _pointList[edgeId];
-	}
+	inline QPointF PointAt(int edgeId) { return _pointList[edgeId]; }
+	inline PointMap getPoints() const { return _pointList; }
 
 	void setPointForEdge(int edgeId, float angle);
 	void setToolTip(int degree);

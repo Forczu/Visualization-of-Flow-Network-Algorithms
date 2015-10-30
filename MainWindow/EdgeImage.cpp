@@ -16,6 +16,8 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 	_text = new TextItem(pos().x(), pos().y());
 	_text->replaceFont(QFont("Calibri", 30, 0, false));
 	_text->setParentItem(this);
+	_text->setRegex("[[:digit:]]+");	// tylko liczby nieujemne
+	connect(_text, SIGNAL(valueChanged(QString const &)), this, SLOT(changeText(QString const &)));
 	_offset.first = false;
 	_offset.second = 0.0f;
 }
@@ -45,7 +47,7 @@ void EdgeImage::deleteArrowHead()
 void EdgeImage::setWeight(int weight)
 {
 	_text->setText(QString::number(weight));
-	_edge->Weight(weight);
+	_edge->setWeight(weight);
 }
 
 void EdgeImage::addArrowHead()
@@ -55,7 +57,7 @@ void EdgeImage::addArrowHead()
 	float angle = -Angle() - 90;
 	_arrow = new ArrowHeadImage(this, 50, 70, angle, true);
 	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()));
-	_arrow->setZValue(3);
+	_arrow->setZValue(ARROWHEAD_Z_VALUE);
 	scene()->addItem(_arrow);
 }
 
@@ -111,4 +113,10 @@ void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 		}
 		image->changeEdge(this, type);
 	}
+}
+
+void EdgeImage::changeText(QString const & str)
+{
+	int value = str.toInt();
+	_edge->setWeight(value);
 }

@@ -52,6 +52,9 @@ public:
 	EdgeVector GetNeighbours();
 	std::pair<int, int> getDegree(Vertex * vertex);
 
+	inline VertexVector getVertices() const { return _graph->first; }
+	inline EdgeVector getEdges() const { return _graph->second; }
+
 private:
 	int SmallestMissingVertexIndex();
 	int SmallestMissingEdgeIndex();

@@ -54,6 +54,8 @@ public:
 	void Weighted(bool val) { _weighted = val; }
 	inline GraphConfig * getConfig() const { return _config; }
 	void setConfig(GraphConfig * val) { _config = val; }
+	inline VertexImageMap getVertices() const { return _vertexMap; }
+	inline EdgeImageMap getEdges() const { return _edgeMap; }
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
 };

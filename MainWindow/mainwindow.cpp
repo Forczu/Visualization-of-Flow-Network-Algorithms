@@ -7,6 +7,7 @@
 #include "LoopEdgeImage.h"
 #include "GraphView.h"
 #include "GraphImage.h"
+#include "GraphSerializer.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -47,6 +48,17 @@ void MainWindow::newFile()
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
 	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
+}
+
+void MainWindow::saveAs()
+{
+	if (_graphTabs->count() == 0)
+		return;
+	QString fileName = QFileDialog::getSaveFileName(this,
+		tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
+	auto graph = _graphTabs->currentGraphView()->getGraphImage();
+	GraphSerializer serializer;
+	serializer.save(*graph, fileName.toStdString());
 }
 
 void MainWindow::close()
@@ -118,6 +130,7 @@ void MainWindow::createActions()
 	ui.actionClose->setStatusTip(tr("Zamyka program"));
 
 	connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newFile()));
+	connect(ui.actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
 	connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));

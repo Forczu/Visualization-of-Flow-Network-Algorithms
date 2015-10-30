@@ -1,6 +1,6 @@
 #include "TextItem.h"
-#include "QPalette"
-#include "..\src\gui\kernel\qevent.h"
+#include <QPalette>
+#include <QKeyEvent>
 
 TextItem::TextItem(int x, int y, QGraphicsItem* parent) : QGraphicsItem(parent)
 {
@@ -62,6 +62,11 @@ void TextItem::updateBoundingRect()
 	setBoundingRect(_textEdit->boundingRect().toRect());
 }
 
+void TextItem::setRegex(std::string const & pattern)
+{
+	_regex.assign(pattern);
+}
+
 void TextItem::setBoundingRect(qreal x, qreal y, qreal w, qreal h)
 {
 	_rect.setRect(x, y, w, h);
@@ -103,6 +108,7 @@ void TextItem::setTextInteraction(bool on, bool selectAll)
 			c.select(QTextCursor::Document);
 			_textEdit->setTextCursor(c);
 		}
+		_oldStr = _text;
 	}
 	else if (!on && _textEdit->textInteractionFlags() == Qt::TextEditorInteraction)
 	{
@@ -114,6 +120,7 @@ void TextItem::setTextInteraction(bool on, bool selectAll)
 		_textEdit->setTextCursor(c);
 		clearFocus();
 		updateBoundingRect();
+		emit valueChanged(_text = _textEdit->toPlainText());
 	}
 }
 
@@ -146,6 +153,13 @@ QVariant TextItem::itemChange(GraphicsItemChange change, const QVariant &value)
 		&& !value.toBool())
 	{
 		setTextInteraction(false); // leave editor mode
+		std::string currStr = _textEdit->toPlainText().toStdString();
+		if (!std::regex_match(currStr, _regex))
+		{
+			_textEdit->setPlainText(_oldStr);
+			setTextInteraction(true);
+			setTextInteraction(false);
+		}
 	}
 	return QGraphicsItem::itemChange(change, value);
 }

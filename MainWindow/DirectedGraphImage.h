@@ -1,8 +1,6 @@
 #pragma once
 #include "GraphImage.h"
 
-class GraphSerializer;
-
 class DirectedGraphImage : public GraphImage
 {
 public:

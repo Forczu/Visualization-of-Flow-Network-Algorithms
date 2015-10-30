@@ -45,6 +45,9 @@ public:
 	void Context(EdgeContext * val) { _context = val; }
 	inline QLineF ActualLine() const { return _actualLine; }
 	void ActualLine(QLineF const & val) { _actualLine = val; }
+	inline ArrowHeadImage * getArrowHead() const { return _arrow; }
+	inline std::pair<bool, float> getOffset() const { return _offset; }
+	inline TextItem * getText() const { return _text; }
 
 	float Angle() const;
 	void correctEdge(bool type, float theta);
@@ -58,5 +61,8 @@ protected:
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
 signals:
 	void typeChanged(EdgeImage * edge, QAction * action);
+
+private slots:
+	void changeText(QString const & str);
 };
 

@@ -30,7 +30,7 @@ bool GraphSerializer::parse(std::string const & filePath)
 	}
 }
 
-bool GraphSerializer::save(DirectedGraphImage const & graph)
+bool GraphSerializer::save(GraphImage const & graph, std::string const & fileName)
 {
 	// zadeklarowanie xmla
 	xml_node<> * decl = _doc.allocate_node(node_declaration);
@@ -42,15 +42,11 @@ bool GraphSerializer::save(DirectedGraphImage const & graph)
 	createAttribute(root, "weighted", graph.Weighted() ? "True" : "False");
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
-	GraphConfig * graphConfig = graph.getConfig();
-	xml_node<> * config = createNode("Config");
-	serializeVertexContext(graphConfig->NormalVertexContext(), config, "normal");
-	serializeVertexContext(graphConfig->SelectedVertexContext(), config, "selected");
-	serializeEdgeContext(graphConfig->NormalEdgeContext(), config, "normal");
-	serializeEdgeContext(graphConfig->SelectedEdgeContext(), config, "normal");
-	root->append_node(config);
+	serializeConfig(graph.getConfig(), root);
+	// wierzcho³ki
+	serializeGraph(graph, root);
 
-	std::ofstream file_stored("serialized_graph.xml");
+	std::ofstream file_stored(fileName);
 	file_stored << _doc;
 	file_stored.close();
 	return true;
@@ -106,6 +102,12 @@ char * GraphSerializer::parseInt(int number)
 	return parseStdString(s);
 }
 
+char * GraphSerializer::parseFloat(float value)
+{
+	std::string s = std::to_string(value);
+	return parseStdString(s);
+}
+
 char * GraphSerializer::parseStdString(std::string const & s)
 {
 	char const * str = s.c_str();
@@ -144,7 +146,84 @@ xml_node<> * GraphSerializer::createNode(char const * name)
 	return _doc.allocate_node(node_element, name);
 }
 
+xml_node<> * GraphSerializer::createNode(char const * name, xml_node<> * parent)
+{
+	xml_node<> * node = createNode(name);
+	parent->append_node(node);
+	return node;
+}
+
 void GraphSerializer::createAttribute(xml_node<> * node, char const * name, char const * value)
 {
 	node->append_attribute(_doc.allocate_attribute(name, value));
+}
+
+void GraphSerializer::serializeConfig(GraphConfig * graphConfig, xml_node<> * parent)
+{
+	xml_node<> * config = createNode("Config");
+	serializeVertexContext(graphConfig->NormalVertexContext(), config, "normal");
+	serializeVertexContext(graphConfig->SelectedVertexContext(), config, "selected");
+	serializeEdgeContext(graphConfig->NormalEdgeContext(), config, "normal");
+	serializeEdgeContext(graphConfig->SelectedEdgeContext(), config, "normal");
+	parent->append_node(config);
+}
+
+void GraphSerializer::serializeVertices(VertexImageMap const & map, xml_node<> * parent)
+{
+	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		serializeVertex((*it).second, parent);
+	}
+}
+
+void GraphSerializer::serializeEdges(EdgeImageMap const & map, xml_node<> * parent)
+{
+	for (EdgeImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		serializeEdge((*it).second, parent);
+	}
+}
+
+void GraphSerializer::serializeVertex(VertexImage const * vertex, xml_node<> * parent)
+{
+	xml_node<> * vertexNode = createNode("Vertex", parent);
+	createAttribute(vertexNode, "id", parseInt(vertex->getVertex()->Id()));
+	createAttribute(vertexNode, "x", parseFloat(vertex->pos().x()));
+	createAttribute(vertexNode, "y", parseFloat(vertex->pos().y()));
+	PointMap map = vertex->getPoints();
+	for (PointMap::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		serializePoint(*it, vertexNode);
+	}
+}
+
+void GraphSerializer::serializeEdge(EdgeImage const * edge, xml_node<> * parent)
+{
+	xml_node<> * edgeNode = createNode("Edge", parent);
+	Edge * e = edge->getEdge();
+	createAttribute(edgeNode, "id", parseInt(e->Id()));
+	createAttribute(edgeNode, "vertexFrom", parseInt(e->VertexFrom()->Id()));
+	createAttribute(edgeNode, "vertexTo", parseInt(e->VertexTo()->Id()));
+	createAttribute(edgeNode, "weight", parseInt(e->getWeight()));
+	auto offset = edge->getOffset();
+	createAttribute(edgeNode, "offsetType", offset.first ? "True" : "False");
+	createAttribute(edgeNode, "offsetValue", parseFloat(offset.second));
+	QPointF pos = edge->getText()->pos();
+	createAttribute(edgeNode, "text.x", parseFloat(pos.x()));
+	createAttribute(edgeNode, "text.y", parseFloat(pos.y()));
+}
+
+void GraphSerializer::serializeGraph(GraphImage const & graph, xml_node<> * parent)
+{
+	xml_node<> * graphNode = createNode("Graph", parent);
+	serializeVertices(graph.getVertices(), graphNode);
+	serializeEdges(graph.getEdges(), graphNode);
+}
+
+void GraphSerializer::serializePoint(PointPair const & point, xml_node<> * parent)
+{
+	xml_node<> * pointNode = createNode("Point", parent);
+	createAttribute(pointNode, "id", parseInt(point.first));
+	createAttribute(pointNode, "x", parseInt(point.second.x()));
+	createAttribute(pointNode, "y", parseInt(point.second.y()));
 }

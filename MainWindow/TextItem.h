@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QGraphicsTextItem>
 #include <QTextBlockFormat>
 #include <QTextCursor>
@@ -7,9 +6,12 @@
 #include <QFont>
 #include <QGraphicsSceneMouseEvent>
 #include <QColor>
+#include <regex>
 
-class TextItem : public QGraphicsItem
+class TextItem : public QObject, public QGraphicsItem
 {
+	Q_OBJECT
+	Q_INTERFACES(QGraphicsItem)
 public:
 	TextItem(int x, int y, QGraphicsItem* parent = 0);
 	TextItem(const QString& text, QGraphicsItem* parent = 0);
@@ -18,6 +20,8 @@ public:
 	void setBoundingRect(qreal x, qreal y, qreal w, qreal h);
 	void setBoundingRect(QRect const & rect);
 	void setAlignment(Qt::AlignmentFlag flag);
+	void updateBoundingRect();
+	void setRegex(std::string const & pattern);
 
 protected:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
@@ -29,9 +33,9 @@ protected:
 
 public:
 	void replaceFont(QFont const & font);
-
 	void setText(QString const & text);
 	void setTextInteraction(bool on, bool selectAll = false);
+	inline QString getText() const { return _text; }
 	
 private:
 	QRectF _rect;
@@ -40,6 +44,9 @@ private:
 	QFont _font;
 	QColor _textColor;
 	QGraphicsTextItem * _textEdit;
+	std::regex _regex;
+	QString _oldStr;
 
-	void updateBoundingRect();
+signals:
+	void valueChanged(QString const &);
 };

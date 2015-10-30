@@ -152,9 +152,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_CreateNewGraphDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Decorator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_AddWeightToEdgeDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -204,6 +201,15 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_GraphImage.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TextItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TextItem.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -298,9 +304,6 @@
     <CustomBuild Include="Weights.h">
       <Filter>Header Files\Enums</Filter>
     </CustomBuild>
-    <CustomBuild Include="Decorator.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_AddWeightToEdgeDialog.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
@@ -340,16 +343,17 @@
     <CustomBuild Include="BezierEdgeImage.h">
       <Filter>Header Files\Edges</Filter>
     </CustomBuild>
+    <CustomBuild Include="Consts.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GraphSerializer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Edges.h">
+      <Filter>Header Files\Enums</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Edges.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="Consts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

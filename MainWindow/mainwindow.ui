@@ -60,6 +60,7 @@
      <string>Plik</string>
     </property>
     <addaction name="actionNew"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -294,6 +295,17 @@
    </property>
    <property name="text">
     <string>Linia krzywa</string>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="text">
+    <string>Zapisz jako...</string>
+   </property>
+   <property name="toolTip">
+    <string>Zapisanie grafu do nowego pliku</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
  </widget>
