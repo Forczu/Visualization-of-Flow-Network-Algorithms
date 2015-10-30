@@ -1,4 +1,5 @@
 #include "GraphSerializer.h"
+#include "DirectedGraphImage.h"
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
@@ -7,6 +8,10 @@ GraphSerializer::GraphSerializer() : _contents(nullptr)
 
 GraphSerializer::~GraphSerializer()
 {
+	for (std::vector<char*>::iterator it = _atrVector.begin(); it != _atrVector.end(); ++it)
+	{
+		free(*it);
+	}
 }
 
 bool GraphSerializer::parse(std::string const & filePath)
@@ -29,26 +34,25 @@ bool GraphSerializer::save(DirectedGraphImage const & graph)
 {
 	// zadeklarowanie xmla
 	xml_node<> * decl = _doc.allocate_node(node_declaration);
-	decl->append_attribute(_doc.allocate_attribute("version", "1.0"));
-	decl->append_attribute(_doc.allocate_attribute("encoding", "utf-8"));
+	createAttribute(decl, "version", "1.0");
+	createAttribute(decl, "encoding", "UTF-8");
 	_doc.append_node(decl);
 	// korzeñ
-	xml_node<> * root = _doc.allocate_node(node_element, "DirectedGraph");
-	root->append_attribute(_doc.allocate_attribute("weighted", graph.Weighted() ? "True" : "False"));
+	xml_node<> * root = createNode("DirectedGraph");
+	createAttribute(root, "weighted", graph.Weighted() ? "True" : "False");
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
 	GraphConfig * graphConfig = graph.getConfig();
-	xml_node<> * config = _doc.allocate_node(node_element, "Config");
-	serializeVertexContext(graphConfig->NormalVertexContext(), config, "normalVertexContext");
+	xml_node<> * config = createNode("Config");
+	serializeVertexContext(graphConfig->NormalVertexContext(), config, "normal");
+	serializeVertexContext(graphConfig->SelectedVertexContext(), config, "selected");
+	serializeEdgeContext(graphConfig->NormalEdgeContext(), config, "normal");
+	serializeEdgeContext(graphConfig->SelectedEdgeContext(), config, "normal");
 	root->append_node(config);
 
-	std::string xml_as_string;
-	print(std::back_inserter(xml_as_string), _doc);
-
 	std::ofstream file_stored("serialized_graph.xml");
-	file_stored << xml_as_string;
+	file_stored << _doc;
 	file_stored.close();
-	_doc.clear();
 	return true;
 }
 
@@ -73,38 +77,74 @@ char * GraphSerializer::xmlToChar(std::string const & stageFile)
 	return out;
 }
 
-bool GraphSerializer::serializeVertexContext(VertexContext * context, xml_node<> * parentNode, std::string const & childName)
+bool GraphSerializer::serializeVertexContext(VertexContext * context, xml_node<> * parentNode, const char * childName)
 {
-	xml_node<> * contextNode = _doc.allocate_node(node_element, childName.c_str());
-	int size = context->Size();
-	auto sizeStr = std::to_string(size);
-	const char * constAtr = sizeStr.c_str();
-	char * atr = const_cast<char*>(constAtr);
-	contextNode->append_attribute(_doc.allocate_attribute("size", atr));
-	contextNode->append_attribute(_doc.allocate_attribute("strokeSize", std::to_string(context->StrokeSize()).c_str()));
+	xml_node<> * contextNode = createNode("VertexContext");
+	createAttribute(contextNode, "type", childName);
+	createAttribute(contextNode, "size", parseInt(context->Size()));
+	createAttribute(contextNode, "strokeSize", parseInt(context->StrokeSize()));
 	serializeColor(context->Color(), contextNode, "color");
 	serializeColor(context->StrokeColor(), contextNode, "strokeColor");
 	serializeFont(context->Font(), contextNode, "font");
-	contextNode->append_attribute(_doc.allocate_attribute("strokeSize", std::to_string(context->StrokeSize()).c_str()));
-	contextNode->append_attribute(_doc.allocate_attribute("style", std::to_string(context->Style()).c_str()));
 	parentNode->append_node(contextNode);
 	return true;
 }
 
+bool GraphSerializer::serializeEdgeContext(EdgeContext * context, xml_node<> * parentNode, const char * childName)
+{
+	xml_node<> * contextNode = createNode("EdgeContext");
+	createAttribute(contextNode, "type", childName);
+	createAttribute(contextNode, "size", parseInt(context->Size()));
+	serializeColor(context->Color(), contextNode, "color");
+	parentNode->append_node(contextNode);
+	return true;
+}
+
+char * GraphSerializer::parseInt(int number)
+{
+	std::string s = std::to_string(number);
+	return parseStdString(s);
+}
+
+char * GraphSerializer::parseStdString(std::string const & s)
+{
+	char const * str = s.c_str();
+	return saveString(str);
+}
+
+char * GraphSerializer::saveString(char const * str)
+{
+	char * c = (char*)malloc(strlen(str) + 1);
+	strcpy(c, str);
+	_atrVector.push_back(c);
+	return c;
+}
+
 void GraphSerializer::serializeColor(QColor const & color, xml_node<> * parentNode, const char * childName)
 {
-	xml_node<> * colorNode = _doc.allocate_node(node_element, childName);
-	colorNode->append_attribute(_doc.allocate_attribute("r", std::to_string(color.red()).c_str()));
-	colorNode->append_attribute(_doc.allocate_attribute("g", std::to_string(color.green()).c_str()));
-	colorNode->append_attribute(_doc.allocate_attribute("b", std::to_string(color.blue()).c_str()));
+	xml_node<> * colorNode = createNode("Color");
+	createAttribute(colorNode, "type", childName);
+	createAttribute(colorNode, "r", parseInt(color.red()));
+	createAttribute(colorNode, "g", parseInt(color.green()));
+	createAttribute(colorNode, "b", parseInt(color.blue()));
 	parentNode->append_node(colorNode);
 }
 
 void GraphSerializer::serializeFont(QFont const & font, xml_node<> * parentNode, char const * childName)
 {
-	xml_node<> * fontNode = _doc.allocate_node(node_element, childName);
-	fontNode->append_attribute(_doc.allocate_attribute("bold", font.bold() ? "True" : "False"));
-	fontNode->append_attribute(_doc.allocate_attribute("size", std::to_string(font.pointSize()).c_str()));
-	fontNode->append_attribute(_doc.allocate_attribute("family", font.family().toStdString().c_str()));
+	xml_node<> * fontNode = createNode("Font");
+	createAttribute(fontNode, "bold", font.bold() ? "True" : "False");
+	createAttribute(fontNode, "size", parseInt(font.pointSize()));
+	createAttribute(fontNode, "family", parseStdString(font.family().toStdString()));
 	parentNode->append_node(fontNode);
+}
+
+xml_node<> * GraphSerializer::createNode(char const * name)
+{
+	return _doc.allocate_node(node_element, name);
+}
+
+void GraphSerializer::createAttribute(xml_node<> * node, char const * name, char const * value)
+{
+	node->append_attribute(_doc.allocate_attribute(name, value));
 }

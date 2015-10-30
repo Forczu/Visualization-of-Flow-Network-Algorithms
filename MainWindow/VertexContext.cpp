@@ -8,7 +8,6 @@ VertexContext::VertexContext(VertexContext const & other)
 	Color(other.Color());
 	StrokeColor(other.StrokeColor());
 	Font(other.Font());
-	Style(other.Style());
 }
 
 VertexContext::VertexContext(VertexBuilder * builder)
