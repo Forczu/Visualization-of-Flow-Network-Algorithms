@@ -2,51 +2,40 @@
 #include "Graph.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
-#include "Edge.h"
+#include "GraphSerializer.h"
 
 DirectedGraphImage::DirectedGraphImage(GraphConfig * config, QGraphicsScene * scene)
 : GraphImage(config, scene)
 {
+	GraphSerializer s;
+	s.save(*this);
 }
 
 DirectedGraphImage::~DirectedGraphImage()
 {
 }
 
-void DirectedGraphImage::addEdge(int vertexId1, int vertexId2)
+void DirectedGraphImage::addEdge(int vertexId1, int vertexId2, QPointF const & p1, QPointF const & p2)
 {
-	int weight;
-	if (_weighted)
-	{
-		bool succeeded = showEdgeImageDialog(vertexId1, vertexId2, weight);
-		if (!succeeded)
-			return;
-	}
 	Edge * edge = _graph->AddEdge(vertexId1, vertexId2);
 	if (edge == nullptr)
 		return;
-	EdgeImage * img = createFullEdgeImage(edge, Application::Config::Instance().CurrentEdgeType(), weight);
-}
-
-void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo)
-{
-	std::pair<int, int> degree = _graph->getDegree(vertexFrom->getVertex());
-	vertexFrom->setToolTip(degree.first, degree.second);
-	degree = _graph->getDegree(vertexTo->getVertex());
-	vertexTo->setToolTip(degree.first, degree.second);
-}
-
-EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/)
-{
-	EdgeImage * edgeImg = createEdgeImage(edge, type);
+	EdgeImage * edgeImg = CreateEdgeImage(edge, p1, p2);
 	if (edgeImg == nullptr)
-		return edgeImg;
-	edgeImg->setWeight(weight);
-	addEdgeImageToScene(edgeImg);
+		return;
 	edgeImg->addArrowHead();
 	Edge * neighbor = _graph->GetNeighborEdge(edge);
 	if (neighbor != nullptr)
 		correctNeighborEdges(edge, neighbor);
-	updateVerticesDegree(edgeImg->VertexFrom(), edgeImg->VertexTo());
-	return edgeImg;
+	updateVerticesDegree(vertexId1, vertexId2);
+}
+
+void DirectedGraphImage::updateVerticesDegree(int vertexId1, int vertexId2)
+{
+	VertexImage * vertexFrom = _vertexMap[vertexId1];
+	std::pair<int, int> degree = _graph->getDegree(vertexFrom->getVertex());
+	vertexFrom->setToolTip(degree.first, degree.second);
+	VertexImage * vertexTo = _vertexMap[vertexId2];
+	degree = _graph->getDegree(vertexTo->getVertex());
+	vertexTo->setToolTip(degree.first, degree.second);
 }
