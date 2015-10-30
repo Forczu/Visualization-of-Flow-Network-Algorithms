@@ -7,17 +7,19 @@
 #include <vector>
 #include "Typedefs.h"
 #include "TextItem.h"
+#include <QAction>
 
 class ArrowHeadImage;
 class Edge;
 class EdgeContext;
+class GraphImage;
 class TextItem;
 class VertexImage;
 
-class VertexImage;
-
-class EdgeImage : public QGraphicsItem
+class EdgeImage : public QObject, public QGraphicsItem
 {
+	Q_OBJECT
+	Q_INTERFACES(QGraphicsItem)
 protected:
 	Edge * _edge;
 	EdgeContext * _context;
@@ -30,7 +32,6 @@ protected:
 	TextItem * _text;
 
 	std::pair<bool, float> _offset;
-	QGraphicsItem * _component;
 
 public:
 	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
@@ -53,5 +54,9 @@ public:
 
 protected:
 	void calculateNewLine();
+	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
+	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
+signals:
+	void typeChanged(EdgeImage * edge, QAction * action);
 };
 

@@ -57,6 +57,18 @@
     <Filter Include="Source Files\Edges">
       <UniqueIdentifier>{b1713ee2-3da7-4713-a86c-1f250bc624ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Dialogs">
+      <UniqueIdentifier>{3ad17950-2ec0-4a64-82da-02690e42c175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{c54c20c6-7331-41fd-b61c-dc707d549f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphs">
+      <UniqueIdentifier>{0c3cefff-99a1-472b-9804-35f5a81adc3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphs">
+      <UniqueIdentifier>{d392c430-ffe4-4d09-bbd4-6828f35999a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,9 +96,6 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Config.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
@@ -119,19 +128,10 @@
     <ClCompile Include="ArrowHeadImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphScrollBar.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="GraphShapeDialog.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="GraphView.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="TextItem.cpp">
@@ -146,25 +146,13 @@
     <ClCompile Include="GraphTabWidget.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="CreateNewGraphDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_CreateNewGraphDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_CreateNewGraphDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="DirectedGraphImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UndirectedGraphImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Decorator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AddWeightToEdgeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_AddWeightToEdgeDialog.cpp">
@@ -175,6 +163,48 @@
     </ClCompile>
     <ClCompile Include="GraphConfig.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddWeightToEdgeDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewGraphDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphShapeDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedGraphImage.cpp">
+      <Filter>Source Files\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="UndirectedGraphImage.cpp">
+      <Filter>Source Files\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphImage.cpp">
+      <Filter>Source Files\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierEdgeImage.cpp">
+      <Filter>Source Files\Edges</Filter>
+    </ClCompile>
+    <ClCompile Include="PointImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_EdgeImage.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_EdgeImage.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GraphImage.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GraphImage.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,9 +231,6 @@
     </CustomBuild>
     <CustomBuild Include="EdgeImage.h">
       <Filter>Header Files\Edges</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Graph.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Matrix.h">
       <Filter>Header Files</Filter>
@@ -241,13 +268,7 @@
     <CustomBuild Include="Typedefs.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="GraphImage.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="GraphScrollBar.h">
-      <Filter>Header Files\Widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="GraphShapeDialog.h">
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="GraphView.h">
@@ -265,14 +286,8 @@
     <CustomBuild Include="CreateNewGraphDialog.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="CreateNewGraphDialog.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_CreateNewGraphDialog.h">
       <Filter>Generated Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="AddWeightToEdgeDialog.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="AddWeightToEdgeDialog.ui">
       <Filter>Form Files</Filter>
@@ -283,12 +298,6 @@
     <CustomBuild Include="Weights.h">
       <Filter>Header Files\Enums</Filter>
     </CustomBuild>
-    <CustomBuild Include="DirectedGraphImage.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UndirectedGraphImage.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Decorator.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -298,15 +307,48 @@
     <CustomBuild Include="VertexImage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="AddWeightToEdgeDialog.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CreateNewGraphDialog.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GraphShapeDialog.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DirectedGraphImage.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Graph.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UndirectedGraphImage.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GraphImage.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GraphConfig.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PointImage.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VertexBuilder.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BezierEdgeImage.h">
+      <Filter>Header Files\Edges</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphConfig.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Edges.h">
+      <Filter>Header Files\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuilder.h">
+    <ClInclude Include="Consts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

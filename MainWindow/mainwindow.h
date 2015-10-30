@@ -44,17 +44,16 @@ protected:
 private slots:
 	void newFile();
 	void close();
-
 	void checkAddVertexButton(bool b);
-
 	void checkAddEdgeButton(bool b);
 	void checkGrabButton(bool b);
 	void checkSelectionButton(bool b);
 	void checkPointerButton(bool b);
 	void checkRemoveButton(bool b);
-
 	void openGraphShapeDialog();
 	void updateGraphStatus();
+	void checkStraightLine(bool b);
+	void checkBezierCurve(bool b);
 
 private:
 	void createActions();

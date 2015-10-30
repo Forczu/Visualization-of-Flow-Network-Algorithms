@@ -131,6 +131,9 @@ void MainWindow::createActions()
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
+
+	connect(ui.actionStraightLine, SIGNAL(triggered(bool)), this, SLOT(checkStraightLine(bool)));
+	connect(ui.actionBezierLine, SIGNAL(triggered(bool)), this, SLOT(checkBezierCurve(bool)));
 }
 
 void MainWindow::checkButton(Tool tool, bool b)
@@ -163,6 +166,28 @@ void MainWindow::grabItem(QPoint const & pos)
 
 void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 {
+}
+
+void MainWindow::checkStraightLine(bool b)
+{
+	if (b)
+	{
+		ui.actionBezierLine->setChecked(false);
+		Application::Config::Instance().CurrentEdgeType(EdgeType::StraightLine);
+	}
+	else
+		ui.actionStraightLine->setChecked(true);
+}
+
+void MainWindow::checkBezierCurve(bool b)
+{
+	if (b)
+	{
+		ui.actionStraightLine->setChecked(false);
+		Application::Config::Instance().CurrentEdgeType(EdgeType::BezierLine);
+	}
+	else
+		ui.actionBezierLine->setChecked(true);
 }
 
 void MainWindow::updateGraphStatus()

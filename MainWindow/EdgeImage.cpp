@@ -5,9 +5,10 @@
 #include "Edge.h"
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
+#include "GraphImage.h"
 
 EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
-: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _component(nullptr)
+: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
@@ -84,4 +85,30 @@ void EdgeImage::calculateNewLine()
 	}
 	_vertexTo->setPointForEdge(_edge->Id(), vToAngle);
 	_actualLine = newLine;
+}
+
+void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+	QString straight = "Linia prosta", bezier = "Linia krzywa";
+	QMenu menu;
+	QAction * changeIntoStraightAction = menu.addAction(straight);
+	changeIntoStraightAction->setCheckable(true);
+	QAction * changeIntoBezierAction = menu.addAction(bezier);
+	changeIntoBezierAction->setCheckable(true);
+	updateContextMenu(menu.actions());
+	QAction * selectedAction = menu.exec(event->screenPos());
+	EdgeType type;
+	GraphImage * image = dynamic_cast<GraphImage*>(parent());
+	if (NULL != image)
+	{
+		if (straight == selectedAction->text())
+		{
+			type = EdgeType::StraightLine;
+		}
+		else if (bezier == selectedAction->text())
+		{
+			type = EdgeType::BezierLine;
+		}
+		image->changeEdge(this, type);
+	}
 }

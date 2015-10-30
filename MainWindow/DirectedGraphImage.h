@@ -7,9 +7,10 @@ public:
 	DirectedGraphImage(GraphConfig * config, QGraphicsScene * scene);
 	~DirectedGraphImage();
 
-	void addEdge(int vertexId1, int vertexId2, QPointF const & coord1, QPointF const & coord2) override;
+	void addEdge(int vertexId1, int vertexId2) override;
 
-private:
-	void updateVerticesDegree(int vertexId1, int vertexId2);
+protected:
+	void updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo);
+	EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0) override;
 };
 

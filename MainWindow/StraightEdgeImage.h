@@ -20,5 +20,6 @@ public:
 
 private:
 	void updateCenterPoint();
+	void updateContextMenu(QList<QAction*> const & actionList) override;
 	void updateTextItemPos();
 };

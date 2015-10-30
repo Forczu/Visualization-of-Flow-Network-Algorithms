@@ -8,6 +8,7 @@
 #include "Config.h"
 #include "Graph.h"
 #include "AddWeightToEdgeDialog.h"
+#include "BezierEdgeImage.h"
 
 GraphImage::GraphImage(GraphConfig * graphConfig, QGraphicsScene * scene)
 : _scene(scene), _config(graphConfig)
@@ -41,49 +42,48 @@ void GraphImage::addVertex(QPointF const & position)
 	_vertexMap[vertex->Id()] = vertexImg;
 }
 
-EdgeImage * GraphImage::CreateEdgeImage(Edge * edge, QPointF const &p1, QPointF const &p2)
+EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
 {
 	int size = _config->NormalVertexContext()->Size();
 	EdgeImage * edgeImg;
 	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
 	VertexImage * vertexTo = _vertexMap[edge->VertexTo()->Id()];
-	if (std::abs(p1.x() - p2.x()) <= size && std::abs(p1.y() - p2.y()) <= size)
+	switch (edgeType)
 	{
-		edgeImg = new LoopEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
-	}
-	else
-	{
+	case EdgeType::StraightLine: default:
 		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
+		break;
+	case EdgeType::BezierLine:
+		edgeImg = new BezierEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
+		break;
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
-	bool succeeded = AddWeight(vertexFrom, vertexTo, edgeImg);
-	if (!succeeded)
-		return nullptr;
-	_scene->addItem(edgeImg);
-	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
 }
 
-bool GraphImage::AddWeight(VertexImage * vertexFrom, VertexImage * vertexTo, EdgeImage * edgeImg)
+bool GraphImage::showEdgeImageDialog(int vertexId1, int vertexId2, int & weight)
 {
-	bool succeeded;
+	bool succeeded = false;
 	if (_weighted)
 	{
-		AddWeightToEdgeDialog dialog(vertexFrom->getVertex()->Id(), vertexTo->getVertex()->Id());
+		AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
 		dialog.show();
 		dialog.exec();
 		if (succeeded = dialog.isConfirmed())
 		{
-			edgeImg->setWeight(dialog.getWeight());
-		}
-		else
-		{
-			_graph->RemoveEdge(edgeImg->getEdge());
-			delete edgeImg;
+			weight = dialog.getWeight();
 		}
 	}
 	return succeeded;
+}
+
+void GraphImage::addEdgeImageToScene(EdgeImage * edgeImg)
+{
+	Edge * edge = edgeImg->getEdge();
+	_scene->addItem(edgeImg);
+	edgeImg->setParent(this);
+	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 }
 
 void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
@@ -167,22 +167,6 @@ void GraphImage::removeEdges(EdgeVector const & vector)
 	});
 }
 
-void GraphImage::makeDirected()
-{
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		(*it).second->addArrowHead();
-	}
-}
-
-void GraphImage::makeUndirected()
-{
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
-	{
-		(*it).second->deleteArrowHead();
-	}
-}
-
 void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 {
 	EdgeImage * edgeImg;
@@ -197,5 +181,27 @@ void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 		{
 			edgeImg->correctEdge(true, EDGE_OFFSET);
 		}
+	}
+}
+
+void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
+{
+	StraightEdgeImage * seImg = dynamic_cast<StraightEdgeImage*>(edgeImg);
+	if (NULL != seImg && type != EdgeType::StraightLine)
+	{
+		Edge * edge = seImg->getEdge();
+		int weight = seImg->getEdge()->Weight();
+		removeEdge(edgeImg);
+		createFullEdgeImage(edge, type);
+		return;
+	}
+	BezierEdgeImage * beImg = dynamic_cast<BezierEdgeImage*>(edgeImg);
+	if (NULL != beImg && type != EdgeType::BezierLine)
+	{
+		Edge * edge = beImg->getEdge();
+		int weight = seImg->getEdge()->Weight();
+		removeEdge(edgeImg);
+		createFullEdgeImage(edge, type, weight);
+		return;
 	}
 }

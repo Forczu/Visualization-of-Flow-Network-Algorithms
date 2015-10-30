@@ -283,7 +283,7 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 		coord.second = img->pos();
 		setEdgeFlag(EdgeFlag::None);
 		firstVertexChecked = true;
-		_graph->addEdge(pair.first, pair.second, coord.first, coord.second);
+		_graph->addEdge(pair.first, pair.second);
 		emit graphChanged();
 	}
 }

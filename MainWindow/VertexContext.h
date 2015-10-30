@@ -32,5 +32,5 @@ public:
 	Qt::BrushStyle Style() const { return _style; }
 	void Style(Qt::BrushStyle val) { _style = val; }
 
-	inline VertexContext * clone() { return new VertexContext(*this); }
+	inline VertexContext * clone() const { return new VertexContext(*this); }
 };

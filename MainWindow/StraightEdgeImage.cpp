@@ -63,3 +63,16 @@ void StraightEdgeImage::updateCenterPoint()
 	QPointF p2 = _line.p2();
 	_center = QPointF((p2.x() + p1.x()) / 2.0f, (p2.y() + p1.y()) / 2.0f);
 }
+
+
+void StraightEdgeImage::updateContextMenu(QList<QAction*> const & actionList)
+{
+	for (QAction* action : actionList)
+	{
+		if (action->text().compare("Linia prosta") == 0)
+		{
+			action->setChecked(true);
+			break;
+		}
+	}
+}
