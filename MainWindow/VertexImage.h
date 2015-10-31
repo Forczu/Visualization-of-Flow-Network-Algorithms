@@ -42,6 +42,7 @@ public:
 
 	inline QPointF PointAt(int edgeId) { return _pointList[edgeId]; }
 	inline PointMap getPoints() const { return _pointList; }
+	void setPoints(PointMap const & points) { _pointList = points; };
 
 	void setPointForEdge(int edgeId, float angle);
 	void setToolTip(int degree);

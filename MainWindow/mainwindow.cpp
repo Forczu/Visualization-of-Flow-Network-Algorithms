@@ -50,12 +50,24 @@ void MainWindow::newFile()
 	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
 }
 
+void MainWindow::open()
+{
+	//QString fileName = QFileDialog::getOpenFileName(this,
+	//	tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
+	QString fileName = "serialized_graph.xml";
+	GraphSerializer serializer;
+	GraphImage * graph = serializer.load(fileName.toStdString());
+	if (_graphTabs->isHidden())
+		_graphTabs->show();
+	_graphTabs->addTab("Cycki", graph);
+}
+
 void MainWindow::saveAs()
 {
 	if (_graphTabs->count() == 0)
 		return;
 	QString fileName = QFileDialog::getSaveFileName(this,
-		tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
+		tr("Save Graph File..."), QString(), tr("XML File (*.xml)"));
 	auto graph = _graphTabs->currentGraphView()->getGraphImage();
 	GraphSerializer serializer;
 	serializer.save(*graph, fileName.toStdString());
@@ -130,6 +142,7 @@ void MainWindow::createActions()
 	ui.actionClose->setStatusTip(tr("Zamyka program"));
 
 	connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newFile()));
+	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(ui.actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
 	connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
 

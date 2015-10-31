@@ -15,6 +15,17 @@ GraphTabWidget::~GraphTabWidget()
 void GraphTabWidget::addTab(QString const & name, Order order, Weight weighted)
 {
 	GraphView * widget = new GraphView(order, weighted);
+	createTab(widget, name);
+}
+
+void GraphTabWidget::addTab(QString const & name, GraphImage * graph)
+{
+	GraphView * widget = new GraphView(graph);
+	createTab(widget, name);
+}
+
+void GraphTabWidget::createTab(GraphView * widget, QString const & name)
+{
 	QString scaleStr = getPercentScale(widget->getScale());
 	int id = QTabWidget::addTab(widget, name + " @ " + scaleStr);
 	_tabNameMap[id] = name;

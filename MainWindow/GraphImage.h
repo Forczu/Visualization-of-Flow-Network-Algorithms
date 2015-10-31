@@ -31,6 +31,9 @@ public:
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
+	void addVertex(int id, QPointF const & position);
+	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
+
 	virtual void addEdge(int vertexId1, int vertexId2) = 0;
 	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0) = 0;
 
@@ -38,6 +41,7 @@ protected:
 	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
 	void addEdgeImageToScene(EdgeImage * edgeImage);
+	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
 
 public:
 	void removeItem(QList<QGraphicsItem*> const & items);
@@ -56,6 +60,7 @@ public:
 	void setConfig(GraphConfig * val) { _config = val; }
 	inline VertexImageMap getVertices() const { return _vertexMap; }
 	inline EdgeImageMap getEdges() const { return _edgeMap; }
+	inline QGraphicsScene * getScene() const { return _scene; }
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
 };

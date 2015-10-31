@@ -11,20 +11,31 @@
 #include "UndirectedGraphImage.h"
 #include "EdgeContext.h"
 #include "Config.h"
+#include "GraphScene.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
 const float GraphView::MAX_SCALE = 16.0f;
 const float GraphView::SCALE_FACTOR = 1.25f;
 
-GraphView::GraphView(Order order, Weight weighted) : _weighted(weighted)
+GraphView::GraphView(GraphImage * graph) : _graph(graph)
 {
-	init(order, weighted);
+	setScene(graph->getScene());
+	init();
+}
+
+GraphView::GraphView(Order order, Weight weighted)
+{
+	createScene();
+	init();
+	createGraph(order, weighted);
 }
 
 
 GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 {
-	init(Order::Undirected, Weight::Unwieghted);
+	createScene();
+	init();
+	createGraph(Order::Undirected, Weight::Weighted);
 }
 
 GraphView::~GraphView()
@@ -33,20 +44,15 @@ GraphView::~GraphView()
 	{
 		delete (*it).second;
 	}
-	delete _graphScene;
 	delete _graph;
 }
 
-void GraphView::init(Order order, Weight weighted)
+void GraphView::init()
 {
 	_scale = 1.0f;
 	setFrameShape(QFrame::WinPanel);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	setAlignment(Qt::AlignCenter);
-
-	_graphScene = new QGraphicsScene;
-	_graphScene->setSceneRect(QRect(-2000, -2000, 4000, 4000));
-	setScene(_graphScene);
 
 	_mouseClicked = false;
 	_grabFlag = _addEdgeFlag = _rubberFlag = false;
@@ -59,25 +65,6 @@ void GraphView::init(Order order, Weight weighted)
 	_labelMap["target"] = new TextItem("Target");
 	scene()->addItem(_labelMap["source"]);
 	scene()->addItem(_labelMap["target"]);
-
-	bool isWeighted = _weighted == Weight::Weighted;
-
-	GraphConfig * config = new GraphConfig(
-		Application::Config::Instance().DefaultVertexContext()->clone(),
-		Application::Config::Instance().DefaultEdgeContext()->clone(),
-		Application::Config::Instance().SelectedVertexContext()->clone(),
-		Application::Config::Instance().SelectedEdgeContext()->clone());
-
-	switch (order)
-	{
-	case Order::Directed:
-		_graph = new DirectedGraphImage(config, scene());
-		break;
-	default: case Order::Undirected:
-		_graph = new UndirectedGraphImage(config, scene());
-		break;
-	}
-	_graph->Weighted(_weighted == Weight::Weighted);
 
 	QFont font;
 	font.setBold(true);
@@ -111,6 +98,30 @@ void GraphView::unselectAll(QGraphicsItem * const except)
 
 void GraphView::changeSelection()
 {
+}
+
+void GraphView::createScene()
+{
+	setScene(GraphScene::getInstance());
+}
+
+void GraphView::createGraph(Order order, Weight weighted)
+{
+	GraphConfig * config = new GraphConfig(
+		Application::Config::Instance().DefaultVertexContext()->clone(),
+		Application::Config::Instance().DefaultEdgeContext()->clone(),
+		Application::Config::Instance().SelectedVertexContext()->clone(),
+		Application::Config::Instance().SelectedEdgeContext()->clone());
+	switch (order)
+	{
+	case Order::Directed:
+		_graph = new DirectedGraphImage(config, scene());
+		break;
+	default: case Order::Undirected:
+		_graph = new UndirectedGraphImage(config, scene());
+		break;
+	}
+	_graph->Weighted(weighted == Weight::Weighted);
 }
 
 void GraphView::wheelEvent(QWheelEvent * event)

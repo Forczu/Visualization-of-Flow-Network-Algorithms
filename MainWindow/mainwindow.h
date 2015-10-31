@@ -43,6 +43,7 @@ protected:
 
 private slots:
 	void newFile();
+	void open();
 	void saveAs();
 	void close();
 	void checkAddVertexButton(bool b);

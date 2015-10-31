@@ -33,13 +33,32 @@ GraphImage::~GraphImage()
 void GraphImage::addVertex(QPointF const & position)
 {
 	Vertex * vertex = _graph->AddVertex();
+	createVertexImage(vertex, position, vertex->Id());
+}
+
+void GraphImage::addVertex(int id, QPointF const & position)
+{
+	Vertex * vertex = _graph->AddVertex(id);
+	createVertexImage(vertex, position, id);
+}
+
+void GraphImage::addVertex(int id, QPointF const & position, PointMap const & pointMap)
+{
+	Vertex * vertex = _graph->AddVertex(id);
+	VertexImage * vertexImg = createVertexImage(vertex, position, id);
+	vertexImg->setPoints(pointMap);
+}
+
+VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
+{
 	VertexImage * vertexImg = new VertexImage(_config->NormalVertexContext()->clone());
 	vertexImg->setVertex(vertex);
 	vertexImg->setPos(position);
 	vertexImg->setZValue(VERTICE_Z_VALUE);
 	vertexImg->setParent(this);
 	_scene->addItem(vertexImg);
-	_vertexMap[vertex->Id()] = vertexImg;
+	_vertexMap[id] = vertexImg;
+	return vertexImg;
 }
 
 EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)

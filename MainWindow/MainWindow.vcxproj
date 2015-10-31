@@ -150,6 +150,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphConfig.cpp" />
     <ClCompile Include="GraphImage.cpp" />
+    <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="GraphScrollBar.cpp" />
     <ClCompile Include="GraphSerializer.cpp" />
     <ClCompile Include="GraphShapeDialog.cpp" />
@@ -875,6 +876,9 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </AdditionalInputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GraphScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

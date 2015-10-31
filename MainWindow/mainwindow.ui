@@ -60,6 +60,7 @@
      <string>Plik</string>
     </property>
     <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
     <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
@@ -306,6 +307,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Otwórz...</string>
+   </property>
+   <property name="toolTip">
+    <string>Otwiera istniejący plik grafu</string>
    </property>
   </action>
  </widget>

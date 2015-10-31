@@ -21,6 +21,7 @@ class StraightEdgeImage;
 class TextItem;
 class ArrowHeadImage;
 class GraphImage;
+class GraphScene;
 
 enum class EdgeFlag
 {
@@ -36,7 +37,6 @@ class GraphView : public QGraphicsView
 	static const float SCALE_FACTOR;
 
 	LabelMap _labelMap;
-	QGraphicsScene * _graphScene;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
 	GraphImage * _graph;
@@ -48,10 +48,10 @@ private:
 	bool _addEdgeFlag;
 	EdgeFlag _edgeFlag;
 	QPoint _offset;
-	Weight _weighted;
 	float _scale;
 
 public:
+	GraphView(GraphImage * graph);
 	GraphView(Order order, Weight weighted);
 	GraphView(QWidget * widget);
 	~GraphView();
@@ -85,7 +85,7 @@ protected:
 	QRect mapRubberBandToScene();
 
 private:
-	void init(Order order, Weight weighted);
+	void init();
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:
@@ -96,5 +96,7 @@ signals:
 
 private:
 	void changeSelection();
+	void createScene();
+	void createGraph(Order order, Weight weighted);
 };
 
