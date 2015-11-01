@@ -178,7 +178,7 @@ void GraphView::wheelEvent(QWheelEvent * event)
 		scale(SCALE_FACTOR, SCALE_FACTOR);
 		_scale *= SCALE_FACTOR;
 		emit scaleChanged(_scale);
-		_graph->updateScale(SCALE_FACTOR);
+		_graph->updateScale(_scale);
 	}
 	// Zoom out
 	else if (event->delta() < 0 && _scale >= MIN_SCALE) {
@@ -186,7 +186,7 @@ void GraphView::wheelEvent(QWheelEvent * event)
 		scale(factor, factor);
 		_scale *= factor;
 		emit scaleChanged(_scale);
-		_graph->updateScale(factor);
+		_graph->updateScale(_scale);
 	}
 }
 
@@ -348,7 +348,7 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 		coord.second = img->pos();
 		setEdgeFlag(EdgeFlag::Source);
 		firstVertexChecked = true;
-		_graph->addEdgeByDialog(pair.first, pair.second);
+		_graph->addEdgeByDialog(pair.first, pair.second, _scale);
 		unglueLabels();
 		emit graphChanged();
 	}

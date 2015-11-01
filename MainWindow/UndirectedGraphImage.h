@@ -5,6 +5,7 @@ class UndirectedGraphImage : public GraphImage
 {
 public:
 	UndirectedGraphImage(GraphConfig * config);
+	UndirectedGraphImage(UndirectedGraphImage const & graph);
 	~UndirectedGraphImage();
 
 	EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) override;

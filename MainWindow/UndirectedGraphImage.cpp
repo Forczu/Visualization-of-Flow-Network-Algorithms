@@ -10,6 +10,12 @@ UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config)
 }
 
 
+UndirectedGraphImage::UndirectedGraphImage(UndirectedGraphImage const & graph)
+: GraphImage(graph)
+{
+	cloneEdges(graph);
+}
+
 UndirectedGraphImage::~UndirectedGraphImage()
 {
 }
@@ -32,10 +38,9 @@ void UndirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, Vertex
 
 EdgeImage * UndirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight)
 {
-	EdgeImage * edgeImg = createEdgeImage(edge, type);
+	EdgeImage * edgeImg = createEdgeImage(edge, type, weight);
 	if (edgeImg == nullptr)
 		return edgeImg;
-	edgeImg->setWeight(weight);
 	updateVerticesDegree(edgeImg->VertexFrom(), edgeImg->VertexTo());
 	return edgeImg;
 }

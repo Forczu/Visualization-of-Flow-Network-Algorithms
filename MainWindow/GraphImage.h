@@ -29,18 +29,21 @@ protected:
 public:
 	GraphImage(GraphConfig * graphConfig);
 	GraphImage(GraphImage const & graph);
+protected:
+	void cloneEdges(GraphImage const & graph);
+public:
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
 	void addVertex(int id, QPointF const & position);
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
 
-	void addEdgeByDialog(int vertexId1, int vertexId2);
+	void addEdgeByDialog(int vertexId1, int vertexId2, float scale);
 	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) = 0;
 	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0) = 0;
 
 protected:
-	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType);
+	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
 	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
 

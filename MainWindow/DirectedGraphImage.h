@@ -6,6 +6,7 @@ class DirectedGraphImage : public GraphImage
 public:
 	DirectedGraphImage(GraphConfig * config);
 	DirectedGraphImage(DirectedGraphImage const & graph);
+
 	~DirectedGraphImage();
 
 	EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) override;

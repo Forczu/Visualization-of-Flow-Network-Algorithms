@@ -29,18 +29,23 @@ GraphImage::GraphImage(GraphImage const & graph)
 		int id = vertex->Id();
 		createVertexImage(vertex, (*imgV)[id]->pos(), id);
 	}
+	_weighted = graph._weighted;
+}
 
+void GraphImage::cloneEdges(GraphImage const & graph)
+{
 	EdgeImageMap const * tmpE = &graph._edgeMap;
 	EdgeImageMap * imgE = const_cast<EdgeImageMap*>(tmpE);
 	for (Edge * edge : _graph->getEdges())
 	{
+		EdgeImage * newImg;
 		EdgeImage * img = (*imgE)[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())];
 		if (dynamic_cast<StraightEdgeImage*>(img) != NULL)
-			createEdgeImage(edge, EdgeType::StraightLine);
+			newImg = createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
 		else if (dynamic_cast<BezierEdgeImage*>(img) != NULL)
-			createEdgeImage(edge, EdgeType::BezierLine);
+			newImg = createFullEdgeImage(edge, EdgeType::BezierLine, edge->getCapacity());
+		newImg->scaleText(img->scaleText());
 	}
-	_weighted = graph._weighted;
 }
 
 GraphImage::~GraphImage()
@@ -76,7 +81,7 @@ void GraphImage::addVertex(int id, QPointF const & position, PointMap const & po
 	vertexImg->setPoints(pointMap);
 }
 
-void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2)
+void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2, float scale)
 {
 	int weight;
 	if (_weighted)
@@ -85,7 +90,8 @@ void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2)
 		if (!succeeded)
 			return;
 	}
-	addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType());
+	EdgeImage * img = addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType());
+	img->scaleText(scale);
 }
 
 VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
@@ -109,7 +115,7 @@ QRectF GraphImage::boundingRect() const
 	return childrenBoundingRect();
 }
 
-EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
+EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weight /*= 0*/)
 {
 	int size = _config->NormalVertexContext()->Size();
 	EdgeImage * edgeImg;
@@ -127,6 +133,7 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	edgeImg->setParentItem(this);
+	edgeImg->setWeight(weight);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
 }

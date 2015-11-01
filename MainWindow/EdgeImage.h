@@ -58,6 +58,7 @@ public:
 	void setCapacity(int capacity);
 	void scaleText(float scale);
 
+	qreal scaleText() const;
 	float Angle() const;
 	void correctEdge(bool type, float theta);
 	void addArrowHead();

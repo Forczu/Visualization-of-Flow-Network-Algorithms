@@ -48,7 +48,12 @@ void EdgeImage::setCapacity(int capacity)
 
 void EdgeImage::scaleText(float scale)
 {
-	_text->setScale(_text->scale() * scale);
+	_text->setScale(scale);
+}
+
+qreal EdgeImage::scaleText() const
+{
+	return _text->scale();
 }
 
 float EdgeImage::Angle() const

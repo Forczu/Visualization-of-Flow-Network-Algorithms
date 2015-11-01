@@ -410,8 +410,8 @@ void GraphSerializer::deserializeEdge(xml_node<>* node, GraphImage * graph)
 	int weight = toInt(readAttribute(node, WEIGHT_ATR));
 	bool offsetType = toBool(readAttribute(node, OFFSET_TYPE_ATR));
 	float offsetValue = toFloat(readAttribute(node, OFFSET_VAL_ATR));
-	float tx = toFloat(readAttribute(node, TEXT_POS_X_ATR));
-	float ty = toFloat(readAttribute(node, TEXT_POS_Y_ATR));
+	float tx = toFloat(readAttribute(node, TEXT_POS_X_ATR)) / 2.0f;
+	float ty = toFloat(readAttribute(node, TEXT_POS_Y_ATR)) / 2.0f;
 	edge = graph->addEdge(vertexFrom, vertexTo, weight, edgeType);
 	edge->setOffset(offsetType, offsetValue);
 	edge->setTextPos(QPointF(tx, ty));

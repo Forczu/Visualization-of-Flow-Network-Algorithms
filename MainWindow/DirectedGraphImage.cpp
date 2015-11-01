@@ -4,6 +4,8 @@
 #include "VertexImage.h"
 #include "Edge.h"
 #include "QGraphicsItem"
+#include "StraightEdgeImage.h"
+#include "BezierEdgeImage.h"
 
 DirectedGraphImage::DirectedGraphImage(GraphConfig * config)
 : GraphImage(config)
@@ -14,6 +16,7 @@ DirectedGraphImage::DirectedGraphImage(GraphConfig * config)
 DirectedGraphImage::DirectedGraphImage(DirectedGraphImage const & graph)
 : GraphImage(graph)
 {
+	cloneEdges(graph);
 }
 
 DirectedGraphImage::~DirectedGraphImage()
@@ -38,10 +41,9 @@ void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexIm
 
 EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/)
 {
-	EdgeImage * edgeImg = createEdgeImage(edge, type);
+	EdgeImage * edgeImg = createEdgeImage(edge, type, weight);
 	if (edgeImg == nullptr)
 		return edgeImg;
-	edgeImg->setWeight(weight);
 	edgeImg->addArrowHead();
 	Edge * neighbor = _graph->GetNeighborEdge(edge);
 	if (neighbor != nullptr)

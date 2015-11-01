@@ -18,7 +18,9 @@ Graph::Graph(Graph const & other)
 	}
 	for (Edge * edge : other._graph->second)
 	{
-		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id());
+		Edge * newEdge = addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id());
+		newEdge->setFlow(edge->getFlow());
+		newEdge->setCapacity(edge->getCapacity());
 	}
 }
 
