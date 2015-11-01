@@ -4,6 +4,8 @@
 #include <QTextCodec>
 #include <QString>
 
+#include "Singleton.h"
+#include "Tool.h"
 #include "VertexContext.h"
 #include "Tools.h"
 #include "Edges.h"
@@ -12,10 +14,10 @@
 
 namespace Application
 {
-	class Config
+	class Config : public Singleton<Config>
 	{
-		static Config * _pInstance;
-
+		friend class Singleton<Config>;
+		DrawingTool * _tool;
 		libconfig::Config _cfg;
 
 		VertexContext * _defaultVertexContext;
@@ -25,10 +27,8 @@ namespace Application
 		EdgeContext * _selectedEdgeContext;
 		QString _graphStatusString;
 
-		Tool _currentTool;
+		ToolType _currentTool;
 		EdgeType _currentEdgeType;
-	public:
-		static Config & Instance();
 	private:
 		Config();
 		~Config();
@@ -43,10 +43,19 @@ namespace Application
 		void DefaultEdgeContext(EdgeContext * const  val) { _defaultEdgeContext = val; }
 		inline EdgeContext * SelectedEdgeContext() const { return _selectedEdgeContext; }
 		void SelectedEdgeContext(EdgeContext * const val) { _selectedEdgeContext = val; }
-		inline Tool CurrentTool() const { return _currentTool; }
-		void CurrentTool(Tool val) { _currentTool = val; }
+		inline ToolType CurrentToolType() const { return _currentTool; }
+		void CurrentToolType(ToolType val)
+		{
+			_currentTool = val;
+		}
 		inline EdgeType CurrentEdgeType() const { return _currentEdgeType; }
 		void CurrentEdgeType(EdgeType val) { _currentEdgeType = val; }
+		inline DrawingTool * CurrentTool() const { return _tool; }
+
+		void changeCurrentTool(Tool * tool)
+		{
+			_tool->changeTool(tool);
+		}
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);
@@ -60,6 +69,5 @@ namespace Application
 		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext * context);
 
 		void ReadStatusString(libconfig::Setting const & root);
-		static void DestroyConfig();
 	};
 }

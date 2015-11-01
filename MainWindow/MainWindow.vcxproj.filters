@@ -69,6 +69,12 @@
     <Filter Include="Source Files\Graphs">
       <UniqueIdentifier>{d392c430-ffe4-4d09-bbd4-6828f35999a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{5c9dff3d-5bf7-4f6f-8f6f-bd7bf0f0c7b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{71542620-42b6-4cbd-8b89-20d0752f7914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -185,9 +191,6 @@
     <ClCompile Include="BezierEdgeImage.cpp">
       <Filter>Source Files\Edges</Filter>
     </ClCompile>
-    <ClCompile Include="PointImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -214,6 +217,30 @@
     </ClCompile>
     <ClCompile Include="GraphScene.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAddTool.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeAddTool.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveTool.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="PointTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointImage.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -355,13 +382,34 @@
     <CustomBuild Include="Edges.h">
       <Filter>Header Files\Enums</Filter>
     </CustomBuild>
+    <CustomBuild Include="GraphScene.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FlowNetwork.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphScene.h">
+    <ClInclude Include="Tool.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAddTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeAddTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="PointTool.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

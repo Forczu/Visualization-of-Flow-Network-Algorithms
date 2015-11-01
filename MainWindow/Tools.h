@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Tool
+enum class ToolType
 {
 	None, Vertex, Edge, Pointer, Grab, RubberBand, Remove
 };

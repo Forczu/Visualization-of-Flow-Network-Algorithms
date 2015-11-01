@@ -4,14 +4,14 @@
 
 TextItem::TextItem(QPointF const & point, QGraphicsItem* parent) : QGraphicsItem(parent)
 {
-	init();
 	setPos(point);
+	init();
 }
 
 TextItem::TextItem(const QString& text, QGraphicsItem* parent) : QGraphicsItem(parent)
 {
-	init();
 	_text = text;
+	init();
 }
 
 QRectF TextItem::boundingRect() const

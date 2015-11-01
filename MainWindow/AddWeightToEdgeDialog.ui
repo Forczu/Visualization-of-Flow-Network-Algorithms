@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>AddWeightToEdgeDialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -66,6 +66,9 @@
     </item>
     <item row="2" column="1">
      <widget class="QSpinBox" name="weightBox">
+      <property name="minimum">
+       <number>1</number>
+      </property>
       <property name="maximum">
        <number>9999</number>
       </property>
@@ -73,7 +76,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -99,15 +102,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>weightBox</zorder>
-  <zorder>weightLabel</zorder>
-  <zorder>sourceLabel</zorder>
-  <zorder>targetLabel</zorder>
-  <zorder>sourceEdit</zorder>
-  <zorder>targetEdit</zorder>
-  <zorder>okButton</zorder>
-  <zorder>cancelButton</zorder>
-  <zorder>okButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

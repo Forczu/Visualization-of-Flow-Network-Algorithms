@@ -8,25 +8,34 @@
 #include "GraphView.h"
 #include "GraphImage.h"
 #include "GraphSerializer.h"
+#include "Tool.h"
+#include "VertexAddTool.h"
+#include "EdgeAddTool.h"
+#include "RemoveTool.h"
+#include "PointTool.h"
+#include "QAction"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
 {
 	ui.setupUi(this);
 	_graphTabs = new GraphTabWidget(this);
-	ui.mainLayout->addWidget(_graphTabs, 0, 1, 1, 2);
+	ui.mainLayout->addWidget(_graphTabs, 0, 1, 4, 2);
 	ui.mainLayout->setColumnStretch(0, 1);
 	_graphTabs->hide();
 	createActions();
+	createButtonVector();
+	checkPointerButton(true);
+}
 
-	_tools[Tool::Vertex]		= ui.actionAddVertex;
-	_tools[Tool::Edge]			= ui.actionAddEdge;
-	_tools[Tool::Grab]			= ui.actionGrab;
-	_tools[Tool::RubberBand]	= ui.actionSelect;
-	_tools[Tool::Pointer]		= ui.actionPointer;
-	_tools[Tool::Remove]		= ui.actionRemove;
-
-	ui.actionPointer->setChecked(true);
+void MainWindow::createButtonVector()
+{
+	_buttons.push_back(ui.actionAddVertex);
+	_buttons.push_back(ui.actionAddEdge);
+	_buttons.push_back(ui.actionGrab);
+	_buttons.push_back(ui.actionSelect);
+	_buttons.push_back(ui.actionPointer);
+	_buttons.push_back(ui.actionRemove);
 }
 
 MainWindow::~MainWindow()
@@ -89,7 +98,7 @@ void MainWindow::close()
 
 void MainWindow::checkAddVertexButton(bool b)
 {
-	checkButton(Tool::Vertex, b);
+	checkButton(&VertexAddTool::Instance(), ui.actionAddVertex, b);
 	setCursorForWidget(_graphTabs->currentWidget(), Qt::ArrowCursor);
 }
 
@@ -102,38 +111,28 @@ void MainWindow::setCursorForWidget(QWidget * widget, Qt::CursorShape shape)
 
 void MainWindow::checkAddEdgeButton(bool b)
 {
-	checkButton(Tool::Edge, b);
+	checkButton(&EdgeAddTool::Instance(), ui.actionAddEdge, b);
 	GraphView * currentView = _graphTabs->currentGraphView();
 	if (currentView == nullptr)
 		return;
 	currentView->setCursor(Qt::ArrowCursor);
-	if (b)
-		currentView->setEdgeFlag(EdgeFlag::Source);
-	else
-		currentView->setEdgeFlag(EdgeFlag::None);
-	currentView->AddEdgeFlag(b);
-}
-
-void MainWindow::checkGrabButton(bool b)
-{
-	checkButton(Tool::Grab, b);
-	setCursorForWidget(_graphTabs->currentWidget(), Qt::OpenHandCursor);
+	currentView->setEdgeFlag(EdgeFlag::Source);
 }
 
 void MainWindow::checkSelectionButton(bool b)
 {
-	checkButton(Tool::RubberBand, b);
+	checkButton(0, 0);
 }
 
 void MainWindow::checkPointerButton(bool b)
 {
-	checkButton(Tool::Pointer, b);
+	checkButton(&PointTool::Instance(), ui.actionPointer, b);
 	setCursorForWidget(_graphTabs->currentWidget(), Qt::ArrowCursor);
 }
 
 void MainWindow::checkRemoveButton(bool b)
 {
-	checkButton(Tool::Remove, b);
+	checkButton(&RemoveTool::Instance(), ui.actionRemove, b);
 	setCursorForWidget(_graphTabs->currentWidget(), Qt::CrossCursor);
 }
 
@@ -162,7 +161,6 @@ void MainWindow::createActions()
 
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
-	connect(ui.actionGrab, SIGNAL(triggered(bool)), this, SLOT(checkGrabButton(bool)));
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
@@ -171,25 +169,20 @@ void MainWindow::createActions()
 	connect(ui.actionBezierLine, SIGNAL(triggered(bool)), this, SLOT(checkBezierCurve(bool)));
 }
 
-void MainWindow::checkButton(Tool tool, bool b)
+void MainWindow::checkButton(Tool * tool, QAction * action, bool b)
 {
-	if (b)
-	{
-		Application::Config::Instance().CurrentTool(tool);
-		uncheckButtons();
-	}
-	else
-		Application::Config::Instance().CurrentTool(Tool::None);
+	if (!b) action->setChecked(true);
+	Application::Config::Instance().changeCurrentTool(tool);
+	uncheckButtons(action);
 }
 
-void MainWindow::uncheckButtons()
+void MainWindow::uncheckButtons(QAction const * action)
 {
-	Tool currentTool = Application::Config::Instance().CurrentTool();
-	for (ToolMap::iterator it = _tools.begin(); it != _tools.end(); ++it)
+	for (ActionVector::iterator it = _buttons.begin(); it != _buttons.end(); ++it)
 	{
-		if (it->first != currentTool)
+		if (*it != action)
 		{
-			it->second->setChecked(false);
+			(*it)->setChecked(false);
 		}
 	}
 }

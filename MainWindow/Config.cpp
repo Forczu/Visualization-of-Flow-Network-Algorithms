@@ -1,23 +1,11 @@
 #include "Config.h"
 #include "VertexContext.h"
 
+Application::Config * Application::Config::_pInstance = 0;
+
 namespace Application
 {
-	Config * Config::_pInstance = 0;
-
-	Config & Config::Instance()
-	{
-		static bool __initialized = false;
-		if (!__initialized)
-		{
-			_pInstance = new Config;
-			atexit(DestroyConfig);
-			__initialized = true;
-		}
-		return *_pInstance;
-	}
-
-	Config::Config() : _currentTool(Tool::None)
+	Config::Config() : _currentTool(ToolType::None)
 	{
 		try
 		{
@@ -130,10 +118,5 @@ namespace Application
 		libconfig::Setting const & graphNode = root["application"]["graph"];
 		std::string tmp = graphNode["status"].c_str();
 		_graphStatusString = QString::fromLocal8Bit(graphNode["status"]);
-	}
-
-	void Config::DestroyConfig()
-	{
-		delete _pInstance;
 	}
 }

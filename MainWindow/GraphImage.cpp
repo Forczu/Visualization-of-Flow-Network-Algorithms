@@ -107,16 +107,11 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
 bool GraphImage::showEdgeImageDialog(int vertexId1, int vertexId2, int & weight)
 {
 	bool succeeded = false;
-	if (_weighted)
-	{
-		AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
-		dialog.show();
-		dialog.exec();
-		if (succeeded = dialog.isConfirmed())
-		{
-			weight = dialog.getWeight();
-		}
-	}
+	AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
+	dialog.show();
+	dialog.exec();
+	if (succeeded = dialog.isConfirmed())
+		weight = dialog.getWeight();
 	return succeeded;
 }
 
@@ -151,7 +146,6 @@ void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
 
 void GraphImage::removeItem(QGraphicsItem * item)
 {
-	item->setParentItem(NULL);
 	delete item;
 }
 

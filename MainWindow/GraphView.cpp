@@ -12,6 +12,7 @@
 #include "EdgeContext.h"
 #include "Config.h"
 #include "GraphScene.h"
+#include "Tool.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
 const float GraphView::MAX_SCALE = 16.0f;
@@ -40,10 +41,8 @@ GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 
 GraphView::~GraphView()
 {
-	for (LabelMap::iterator it = _labelMap.begin(); it != _labelMap.end(); ++it)
-	{
-		delete (*it).second;
-	}
+	delete _sourceLabel;
+	delete _targetLabel;
 	delete _graph;
 }
 
@@ -55,26 +54,28 @@ void GraphView::init()
 	setAlignment(Qt::AlignCenter);
 
 	_mouseClicked = false;
-	_grabFlag = _addEdgeFlag = _rubberFlag = false;
+	_grabFlag = _rubberFlag = false;
 	_rubberBand = nullptr;
-	_edgeFlag = EdgeFlag::None;
+	_edgeFlag = EdgeFlag::Source;
 	setMouseTracking(true);
 	viewport()->setMouseTracking(true);
 
-	_labelMap["source"] = new TextItem("Source");
-	_labelMap["target"] = new TextItem("Target");
-	scene()->addItem(_labelMap["source"]);
-	scene()->addItem(_labelMap["target"]);
+	_sourceLabel = new TextItem("Source");
+	_targetLabel = new TextItem("Target");
+	scene()->addItem(_sourceLabel);
+	scene()->addItem(_targetLabel);
 
 	QFont font;
 	font.setBold(true);
 	font.setItalic(true);
 	font.setPointSize(16);
 	font.setFamily(QString("Calibri"));
-	_labelMap["source"]->replaceFont(font);
-	_labelMap["target"]->replaceFont(font);
-	_labelMap["source"]->setAlignment(Qt::AlignLeft);
-	_labelMap["target"]->setAlignment(Qt::AlignRight);
+	_sourceLabel->replaceFont(font);
+	_targetLabel->replaceFont(font);
+	_sourceLabel->setAlignment(Qt::AlignLeft);
+	_targetLabel->setAlignment(Qt::AlignRight);
+	_sourceLabel->hide();
+	_targetLabel->hide();
 }
 
 void GraphView::unselectAll(QGraphicsItem * const except)
@@ -125,6 +126,42 @@ void GraphView::createGraph(Order order, Weight weighted)
 	_graph->Weighted(weighted == Weight::Weighted);
 }
 
+void GraphView::glueLabel(EdgeFlag edgeFlag, VertexImage * img)
+{
+	switch (edgeFlag)
+	{
+	case EdgeFlag::Source:
+		setSourceLabelPost(img);
+		_sourceGlued = true;
+		break;
+	case EdgeFlag::Target:
+		setTargetLabelPos(img);
+		_targetGlued = true;
+		break;
+	}
+}
+
+void GraphView::setSourceLabelPost(VertexImage * img)
+{
+	_sourceLabel->setPos(
+		img->scenePos().x() - img->Context()->Size() - _sourceLabel->boundingRect().width() / 2.0f,
+		img->scenePos().y() - img->Context()->Size() - 40);
+}
+
+void GraphView::setTargetLabelPos(VertexImage * img)
+{
+	_targetLabel->setPos(
+		img->scenePos().x() + img->Context()->Size() - _targetLabel->boundingRect().width() / 2.0f,
+		img->scenePos().y() - img->Context()->Size() - 40);
+}
+
+void GraphView::unglueLabels()
+{
+	_sourceGlued = _targetGlued = false;
+	_sourceLabel->hide();
+	_targetLabel->hide();
+}
+
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -143,27 +180,27 @@ void GraphView::wheelEvent(QWheelEvent * event)
 	}
 }
 
-void GraphView::grabItem(QPoint const & position)
+void GraphView::grabItem(QPointF const & pos)
 {
 	setCursor(Qt::ClosedHandCursor);
-	_offset = mapToScene(position).toPoint();
+	_offset = mapToScene(pos.toPoint()).toPoint();
 	_grabFlag = true;
 }
 
-void GraphView::pointItem(QPoint const & position, QList<QGraphicsItem*> const & items)
+void GraphView::pointItem(QPointF const & position, QList<QGraphicsItem*> const & item)
 {
-	if (items.size() == 0)
+	if (item.size() == 0)
 	{
 		startRubberBand(position);
 	}
-	else if (items.first()->isSelected())
+	else if (item.first()->isSelected())
 	{
 		grabItem(position);
 	}
 	else
 	{
 		unselectAll();
-		for each (QGraphicsItem* item in items)
+		for each (QGraphicsItem* item in item)
 		{
 			item->setSelected(true);
 		}
@@ -171,10 +208,10 @@ void GraphView::pointItem(QPoint const & position, QList<QGraphicsItem*> const &
 	viewport()->update();
 }
 
-void GraphView::startRubberBand(QPoint const & position)
+void GraphView::startRubberBand(QPointF const & position)
 {
 	unselectAll();
-	_origin = position;
+	_origin = position.toPoint();
 	if (_rubberBand == nullptr)
 		_rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	_rubberBand->setGeometry(QRect(_origin, QSize()));
@@ -184,18 +221,20 @@ void GraphView::startRubberBand(QPoint const & position)
 
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
-	auto chosenItems = items(event->pos());
-	clickElement(event->pos(), chosenItems);
+	QPoint position = event->pos();
+	auto chosenItems = items(position);
+	DrawingTool * tool = Application::Config::Instance().CurrentTool();
+	tool->mousePressed(this, position, chosenItems);
 	QGraphicsView::mousePressEvent(event);
 	viewport()->update();
 }
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
-	if (_addEdgeFlag)
-	{
-		changeVerticesLabels(event->pos());
-	}
+	QPoint position = event->pos();
+	DrawingTool * tool = Application::Config::Instance().CurrentTool();
+	tool->mouseMoved(this, position);
+
 	if (_rubberBand != nullptr && _rubberFlag)
 	{
 		_rubberBand->setGeometry(QRect(_origin, event->pos()).normalized());
@@ -220,29 +259,24 @@ void GraphView::changeVerticesLabels(QPoint const & position)
 	auto item = scene()->itemAt(point, transform());
 	VertexImage * img = dynamic_cast<VertexImage*>(item);
 	if (NULL == img)
+	{
+		if (_edgeFlag == EdgeFlag::Source && _sourceLabel->isVisible())
+			_sourceLabel->hide();
+		else if (_edgeFlag == EdgeFlag::Target && _targetLabel->isVisible())
+			_targetLabel->hide();
 		return;
+	}
 	switch (_edgeFlag)
 	{
 	case EdgeFlag::Source:
-		_labelMap["source"]->setBoundingRect(QRect(
-			img->scenePos().x() - img->Context()->Size(),
-			img->scenePos().y() - img->Context()->Size() - 40,
-			img->Context()->Size() * 2,
-			40));
+		if (!_sourceLabel->isVisible())
+			_sourceLabel->show();
+		setSourceLabelPost(img);
 		break;
 	case EdgeFlag::Target:
-		_labelMap["target"]->setBoundingRect(QRect(
-			img->scenePos().x() - img->Context()->Size(),
-			img->scenePos().y() - img->Context()->Size() - 40,
-			img->Context()->Size() * 2,
-			40));
-		break;
-	default:
-		std::for_each(_labelMap.begin(), _labelMap.end(), [](std::pair<std::string, TextItem*> label)
-		{
-			label.second->setBoundingRect(QRect());
-		});
-		setEdgeFlag(EdgeFlag::Source);
+		if (!_targetLabel->isVisible())
+			_targetLabel->show();
+		setTargetLabelPos(img);
 		break;
 	}
 }
@@ -272,6 +306,14 @@ QRect GraphView::mapRubberBandToScene()
 	return rubberRect;
 }
 
+void GraphView::buildVertex(QPointF const & position, QList<QGraphicsItem*> const & items)
+{
+	if (items.size() != 0)
+		return;
+	_graph->addVertex(mapToScene(position.toPoint()));
+	emit graphChanged();
+}
+
 void GraphView::buildEdge(QGraphicsItem * const item)
 {
 	static std::pair<int, int> pair;
@@ -283,6 +325,7 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 	// jeœli to pierwszy wierzcho³ek
 	if (firstVertexChecked)
 	{
+		glueLabel(_edgeFlag, img);
 		pair.first = img->getVertex()->Id();
 		coord.first = img->pos();
 		setEdgeFlag(EdgeFlag::Target);
@@ -290,51 +333,25 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 	}
 	else
 	{
+		glueLabel(_edgeFlag, img);
 		pair.second = img->getVertex()->Id();
 		coord.second = img->pos();
-		setEdgeFlag(EdgeFlag::None);
+		setEdgeFlag(EdgeFlag::Source);
 		firstVertexChecked = true;
 		_graph->addEdgeByDialog(pair.first, pair.second);
+		unglueLabels();
 		emit graphChanged();
 	}
 }
 
-void GraphView::clickElement(QPoint const & position, QList<QGraphicsItem*> const & items)
+void GraphView::remove(QList<QGraphicsItem*> const &items)
 {
-	switch (Application::Config::Instance().CurrentTool())
+	if (items.size() != 0)
 	{
-	case Tool::Vertex:
-		if (items.size() == 0)
-		{
-			_graph->addVertex(mapToScene(position));
-			emit graphChanged();
-		}
-		return;
-	case Tool::Edge:
-		if (items.size() == 0)
-			return;
-		buildEdge(items.first());
-		return;
-	case Tool::Pointer:
-		pointItem(position, items);
-		return;
-	case Tool::Grab:
-		grabItem(position);
-		return;
-	case Tool::RubberBand:
-		startRubberBand(position);
-		break;
-	case Tool::Remove:
-		if (items.size() != 0)
-		{
-			if (!items.first()->isSelected())
-				_graph->removeItem(items);
-			else
-				_graph->removeItem(scene()->selectedItems());
-			emit graphChanged();
-		}
-		return;
-	default: case Tool::None:
-		break;
+		if (!items.first()->isSelected())
+			_graph->removeItem(items);
+		else
+			_graph->removeItem(scene()->selectedItems());
+		emit graphChanged();
 	}
 }

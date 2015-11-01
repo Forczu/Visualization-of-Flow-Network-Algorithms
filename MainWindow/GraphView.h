@@ -22,10 +22,11 @@ class TextItem;
 class ArrowHeadImage;
 class GraphImage;
 class GraphScene;
+class Tool;
 
 enum class EdgeFlag
 {
-	None, Source, Target
+	Source, Target
 };
 
 class GraphView : public QGraphicsView
@@ -36,7 +37,8 @@ class GraphView : public QGraphicsView
 	static const float MAX_SCALE;
 	static const float SCALE_FACTOR;
 
-	LabelMap _labelMap;
+	TextItem * _sourceLabel;
+	TextItem * _targetLabel;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
 	GraphImage * _graph;
@@ -45,7 +47,7 @@ private:
 	bool _mouseClicked;
 	bool _rubberFlag;
 	bool _grabFlag;
-	bool _addEdgeFlag;
+	bool _sourceGlued, _targetGlued;
 	EdgeFlag _edgeFlag;
 	QPoint _offset;
 	float _scale;
@@ -56,18 +58,20 @@ public:
 	GraphView(QWidget * widget);
 	~GraphView();
 
+	void buildVertex(QPointF const & position, QList<QGraphicsItem*> const & items);
 	void buildEdge(QGraphicsItem * const item);
+	void remove(QList<QGraphicsItem*> const &items);
 
-	void grabItem(QPoint const & pos);
-	void pointItem(QPoint const & position, QList<QGraphicsItem*> const & item);
-	void startRubberBand(QPoint const & position);
-	void setTool(Tool tool);
+	void removeEdges(EdgeVector const & vector);
+
+	void grabItem(QPointF const & pos);
+	void pointItem(QPointF const & position, QList<QGraphicsItem*> const & item);
+	void startRubberBand(QPointF const & position);
+	void setTool(ToolType tool);
 
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
-	void AddEdgeFlag(bool val) { _addEdgeFlag = val; }
 
-	void removeEdges(EdgeVector const & vector);
 
 	inline GraphImage * getGraphImage() const { return _graph; }
 	void setGraphImage(GraphImage * val) { _graph = val; }
@@ -79,10 +83,9 @@ protected:
 	void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 
-	void changeVerticesLabels(QPoint const & position);
-	void clickElement(QPoint const & position, QList<QGraphicsItem*> const & items);
-
 	QRect mapRubberBandToScene();
+public:
+	void changeVerticesLabels(QPoint const & position);
 
 private:
 	void init();
@@ -98,5 +101,9 @@ private:
 	void changeSelection();
 	void createScene();
 	void createGraph(Order order, Weight weighted);
+	void glueLabel(EdgeFlag edgeFlag, VertexImage * img);
+	void setSourceLabelPost(VertexImage * img);
+	void setTargetLabelPos(VertexImage * img);
+	void unglueLabels();
 };
 

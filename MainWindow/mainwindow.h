@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLayout>
+#include <QListWidget>
 #include <qtextcodec.h>
 #include <map>
 #include <vector>
@@ -11,6 +12,7 @@
 #include "Typedefs.h"
 #include "GraphTabWidget.h"
 #include "CreateNewGraphDialog.h"
+#include "Tool.h"
 
 class Config;
 class EdgeImage;
@@ -25,9 +27,8 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-	typedef std::map<Tool, QAction*>  ToolMap;
-	ToolMap _tools;
-
+	typedef std::vector<QAction*> ActionVector;
+	ActionVector _buttons;
 	GraphTabWidget * _graphTabs;
 
 public:
@@ -48,7 +49,6 @@ private slots:
 	void close();
 	void checkAddVertexButton(bool b);
 	void checkAddEdgeButton(bool b);
-	void checkGrabButton(bool b);
 	void checkSelectionButton(bool b);
 	void checkPointerButton(bool b);
 	void checkRemoveButton(bool b);
@@ -59,8 +59,9 @@ private slots:
 
 private:
 	void createActions();
-	void checkButton(Tool tool, bool b);
-	void uncheckButtons();
+	void createButtonVector();
+	void checkButton(Tool * tool, QAction * action, bool b = true);
+	void uncheckButtons(QAction const * action);
 
 	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
 	void grabItem(QPoint const & pos);
