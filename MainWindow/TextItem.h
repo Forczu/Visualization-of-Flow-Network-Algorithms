@@ -13,7 +13,7 @@ class TextItem : public QObject, public QGraphicsItem
 	Q_OBJECT
 	Q_INTERFACES(QGraphicsItem)
 public:
-	TextItem(int x, int y, QGraphicsItem* parent = 0);
+	TextItem(QPointF const & point, QGraphicsItem* parent = 0);
 	TextItem(const QString& text, QGraphicsItem* parent = 0);
 
 	QRectF boundingRect() const  Q_DECL_OVERRIDE;

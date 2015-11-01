@@ -4,10 +4,10 @@
 class UndirectedGraphImage : public GraphImage
 {
 public:
-	UndirectedGraphImage(GraphConfig * config, QGraphicsScene * scene);
+	UndirectedGraphImage(GraphConfig * config);
 	~UndirectedGraphImage();
 
-	void addEdge(int vertexId1, int vertexId2) override;
+	EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) override;
 
 protected:
 	void updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo);

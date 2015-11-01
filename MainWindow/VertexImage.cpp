@@ -30,7 +30,7 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	brush.setStyle(Qt::Dense2Pattern);
 	painter->setBrush(brush);
 	QPainterPath vertex;
-	vertex.addEllipse(QPointF(0.0f, 0.0f), _context->Size(), _context->Size());
+	vertex.addEllipse(QPointF(), _context->Size(), _context->Size());
 	painter->setPen(QPen(_context->StrokeColor(), _context->StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
 	painter->drawPath(vertex);
 	painter->setFont(_context->Font());
@@ -76,13 +76,9 @@ void VertexImage::addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool firs
 	if (!first)
 	{
 		if (pos().y() < vertex->pos().y())
-		{
 			angle += 180;
-		}
 		else
-		{
 			angle -= 180;
-		}
 	}
 	QPointF point = findPointOnCircle(angle);
 	_pointList[edge->getEdge()->Id()] = point;

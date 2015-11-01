@@ -20,15 +20,12 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
 	calculateNewLine();
 	QPointF oldCenter = _center;
-	updateCenterPoint();
+	setCenterPoint();
 	if (_center != oldCenter)
 	{
 		int dx = _center.x() - oldCenter.x();
 		int dy = _center.y() - oldCenter.y();
-		QPointF textPos = QPointF(
-			_text->pos().x() + dx,
-			_text->pos().y() + dy);
-		_text->setPos(textPos);
+		_text->moveBy(dx, dy);
 	}
 	if (_text->isSelected())
 	{
@@ -36,7 +33,6 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
 		painter->drawLine(connection);
 	}
-
 	bool isArrow = _arrow != nullptr;
 	QPointF arrowCenter;
 	if (isArrow)
@@ -47,7 +43,7 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		arrowCenter = _arrow->Center();
 	}
 	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
-	painter->setRenderHint(QPainter::Antialiasing, true);
+	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 	painter->drawLine(_line);
 }
@@ -57,7 +53,7 @@ QRectF StraightEdgeImage::boundingRect() const
 	return QRectF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id())).normalized();
 }
 
-void StraightEdgeImage::updateCenterPoint()
+void StraightEdgeImage::setCenterPoint()
 {
 	QPointF p1 = _line.p1();
 	QPointF p2 = _line.p2();

@@ -5,6 +5,7 @@
 #include <rapidxml.hpp>
 #include <rapidxml_print.hpp>
 #include <rapidxml_utils.hpp>
+#include <boost\lexical_cast.hpp>
 #include "DirectedGraphImage.h"
 #include "Edge.h"
 #include "EdgeImage.h"
@@ -13,7 +14,57 @@
 #include "Graph.h"
 #include "GraphScene.h"
 
+namespace Serialization
+{
+	class GraphSerializer;
+	namespace Consts
+	{
+		// wêz³y
+		static const char * ROOT =					"Graph";
+		static const char * CONFIG_NODE =			"Config";
+		static const char * MODEL_NODE =			"Model";
+		static const char * COLOR_NODE =			"Color";
+		static const char * FONT_NODE =				"Font";
+		static const char * VERTEX_NODE =			"Vertex";
+		static const char * EDGE_NODE =				"Edge";
+		static const char * VERTEX_CONTEXT_NODE =	"VertexContext";
+		static const char * EDGE_CONTEXT_NODE =		"EdgeContext";
+		static const char * POINT_NODE =			"Point";
+		// atrybuty
+		static const char * TYPE_ATR =				"type";
+		static const char * WEIGHTED_ATR =			"weighted";
+		static const char * SIZE_ATR =				"size";
+		static const char * STROKE_SIZE_ATR =		"strokeSize";
+		static const char * RED_ATR =				"r";
+		static const char * GREEN_ATR =				"g";
+		static const char * BLUE_ATR =				"b";
+		static const char * BOLD_ATR =				"bold";
+		static const char * FAMILY_ATR =			"family";
+		static const char * ID_ATR =				"id";
+		static const char * POS_X_ATR =				"x";
+		static const char * POS_Y_ATR =				"y";
+		static const char * VERTEX_FROM_ATR =		"vertexFrom";
+		static const char * VERTEX_TO_ATR =			"vertexTo";
+		static const char * WEIGHT_ATR =			"weight";
+		static const char * OFFSET_TYPE_ATR =		"offsetType";
+		static const char * OFFSET_VAL_ATR =		"offsetValue";
+		static const char * TEXT_POS_X_ATR =		"text.x";
+		static const char * TEXT_POS_Y_ATR =		"text.y";
+		// wartoœci
+		static const char * DIRECTED_VAL =			"directed";
+		static const char * TRUE_VAL =				"true";
+		static const char * FALSE_VAL =				"false";
+		static const char * NORMAL_VAL =			"normal";
+		static const char * SELECTED_VAL =			"selected";
+		static const char * COLOR_VAL =				"color";
+		static const char * STROKE_COLOR_VAL =		"strokeColor";
+		static const char * STRAIGHT_VAL =			"straight";
+		static const char * BEZIER_VAL =			"bezier";
+	}
+}
+
 using namespace rapidxml;
+using namespace Serialization::Consts;
 
 class GraphSerializer
 {
@@ -30,11 +81,13 @@ public:
 	GraphImage * load(std::string const & filePath);
 	bool save(GraphImage const & graph, std::string const & fileNam);
 
-protected:
+private:
 	char * stringToChar(std::string const & s);
 	char * xmlToChar(std::string const & stageFile);
-
-private:
+	xml_node<> * createNode(char const * name);
+	xml_node<> * createNode(char const * name, xml_node<> * parent);
+	void createAttribute(xml_node<> * node, char const * name, char const * value);
+	inline char * readAttribute(xml_node<> * node, char const * name);
 #pragma region Serializacja
 	bool serializeVertexContext(VertexContext * context, xml_node<> * parentNode, const char * childName);
 	bool serializeEdgeContext(EdgeContext * context, xml_node<> * parentNode, const char * childName);
@@ -44,7 +97,7 @@ private:
 	void serializeVertices(VertexImageMap const & map, xml_node<> * parent);
 	void serializeEdges(EdgeImageMap const & map, xml_node<> * parent);
 	void serializeVertex(VertexImage const * vertex, xml_node<> * parent);
-	void serializeEdge(EdgeImage const * edge, xml_node<> * parent);
+	void serializeEdge(EdgeImage * edge, xml_node<> * parent);
 	void serializeGraph(GraphImage const & graph, xml_node<> * parent);
 	void serializePoint(PointPair const & point, xml_node<> * parent);
 #pragma endregion
@@ -59,20 +112,18 @@ private:
 	void deserializeVertices(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeVertex(xml_node<>* node, GraphImage * graph);
 	void deserializePoint(xml_node<>* node, PointMap & points);
+	void deserializeEdges(xml_node<> * modelNode, GraphImage * graph);
+	void deserializeEdge(xml_node<>* node, GraphImage * graph);
 #pragma endregion
 	
+#pragma region Parsowanie
 	char * parseInt(int number);
 	char * parseFloat(float value);
 	char * parseStdString(std::string const & str);
 	char * saveString(char const * str);
-
 	int toInt(char * str);
 	float toFloat(char * str);
 	bool toBool(char * str);
-	
-	xml_node<> * createNode(char const * name);
-	xml_node<> * createNode(char const * name, xml_node<> * parent);
-	void createAttribute(xml_node<> * node, char const * name, char const * value);
-	inline char * readAttribute(xml_node<> * node, char const * name);
+#pragma endregion
 };
 

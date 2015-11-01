@@ -10,10 +10,10 @@
 #include "AddWeightToEdgeDialog.h"
 #include "BezierEdgeImage.h"
 
-GraphImage::GraphImage(GraphConfig * graphConfig, QGraphicsScene * scene)
-: _scene(scene), _config(graphConfig)
+GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
 {
 	_graph = new Graph();
+	setFlag(QGraphicsItem::ItemHasNoContents);
 }
 
 GraphImage::~GraphImage()
@@ -49,16 +49,37 @@ void GraphImage::addVertex(int id, QPointF const & position, PointMap const & po
 	vertexImg->setPoints(pointMap);
 }
 
+void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2)
+{
+	int weight;
+	if (_weighted)
+	{
+		bool succeeded = showEdgeImageDialog(vertexId1, vertexId2, weight);
+		if (!succeeded)
+			return;
+	}
+	addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType());
+}
+
 VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
 {
 	VertexImage * vertexImg = new VertexImage(_config->NormalVertexContext()->clone());
 	vertexImg->setVertex(vertex);
 	vertexImg->setPos(position);
 	vertexImg->setZValue(VERTICE_Z_VALUE);
+	vertexImg->setParentItem(this);
 	vertexImg->setParent(this);
-	_scene->addItem(vertexImg);
 	_vertexMap[id] = vertexImg;
 	return vertexImg;
+}
+
+void GraphImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
+{
+}
+
+QRectF GraphImage::boundingRect() const
+{
+	return QRectF();
 }
 
 EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
@@ -78,6 +99,8 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
+	edgeImg->setParentItem(this);
+	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
 }
 
@@ -95,14 +118,6 @@ bool GraphImage::showEdgeImageDialog(int vertexId1, int vertexId2, int & weight)
 		}
 	}
 	return succeeded;
-}
-
-void GraphImage::addEdgeImageToScene(EdgeImage * edgeImg)
-{
-	Edge * edge = edgeImg->getEdge();
-	_scene->addItem(edgeImg);
-	edgeImg->setParent(this);
-	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 }
 
 void GraphImage::removeItem(QList<QGraphicsItem*> const & items)

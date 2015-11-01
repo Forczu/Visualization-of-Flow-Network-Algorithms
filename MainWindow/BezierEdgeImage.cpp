@@ -39,7 +39,7 @@ void BezierEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
 	calculateNewLine();
 	QPointF oldCenter = _center;
-	updateCenterPoint();
+	setCenterPoint();
 	if (_center != oldCenter)
 	{
 		int dx = _center.x() - oldCenter.x();
@@ -95,7 +95,7 @@ QRectF BezierEdgeImage::boundingRect() const
 	return _path.boundingRect();
 }
 
-void BezierEdgeImage::updateCenterPoint()
+void BezierEdgeImage::setCenterPoint()
 {
 	_center = _path.pointAtPercent(0.5);
 }

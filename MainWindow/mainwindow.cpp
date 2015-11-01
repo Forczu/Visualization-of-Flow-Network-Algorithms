@@ -52,9 +52,13 @@ void MainWindow::newFile()
 
 void MainWindow::open()
 {
-	//QString fileName = QFileDialog::getOpenFileName(this,
-	//	tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
-	QString fileName = "serialized_graph.xml";
+	QString fileName;
+#ifdef DEBUG
+	fileName = "serialized_graph.xml";
+#else
+	fileName = QFileDialog::getOpenFileName(this,
+		tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
+#endif
 	GraphSerializer serializer;
 	GraphImage * graph = serializer.load(fileName.toStdString());
 	if (_graphTabs->isHidden())
@@ -66,8 +70,13 @@ void MainWindow::saveAs()
 {
 	if (_graphTabs->count() == 0)
 		return;
-	QString fileName = QFileDialog::getSaveFileName(this,
+	QString fileName;
+#ifdef DEBUG
+	fileName = "serialized_graph.xml";
+#else
+	fileName = QFileDialog::getSaveFileName(this,
 		tr("Save Graph File..."), QString(), tr("XML File (*.xml)"));
+#endif
 	auto graph = _graphTabs->currentGraphView()->getGraphImage();
 	GraphSerializer serializer;
 	serializer.save(*graph, fileName.toStdString());

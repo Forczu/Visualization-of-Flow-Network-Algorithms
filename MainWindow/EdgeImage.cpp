@@ -7,16 +7,17 @@
 #include "ArrowHeadImage.h"
 #include "GraphImage.h"
 
-EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
+EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context, QPointF const & point /*= QPointF()*/)
 : _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
 	vertexTo->addEdgePoint(this, vertexFrom, false);
-	_text = new TextItem(pos().x(), pos().y());
+	_text = new TextItem(point);
 	_text->replaceFont(QFont("Calibri", 30, 0, false));
 	_text->setParentItem(this);
 	_text->setRegex("[[:digit:]]+");	// tylko liczby nieujemne
+	_text->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 	connect(_text, SIGNAL(valueChanged(QString const &)), this, SLOT(changeText(QString const &)));
 	_offset.first = false;
 	_offset.second = 0.0f;
@@ -58,7 +59,7 @@ void EdgeImage::addArrowHead()
 	_arrow = new ArrowHeadImage(this, 50, 70, angle, true);
 	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()));
 	_arrow->setZValue(ARROWHEAD_Z_VALUE);
-	scene()->addItem(_arrow);
+	_arrow->setParentItem(this);
 }
 
 void EdgeImage::calculateNewLine()

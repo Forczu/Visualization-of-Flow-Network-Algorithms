@@ -4,8 +4,8 @@
 #include "Edge.h"
 #include "EdgeImage.h"
 
-UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config, QGraphicsScene * scene)
-: GraphImage(config, scene)
+UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config)
+: GraphImage(config)
 {
 }
 
@@ -14,20 +14,12 @@ UndirectedGraphImage::~UndirectedGraphImage()
 {
 }
 
-void UndirectedGraphImage::addEdge(int vertexId1, int vertexId2)
+EdgeImage * UndirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type)
 {
-	int weight;
-	if (_weighted)
-	{
-		bool succeeded = showEdgeImageDialog(vertexId1, vertexId2, weight);
-		if (!succeeded)
-			return;
-	}
 	Edge * edge = _graph->AddEdgeSingle(vertexId1, vertexId2);
 	if (edge == nullptr)
-		return;
-	EdgeImage * edgeImg = createFullEdgeImage(edge, Application::Config::Instance().CurrentEdgeType());
-	
+		return nullptr;
+	return createFullEdgeImage(edge, Application::Config::Instance().CurrentEdgeType());
 }
 
 void UndirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo)
@@ -44,7 +36,6 @@ EdgeImage * UndirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type
 	if (edgeImg == nullptr)
 		return edgeImg;
 	edgeImg->setWeight(weight);
-	addEdgeImageToScene(edgeImg);
 	updateVerticesDegree(edgeImg->VertexFrom(), edgeImg->VertexTo());
 	return edgeImg;
 }

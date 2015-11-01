@@ -9,7 +9,6 @@ class TextItem;
 class StraightEdgeImage : public EdgeImage
 {
 	QLineF _line;
-	QPointF _center;
 
 public:
 	StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
@@ -19,7 +18,7 @@ public:
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 private:
-	void updateCenterPoint();
+	void setCenterPoint() override;
 	void updateContextMenu(QList<QAction*> const & actionList) override;
 	void updateTextItemPos();
 };

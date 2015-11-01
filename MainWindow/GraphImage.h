@@ -1,5 +1,6 @@
 #pragma once
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <QObject>
 #include <QAction>
 #include <vector>
@@ -14,34 +15,36 @@ class Graph;
 class Vertex;
 class VertexImage;
 
-class GraphImage : public QObject
+class GraphImage : public QObject, public QGraphicsItem
 {
 	Q_OBJECT
-
+	Q_INTERFACES(QGraphicsItem)
 protected:
 	GraphConfig * _config;
-	QGraphicsScene * _scene;
 	Graph * _graph;
 	VertexImageMap	_vertexMap;
 	EdgeImageMap	_edgeMap;
 
 	bool _weighted;
 public:
-	GraphImage(GraphConfig * graphConfig, QGraphicsScene * scene);
+	GraphImage(GraphConfig * graphConfig);
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
 	void addVertex(int id, QPointF const & position);
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
 
-	virtual void addEdge(int vertexId1, int vertexId2) = 0;
+	void addEdgeByDialog(int vertexId1, int vertexId2);
+	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) = 0;
 	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0) = 0;
 
 protected:
 	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
-	void addEdgeImageToScene(EdgeImage * edgeImage);
 	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
+
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
+	QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 public:
 	void removeItem(QList<QGraphicsItem*> const & items);
@@ -60,7 +63,6 @@ public:
 	void setConfig(GraphConfig * val) { _config = val; }
 	inline VertexImageMap getVertices() const { return _vertexMap; }
 	inline EdgeImageMap getEdges() const { return _edgeMap; }
-	inline QGraphicsScene * getScene() const { return _scene; }
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
 };

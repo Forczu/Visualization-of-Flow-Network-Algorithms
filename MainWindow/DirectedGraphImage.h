@@ -4,10 +4,10 @@
 class DirectedGraphImage : public GraphImage
 {
 public:
-	DirectedGraphImage(GraphConfig * config, QGraphicsScene * scene);
+	DirectedGraphImage(GraphConfig * config);
 	~DirectedGraphImage();
 
-	void addEdge(int vertexId1, int vertexId2) override;
+	EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) override;
 
 protected:
 	void updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo);

@@ -19,23 +19,23 @@ const float GraphView::SCALE_FACTOR = 1.25f;
 
 GraphView::GraphView(GraphImage * graph) : _graph(graph)
 {
-	setScene(graph->getScene());
+	createScene();
 	init();
 }
 
 GraphView::GraphView(Order order, Weight weighted)
 {
+	createGraph(order, weighted);
 	createScene();
 	init();
-	createGraph(order, weighted);
 }
 
 
 GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
 {
+	createGraph(Order::Undirected, Weight::Weighted);
 	createScene();
 	init();
-	createGraph(Order::Undirected, Weight::Weighted);
 }
 
 GraphView::~GraphView()
@@ -103,6 +103,7 @@ void GraphView::changeSelection()
 void GraphView::createScene()
 {
 	setScene(GraphScene::getInstance());
+	scene()->addItem(_graph);
 }
 
 void GraphView::createGraph(Order order, Weight weighted)
@@ -115,10 +116,10 @@ void GraphView::createGraph(Order order, Weight weighted)
 	switch (order)
 	{
 	case Order::Directed:
-		_graph = new DirectedGraphImage(config, scene());
+		_graph = new DirectedGraphImage(config);
 		break;
 	default: case Order::Undirected:
-		_graph = new UndirectedGraphImage(config, scene());
+		_graph = new UndirectedGraphImage(config);
 		break;
 	}
 	_graph->Weighted(weighted == Weight::Weighted);
@@ -293,7 +294,7 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 		coord.second = img->pos();
 		setEdgeFlag(EdgeFlag::None);
 		firstVertexChecked = true;
-		_graph->addEdge(pair.first, pair.second);
+		_graph->addEdgeByDialog(pair.first, pair.second);
 		emit graphChanged();
 	}
 }
