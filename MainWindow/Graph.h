@@ -15,6 +15,7 @@ class Graph
 
 public:
 	Graph();
+	Graph(Graph const & other);
 	~Graph();
 
 	bool VertexExists(short verticeId) const;
@@ -25,8 +26,8 @@ public:
 	void RemoveVertex(short n);
 	void RemoveVertex(Vertex * const vertex);
 
-	Edge * AddEdge(int first, int second);
-	void AddEdge(Edge * const edge);
+	Edge * addEdge(int first, int second);
+	void addEdge(Edge * const edge);
 	Edge * AddEdgeSingle(int first, int second);
 	void RemoveEdge(Edge * const edge);
 	void RemoveNeighbourEdges(Vertex * const vertex);
@@ -48,6 +49,8 @@ public:
 
 	inline VertexVector getVertices() const { return _graph->first; }
 	inline EdgeVector getEdges() const { return _graph->second; }
+
+	inline Graph * clone() const { return new Graph(*this); }
 
 private:
 	int SmallestMissingVertexIndex();

@@ -16,6 +16,7 @@ class FlowNetwork :	public DirectedGraphImage
 
 public:
 	FlowNetwork(GraphConfig * config);
+	FlowNetwork(FlowNetwork const & network);
 	~FlowNetwork();
 
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

@@ -7,6 +7,11 @@ Vertex::Vertex(short id)
 }
 
 
+Vertex::Vertex(Vertex const & v)
+{
+	_id = v._id;
+}
+
 Vertex::~Vertex()
 {
 }

@@ -14,6 +14,11 @@ TextItem::TextItem(const QString& text, QGraphicsItem* parent) : QGraphicsItem(p
 	init();
 }
 
+TextItem::TextItem(TextItem const & other)
+{
+	init();
+}
+
 QRectF TextItem::boundingRect() const
 {
 	return _rect;

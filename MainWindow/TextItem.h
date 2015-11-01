@@ -15,6 +15,7 @@ class TextItem : public QObject, public QGraphicsItem
 public:
 	TextItem(QPointF const & point, QGraphicsItem* parent = 0);
 	TextItem(const QString& text, QGraphicsItem* parent = 0);
+	TextItem(TextItem const & other);
 
 	QRectF boundingRect() const  Q_DECL_OVERRIDE;
 	void setBoundingRect(qreal x, qreal y, qreal w, qreal h);

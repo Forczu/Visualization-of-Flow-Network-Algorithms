@@ -16,6 +16,33 @@ GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
 	setFlag(QGraphicsItem::ItemHasNoContents);
 }
 
+GraphImage::GraphImage(GraphImage const & graph)
+{
+	setFlag(QGraphicsItem::ItemHasNoContents);
+	_config = graph._config->clone();
+	_graph = new Graph(*graph._graph);
+
+	VertexImageMap const * tmpV = &graph._vertexMap;
+	VertexImageMap * imgV = const_cast<VertexImageMap*>(tmpV);
+	for (Vertex * vertex : _graph->getVertices())
+	{
+		int id = vertex->Id();
+		createVertexImage(vertex, (*imgV)[id]->pos(), id);
+	}
+
+	EdgeImageMap const * tmpE = &graph._edgeMap;
+	EdgeImageMap * imgE = const_cast<EdgeImageMap*>(tmpE);
+	for (Edge * edge : _graph->getEdges())
+	{
+		EdgeImage * img = (*imgE)[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())];
+		if (dynamic_cast<StraightEdgeImage*>(img) != NULL)
+			createEdgeImage(edge, EdgeType::StraightLine);
+		else if (dynamic_cast<BezierEdgeImage*>(img) != NULL)
+			createEdgeImage(edge, EdgeType::BezierLine);
+	}
+	_weighted = graph._weighted;
+}
+
 GraphImage::~GraphImage()
 {
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)

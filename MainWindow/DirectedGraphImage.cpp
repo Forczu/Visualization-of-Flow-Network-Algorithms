@@ -3,9 +3,16 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "Edge.h"
+#include "QGraphicsItem"
 
 DirectedGraphImage::DirectedGraphImage(GraphConfig * config)
 : GraphImage(config)
+{
+}
+
+
+DirectedGraphImage::DirectedGraphImage(DirectedGraphImage const & graph)
+: GraphImage(graph)
 {
 }
 
@@ -15,7 +22,7 @@ DirectedGraphImage::~DirectedGraphImage()
 
 EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type)
 {
-	Edge * edge = _graph->AddEdge(vertexId1, vertexId2);
+	Edge * edge = _graph->addEdge(vertexId1, vertexId2);
 	if (edge == nullptr)
 		return nullptr;
 	return createFullEdgeImage(edge, type, weight);

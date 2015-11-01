@@ -9,6 +9,19 @@ Graph::Graph()
 }
 
 
+Graph::Graph(Graph const & other)
+{
+	_graph = new GraphPair;
+	for (Vertex * vertex : other._graph->first)
+	{
+		_graph->first.push_back(vertex->clone());
+	}
+	for (Edge * edge : other._graph->second)
+	{
+		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id());
+	}
+}
+
 Graph::~Graph()
 {
 	for (VertexVector::iterator it = _graph->first.begin(); it != _graph->first.end(); ++it)
@@ -76,12 +89,12 @@ Vertex * Graph::VertexNo(short n) const
 	return nullptr;
 }
 
-void Graph::AddEdge(Edge * const edge)
+void Graph::addEdge(Edge * const edge)
 {
 	_graph->second.push_back(edge);
 }
 
-Edge * Graph::AddEdge(int first, int second)
+Edge * Graph::addEdge(int first, int second)
 {
 	if (EdgeExists(first, second))
 		return nullptr;
@@ -90,7 +103,7 @@ Edge * Graph::AddEdge(int first, int second)
 	Vertex * to = VertexNo(second);
 	Edge * edge = new Edge(from, to);
 	edge->Id(id);
-	AddEdge(edge);
+	addEdge(edge);
 	return edge;
 }
 
@@ -103,7 +116,7 @@ Edge * Graph::AddEdgeSingle(int first, int second)
 	Vertex * to = VertexNo(second);
 	Edge * edge = new Edge(from, to);
 	edge->Id(id);
-	AddEdge(edge);
+	addEdge(edge);
 	return edge;
 }
 

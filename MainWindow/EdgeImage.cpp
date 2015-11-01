@@ -60,6 +60,7 @@ void EdgeImage::correctEdge(bool type, float theta)
 {
 	_offset.first = type;
 	_offset.second = theta;
+	calculateNewLine(QLineF(VertexFrom()->pos(), VertexTo()->pos()));
 }
 
 void EdgeImage::deleteArrowHead()
@@ -85,12 +86,17 @@ void EdgeImage::addArrowHead()
 	_arrow->setParentItem(this);
 }
 
-void EdgeImage::calculateNewLine()
+void EdgeImage::checkNewLine()
 {
 	QLineF newLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	float angle = newLine.angleTo(_actualLine);
 	if (angle < 10.0f)
 		return;
+	calculateNewLine(newLine);
+}
+
+void EdgeImage::calculateNewLine(QLineF const & newLine)
+{
 	float vFromAngle, vToAngle;
 	vFromAngle = vToAngle = newLine.angle();
 	if (_offset.first)

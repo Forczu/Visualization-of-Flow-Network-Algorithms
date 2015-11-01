@@ -9,7 +9,10 @@ class Vertex
 	
 public:
 	Vertex(short id);
+	Vertex(Vertex const & v);
 	~Vertex();
+
+	Vertex * clone() const { return new Vertex(*this); }
 
 #pragma region Getters & Setters
 	inline short Id() const { return _id; }

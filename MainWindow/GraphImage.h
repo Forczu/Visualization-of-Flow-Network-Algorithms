@@ -28,6 +28,7 @@ protected:
 	bool _weighted;
 public:
 	GraphImage(GraphConfig * graphConfig);
+	GraphImage(GraphImage const & graph);
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);

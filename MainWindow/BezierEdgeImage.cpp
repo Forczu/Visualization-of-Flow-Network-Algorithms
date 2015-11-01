@@ -37,7 +37,7 @@ BezierEdgeImage::~BezierEdgeImage()
 
 void BezierEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	calculateNewLine();
+	checkNewLine();
 	QPointF oldCenter = _center;
 	setCenterPoint();
 	if (_center != oldCenter)

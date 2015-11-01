@@ -65,7 +65,9 @@ public:
 	void setWeight(int weight);
 
 protected:
-	void calculateNewLine();
+	void checkNewLine();
+	void calculateNewLine(QLineF const & newLine);
+
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
 	virtual void setCenterPoint() = 0;

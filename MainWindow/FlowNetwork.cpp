@@ -12,6 +12,16 @@ FlowNetwork::FlowNetwork(GraphConfig * config)
 }
 
 
+FlowNetwork::FlowNetwork(FlowNetwork const & network)
+: DirectedGraphImage(network)
+{
+	_source = network._source;
+	_target = network._target;
+	_labelFont = network._labelFont;
+	_sourceLabel = new TextItem(*network._sourceLabel);
+	_targetLabel = new TextItem(*network._targetLabel);
+}
+
 FlowNetwork::~FlowNetwork()
 {
 }
@@ -90,5 +100,6 @@ void FlowNetwork::markTarget(int id, VertexImage * vertex)
 
 FlowNetwork * FlowNetwork::makeResidualNetwork()
 {
-
+	FlowNetwork * residualNetwork = new FlowNetwork(*this);
+	return residualNetwork;
 }
