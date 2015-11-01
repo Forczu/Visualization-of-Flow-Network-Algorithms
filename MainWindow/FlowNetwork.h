@@ -1,6 +1,6 @@
 #pragma once
 #include "DirectedGraphImage.h"
-
+#include <map>
 class FlowNetwork :	public DirectedGraphImage
 {
 private:
@@ -8,6 +8,7 @@ private:
 	int _target;
 	TextItem * _sourceLabel;
 	TextItem * _targetLabel;
+	std::map<int, int> _flowMap;
 
 public:
 	FlowNetwork(GraphConfig * config);

@@ -248,7 +248,7 @@ void GraphSerializer::serializeEdge(EdgeImage * edge, xml_node<> * parent)
 	createAttribute(edgeNode, ID_ATR, parseInt(e->Id()));
 	createAttribute(edgeNode, VERTEX_FROM_ATR, parseInt(e->VertexFrom()->Id()));
 	createAttribute(edgeNode, VERTEX_TO_ATR, parseInt(e->VertexTo()->Id()));
-	createAttribute(edgeNode, WEIGHT_ATR, parseInt(e->getWeight()));
+	createAttribute(edgeNode, WEIGHT_ATR, parseInt(e->getCapacity()));
 	auto offset = edge->getOffset();
 	createAttribute(edgeNode, OFFSET_TYPE_ATR, offset.first ? TRUE_VAL : FALSE_VAL);
 	createAttribute(edgeNode, OFFSET_VAL_ATR, parseFloat(offset.second));

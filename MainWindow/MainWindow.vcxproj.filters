@@ -75,6 +75,9 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{71542620-42b6-4cbd-8b89-20d0752f7914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\TextItems">
+      <UniqueIdentifier>{1f6fe75f-da1a-49e0-8899-e0ac117d1c67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -242,6 +245,9 @@
     <ClCompile Include="PointImage.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="EdgeTextItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -316,9 +322,6 @@
     <CustomBuild Include="GraphTabWidget.h">
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="TextItem.h">
-      <Filter>Header Files\Widgets</Filter>
-    </CustomBuild>
     <CustomBuild Include="CreateNewGraphDialog.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
@@ -388,6 +391,9 @@
     <CustomBuild Include="FlowNetwork.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="TextItem.h">
+      <Filter>Header Files\TextItems</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
@@ -410,6 +416,9 @@
     </ClInclude>
     <ClInclude Include="PointTool.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeTextItem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

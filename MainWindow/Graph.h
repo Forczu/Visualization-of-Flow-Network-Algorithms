@@ -13,9 +13,6 @@ class Graph
 {
 	GraphPair * _graph;
 
-	short _source = 0;
-	short _target = 0;
-
 public:
 	Graph();
 	~Graph();
@@ -44,9 +41,6 @@ public:
 	{
 		return _graph->second.size();
 	}
-
-	void SetSource(short vertex);
-	void SetTarget(short vertex);
 
 	Edge * GetNeighborEdge(Edge * const edge);
 	EdgeVector GetNeighbours();

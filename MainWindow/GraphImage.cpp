@@ -218,7 +218,7 @@ void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
 	if (NULL != seImg && type != EdgeType::StraightLine)
 	{
 		Edge * edge = seImg->getEdge();
-		int weight = seImg->getEdge()->getWeight();
+		int weight = seImg->getEdge()->getCapacity();
 		removeEdge(edgeImg);
 		createFullEdgeImage(edge, type);
 		return;
@@ -227,7 +227,7 @@ void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
 	if (NULL != beImg && type != EdgeType::BezierLine)
 	{
 		Edge * edge = beImg->getEdge();
-		int weight = seImg->getEdge()->getWeight();
+		int weight = seImg->getEdge()->getCapacity();
 		removeEdge(edgeImg);
 		createFullEdgeImage(edge, type, weight);
 		return;

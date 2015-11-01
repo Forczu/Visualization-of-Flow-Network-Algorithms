@@ -88,6 +88,7 @@
     <ClCompile Include="EdgeAddTool.cpp" />
     <ClCompile Include="EdgeContext.cpp" />
     <ClCompile Include="EdgeImage.cpp" />
+    <ClCompile Include="EdgeTextItem.cpp" />
     <ClCompile Include="FlowNetwork.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_AddWeightToEdgeDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -920,6 +921,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EdgeAddTool.h" />
+    <ClInclude Include="EdgeTextItem.h" />
     <ClInclude Include="PointTool.h" />
     <ClInclude Include="RemoveTool.h" />
     <ClInclude Include="Singleton.h" />

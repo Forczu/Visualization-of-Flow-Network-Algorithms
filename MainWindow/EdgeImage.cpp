@@ -13,11 +13,8 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
 	vertexTo->addEdgePoint(this, vertexFrom, false);
-	_text = new TextItem(point);
-	_text->replaceFont(QFont("Calibri", 30, 0, false));
-	_text->setParentItem(this);
-	_text->setRegex("[[:digit:]]+");	// tylko liczby nieujemne
-	_text->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+	// utwórz obserwuj¹cy tekst
+	_text = new EdgeTextItem(this, point);
 	connect(_text, SIGNAL(valueChanged(QString const &)), this, SLOT(changeText(QString const &)));
 	_offset.first = false;
 	_offset.second = 0.0f;
@@ -26,6 +23,18 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 EdgeImage::~EdgeImage()
 {
 	deleteArrowHead();
+}
+
+void EdgeImage::changeFlow(int flow)
+{
+	_edge->setFlow(flow);
+	_text->updateText();
+}
+
+void EdgeImage::changeCapacity(int capacity)
+{
+	_edge->setCapacity(capacity);
+	_text->updateText();
 }
 
 float EdgeImage::Angle() const
@@ -48,7 +57,7 @@ void EdgeImage::deleteArrowHead()
 void EdgeImage::setWeight(int weight)
 {
 	_text->setText(QString::number(weight));
-	_edge->setWeight(weight);
+	_edge->setCapacity(weight);
 }
 
 void EdgeImage::addArrowHead()
@@ -119,5 +128,5 @@ void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 void EdgeImage::changeText(QString const & str)
 {
 	int value = str.toInt();
-	_edge->setWeight(value);
+	_edge->setCapacity(value);
 }

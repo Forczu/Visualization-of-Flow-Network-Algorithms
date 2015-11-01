@@ -37,7 +37,7 @@ public:
 	void setTextInteraction(bool on, bool selectAll = false);
 	inline QString getText() const { return _text; }
 	
-private:
+protected:
 	QRectF _rect;
 	QTextOption _option;
 	QString _text;

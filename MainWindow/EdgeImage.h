@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <vector>
 #include "Typedefs.h"
-#include "TextItem.h"
+#include "EdgeTextItem.h"
 #include <QAction>
 
 class ArrowHeadImage;
@@ -29,7 +29,7 @@ protected:
 	ArrowHeadImage * _arrow;
 
 	QLineF _actualLine;
-	TextItem * _text;
+	EdgeTextItem * _text;
 
 	std::pair<bool, float> _offset;
 
@@ -47,16 +47,13 @@ public:
 	void ActualLine(QLineF const & val) { _actualLine = val; }
 	inline ArrowHeadImage * getArrowHead() const { return _arrow; }
 	inline std::pair<bool, float> getOffset() const { return _offset; }
-	inline QPointF getTextPos() const
-	{
-		return _text->scenePos();
-	}
+	inline QPointF getTextPos() const { return _text->scenePos(); }
 	void setOffset(bool b, float theta) { _offset = std::make_pair(b, theta); }
-	void setTextPos(QPointF const & point)
-	{
-		_text->setPos(mapFromScene(point));
-	}
+	void setTextPos(QPointF const & point) { _text->setPos(mapFromScene(point)); }
 	inline QPointF center() const { return _center; }
+
+	void changeFlow(int flow);
+	void changeCapacity(int capacity);
 
 	float Angle() const;
 	void correctEdge(bool type, float theta);
