@@ -53,7 +53,10 @@ public:
 	inline QPointF center() const { return _center; }
 
 	void changeFlow(int flow);
+	void setFlow(int flow);
 	void changeCapacity(int capacity);
+	void setCapacity(int capacity);
+	void scaleText(float scale);
 
 	float Angle() const;
 	void correctEdge(bool type, float theta);

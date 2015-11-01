@@ -42,6 +42,7 @@ class GraphView : public QGraphicsView
 	QRubberBand * _rubberBand;
 	QPoint _origin;
 	GraphImage * _graph;
+	QFont _labelFont;
 
 private:
 	bool _mouseClicked;
@@ -89,6 +90,8 @@ public:
 
 private:
 	void init();
+	void createFont();
+	void createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align);
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:

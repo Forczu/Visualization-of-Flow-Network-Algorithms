@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "GraphScene.h"
 #include "Tool.h"
+#include "FlowNetwork.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
 const float GraphView::MAX_SCALE = 16.0f;
@@ -60,22 +61,26 @@ void GraphView::init()
 	setMouseTracking(true);
 	viewport()->setMouseTracking(true);
 
-	_sourceLabel = new TextItem("Source");
-	_targetLabel = new TextItem("Target");
-	scene()->addItem(_sourceLabel);
-	scene()->addItem(_targetLabel);
+	createFont();
+	createLabel(_sourceLabel, "Source", Qt::AlignLeft);
+	createLabel(_targetLabel, "Target", Qt::AlignRight);
+}
 
-	QFont font;
-	font.setBold(true);
-	font.setItalic(true);
-	font.setPointSize(16);
-	font.setFamily(QString("Calibri"));
-	_sourceLabel->replaceFont(font);
-	_targetLabel->replaceFont(font);
-	_sourceLabel->setAlignment(Qt::AlignLeft);
-	_targetLabel->setAlignment(Qt::AlignRight);
-	_sourceLabel->hide();
-	_targetLabel->hide();
+void GraphView::createFont()
+{
+	_labelFont.setBold(true);
+	_labelFont.setItalic(true);
+	_labelFont.setPointSize(16);
+	_labelFont.setFamily(QString("Calibri"));
+}
+
+void GraphView::createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align)
+{
+	label = new TextItem(text);
+	label->replaceFont(_labelFont);
+	label->setAlignment(align);
+	label->hide();
+	scene()->addItem(label);
 }
 
 void GraphView::unselectAll(QGraphicsItem * const except)
@@ -122,6 +127,9 @@ void GraphView::createGraph(Order order, Weight weighted)
 	default: case Order::Undirected:
 		_graph = new UndirectedGraphImage(config);
 		break;
+	case Order::FlowNetwork:
+		_graph = new FlowNetwork(config);
+		break;
 	}
 	_graph->Weighted(weighted == Weight::Weighted);
 }
@@ -145,14 +153,14 @@ void GraphView::setSourceLabelPost(VertexImage * img)
 {
 	_sourceLabel->setPos(
 		img->scenePos().x() - img->Context()->Size() - _sourceLabel->boundingRect().width() / 2.0f,
-		img->scenePos().y() - img->Context()->Size() - 40);
+		img->scenePos().y() - img->Context()->Size() - _sourceLabel->boundingRect().height());
 }
 
 void GraphView::setTargetLabelPos(VertexImage * img)
 {
 	_targetLabel->setPos(
 		img->scenePos().x() + img->Context()->Size() - _targetLabel->boundingRect().width() / 2.0f,
-		img->scenePos().y() - img->Context()->Size() - 40);
+		img->scenePos().y() - img->Context()->Size() - _targetLabel->boundingRect().height());
 }
 
 void GraphView::unglueLabels()
@@ -170,6 +178,7 @@ void GraphView::wheelEvent(QWheelEvent * event)
 		scale(SCALE_FACTOR, SCALE_FACTOR);
 		_scale *= SCALE_FACTOR;
 		emit scaleChanged(_scale);
+		_graph->updateScale(SCALE_FACTOR);
 	}
 	// Zoom out
 	else if (event->delta() < 0 && _scale >= MIN_SCALE) {
@@ -177,6 +186,7 @@ void GraphView::wheelEvent(QWheelEvent * event)
 		scale(factor, factor);
 		_scale *= factor;
 		emit scaleChanged(_scale);
+		_graph->updateScale(factor);
 	}
 }
 

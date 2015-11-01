@@ -65,6 +65,6 @@ public:
 	inline EdgeImageMap getEdges() const { return _edgeMap; }
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
-
+	void updateScale(float scale);
 };
 

@@ -79,7 +79,7 @@ void GraphImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 QRectF GraphImage::boundingRect() const
 {
-	return QRectF();
+	return childrenBoundingRect();
 }
 
 EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType)
@@ -231,5 +231,13 @@ void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
 		removeEdge(edgeImg);
 		createFullEdgeImage(edge, type, weight);
 		return;
+	}
+}
+
+void GraphImage::updateScale(float scale)
+{
+	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	{
+		(*it).second->scaleText(scale);
 	}
 }

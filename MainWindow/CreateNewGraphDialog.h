@@ -37,6 +37,7 @@ private:
 private slots:
 	void okButtunPushed();
 	void cancelButtonPushed();
+	void updateOrder(const QString &);
 };
 
 #endif // CREATENEWGRAPHDIALOG_H

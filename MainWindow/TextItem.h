@@ -28,13 +28,15 @@ protected:
 	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
 	QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 	void init();
-
 	void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+	virtual void turnOffEditorMode();
+	void turnOnEditorMode(bool selectAll);
 
 public:
 	void replaceFont(QFont const & font);
 	void setText(QString const & text);
 	void setTextInteraction(bool on, bool selectAll = false);
+
 	inline QString getText() const { return _text; }
 	
 protected:

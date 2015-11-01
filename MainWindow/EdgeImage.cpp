@@ -15,7 +15,6 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 	vertexTo->addEdgePoint(this, vertexFrom, false);
 	// utwórz obserwuj¹cy tekst
 	_text = new EdgeTextItem(this, point);
-	connect(_text, SIGNAL(valueChanged(QString const &)), this, SLOT(changeText(QString const &)));
 	_offset.first = false;
 	_offset.second = 0.0f;
 }
@@ -27,14 +26,29 @@ EdgeImage::~EdgeImage()
 
 void EdgeImage::changeFlow(int flow)
 {
-	_edge->setFlow(flow);
+	setFlow(flow);
 	_text->updateText();
+}
+
+void EdgeImage::setFlow(int flow)
+{
+	_edge->setFlow(flow);
 }
 
 void EdgeImage::changeCapacity(int capacity)
 {
-	_edge->setCapacity(capacity);
+	setCapacity(capacity);
 	_text->updateText();
+}
+
+void EdgeImage::setCapacity(int capacity)
+{
+	_edge->setCapacity(capacity);
+}
+
+void EdgeImage::scaleText(float scale)
+{
+	_text->setScale(_text->scale() * scale);
 }
 
 float EdgeImage::Angle() const

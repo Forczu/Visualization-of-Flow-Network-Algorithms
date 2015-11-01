@@ -9,6 +9,7 @@ CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 	
 	_orderMap[Order::Directed] = "Graf skierowany";
 	_orderMap[Order::Undirected] = "Graf nieskierowany";
+	_orderMap[Order::FlowNetwork] = "Sieæ przep³ywowa";
 	_weightMap[Weight::Weighted] = QString::fromUtf8("Graf wa¿ony");
 	_weightMap[Weight::Unwieghted] = QString::fromUtf8("Graf niewa¿ony");
 
@@ -23,6 +24,7 @@ CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 
 	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(okButtunPushed()));
 	connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(cancelButtonPushed()));
+	connect(ui.orderComboBox, SIGNAL(currentTextChanged(const QString &)), this, SLOT(updateOrder(const QString &)));
 }
 
 CreateNewGraphDialog::~CreateNewGraphDialog()
@@ -61,4 +63,16 @@ void CreateNewGraphDialog::cancelButtonPushed()
 {
 	_confirmed = false;
 	close();
+}
+
+void CreateNewGraphDialog::updateOrder(const QString & str)
+{
+	if (str == "Sieæ przep³ywowa")
+	{
+		ui.weightComboBox->setEnabled(false);
+	}
+	else
+	{
+		ui.weightComboBox->setEnabled(true);
+	}
 }

@@ -97,31 +97,41 @@ void TextItem::setTextInteraction(bool on, bool selectAll)
 {
 	if (on && _textEdit->textInteractionFlags() == Qt::NoTextInteraction)
 	{
-		// switch on editor mode:
-		_textEdit->setTextInteractionFlags(Qt::TextEditorInteraction);
-		// manually do what a mouse click would do else:
-		_textEdit->setFocus(Qt::MouseFocusReason); // this gives the item keyboard focus
-		_textEdit->setSelected(true); // this ensures that itemChange() gets called when we click out of the item
-		if (selectAll) // option to select the whole text (e.g. after creation of the TextItem)
-		{
-			QTextCursor c = _textEdit->textCursor();
-			c.select(QTextCursor::Document);
-			_textEdit->setTextCursor(c);
-		}
-		_oldStr = _text;
+		turnOnEditorMode(selectAll);
 	}
 	else if (!on && _textEdit->textInteractionFlags() == Qt::TextEditorInteraction)
 	{
-		// turn off editor mode:
-		_textEdit->setTextInteractionFlags(Qt::NoTextInteraction);
-		// deselect text (else it keeps gray shade):
-		QTextCursor c = _textEdit->textCursor();
-		c.clearSelection();
-		_textEdit->setTextCursor(c);
-		clearFocus();
-		updateBoundingRect();
-		emit valueChanged(_text = _textEdit->toPlainText());
+		turnOffEditorMode();
 	}
+}
+
+void TextItem::turnOffEditorMode()
+{
+	// turn off editor mode:
+	_textEdit->setTextInteractionFlags(Qt::NoTextInteraction);
+	// deselect text (else it keeps gray shade):
+	QTextCursor c = _textEdit->textCursor();
+	c.clearSelection();
+	_textEdit->setTextCursor(c);
+	clearFocus();
+	updateBoundingRect();
+	_text = _textEdit->toPlainText();
+}
+
+void TextItem::turnOnEditorMode(bool selectAll)
+{
+	// switch on editor mode:
+	_textEdit->setTextInteractionFlags(Qt::TextEditorInteraction);
+	// manually do what a mouse click would do else:
+	_textEdit->setFocus(Qt::MouseFocusReason); // this gives the item keyboard focus
+	_textEdit->setSelected(true); // this ensures that itemChange() gets called when we click out of the item
+	if (selectAll) // option to select the whole text (e.g. after creation of the TextItem)
+	{
+		QTextCursor c = _textEdit->textCursor();
+		c.select(QTextCursor::Document);
+		_textEdit->setTextCursor(c);
+	}
+	_oldStr = _text;
 }
 
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)

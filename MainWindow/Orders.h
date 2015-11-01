@@ -1,5 +1,5 @@
 #pragma once
 enum class Order
 {
-	Directed, Undirected
+	Directed, Undirected, FlowNetwork
 };

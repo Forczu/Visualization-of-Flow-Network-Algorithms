@@ -10,8 +10,8 @@ protected:
 
 public:
 	EdgeTextItem(EdgeImage * subject, QPointF const & position);
-	~EdgeTextItem();
 
 	void updateText();
+	void turnOffEditorMode() override;
 };
 
