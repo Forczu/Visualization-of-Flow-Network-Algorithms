@@ -34,7 +34,7 @@ protected:
 	std::pair<bool, float> _offset;
 
 public:
-	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context, QPointF const & point = QPointF());
+	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
 	virtual ~EdgeImage();
 
 	inline Edge * getEdge() const { return _edge; }
@@ -47,9 +47,9 @@ public:
 	void ActualLine(QLineF const & val) { _actualLine = val; }
 	inline ArrowHeadImage * getArrowHead() const { return _arrow; }
 	inline std::pair<bool, float> getOffset() const { return _offset; }
-	inline QPointF getTextPos() const { return _text->scenePos(); }
+	inline EdgeTextItem * getTextItem() const { return _text; }
+	void setTextItem(EdgeTextItem * text);
 	void setOffset(bool b, float theta) { _offset = std::make_pair(b, theta); }
-	void setTextPos(QPointF const & point) { _text->setPos(mapFromScene(point)); }
 	inline QPointF center() const { return _center; }
 
 	void changeFlow(int flow);
@@ -59,7 +59,7 @@ public:
 	void scaleText(float scale);
 
 	qreal scaleText() const;
-	float Angle() const;
+	float getAngle() const;
 	void correctEdge(bool type, float theta);
 	void addArrowHead();
 	void deleteArrowHead();
@@ -71,6 +71,7 @@ protected:
 
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
+public:
 	virtual void setCenterPoint() = 0;
 signals:
 	void typeChanged(EdgeImage * edge, QAction * action);

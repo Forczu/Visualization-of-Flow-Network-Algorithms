@@ -72,7 +72,7 @@ QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &valu
 
 void VertexImage::addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool first)
 {
-	float angle = edge->Angle();
+	float angle = edge->getAngle();
 	if (!first)
 	{
 		if (pos().y() < vertex->pos().y())

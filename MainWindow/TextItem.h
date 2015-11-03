@@ -17,11 +17,8 @@ public:
 	TextItem(const QString& text, QGraphicsItem* parent = 0);
 	TextItem(TextItem const & other);
 
-	QRectF boundingRect() const  Q_DECL_OVERRIDE;
-	void setBoundingRect(qreal x, qreal y, qreal w, qreal h);
-	void setBoundingRect(QRect const & rect);
+	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void setAlignment(Qt::AlignmentFlag flag);
-	void updateBoundingRect();
 	void setRegex(std::string const & pattern);
 
 protected:
@@ -41,7 +38,6 @@ public:
 	inline QString getText() const { return _text; }
 	
 protected:
-	QRectF _rect;
 	QTextOption _option;
 	QString _text;
 	QFont _font;

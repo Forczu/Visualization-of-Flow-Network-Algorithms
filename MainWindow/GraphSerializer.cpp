@@ -62,7 +62,7 @@ bool GraphSerializer::save(GraphImage const & graph, std::string const & fileNam
 	// dane konfiguracyjne ca³ego grafu
 	serializeConfig(graph.getConfig(), root);
 	// struktura grafu
-	serializeGraph(graph, root);
+	serializeModel(graph, root);
 
 	std::ofstream file_stored(fileName);
 	file_stored << _doc;
@@ -226,13 +226,25 @@ void GraphSerializer::serializeVertex(VertexImage const * vertex, xml_node<> * p
 {
 	xml_node<> * vertexNode = createNode(VERTEX_NODE, parent);
 	createAttribute(vertexNode, ID_ATR, parseInt(vertex->getVertex()->Id()));
-	createAttribute(vertexNode, POS_X_ATR, parseFloat(vertex->pos().x()));
-	createAttribute(vertexNode, POS_Y_ATR, parseFloat(vertex->pos().y()));
+	serializePosition(vertex->pos(), vertexNode);
 	PointMap map = vertex->getPoints();
 	for (PointMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		serializePoint(*it, vertexNode);
 	}
+}
+
+void GraphSerializer::serializePosition(QPointF const & position, xml_node<> * parent)
+{
+	xml_node<> * posNode = createNode(POS_NODE, parent);
+	createAttribute(posNode, POS_X_ATR, parseFloat(position.x()));
+	createAttribute(posNode, POS_Y_ATR, parseFloat(position.y()));
+}
+
+void GraphSerializer::serializeTextItem(EdgeTextItem const * textItem, char const * value, xml_node<> * parent)
+{
+	xml_node<> * posNode = createNode(EDGE_TEXT_ITEM_NODE, parent);
+	serializePosition(textItem->pos(), posNode);
 }
 
 void GraphSerializer::serializeEdge(EdgeImage * edge, xml_node<> * parent)
@@ -248,16 +260,15 @@ void GraphSerializer::serializeEdge(EdgeImage * edge, xml_node<> * parent)
 	createAttribute(edgeNode, ID_ATR, parseInt(e->Id()));
 	createAttribute(edgeNode, VERTEX_FROM_ATR, parseInt(e->VertexFrom()->Id()));
 	createAttribute(edgeNode, VERTEX_TO_ATR, parseInt(e->VertexTo()->Id()));
-	createAttribute(edgeNode, WEIGHT_ATR, parseInt(e->getCapacity()));
+	const char * capacity = parseInt(e->getCapacity());
+	createAttribute(edgeNode, WEIGHT_ATR, capacity);
 	auto offset = edge->getOffset();
 	createAttribute(edgeNode, OFFSET_TYPE_ATR, offset.first ? TRUE_VAL : FALSE_VAL);
 	createAttribute(edgeNode, OFFSET_VAL_ATR, parseFloat(offset.second));
-	QPointF pos = edge->getTextPos();
-	createAttribute(edgeNode, TEXT_POS_X_ATR, parseFloat(pos.x()));
-	createAttribute(edgeNode, TEXT_POS_Y_ATR, parseFloat(pos.y()));
+	serializeTextItem(edge->getTextItem(), capacity, edgeNode);
 }
 
-void GraphSerializer::serializeGraph(GraphImage const & graph, xml_node<> * parent)
+void GraphSerializer::serializeModel(GraphImage const & graph, xml_node<> * parent)
 {
 	xml_node<> * graphNode = createNode(MODEL_NODE, parent);
 	serializeVertices(graph.getVertices(), graphNode);
@@ -352,6 +363,13 @@ EdgeContext * GraphSerializer::deserializeEdgeContext(xml_node<>* edgeNode)
 	return new EdgeContext(size, color);
 }
 
+QPointF GraphSerializer::deserializePosition(xml_node<>* posNode)
+{
+	float x = toFloat(readAttribute(posNode, POS_X_ATR));
+	float y = toFloat(readAttribute(posNode, POS_Y_ATR));
+	return QPointF(x, y);
+}
+
 bool GraphSerializer::deserializeModel(xml_node<> * modelNode, GraphImage * graph)
 {
 	deserializeVertices(modelNode, graph);
@@ -370,14 +388,13 @@ void GraphSerializer::deserializeVertices(xml_node<> * modelNode, GraphImage * g
 void GraphSerializer::deserializeVertex(xml_node<>* vertexNode, GraphImage * graph)
 {
 	int id = toInt(readAttribute(vertexNode, ID_ATR));
-	float x = toFloat(readAttribute(vertexNode, POS_X_ATR));
-	float y = toFloat(readAttribute(vertexNode, POS_Y_ATR));
+	QPointF position = deserializePosition(vertexNode->first_node(POS_NODE));
 	PointMap points;
 	for (xml_node<>* node = vertexNode->first_node(POINT_NODE); node; node = node->next_sibling(POINT_NODE))
 	{
 		deserializePoint(node, points);
 	}
-	graph->addVertex(id, QPointF(x, y), points);
+	graph->addVertex(id, position, points);
 }
 
 void GraphSerializer::deserializePoint(xml_node<>* pointNode, PointMap & points)
@@ -410,9 +427,13 @@ void GraphSerializer::deserializeEdge(xml_node<>* node, GraphImage * graph)
 	int weight = toInt(readAttribute(node, WEIGHT_ATR));
 	bool offsetType = toBool(readAttribute(node, OFFSET_TYPE_ATR));
 	float offsetValue = toFloat(readAttribute(node, OFFSET_VAL_ATR));
-	float tx = toFloat(readAttribute(node, TEXT_POS_X_ATR)) / 2.0f;
-	float ty = toFloat(readAttribute(node, TEXT_POS_Y_ATR)) / 2.0f;
 	edge = graph->addEdge(vertexFrom, vertexTo, weight, edgeType);
 	edge->setOffset(offsetType, offsetValue);
-	edge->setTextPos(QPointF(tx, ty));
+	deserializeTextItem(node->first_node(EDGE_TEXT_ITEM_NODE), edge);
+}
+
+void GraphSerializer::deserializeTextItem(xml_node<>* node, EdgeImage * edge)
+{
+	QPointF position = deserializePosition(node->first_node(POS_NODE));
+	edge->getTextItem()->setPos(position);
 }

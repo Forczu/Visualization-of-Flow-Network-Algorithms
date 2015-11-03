@@ -7,14 +7,12 @@
 #include "ArrowHeadImage.h"
 #include "GraphImage.h"
 
-EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context, QPointF const & point /*= QPointF()*/)
-: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr)
+EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
+: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _text(nullptr)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
 	vertexTo->addEdgePoint(this, vertexFrom, false);
-	// utwórz obserwuj¹cy tekst
-	_text = new EdgeTextItem(this, point);
 	_offset.first = false;
 	_offset.second = 0.0f;
 }
@@ -22,6 +20,12 @@ EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * 
 EdgeImage::~EdgeImage()
 {
 	deleteArrowHead();
+}
+
+void EdgeImage::setTextItem(EdgeTextItem * text)
+{
+	_text = text;
+	_text->setText(QString::number(_edge->getCapacity()));
 }
 
 void EdgeImage::changeFlow(int flow)
@@ -56,7 +60,7 @@ qreal EdgeImage::scaleText() const
 	return _text->scale();
 }
 
-float EdgeImage::Angle() const
+float EdgeImage::getAngle() const
 {
 	return _actualLine.angle();
 }
@@ -76,7 +80,8 @@ void EdgeImage::deleteArrowHead()
 
 void EdgeImage::setWeight(int weight)
 {
-	_text->setText(QString::number(weight));
+	if (_text != nullptr)
+		_text->setText(QString::number(weight));
 	_edge->setCapacity(weight);
 }
 
@@ -84,7 +89,7 @@ void EdgeImage::addArrowHead()
 {
 	if (_arrow != nullptr)
 		return;
-	float angle = -Angle() - 90;
+	float angle = -getAngle() - 90;
 	_arrow = new ArrowHeadImage(this, 50, 70, angle, true);
 	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()));
 	_arrow->setZValue(ARROWHEAD_Z_VALUE);

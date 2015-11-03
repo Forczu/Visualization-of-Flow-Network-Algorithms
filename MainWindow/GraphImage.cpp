@@ -133,8 +133,13 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	edgeImg->setParentItem(this);
-	edgeImg->setWeight(weight);
+	if (_weighted)
+	{
+		edgeImg->setWeight(weight);
+		edgeImg->setTextItem(new EdgeTextItem(edgeImg, QPointF()));
+	}
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
+	
 	return edgeImg;
 }
 

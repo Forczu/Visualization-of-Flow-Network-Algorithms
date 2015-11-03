@@ -13,6 +13,7 @@
 #include "VertexImage.h"
 #include "Graph.h"
 #include "GraphScene.h"
+#include "EdgeTextItem.h"
 
 namespace Serialization
 {
@@ -30,6 +31,8 @@ namespace Serialization
 		static const char * VERTEX_CONTEXT_NODE =	"VertexContext";
 		static const char * EDGE_CONTEXT_NODE =		"EdgeContext";
 		static const char * POINT_NODE =			"Point";
+		static const char * POS_NODE =				"Position";
+		static const char * EDGE_TEXT_ITEM_NODE =	"EdgeTextItem";
 		// atrybuty
 		static const char * TYPE_ATR =				"type";
 		static const char * WEIGHTED_ATR =			"weighted";
@@ -48,8 +51,6 @@ namespace Serialization
 		static const char * WEIGHT_ATR =			"weight";
 		static const char * OFFSET_TYPE_ATR =		"offsetType";
 		static const char * OFFSET_VAL_ATR =		"offsetValue";
-		static const char * TEXT_POS_X_ATR =		"text.x";
-		static const char * TEXT_POS_Y_ATR =		"text.y";
 		// wartoœci
 		static const char * DIRECTED_VAL =			"directed";
 		static const char * TRUE_VAL =				"true";
@@ -98,8 +99,10 @@ private:
 	void serializeEdges(EdgeImageMap const & map, xml_node<> * parent);
 	void serializeVertex(VertexImage const * vertex, xml_node<> * parent);
 	void serializeEdge(EdgeImage * edge, xml_node<> * parent);
-	void serializeGraph(GraphImage const & graph, xml_node<> * parent);
+	void serializeModel(GraphImage const & graph, xml_node<> * parent);
 	void serializePoint(PointPair const & point, xml_node<> * parent);
+	void serializePosition(QPointF const & position, xml_node<> * parent);
+	void serializeTextItem(EdgeTextItem const * textItem, char const * value, xml_node<> * parent);
 #pragma endregion
 
 #pragma region Deserializacja
@@ -108,12 +111,14 @@ private:
 	QColor deserializeColor(xml_node<>* colorNode);
 	QFont deserializeFont(xml_node<char> * fontNode);
 	EdgeContext * deserializeEdgeContext(xml_node<>* edgeNode);
+	QPointF deserializePosition(xml_node<>* posNode);
 	bool deserializeModel(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeVertices(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeVertex(xml_node<>* node, GraphImage * graph);
 	void deserializePoint(xml_node<>* node, PointMap & points);
 	void deserializeEdges(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeEdge(xml_node<>* node, GraphImage * graph);
+	void deserializeTextItem(xml_node<>* node, EdgeImage * edge);
 #pragma endregion
 	
 #pragma region Parsowanie

@@ -4,7 +4,6 @@
 
 TextItem::TextItem(QPointF const & point, QGraphicsItem* parent) : QGraphicsItem(parent)
 {
-	setPos(point);
 	init();
 }
 
@@ -21,7 +20,7 @@ TextItem::TextItem(TextItem const & other)
 
 QRectF TextItem::boundingRect() const
 {
-	return _rect;
+	return _textEdit->boundingRect();
 }
 
 void TextItem::init()
@@ -36,7 +35,6 @@ void TextItem::init()
 	_textEdit = new QGraphicsTextItem(this);
 	_textEdit->setTextInteractionFlags(Qt::NoTextInteraction);
 	_textEdit->setPlainText(_text);
-	updateBoundingRect();
 }
 
 void TextItem::keyPressEvent(QKeyEvent *event)
@@ -52,34 +50,17 @@ void TextItem::replaceFont(QFont const & font)
 {
 	_font = font;
 	_textEdit->setFont(_font);
-	updateBoundingRect();
 }
 
 void TextItem::setText(QString const & text)
 {
 	_text = text;
 	_textEdit->setPlainText(_text);
-	updateBoundingRect();
-}
-
-void TextItem::updateBoundingRect()
-{
-	setBoundingRect(_textEdit->boundingRect().toRect());
 }
 
 void TextItem::setRegex(std::string const & pattern)
 {
 	_regex.assign(pattern);
-}
-
-void TextItem::setBoundingRect(qreal x, qreal y, qreal w, qreal h)
-{
-	_rect.setRect(x, y, w, h);
-}
-
-void TextItem::setBoundingRect(QRect const & rect)
-{
-	_rect = rect;
 }
 
 void TextItem::setAlignment(Qt::AlignmentFlag flag)
@@ -95,7 +76,7 @@ void TextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	else
 		painter->setPen(Qt::NoPen);
 	painter->setBrush(QBrush(Qt::white));
-	painter->drawRoundedRect(_rect, 10, 10);
+	painter->drawRoundedRect(_textEdit->boundingRect(), 10, 10);
 }
 
 void TextItem::setTextInteraction(bool on, bool selectAll)
@@ -119,7 +100,6 @@ void TextItem::turnOffEditorMode()
 	c.clearSelection();
 	_textEdit->setTextCursor(c);
 	clearFocus();
-	updateBoundingRect();
 	_text = _textEdit->toPlainText();
 }
 

@@ -18,10 +18,12 @@ StraightEdgeImage::~StraightEdgeImage()
 
 void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+	static qreal oldAngle = _line.angle();
 	checkNewLine();
 	QPointF oldCenter = _center;
 	setCenterPoint();
-	if (_center != oldCenter)
+	qreal currAngle = _line.angle();
+	if (currAngle <= oldAngle - 0.01 || currAngle >= oldAngle + 0.01)
 	{
 		int dx = _center.x() - oldCenter.x();
 		int dy = _center.y() - oldCenter.y();
@@ -37,11 +39,12 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	QPointF arrowCenter;
 	if (isArrow)
 	{
-		_arrow->setRotation(-_line.angle() - 90);
+		_arrow->setRotation(-currAngle - 90);
 		_arrow->setPos(_vertexTo->PointAt(_edge->Id()));
 		_arrow->updateCenterPoint();
 		arrowCenter = _arrow->Center();
 	}
+	oldAngle = currAngle;
 	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
