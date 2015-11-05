@@ -315,3 +315,5 @@ Makefile*
 *.rkq
 *.z3b
 *.otf
+MainWindow/serialized_graph.xml
+*.2ex

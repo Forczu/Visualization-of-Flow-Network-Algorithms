@@ -14,6 +14,7 @@
 #include "RemoveTool.h"
 #include "PointTool.h"
 #include "QAction"
+#include "IAlgorithm.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -57,7 +58,8 @@ void MainWindow::newFile()
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
 	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
-	QStringList algorithms = Application::Config::Instance().getAlgorithmList(dialog.getOrder());
+	_algorithmInfo.changeState(dialog.getOrder());
+	QStringList algorithms = _algorithmInfo.getAlgorithmList();
 	ui.algorithmList->addItems(algorithms);
 }
 
@@ -155,6 +157,7 @@ void MainWindow::createActions()
 	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(ui.actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
 	connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
+	connect(ui.algorithmList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(runAlgorithm(QListWidgetItem*)));
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
 
@@ -218,6 +221,12 @@ void MainWindow::checkBezierCurve(bool b)
 	}
 	else
 		ui.actionBezierLine->setChecked(true);
+}
+
+void MainWindow::runAlgorithm(QListWidgetItem * item)
+{
+	IAlgorithm * alg = _algorithmInfo.getAlgorithm(item->text());
+	alg->run(_graphTabs->currentGraphView()->getGraphImage());
 }
 
 void MainWindow::updateGraphStatus()

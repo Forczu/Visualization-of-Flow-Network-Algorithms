@@ -27,6 +27,19 @@ namespace Application
 		WriteEdges(root);
 	}
 
+	QMap<QString, QString> Config::getAlgorithmMap(Order order)
+	{
+		libconfig::Setting const & root = _cfg.getRoot();
+		libconfig::Setting const & algoritmsNode = root["application"]["algorithms"];
+		QMap<QString, QString> algorithmMap;
+		switch (order)
+		{
+		case Order::FlowNetwork:
+			ReadAlgorithmMap(algoritmsNode["flow_network"], algorithmMap);
+		}
+		return algorithmMap;
+	}
+
 	void Config::ReadVertices(libconfig::Setting const & root)
 	{
 		libconfig::Setting const & vertices = root["application"]["vertices"];
@@ -119,4 +132,15 @@ namespace Application
 		std::string tmp = graphNode["status"].c_str();
 		_graphStatusString = QString::fromLocal8Bit(graphNode["status"]);
 	}
+
+	void Config::ReadAlgorithmMap(libconfig::Setting const & algoritmsNode, QMap<QString, QString> & algoritmMap)
+	{
+		if (!algoritmsNode.isGroup())
+			return;
+		for (auto it = algoritmsNode.begin(); it != algoritmsNode.end(); ++it)
+		{
+			algoritmMap.insert(QString(it->getName()), QString(*it));
+		}
+	}
+
 }

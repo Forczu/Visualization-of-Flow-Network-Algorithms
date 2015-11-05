@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>FlowNetworkAlgorithmWindow</string>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="GraphView" name="mainNetworkView">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QGraphicsView" name="graphicsView_2">
+  <widget class="QGraphicsView" name="residualNetworkView">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -85,7 +85,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QCommandLinkButton" name="commandLinkButton">
+  <widget class="QCommandLinkButton" name="nextStepButton">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -101,7 +101,7 @@
     <string>Wykonuje kolejny etap</string>
    </property>
   </widget>
-  <widget class="QCommandLinkButton" name="commandLinkButton_2">
+  <widget class="QCommandLinkButton" name="finishAlgorithmButton">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -119,6 +119,13 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GraphView</class>
+   <extends>QGraphicsView</extends>
+   <header>GraphView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

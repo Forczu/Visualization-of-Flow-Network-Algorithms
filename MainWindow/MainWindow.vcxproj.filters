@@ -78,6 +78,15 @@
     <Filter Include="Header Files\TextItems">
       <UniqueIdentifier>{1f6fe75f-da1a-49e0-8899-e0ac117d1c67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Algorithms">
+      <UniqueIdentifier>{bc381806-e452-41a4-ba29-15abf9c977b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Algorithms">
+      <UniqueIdentifier>{265f28ab-1916-497b-aa75-7e81b3e13c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Algorithms\States">
+      <UniqueIdentifier>{9fa91453-4cb0-49e5-8863-8a0036c4222b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,9 +230,6 @@
     <ClCompile Include="GraphScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FlowNetwork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Singleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -246,6 +252,30 @@
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="EdgeTextItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgorithmInfo.cpp">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetworkAlgorithmState.cpp">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="FordFulkersonAlgorithm.cpp">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FlowNetworkAlgorithmWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FlowNetworkAlgorithmWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetworkAlgorithmWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetworkAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -314,9 +344,6 @@
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="GraphView.h">
-      <Filter>Header Files\Widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="mainwindow.h">
       <Filter>Header Files\Widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="GraphTabWidget.h">
@@ -388,37 +415,67 @@
     <CustomBuild Include="GraphScene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="TextItem.h">
+      <Filter>Header Files\TextItems</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="FlowNetwork.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="TextItem.h">
-      <Filter>Header Files\TextItems</Filter>
+    <CustomBuild Include="FlowNetworkAlgorithmWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FlowNetworkAlgorithmWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="EdgeTextItem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Singleton.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="EdgeAddTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PointTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="RemoveTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Tool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VertexAddTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="AlgorithmInfo.h">
+      <Filter>Header Files\Algorithms\States</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FlowNetworkAlgorithmState.h">
+      <Filter>Header Files\Algorithms\States</Filter>
+    </CustomBuild>
+    <CustomBuild Include="IAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FordFulkersonAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="AlgorithmState.h">
+      <Filter>Header Files\Algorithms\States</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedFiles\ui_FlowNetworkAlgorithmWindow.h">
+      <Filter>Generated Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexAddTool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EdgeAddTool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoveTool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="PointTool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="EdgeTextItem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="FlowNetworkAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

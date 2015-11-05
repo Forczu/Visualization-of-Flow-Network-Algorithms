@@ -53,7 +53,6 @@ void GraphView::init()
 	setFrameShape(QFrame::WinPanel);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	setAlignment(Qt::AlignCenter);
-
 	_mouseClicked = false;
 	_grabFlag = _rubberFlag = false;
 	_rubberBand = nullptr;

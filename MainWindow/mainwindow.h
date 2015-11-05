@@ -13,6 +13,7 @@
 #include "GraphTabWidget.h"
 #include "CreateNewGraphDialog.h"
 #include "Tool.h"
+#include "AlgorithmInfo.h"
 
 class Config;
 class EdgeImage;
@@ -30,6 +31,7 @@ class MainWindow : public QMainWindow
 	typedef std::vector<QAction*> ActionVector;
 	ActionVector _buttons;
 	GraphTabWidget * _graphTabs;
+	AlgorithmInfo _algorithmInfo;
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -56,6 +58,7 @@ private slots:
 	void updateGraphStatus();
 	void checkStraightLine(bool b);
 	void checkBezierCurve(bool b);
+	void runAlgorithm(QListWidgetItem * item);
 
 private:
 	void createActions();

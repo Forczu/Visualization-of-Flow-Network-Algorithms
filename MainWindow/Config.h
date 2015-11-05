@@ -57,16 +57,7 @@ namespace Application
 			_tool->changeTool(tool);
 		}
 
-		QStringList getAlgorithmList(Order order)
-		{
-			switch (order)
-			{
-			case Order::FlowNetwork:
-				
-			default:
-				return QStringList();
-			}
-		}
+		QMap<QString, QString> getAlgorithmMap(Order order);
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);
@@ -80,5 +71,6 @@ namespace Application
 		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext * context);
 
 		void ReadStatusString(libconfig::Setting const & root);
+		void ReadAlgorithmMap(libconfig::Setting const & algoritmsNode, QMap<QString, QString> & algoritmMap);
 	};
 }
