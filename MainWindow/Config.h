@@ -57,6 +57,17 @@ namespace Application
 			_tool->changeTool(tool);
 		}
 
+		QStringList getAlgorithmList(Order order)
+		{
+			switch (order)
+			{
+			case Order::FlowNetwork:
+				
+			default:
+				return QStringList();
+			}
+		}
+
 	private:
 		void ReadVertices(libconfig::Setting const & root);
 		void ReadVertexContext(libconfig::Setting const & vertices, std::string const & nodeName, VertexContext *& context);

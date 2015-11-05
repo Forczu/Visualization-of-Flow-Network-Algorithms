@@ -57,6 +57,8 @@ void MainWindow::newFile()
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
 	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
+	QStringList algorithms = Application::Config::Instance().getAlgorithmList(dialog.getOrder());
+	ui.algorithmList->addItems(algorithms);
 }
 
 void MainWindow::open()
