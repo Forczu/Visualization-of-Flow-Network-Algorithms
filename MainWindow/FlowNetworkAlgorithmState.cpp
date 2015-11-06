@@ -36,8 +36,7 @@ QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const
 	FlowNetworkAlgorithmWindow * dialog = new FlowNetworkAlgorithmWindow;
 	FlowNetworkAlgorithm * algorithm = dynamic_cast<FlowNetworkAlgorithm*>(getAlgorithm(name));
 	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
-	algorithm->setNetwork(network);
 	dialog->setAlgorithm(algorithm);
-	dialog->setMainNetwork(network);
+	dialog->scaleViews(network);
 	return dialog;
 }

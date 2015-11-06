@@ -29,8 +29,8 @@ protected:
 public:
 	GraphImage(GraphConfig * graphConfig);
 	GraphImage(GraphImage const & graph);
-protected:
-	void cloneEdges(GraphImage const & graph);
+	void cloneVertices(GraphImage const & graph);
+	void cloneEdges(GraphImage & graph);
 public:
 	virtual ~GraphImage();
 
@@ -70,5 +70,6 @@ public:
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
 	void updateScale(float scale);
+	void unselectAll();
 };
 

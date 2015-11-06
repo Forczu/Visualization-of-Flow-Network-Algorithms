@@ -16,12 +16,6 @@ Graph::Graph(Graph const & other)
 	{
 		_graph->first.push_back(vertex->clone());
 	}
-	for (Edge * edge : other._graph->second)
-	{
-		Edge * newEdge = addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id());
-		newEdge->setFlow(edge->getFlow());
-		newEdge->setCapacity(edge->getCapacity());
-	}
 }
 
 Graph::~Graph()

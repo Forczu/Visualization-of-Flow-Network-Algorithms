@@ -22,8 +22,17 @@
      <height>300</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
   </widget>
-  <widget class="QGraphicsView" name="residualNetworkView">
+  <widget class="GraphView" name="residualNetworkView">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -31,6 +40,15 @@
      <width>400</width>
      <height>300</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -123,7 +141,7 @@
   <customwidget>
    <class>GraphView</class>
    <extends>QGraphicsView</extends>
-   <header>GraphView.h</header>
+   <header location="global">GraphView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

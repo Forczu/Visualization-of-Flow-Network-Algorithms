@@ -9,6 +9,7 @@
 #include "Graph.h"
 #include "AddWeightToEdgeDialog.h"
 #include "BezierEdgeImage.h"
+#include <utility>
 
 GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
 {
@@ -20,31 +21,42 @@ GraphImage::GraphImage(GraphImage const & graph)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	_config = graph._config->clone();
-	_graph = new Graph(*graph._graph);
-
-	VertexImageMap const * tmpV = &graph._vertexMap;
-	VertexImageMap * imgV = const_cast<VertexImageMap*>(tmpV);
-	for (Vertex * vertex : _graph->getVertices())
-	{
-		int id = vertex->Id();
-		createVertexImage(vertex, (*imgV)[id]->pos(), id);
-	}
+	_graph = new Graph(/**graph._graph*/);
+	cloneVertices(graph);
 	_weighted = graph._weighted;
 }
 
-void GraphImage::cloneEdges(GraphImage const & graph)
+void GraphImage::cloneVertices(GraphImage const & graph)
 {
-	EdgeImageMap const * tmpE = &graph._edgeMap;
-	EdgeImageMap * imgE = const_cast<EdgeImageMap*>(tmpE);
-	for (Edge * edge : _graph->getEdges())
+	VertexImageMap map = graph.getVertices();
+	VertexImage * vertexImg;
+	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
-		EdgeImage * newImg;
-		EdgeImage * img = (*imgE)[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())];
+		vertexImg = (*it).second;
+		Vertex * vertex = vertexImg->getVertex();
+		int id = vertex->Id();
+		QPointF position = vertexImg->pos();
+		addVertex(id, position, vertexImg->getPoints());
+	}
+}
+
+void GraphImage::cloneEdges(GraphImage & graph)
+{
+	EdgeImageMap map = graph.getEdges();
+	EdgeImage * newEdge;
+	for (Edge * edge : graph.getGraph()->getEdges())
+	{
+		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id(),
+			edge->getCapacity(), EdgeType::StraightLine);
+
+
+		//createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
+		/*EdgeImage * img = map[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())];
 		if (dynamic_cast<StraightEdgeImage*>(img) != NULL)
-			newImg = createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
+		newEdge = createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
 		else if (dynamic_cast<BezierEdgeImage*>(img) != NULL)
-			newImg = createFullEdgeImage(edge, EdgeType::BezierLine, edge->getCapacity());
-		newImg->scaleText(img->scaleText());
+		newEdge = createFullEdgeImage(edge, EdgeType::BezierLine, edge->getCapacity());
+		newEdge->scaleText(img->scaleText());*/
 	}
 }
 
@@ -139,7 +151,6 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 		edgeImg->setTextItem(new EdgeTextItem(edgeImg, QPointF()));
 	}
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
-	
 	return edgeImg;
 }
 
@@ -211,6 +222,7 @@ void GraphImage::removeEdge(EdgeImage * const edge)
 		EdgeImage * item = (*it).second;
 		if (edge == item)
 		{
+			getGraph()->RemoveEdge(edge->getEdge());
 			removeItem(edge);
 			_edgeMap.erase(it);
 			break;
@@ -278,5 +290,19 @@ void GraphImage::updateScale(float scale)
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
 		(*it).second->scaleText(scale);
+	}
+}
+
+void GraphImage::unselectAll()
+{
+	for (auto vertex : _vertexMap)
+	{
+		if (vertex.second->isSelected())
+			vertex.second->setSelected(false);
+	}
+	for (auto edge : _edgeMap)
+	{
+		if (edge.second->isSelected())
+			edge.second->setSelected(false);
 	}
 }

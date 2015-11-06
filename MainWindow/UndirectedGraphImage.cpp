@@ -13,7 +13,9 @@ UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config)
 UndirectedGraphImage::UndirectedGraphImage(UndirectedGraphImage const & graph)
 : GraphImage(graph)
 {
-	cloneEdges(graph);
+	GraphImage const * tmp1 = &graph;
+	GraphImage * tmp2 = const_cast<GraphImage*>(tmp1);
+	cloneEdges(*tmp2);
 }
 
 UndirectedGraphImage::~UndirectedGraphImage()

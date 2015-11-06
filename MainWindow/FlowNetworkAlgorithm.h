@@ -5,12 +5,9 @@
 class FlowNetworkAlgorithm : public IAlgorithm
 {
 protected:
-	FlowNetwork * _network;
+	float _scaleFactor;
 public:
-	FlowNetworkAlgorithm();
-	void setNetwork(FlowNetwork * network);
-	virtual FlowNetwork * makeResidualNetwork() = 0;
+	virtual FlowNetwork * makeResidualNetwork(FlowNetwork * network) = 0;
 	virtual QList<int> findAugumentingPath() = 0;
 	virtual void increaseFlow(QList<int> const & path) = 0;
 };
-

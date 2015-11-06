@@ -52,11 +52,11 @@ private:
 	EdgeFlag _edgeFlag;
 	QPoint _offset;
 	float _scale;
+	bool _blocked;
 
 public:
+	GraphView(QWidget * parent = 0);
 	GraphView(GraphImage * graph);
-	GraphView(Order order, Weight weighted);
-	GraphView(QWidget * widget);
 	~GraphView();
 
 	void buildVertex(QPointF const & position, QList<QGraphicsItem*> const & items);
@@ -69,14 +69,14 @@ public:
 	void pointItem(QPointF const & position, QList<QGraphicsItem*> const & item);
 	void startRubberBand(QPointF const & position);
 	void setTool(ToolType tool);
-
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 
 
 	inline GraphImage * getGraphImage() const { return _graph; }
-	void setGraphImage(GraphImage * val) { _graph = val; }
+	void setGraphImage(GraphImage * val);
 	inline float getScale() const { return _scale; }
+	void setBlocked(bool blocked) { _blocked = blocked; }
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
@@ -87,6 +87,7 @@ protected:
 	QRect mapRubberBandToScene();
 public:
 	void changeVerticesLabels(QPoint const & position);
+	void addScene(QGraphicsScene * scene);
 
 private:
 	void init();
@@ -101,9 +102,6 @@ signals:
 	void scaleChanged(float);
 
 private:
-	void changeSelection();
-	void createScene();
-	void createGraph(Order order, Weight weighted);
 	void glueLabel(EdgeFlag edgeFlag, VertexImage * img);
 	void setSourceLabelPost(VertexImage * img);
 	void setTargetLabelPos(VertexImage * img);

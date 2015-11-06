@@ -16,7 +16,9 @@ DirectedGraphImage::DirectedGraphImage(GraphConfig * config)
 DirectedGraphImage::DirectedGraphImage(DirectedGraphImage const & graph)
 : GraphImage(graph)
 {
-	cloneEdges(graph);
+	GraphImage const * tmp1 = &graph;
+	GraphImage * tmp2 = const_cast<GraphImage*>(tmp1);
+	cloneEdges(*tmp2);
 }
 
 DirectedGraphImage::~DirectedGraphImage()

@@ -1,5 +1,6 @@
 #include "GraphTabWidget.h"
 #include <QLayout>
+#include "GraphScene.h"
 
 GraphTabWidget::GraphTabWidget(QWidget * parent) : QTabWidget(parent)
 {
@@ -12,16 +13,11 @@ GraphTabWidget::~GraphTabWidget()
 {
 }
 
-void GraphTabWidget::addTab(QString const & name, Order order, Weight weighted)
-{
-	GraphView * widget = new GraphView(order, weighted);
-	createTab(widget, name);
-}
-
 void GraphTabWidget::addTab(QString const & name, GraphImage * graph)
 {
-	GraphView * widget = new GraphView(graph);
-	createTab(widget, name);
+	GraphView * view = new GraphView(graph);
+	view->addScene(GraphScene::getInstance());
+	createTab(view, name);
 }
 
 void GraphTabWidget::createTab(GraphView * widget, QString const & name)

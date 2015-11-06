@@ -16,9 +16,9 @@ void FordFulkersonAlgorithm::run(GraphImage * graph)
 {
 }
 
-FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork()
+FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network)
 {
-	FlowNetwork * residualNewtork = _network->clone();
+	FlowNetwork * residualNewtork = network->clone();
 	EdgeImageMap edges = residualNewtork->getEdges();
 	for (EdgeImageMap::iterator it = edges.begin(); it != edges.end(); ++it)
 	{
@@ -30,9 +30,9 @@ FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork()
 		int residualCapacity = capacity - flow;
 		residualNewtork->removeEdge((*it).second);
 		if (flow != 0)
-			residualNewtork->addEdge(vertexTo->Id(), vertexFrom->Id(), flow, EdgeType::StraightLine);
+			residualNewtork->addEdge(vertexFrom->Id(), vertexTo->Id(), flow, EdgeType::StraightLine);
 		if (capacity != 0)
-			residualNewtork->addEdge(vertexFrom->Id(), vertexTo->Id(), capacity, EdgeType::StraightLine);
+			residualNewtork->addEdge(vertexTo->Id(), vertexFrom->Id(), capacity, EdgeType::StraightLine);
 	}
 	return residualNewtork;
 }

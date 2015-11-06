@@ -14,7 +14,6 @@ public:
 	GraphTabWidget(QWidget * parent);
 	~GraphTabWidget();
 
-	void addTab(QString const & name, Order order, Weight weighted);
 	void addTab(QString const & name, GraphImage * graph);
 	void createTab(GraphView * widget, QString const & name);
 

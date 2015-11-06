@@ -71,6 +71,7 @@ private:
 	void pointItem(QList<QGraphicsItem*> const & item);
 	void removeItem(QList<QGraphicsItem*> const & item);
 	void hideGraphTab();
+	GraphImage * createGraph(Order order = Order::Directed, Weight weighted = Weight::Weighted);
 };
 
 #endif // MAINWINDOW_H

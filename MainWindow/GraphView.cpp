@@ -21,22 +21,11 @@ const float GraphView::SCALE_FACTOR = 1.25f;
 
 GraphView::GraphView(GraphImage * graph) : _graph(graph)
 {
-	createScene();
 	init();
 }
 
-GraphView::GraphView(Order order, Weight weighted)
+GraphView::GraphView(QWidget * parent /*= 0*/) : QGraphicsView(parent), _graph(nullptr)
 {
-	createGraph(order, weighted);
-	createScene();
-	init();
-}
-
-
-GraphView::GraphView(QWidget * widget) : QGraphicsView(widget)
-{
-	createGraph(Order::Undirected, Weight::Weighted);
-	createScene();
 	init();
 }
 
@@ -57,6 +46,7 @@ void GraphView::init()
 	_grabFlag = _rubberFlag = false;
 	_rubberBand = nullptr;
 	_edgeFlag = EdgeFlag::Source;
+	_blocked = false;
 	setMouseTracking(true);
 	viewport()->setMouseTracking(true);
 
@@ -79,7 +69,6 @@ void GraphView::createLabel(TextItem *& label, QString const & text, Qt::Alignme
 	label->replaceFont(_labelFont);
 	label->setAlignment(align);
 	label->hide();
-	scene()->addItem(label);
 }
 
 void GraphView::unselectAll(QGraphicsItem * const except)
@@ -99,38 +88,6 @@ void GraphView::unselectAll(QGraphicsItem * const except)
 				item->setSelected(false);
 		}
 	}
-}
-
-void GraphView::changeSelection()
-{
-}
-
-void GraphView::createScene()
-{
-	setScene(GraphScene::getInstance());
-	scene()->addItem(_graph);
-}
-
-void GraphView::createGraph(Order order, Weight weighted)
-{
-	GraphConfig * config = new GraphConfig(
-		Application::Config::Instance().DefaultVertexContext()->clone(),
-		Application::Config::Instance().DefaultEdgeContext()->clone(),
-		Application::Config::Instance().SelectedVertexContext()->clone(),
-		Application::Config::Instance().SelectedEdgeContext()->clone());
-	switch (order)
-	{
-	case Order::Directed:
-		_graph = new DirectedGraphImage(config);
-		break;
-	default: case Order::Undirected:
-		_graph = new UndirectedGraphImage(config);
-		break;
-	case Order::FlowNetwork:
-		_graph = new FlowNetwork(config);
-		break;
-	}
-	_graph->Weighted(weighted == Weight::Weighted);
 }
 
 void GraphView::glueLabel(EdgeFlag edgeFlag, VertexImage * img)
@@ -171,6 +128,8 @@ void GraphView::unglueLabels()
 
 void GraphView::wheelEvent(QWheelEvent * event)
 {
+	if (_blocked)
+		return;
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	// Zoom in
 	if (event->delta() > 0 && _scale <= MAX_SCALE) {
@@ -228,8 +187,21 @@ void GraphView::startRubberBand(QPointF const & position)
 	_rubberFlag = true;
 }
 
+void GraphView::setGraphImage(GraphImage * val)
+{
+	if (val != _graph)
+	{
+		delete _graph;
+		_graph = val;
+	}
+	if (scene())
+		scene()->addItem(_graph);
+}
+
 void GraphView::mousePressEvent(QMouseEvent * event)
 {
+	if (_blocked)
+		return;
 	QPoint position = event->pos();
 	auto chosenItems = items(position);
 	DrawingTool * tool = Application::Config::Instance().CurrentTool();
@@ -240,6 +212,8 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
 {
+	if (_blocked)
+		return;
 	QPoint position = event->pos();
 	DrawingTool * tool = Application::Config::Instance().CurrentTool();
 	tool->mouseMoved(this, position);
@@ -290,8 +264,19 @@ void GraphView::changeVerticesLabels(QPoint const & position)
 	}
 }
 
+void GraphView::addScene(QGraphicsScene * scene)
+{
+	setScene(scene);
+	if (_graph != nullptr)
+		scene->addItem(_graph);
+	scene->addItem(_sourceLabel);
+	scene->addItem(_targetLabel);
+}
+
 void GraphView::mouseReleaseEvent(QMouseEvent * event)
 {
+	if (_blocked)
+		return;
 	if (_grabFlag)
 	{
 		_grabFlag = false;

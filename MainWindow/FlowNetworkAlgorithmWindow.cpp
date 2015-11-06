@@ -1,37 +1,50 @@
 #include "FlowNetworkAlgorithmWindow.h"
 #include <math.h>
 #include "IAlgorithm.h"
+#include "GraphScene.h"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 	createConnections();
+	QGraphicsScene * scene = GraphScene::getInstance();
+	ui.mainNetworkView->addScene(scene);
+	ui.residualNetworkView->addScene(scene);
 	ui.mainNetworkView->setInteractive(false);
 	ui.residualNetworkView->setInteractive(false);
+	ui.mainNetworkView->setMouseTracking(false);
+	ui.residualNetworkView->setMouseTracking(false);
+	ui.mainNetworkView->setBlocked(true);
+	ui.residualNetworkView->setBlocked(true);
 }
 
 FlowNetworkAlgorithmWindow::~FlowNetworkAlgorithmWindow()
 {
-
 }
 
-void FlowNetworkAlgorithmWindow::setMainNetwork(FlowNetwork * network)
+void FlowNetworkAlgorithmWindow::scaleViews(FlowNetwork * network)
 {
-	QRectF sceneRect = network->childrenBoundingRect();
+	QRectF networkRect = network->childrenBoundingRect();
 	QRectF viewRect = ui.mainNetworkView->geometry();
-	float widthScale = viewRect.width() / sceneRect.width();
-	float heightScale = viewRect.height() / sceneRect.height();
-	float scaleFactor = std::min(widthScale, heightScale);
-	if (scaleFactor < 1.0f)
+	float widthScale = viewRect.width() / networkRect.width();
+	float heightScale = viewRect.height() / networkRect.height();
+	_scaleFactor = std::min(widthScale, heightScale);
+	if (_scaleFactor < 1.0f)
 	{
-		scaleFactor -= 0.05f;	// odrobina przestrzeni przy ramce
-		ui.mainNetworkView->scale(scaleFactor, scaleFactor);
-		network->updateScale(scaleFactor);
+		_scaleFactor -= 0.05f;	// odrobina przestrzeni przy ramce
+		ui.mainNetworkView->scale(_scaleFactor, _scaleFactor);
+		ui.residualNetworkView->scale(_scaleFactor, _scaleFactor);
 	}
-	ui.mainNetworkView->setScene(new QGraphicsScene(sceneRect));
-	ui.residualNetworkView->setScene(new QGraphicsScene(sceneRect));
-	ui.mainNetworkView->scene()->addItem(network);
+	network->updateScale(_scaleFactor);
+	_dx = std::max(
+			static_cast<float>(networkRect.width() * 2),
+			static_cast<float>(network->sceneBoundingRect().width()));
+	ui.mainNetworkView->setGraphImage(network);
+	ui.mainNetworkView->centerOn(network);
+	network->unselectAll();
+	_network = network;
+	ui.residualNetworkView->centerOn(_network->pos().x() + _dx, _network->pos().y());
 }
 
 void FlowNetworkAlgorithmWindow::setAlgorithm(FlowNetworkAlgorithm * algorithm)
@@ -55,10 +68,15 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	}
 	else
 	{
-		ui.residualNetworkView->scene()->clear();
-		FlowNetwork * residualNewtork = _algorithm->makeResidualNetwork();
+		FlowNetwork * residualNewtork = _algorithm->makeResidualNetwork(_network);
+		residualNewtork->updateScale(_scaleFactor);
+		residualNewtork->moveBy(_dx, 0);
+		residualNewtork->unselectAll();
 		ui.residualNetworkView->scene()->addItem(residualNewtork);
+		ui.residualNetworkView->centerOn(residualNewtork);
+		ui.residualNetworkView->viewport()->update();
 	}
+	left = !left;
 }
 
 void FlowNetworkAlgorithmWindow::finish()

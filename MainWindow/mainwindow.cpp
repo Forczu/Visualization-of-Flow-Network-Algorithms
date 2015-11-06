@@ -17,6 +17,7 @@
 #include "IAlgorithm.h"
 #include "FlowNetworkAlgorithmWindow.h"
 #include "FordFulkersonAlgorithm.h"
+#include "UndirectedGraphImage.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -59,7 +60,9 @@ void MainWindow::newFile()
 		return;
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	_graphTabs->addTab(dialog.getName(), dialog.getOrder(), dialog.getWeighted());
+
+	GraphImage * graph = createGraph(dialog.getOrder(), dialog.getWeighted());
+	_graphTabs->addTab(dialog.getName(), graph);
 	_algorithmInfo.changeState(dialog.getOrder());
 	QStringList algorithms = _algorithmInfo.getAlgorithmList();
 	ui.algorithmList->addItems(algorithms);
@@ -203,6 +206,30 @@ void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 {
 }
 
+GraphImage * MainWindow::createGraph(Order order /*= Order::Directed*/, Weight weighted /*= Weight::Weighted*/)
+{
+	GraphImage * graph;
+	GraphConfig * config = new GraphConfig(
+		Application::Config::Instance().DefaultVertexContext()->clone(),
+		Application::Config::Instance().DefaultEdgeContext()->clone(),
+		Application::Config::Instance().SelectedVertexContext()->clone(),
+		Application::Config::Instance().SelectedEdgeContext()->clone());
+	switch (order)
+	{
+	case Order::Directed:
+		graph = new DirectedGraphImage(config);
+		break;
+	default: case Order::Undirected:
+		graph = new UndirectedGraphImage(config);
+		break;
+	case Order::FlowNetwork:
+		graph = new FlowNetwork(config);
+		break;
+	}
+	graph->Weighted(weighted == Weight::Weighted);
+	return graph;
+}
+
 void MainWindow::checkStraightLine(bool b)
 {
 	if (b)
@@ -229,7 +256,6 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 {
 	GraphImage * graph = _graphTabs->currentGraphView()->getGraphImage();
 	QDialog * window = _algorithmInfo.getDialog(graph, item->text());
-	window->setParent(this);
 	window->show();
 }
 
