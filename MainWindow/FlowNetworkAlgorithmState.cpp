@@ -30,3 +30,14 @@ IAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
 		return FordFulkersonAlgorithm::getInstance();
 	}
 }
+
+QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const & name)
+{
+	FlowNetworkAlgorithmWindow * dialog = new FlowNetworkAlgorithmWindow;
+	FlowNetworkAlgorithm * algorithm = dynamic_cast<FlowNetworkAlgorithm*>(getAlgorithm(name));
+	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
+	algorithm->setNetwork(network);
+	dialog->setAlgorithm(algorithm);
+	dialog->setMainNetwork(network);
+	return dialog;
+}

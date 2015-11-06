@@ -18,7 +18,6 @@ FlowNetworkAlgorithmWindow::~FlowNetworkAlgorithmWindow()
 
 void FlowNetworkAlgorithmWindow::setMainNetwork(FlowNetwork * network)
 {
-	_mainNetwork = network;
 	QRectF sceneRect = network->childrenBoundingRect();
 	QRectF viewRect = ui.mainNetworkView->geometry();
 	float widthScale = viewRect.width() / sceneRect.width();

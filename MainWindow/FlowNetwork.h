@@ -1,10 +1,11 @@
 #pragma once
 #include "DirectedGraphImage.h"
+#include "ICloneable.h"
 #include <map>
 
 class TextItem;
 
-class FlowNetwork :	public DirectedGraphImage
+class FlowNetwork : public DirectedGraphImage, public ICloneable<FlowNetwork>
 {
 	int _source;
 	int _target;
@@ -25,6 +26,10 @@ public:
 	void markTarget(int id, VertexImage * vertex);
 
 	FlowNetwork * makeResidualNetwork();
+	FlowNetwork * clone() const override
+	{
+		return new FlowNetwork(*this);
+	}
 
 private:
 	void init();

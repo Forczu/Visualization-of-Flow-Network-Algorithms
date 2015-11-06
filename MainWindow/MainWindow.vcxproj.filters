@@ -469,13 +469,16 @@
     <CustomBuild Include="GeneratedFiles\ui_FlowNetworkAlgorithmWindow.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="FlowNetworkAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FlowNetworkAlgorithm.h">
-      <Filter>Header Files\Algorithms</Filter>
+    <ClInclude Include="ICloneable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

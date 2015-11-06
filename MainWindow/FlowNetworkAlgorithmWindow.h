@@ -23,7 +23,6 @@ private slots:
 	void finish();
 private:
 	Ui::FlowNetworkAlgorithmWindow ui;
-	FlowNetwork * _mainNetwork;
 	FlowNetworkAlgorithm * _algorithm;
 };
 

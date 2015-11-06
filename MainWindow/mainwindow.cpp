@@ -15,6 +15,8 @@
 #include "PointTool.h"
 #include "QAction"
 #include "IAlgorithm.h"
+#include "FlowNetworkAlgorithmWindow.h"
+#include "FordFulkersonAlgorithm.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -225,8 +227,10 @@ void MainWindow::checkBezierCurve(bool b)
 
 void MainWindow::runAlgorithm(QListWidgetItem * item)
 {
-	IAlgorithm * alg = _algorithmInfo.getAlgorithm(item->text());
-	alg->run(_graphTabs->currentGraphView()->getGraphImage());
+	GraphImage * graph = _graphTabs->currentGraphView()->getGraphImage();
+	QDialog * window = _algorithmInfo.getDialog(graph, item->text());
+	window->setParent(this);
+	window->show();
 }
 
 void MainWindow::updateGraphStatus()

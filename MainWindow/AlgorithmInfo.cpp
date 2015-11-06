@@ -20,3 +20,9 @@ QStringList AlgorithmInfo::getAlgorithmList()
 {
 	return _state->getAlgorithmList();
 }
+
+
+QDialog * AlgorithmInfo::getDialog(GraphImage * graph, QString const & name)
+{
+	return _state->getDialog(graph, name);
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "FlowNetworkAlgorithm.h"
+#include "FlowNetworkAlgorithmWindow.h"
 
 class FordFulkersonAlgorithm : public FlowNetworkAlgorithm
 {

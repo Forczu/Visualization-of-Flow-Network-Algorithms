@@ -39,8 +39,8 @@ public:
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
 
 	void addEdgeByDialog(int vertexId1, int vertexId2, float scale);
-	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type) = 0;
-	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0) = 0;
+	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow = 0) = 0;
+	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0, int flow = 0) = 0;
 
 protected:
 	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0);

@@ -23,12 +23,12 @@ DirectedGraphImage::~DirectedGraphImage()
 {
 }
 
-EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type)
+EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/)
 {
 	Edge * edge = _graph->addEdge(vertexId1, vertexId2);
 	if (edge == nullptr)
 		return nullptr;
-	return createFullEdgeImage(edge, type, weight);
+	return createFullEdgeImage(edge, type, weight, flow);
 }
 
 void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo)
@@ -39,12 +39,13 @@ void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexIm
 	vertexTo->setToolTip(degree.first, degree.second);
 }
 
-EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/)
+EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/, int flow /*= 0*/)
 {
 	EdgeImage * edgeImg = createEdgeImage(edge, type, weight);
 	if (edgeImg == nullptr)
 		return edgeImg;
 	edgeImg->addArrowHead();
+	edgeImg->setFlow(flow);
 	Edge * neighbor = _graph->GetNeighborEdge(edge);
 	if (neighbor != nullptr)
 		correctNeighborEdges(edge, neighbor);
