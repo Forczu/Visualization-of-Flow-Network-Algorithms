@@ -23,4 +23,10 @@ public:
 	{
 		return getInstance();
 	}
+
+	void scaleText(EdgeImage * edgeImg, float scale) override
+	{
+		return;
+	}
+
 };

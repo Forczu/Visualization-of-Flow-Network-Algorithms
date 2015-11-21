@@ -22,9 +22,9 @@ GraphImage::GraphImage(GraphImage const & graph)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	_config = graph._config->clone();
+	_edgeStrategy = graph._edgeStrategy->clone();
 	_graph = new Graph(/*graph._graph*/);
 	cloneVertices(graph);
-	_edgeStrategy = graph._edgeStrategy->clone();
 }
 
 void GraphImage::cloneVertices(GraphImage const & graph)
@@ -91,8 +91,7 @@ void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2, float scale)
 	bool succeeded = _edgeStrategy->addEdgeByDialog(vertexId1, vertexId2, weight);
 	if (!succeeded)
 		return;
-	EdgeImage * img = addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType());
-	img->scaleText(scale);
+	addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType(), 0, scale);
 }
 
 VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
@@ -274,7 +273,7 @@ void GraphImage::updateScale(float scale)
 {
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		(*it).second->scaleText(scale);
+		_edgeStrategy->scaleText((*it).second, scale);
 	}
 }
 

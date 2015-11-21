@@ -2,6 +2,7 @@
 #include "FlowNetwork.h"
 #include "WeightedEdgeStrategy.h"
 #include "UnweightedEdgeStrategy.h"
+#include "UndirectedGraphImage.h"
 
 CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 : QDialog(parent), _result(DialogCode::Rejected)
@@ -11,6 +12,8 @@ CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 	ui.graphNameText->setText(QString("Graf %1").arg(newTabIndex));
 
 	_graphTypeMap["Sieæ przep³ywowa"] = FlowNetwork::getInstance;
+	_graphTypeMap["Graf skierowany"] = DirectedGraphImage::getInstance;
+	_graphTypeMap["Graf nieskierowany"] = UndirectedGraphImage::getInstance;
 	_weightStrategyMap["Graf wa¿ony"] = WeightedEdgeStrategy::getInstance;
 	_weightStrategyMap["Graf niewa¿ony"] = UnweightedEdgeStrategy::getInstance;
 

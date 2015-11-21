@@ -7,7 +7,6 @@
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
-
 }
 
 GraphSerializer::~GraphSerializer()
@@ -64,6 +63,7 @@ bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fi
 	createAttribute(root, TYPE_ATR, DIRECTED_VAL);
 	createAttribute(root, WEIGHTED_ATR,
 		dynamic_cast<WeightedEdgeStrategy*>(graph.getWeightStrategy()) != NULL ? TRUE_VAL : FALSE_VAL);
+	createAttribute(root, SCALE_ATR, DIRECTED_VAL);
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
 	serializeConfig(graph.getConfig(), root);

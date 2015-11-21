@@ -84,6 +84,7 @@
     <ClCompile Include="BezierEdgeImage.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateNewGraphDialog.cpp" />
+    <ClCompile Include="DirectedGraphAlgorithmState.cpp" />
     <ClCompile Include="DirectedGraphImage.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="EdgeAddTool.cpp" />
@@ -1150,6 +1151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AWeightedStrategyBase.h" />
+    <ClInclude Include="DirectedGraphAlgorithmState.h" />
     <ClInclude Include="UnweightedEdgeStrategy.h" />
     <ClInclude Include="WeightedEdgeStrategy.h" />
   </ItemGroup>

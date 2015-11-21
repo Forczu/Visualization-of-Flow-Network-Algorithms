@@ -6,6 +6,7 @@
 #include "QGraphicsItem"
 #include "StraightEdgeImage.h"
 #include "BezierEdgeImage.h"
+#include "AWeightedStrategyBase.h"
 
 DirectedGraphImage::DirectedGraphImage(GraphConfig * config)
 : GraphImage(config)
@@ -25,12 +26,14 @@ DirectedGraphImage::~DirectedGraphImage()
 {
 }
 
-EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/)
+EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/, float scale /*= 0.0f*/)
 {
 	Edge * edge = _graph->addEdge(vertexId1, vertexId2);
 	if (edge == nullptr)
 		return nullptr;
-	return createFullEdgeImage(edge, type, weight, flow);
+	auto edgeImg = createFullEdgeImage(edge, type, weight, flow);
+	_edgeStrategy->scaleText(edgeImg, scale);
+	return edgeImg;
 }
 
 void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo)

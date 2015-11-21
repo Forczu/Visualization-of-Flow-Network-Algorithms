@@ -18,6 +18,7 @@ void GraphTabWidget::addTab(GraphImage * graph)
 {
 	GraphView * view = createView(graph);
 	createTab(view, graph->getName());
+	view->centerOn(graph);
 }
 
 void GraphTabWidget::addTab(GraphImage * graph, QString const & name)

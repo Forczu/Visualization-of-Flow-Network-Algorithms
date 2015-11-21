@@ -281,6 +281,9 @@
     <ClCompile Include="GraphSerializer.cpp">
       <Filter>Source Files\Serialization</Filter>
     </ClCompile>
+    <ClCompile Include="DirectedGraphAlgorithmState.cpp">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -482,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="UnweightedEdgeStrategy.h">
       <Filter>Header Files\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedGraphAlgorithmState.h">
+      <Filter>Header Files\Algorithms\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

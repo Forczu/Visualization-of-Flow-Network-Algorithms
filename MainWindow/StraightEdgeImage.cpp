@@ -23,17 +23,20 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	QPointF oldCenter = _center;
 	setCenterPoint();
 	qreal currAngle = _line.angle();
-	if (currAngle <= oldAngle - 0.01 || currAngle >= oldAngle + 0.01)
+	if (_text != nullptr)
 	{
-		int dx = _center.x() - oldCenter.x();
-		int dy = _center.y() - oldCenter.y();
-		_text->moveBy(dx, dy);
-	}
-	if (_text->isSelected())
-	{
-		QLineF connection = QLineF(_center, _text->pos());
-		painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
-		painter->drawLine(connection);
+		if (currAngle <= oldAngle - 0.01 || currAngle >= oldAngle + 0.01)
+		{
+			int dx = _center.x() - oldCenter.x();
+			int dy = _center.y() - oldCenter.y();
+			_text->moveBy(dx, dy);
+		}
+		if (_text->isSelected())
+		{
+			QLineF connection = QLineF(_center, _text->pos());
+			painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
+			painter->drawLine(connection);
+		}
 	}
 	bool isArrow = _arrow != nullptr;
 	QPointF arrowCenter;

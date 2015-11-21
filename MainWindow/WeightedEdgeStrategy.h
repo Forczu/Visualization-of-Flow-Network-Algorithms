@@ -37,4 +37,10 @@ public:
 			weight = dialog.getWeight();
 		return succeeded;
 	}
+
+	void scaleText(EdgeImage * edgeImg, float scale) override
+	{
+		edgeImg->scaleText(scale);
+	}
+
 };

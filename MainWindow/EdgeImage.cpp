@@ -31,18 +31,21 @@ void EdgeImage::setTextItem(EdgeTextItem * text)
 void EdgeImage::changeFlow(int flow)
 {
 	setFlow(flow);
-	_text->updateText();
+	if (_text != nullptr)
+		_text->updateText();
 }
 
 void EdgeImage::setFlow(int flow)
 {
-	_edge->setFlow(flow);
+	if (_text != nullptr)
+		_edge->setFlow(flow);
 }
 
 void EdgeImage::changeCapacity(int capacity)
 {
 	setCapacity(capacity);
-	_text->updateText();
+	if (_text != nullptr)
+		_text->updateText();
 }
 
 void EdgeImage::setCapacity(int capacity)
@@ -52,18 +55,22 @@ void EdgeImage::setCapacity(int capacity)
 
 void EdgeImage::scaleText(float scale)
 {
-	_text->setScale(scale);
+	if (_text != nullptr)
+		_text->setScale(scale);
 }
 
 qreal EdgeImage::scaleText() const
 {
-	return _text->scale();
+	if (_text != nullptr)
+		return _text->scale();
+	return 0.0f;
 }
 
 void EdgeImage::setSelected(bool selected)
 {
 	QGraphicsItem::setSelected(selected);
-	_text->setSelected(selected);
+	if (_text != nullptr)
+		_text->setSelected(selected);
 }
 
 float EdgeImage::getAngle() const

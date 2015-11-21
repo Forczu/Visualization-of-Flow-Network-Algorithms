@@ -143,6 +143,8 @@ void MainWindow::checkRemoveButton(bool b)
 
 void MainWindow::openGraphShapeDialog()
 {
+	if (_graphTabs->isHidden())
+		return;
 	GraphConfig * config = _graphTabs->currentGraphView()->getGraphImage()->getConfig();
 	GraphShapeDialog graphShapeDialog = GraphShapeDialog(config, this);
 	graphShapeDialog.setModal(false);

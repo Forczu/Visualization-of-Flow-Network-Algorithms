@@ -52,6 +52,7 @@ namespace Serialization
 		static const char * WEIGHT_ATR =			"weight";
 		static const char * OFFSET_TYPE_ATR =		"offsetType";
 		static const char * OFFSET_VAL_ATR =		"offsetValue";
+		static const char * SCALE_ATR =				"scale";
 		// wartoœci
 		static const char * DIRECTED_VAL =			"directed";
 		static const char * TRUE_VAL =				"true";

@@ -3,6 +3,7 @@
 #include "VertexImage.h"
 #include "Edge.h"
 #include "EdgeImage.h"
+#include "AWeightedStrategyBase.h"
 
 UndirectedGraphImage::UndirectedGraphImage(GraphConfig * config)
 : GraphImage(config)
@@ -22,12 +23,14 @@ UndirectedGraphImage::~UndirectedGraphImage()
 {
 }
 
-EdgeImage * UndirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/)
+EdgeImage * UndirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/, float scale /*= 0.0f*/)
 {
 	Edge * edge = _graph->AddEdgeSingle(vertexId1, vertexId2);
 	if (edge == nullptr)
 		return nullptr;
-	return createFullEdgeImage(edge, Application::Config::Instance().CurrentEdgeType());
+	auto edgeImg = createFullEdgeImage(edge, type, weight, flow);
+	_edgeStrategy->scaleText(edgeImg, scale);
+	return edgeImg;
 }
 
 void UndirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo)
