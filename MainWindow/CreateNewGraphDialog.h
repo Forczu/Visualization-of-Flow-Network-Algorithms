@@ -5,16 +5,16 @@
 #include <QDialog>
 #include <QTextCodec>
 #include "ui_CreateNewGraphDialog.h"
-#include "Orders.h"
-#include "Weights.h"
+#include <QMap>
+#include "GraphImage.h"
 
 class CreateNewGraphDialog : public QDialog
 {
 	Q_OBJECT
-
-	std::map<Order, QString>	_orderMap;
-	std::map<Weight, QString>	_weightMap;
-	bool _confirmed;
+	Ui::CreateNewGraphDialog ui;
+	QMap<QString, GraphCreateFunc> _graphTypeMap;
+	QMap<QString, bool> _weightMap;
+	DialogCode _result;
 public:
 	CreateNewGraphDialog(int newTabIndex, QWidget *parent = 0);
 	~CreateNewGraphDialog();
@@ -23,16 +23,18 @@ public:
 	{
 		return ui.graphNameText->text();
 	}
-	Order getOrder() const;
-	Weight getWeighted() const;
-
-	inline bool Confirmed() const
+	inline DialogCode getResult() const
 	{
-		return _confirmed;
+		return _result;
 	}
-
-private:
-	Ui::CreateNewGraphDialog ui;
+	inline bool isWeighted()
+	{
+		return _weightMap[ui.weightComboBox->currentText()];
+	}
+	inline GraphCreateFunc getGraphFunc()
+	{
+		return _graphTypeMap[ui.orderComboBox->currentText()];
+	}
 
 private slots:
 	void okButtunPushed();

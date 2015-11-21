@@ -1,15 +1,16 @@
 #pragma once
 #include "VertexContext.h"
 #include "EdgeContext.h"
+#include <QString>
 
 class GraphConfig
 {
 protected:
+	QString _name;
 	VertexContext * _normalVertexContext;
 	EdgeContext * _normalEdgeContext;
 	VertexContext * _selectedVertexContext;
 	EdgeContext * _selectedEdgeContext;
-
 public:
 	GraphConfig(VertexContext * normalVertexContext, EdgeContext * normalEdgeContext,
 		VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext);
@@ -24,6 +25,8 @@ public:
 	void SelectedVertexContext(VertexContext * val) { _selectedVertexContext = val; }
 	inline EdgeContext * SelectedEdgeContext() const { return _selectedEdgeContext; }
 	void SelectedEdgeContext(EdgeContext * val) { _selectedEdgeContext = val; }
+	inline QString getName() const { return _name; }
+	void setName(QString const & val) { _name = val; }
 
 	inline GraphConfig * clone() const { return new GraphConfig(*this); }
 };

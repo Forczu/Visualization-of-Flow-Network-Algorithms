@@ -6,6 +6,8 @@
 
 class Edge;
 class EdgeImage;
+class GraphImage;
+class GraphConfig;
 class Vertex;
 class VertexImage;
 class TextItem;
@@ -20,3 +22,5 @@ typedef std::map<std::string, TextItem*>			LabelMap;
 
 typedef std::pair<int, QPointF>		PointPair;
 typedef std::map<int, QPointF>		PointMap;
+
+typedef GraphImage* (*GraphCreateFunc)(GraphConfig * config);

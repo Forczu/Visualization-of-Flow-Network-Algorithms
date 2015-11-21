@@ -30,9 +30,9 @@ FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network)
 		int residualCapacity = capacity - flow;
 		residualNewtork->removeEdge((*it).second);
 		if (flow != 0)
-			residualNewtork->addEdge(vertexFrom->Id(), vertexTo->Id(), flow, EdgeType::StraightLine);
-		if (capacity != 0)
-			residualNewtork->addEdge(vertexTo->Id(), vertexFrom->Id(), capacity, EdgeType::StraightLine);
+			residualNewtork->addEdge(vertexTo->Id(), vertexFrom->Id(), flow, EdgeType::StraightLine);
+		if (residualCapacity != 0)
+			residualNewtork->addEdge(vertexFrom->Id(), vertexTo->Id(), residualCapacity, EdgeType::StraightLine);
 	}
 	return residualNewtork;
 }

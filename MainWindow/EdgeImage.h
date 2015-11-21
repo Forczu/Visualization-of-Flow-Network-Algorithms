@@ -57,6 +57,7 @@ public:
 	void changeCapacity(int capacity);
 	void setCapacity(int capacity);
 	void scaleText(float scale);
+	void setSelected(bool selected);
 
 	qreal scaleText() const;
 	float getAngle() const;

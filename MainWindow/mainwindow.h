@@ -14,6 +14,7 @@
 #include "CreateNewGraphDialog.h"
 #include "Tool.h"
 #include "AlgorithmInfo.h"
+#include "Typedefs.h"
 
 class Config;
 class EdgeImage;
@@ -55,6 +56,7 @@ private slots:
 	void checkPointerButton(bool b);
 	void checkRemoveButton(bool b);
 	void openGraphShapeDialog();
+	void changeGraphInformation();
 	void updateGraphStatus();
 	void checkStraightLine(bool b);
 	void checkBezierCurve(bool b);
@@ -71,7 +73,7 @@ private:
 	void pointItem(QList<QGraphicsItem*> const & item);
 	void removeItem(QList<QGraphicsItem*> const & item);
 	void hideGraphTab();
-	GraphImage * createGraph(Order order = Order::Directed, Weight weighted = Weight::Weighted);
+	GraphImage * createGraph(GraphCreateFunc func, bool weighted = true);
 };
 
 #endif // MAINWINDOW_H

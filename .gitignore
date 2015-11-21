@@ -317,3 +317,4 @@ Makefile*
 *.otf
 MainWindow/serialized_graph.xml
 *.2ex
+*.xyp

@@ -1,14 +1,12 @@
 #include "AlgorithmInfo.h"
+#include "FlowNetwork.h"
 
 AlgorithmState * AlgorithmInfo::_state = 0;
 
-void AlgorithmInfo::changeState(Order order)
+void AlgorithmInfo::changeState(GraphImage * graph)
 {
-	switch (order)
-	{
-	case Order::FlowNetwork:
+	if (dynamic_cast<FlowNetwork*>(graph) != NULL)
 		_state = &FlowNetworkAlgorithmState::Instance();
-	}
 }
 
 IAlgorithm * AlgorithmInfo::getAlgorithm(QString const & name)

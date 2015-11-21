@@ -27,16 +27,12 @@ namespace Application
 		WriteEdges(root);
 	}
 
-	QMap<QString, QString> Config::getAlgorithmMap(Order order)
+	QMap<QString, QString> Config::getAlgorithmMap(std::string const & algo)
 	{
 		libconfig::Setting const & root = _cfg.getRoot();
 		libconfig::Setting const & algoritmsNode = root["application"]["algorithms"];
 		QMap<QString, QString> algorithmMap;
-		switch (order)
-		{
-		case Order::FlowNetwork:
-			ReadAlgorithmMap(algoritmsNode["flow_network"], algorithmMap);
-		}
+		ReadAlgorithmMap(algoritmsNode[algo], algorithmMap);
 		return algorithmMap;
 	}
 

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GraphShapeDialog</string>
+   <string>Wygląd grafu</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -307,9 +307,9 @@
        </widget>
       </item>
       <item row="4" column="0" colspan="3">
-       <widget class="QLabel" name="headWidthLabel">
+       <widget class="QLabel" name="headSizeLabel">
         <property name="text">
-         <string>Wysokość grotu</string>
+         <string>Wielkość grotu</string>
         </property>
        </widget>
       </item>
@@ -341,42 +341,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="3">
-       <widget class="QSlider" name="headHeightSlider">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>50</number>
-        </property>
-        <property name="singleStep">
-         <number>1</number>
-        </property>
-        <property name="pageStep">
-         <number>10</number>
-        </property>
-        <property name="value">
-         <number>1</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="tickPosition">
-         <enum>QSlider::TicksBelow</enum>
-        </property>
-        <property name="tickInterval">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="3">
-       <widget class="QLabel" name="headHeightLabel">
-        <property name="text">
-         <string>Szerokość grotu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
+      <item row="6" column="0">
        <widget class="QCheckBox" name="filledHeadCheckbox">
         <property name="text">
          <string>Wypełniony</string>

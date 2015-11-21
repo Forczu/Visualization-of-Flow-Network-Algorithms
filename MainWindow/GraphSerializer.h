@@ -33,6 +33,7 @@ namespace Serialization
 		static const char * POINT_NODE =			"Point";
 		static const char * POS_NODE =				"Position";
 		static const char * EDGE_TEXT_ITEM_NODE =	"EdgeTextItem";
+		static const char * NAME_NODE =				"Name";
 		// atrybuty
 		static const char * TYPE_ATR =				"type";
 		static const char * WEIGHTED_ATR =			"weighted";
@@ -79,8 +80,8 @@ public:
 	~GraphSerializer();
 
 	bool parse(std::string const & filePath);
-	GraphImage * load(std::string const & filePath);
-	bool save(GraphImage const & graph, std::string const & fileNam);
+	GraphImage * deserialize(std::string const & filePath);
+	bool serialize(GraphImage const & graph, std::string const & fileNam);
 
 private:
 	char * stringToChar(std::string const & s);
@@ -89,6 +90,8 @@ private:
 	xml_node<> * createNode(char const * name, xml_node<> * parent);
 	void createAttribute(xml_node<> * node, char const * name, char const * value);
 	inline char * readAttribute(xml_node<> * node, char const * name);
+	void createValue(xml_node<>* node, char const * value);
+	char * readValue(xml_node<> * node);
 #pragma region Serializacja
 	bool serializeVertexContext(VertexContext * context, xml_node<> * parentNode, const char * childName);
 	bool serializeEdgeContext(EdgeContext * context, xml_node<> * parentNode, const char * childName);

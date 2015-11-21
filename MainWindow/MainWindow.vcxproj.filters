@@ -87,6 +87,9 @@
     <Filter Include="Header Files\Algorithms\States">
       <UniqueIdentifier>{9fa91453-4cb0-49e5-8863-8a0036c4222b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Serialization">
+      <UniqueIdentifier>{0ac192da-5492-4992-9778-41bee2eaab04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -218,9 +221,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_GraphImage.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GraphSerializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_TextItem.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -277,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="FlowNetworkAlgorithm.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphSerializer.cpp">
+      <Filter>Source Files\Serialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,12 +361,6 @@
     <CustomBuild Include="AddWeightToEdgeDialog.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Orders.h">
-      <Filter>Header Files\Enums</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Weights.h">
-      <Filter>Header Files\Enums</Filter>
-    </CustomBuild>
     <CustomBuild Include="GeneratedFiles\ui_AddWeightToEdgeDialog.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
@@ -421,9 +418,6 @@
     <CustomBuild Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="FlowNetwork.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="FlowNetworkAlgorithmWindow.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
@@ -469,13 +463,14 @@
     <CustomBuild Include="GeneratedFiles\ui_FlowNetworkAlgorithmWindow.h">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="FlowNetworkAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FlowNetwork.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FlowNetworkAlgorithm.h">
-      <Filter>Header Files\Algorithms</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

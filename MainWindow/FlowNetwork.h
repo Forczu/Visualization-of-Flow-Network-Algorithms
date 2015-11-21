@@ -20,6 +20,11 @@ public:
 	FlowNetwork(FlowNetwork const & network);
 	~FlowNetwork();
 
+	static GraphImage * getInstance(GraphConfig * config)
+	{
+		return new FlowNetwork(config);
+	}
+
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 	void markSource(int id, VertexImage * vertex);

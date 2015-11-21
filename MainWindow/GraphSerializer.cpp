@@ -32,7 +32,7 @@ bool GraphSerializer::parse(std::string const & filePath)
 	}
 }
 
-GraphImage * GraphSerializer::load(std::string const & filePath)
+GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 {
 	GraphImage * graph;
 	parse(filePath);
@@ -47,7 +47,7 @@ GraphImage * GraphSerializer::load(std::string const & filePath)
 	return graph;
 }
 
-bool GraphSerializer::save(GraphImage const & graph, std::string const & fileName)
+bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fileName)
 {
 	// zadeklarowanie xmla
 	xml_node<> * decl = _doc.allocate_node(node_declaration);
@@ -57,7 +57,7 @@ bool GraphSerializer::save(GraphImage const & graph, std::string const & fileNam
 	// korzeñ
 	xml_node<> * root = createNode(ROOT);
 	createAttribute(root, TYPE_ATR, DIRECTED_VAL);
-	createAttribute(root, WEIGHTED_ATR, graph.Weighted() ? TRUE_VAL : FALSE_VAL);
+	createAttribute(root, WEIGHTED_ATR, graph.setWeighted() ? TRUE_VAL : FALSE_VAL);
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
 	serializeConfig(graph.getConfig(), root);
@@ -196,9 +196,21 @@ char * GraphSerializer::readAttribute(xml_node<> * node, char const * name)
 	return node->first_attribute(name)->value();
 }
 
+void GraphSerializer::createValue(xml_node<>* node, char const * value)
+{
+	node->value(_doc.allocate_string(value));
+}
+
+char * GraphSerializer::readValue(xml_node<> * node)
+{
+	return node->value();
+}
+
 void GraphSerializer::serializeConfig(GraphConfig * graphConfig, xml_node<> * parent)
 {
 	xml_node<> * config = createNode(CONFIG_NODE);
+	xml_node<>* nameNode = createNode(NAME_NODE, config);
+	createValue(nameNode, graphConfig->getName().toStdString().c_str());
 	serializeVertexContext(graphConfig->NormalVertexContext(), config, NORMAL_VAL);
 	serializeVertexContext(graphConfig->SelectedVertexContext(), config, SELECTED_VAL);
 	serializeEdgeContext(graphConfig->NormalEdgeContext(), config, NORMAL_VAL);
@@ -287,6 +299,7 @@ GraphConfig * GraphSerializer::deserializeConfig(xml_node<> * configNode)
 {
 	VertexContext *normalVertexContext, *selectedVertexContext;
 	EdgeContext *normalEdgeContext, *selectedEdgeContext;
+	QString name = readValue(configNode->first_node(NAME_NODE));
 	for (xml_node<>* node = configNode->first_node(VERTEX_CONTEXT_NODE); node; node = node->next_sibling(VERTEX_CONTEXT_NODE))
 	{
 		if (strcmp(readAttribute(node, TYPE_ATR), NORMAL_VAL) == 0)
@@ -309,9 +322,11 @@ GraphConfig * GraphSerializer::deserializeConfig(xml_node<> * configNode)
 			selectedEdgeContext = deserializeEdgeContext(node);
 		}
 	}
-	return new GraphConfig(
+	GraphConfig * config = new GraphConfig(
 		normalVertexContext, normalEdgeContext,
 		selectedVertexContext, selectedEdgeContext);
+	config->setName(name);
+	return config;
 }
 
 VertexContext * GraphSerializer::deserializeVertexContext(xml_node<> * vertexNode)

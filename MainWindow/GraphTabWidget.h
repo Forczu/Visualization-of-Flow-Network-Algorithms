@@ -1,8 +1,6 @@
 #pragma once
 #include <QTabWidget>
 #include "GraphView.h"
-#include "Orders.h"
-#include "Weights.h"
 
 class GraphTabWidget : public QTabWidget
 {
@@ -14,7 +12,9 @@ public:
 	GraphTabWidget(QWidget * parent);
 	~GraphTabWidget();
 
-	void addTab(QString const & name, GraphImage * graph);
+	void addTab(GraphImage * graph);
+	void addTab(GraphImage * graph, QString const & name);
+	GraphView * createView(GraphImage * graph);
 	void createTab(GraphView * widget, QString const & name);
 
 	inline GraphView * currentGraphView() const

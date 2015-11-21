@@ -3,12 +3,20 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <Libraries>C:\Libraries</Libraries>
+    <QTDIR>C:\Qt5\qt5\qtbase</QTDIR>
+    <BoostRoot>C:\Libraries\boost_1_59_0</BoostRoot>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
   <ItemGroup>
     <BuildMacro Include="Libraries">
       <Value>$(Libraries)</Value>
+    </BuildMacro>
+    <BuildMacro Include="QTDIR">
+      <Value>$(QTDIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BoostRoot">
+      <Value>$(BoostRoot)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

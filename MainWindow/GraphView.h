@@ -6,8 +6,6 @@
 #include <QWheelEvent>
 #include <QRubberBand>
 
-#include "Orders.h"
-#include "Weights.h"
 #include "Tools.h"
 #include "Typedefs.h"
 

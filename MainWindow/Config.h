@@ -57,7 +57,7 @@ namespace Application
 			_tool->changeTool(tool);
 		}
 
-		QMap<QString, QString> getAlgorithmMap(Order order);
+		QMap<QString, QString> getAlgorithmMap(std::string const & algo);
 
 	private:
 		void ReadVertices(libconfig::Setting const & root);

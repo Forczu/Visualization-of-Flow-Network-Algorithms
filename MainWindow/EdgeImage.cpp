@@ -60,6 +60,12 @@ qreal EdgeImage::scaleText() const
 	return _text->scale();
 }
 
+void EdgeImage::setSelected(bool selected)
+{
+	QGraphicsItem::setSelected(selected);
+	_text->setSelected(selected);
+}
+
 float EdgeImage::getAngle() const
 {
 	return _actualLine.angle();

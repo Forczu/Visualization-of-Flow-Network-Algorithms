@@ -56,21 +56,17 @@ void MainWindow::newFile()
 	CreateNewGraphDialog dialog(index);
 	dialog.show();
 	dialog.exec();
-	if (!dialog.Confirmed())
+	if (dialog.getResult() != QDialog::Accepted)
 		return;
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-
-	GraphImage * graph = createGraph(dialog.getOrder(), dialog.getWeighted());
-	_graphTabs->addTab(dialog.getName(), graph);
-	_algorithmInfo.changeState(dialog.getOrder());
-	QStringList algorithms = _algorithmInfo.getAlgorithmList();
-	ui.algorithmList->addItems(algorithms);
+	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.isWeighted());
+	_graphTabs->addTab(graph, dialog.getName());
 }
 
 void MainWindow::open()
 {
-	QString fileName;
+	std::string fileName;
 #ifdef DEBUG
 	fileName = "serialized_graph.xml";
 #else
@@ -78,10 +74,10 @@ void MainWindow::open()
 		tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
 #endif
 	GraphSerializer serializer;
-	GraphImage * graph = serializer.load(fileName.toStdString());
+	GraphImage * graph = serializer.deserialize(fileName);
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	_graphTabs->addTab("Cycki", graph);
+	_graphTabs->addTab(graph);
 }
 
 void MainWindow::saveAs()
@@ -97,7 +93,7 @@ void MainWindow::saveAs()
 #endif
 	auto graph = _graphTabs->currentGraphView()->getGraphImage();
 	GraphSerializer serializer;
-	serializer.save(*graph, fileName.toStdString());
+	serializer.serialize(*graph, fileName.toStdString());
 }
 
 void MainWindow::close()
@@ -166,7 +162,7 @@ void MainWindow::createActions()
 
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
 
-	connect(_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(updateGraphStatus()));
+	connect(_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(changeGraphInformation()));
 	connect(_graphTabs, SIGNAL(graphChanged()), this, SLOT(updateGraphStatus()));
 
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
@@ -206,7 +202,7 @@ void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 {
 }
 
-GraphImage * MainWindow::createGraph(Order order /*= Order::Directed*/, Weight weighted /*= Weight::Weighted*/)
+GraphImage * MainWindow::createGraph(GraphCreateFunc func, bool weighted)
 {
 	GraphImage * graph;
 	GraphConfig * config = new GraphConfig(
@@ -214,19 +210,8 @@ GraphImage * MainWindow::createGraph(Order order /*= Order::Directed*/, Weight w
 		Application::Config::Instance().DefaultEdgeContext()->clone(),
 		Application::Config::Instance().SelectedVertexContext()->clone(),
 		Application::Config::Instance().SelectedEdgeContext()->clone());
-	switch (order)
-	{
-	case Order::Directed:
-		graph = new DirectedGraphImage(config);
-		break;
-	default: case Order::Undirected:
-		graph = new UndirectedGraphImage(config);
-		break;
-	case Order::FlowNetwork:
-		graph = new FlowNetwork(config);
-		break;
-	}
-	graph->Weighted(weighted == Weight::Weighted);
+	graph = func(config);
+	graph->setWeighted(weighted);
 	return graph;
 }
 
@@ -268,4 +253,17 @@ void MainWindow::updateGraphStatus()
 	QString newStatus = Application::Config::Instance().GraphStatusString()
 		.arg(graph->VertexNumber()).arg(graph->EdgeNumber());
 	ui.graphTextStatus->setText(newStatus);
+}
+
+void MainWindow::changeGraphInformation()
+{
+	GraphView * graphView = _graphTabs->currentGraphView();
+	if (graphView == nullptr)
+		return;
+	auto graph = graphView->getGraphImage();
+	_algorithmInfo.changeState(graph);
+	QStringList algorithms = _algorithmInfo.getAlgorithmList();
+	ui.algorithmList->clear();
+	ui.algorithmList->addItems(algorithms);
+	updateGraphStatus();
 }

@@ -3,15 +3,13 @@
 #include "IAlgorithm.h"
 #include "FlowNetworkAlgorithmState.h"
 #include "AlgorithmState.h"
-#include "Orders.h"
-
 
 class AlgorithmInfo
 {
 	static AlgorithmState * _state;
 	friend class AlgorithmState;
 public:
-	void changeState(Order order);
+	void changeState(GraphImage * graph);
 	IAlgorithm * getAlgorithm(QString const & name);
 	QStringList getAlgorithmList();
 	QDialog * getDialog(GraphImage * graph, QString const & name);

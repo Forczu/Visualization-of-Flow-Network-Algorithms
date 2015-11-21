@@ -47,7 +47,7 @@ void GraphImage::cloneEdges(GraphImage & graph)
 	for (Edge * edge : graph.getGraph()->getEdges())
 	{
 		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id(),
-			edge->getCapacity(), EdgeType::StraightLine);
+			edge->getCapacity(), EdgeType::StraightLine, edge->getFlow());
 
 
 		//createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());

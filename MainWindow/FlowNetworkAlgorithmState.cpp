@@ -19,7 +19,7 @@ QStringList FlowNetworkAlgorithmState::getAlgorithmList()
 
 QMap<QString, QString> FlowNetworkAlgorithmState::getAlgorithmMap()
 {
-	return Application::Config::Instance().getAlgorithmMap(Order::FlowNetwork);
+	return Application::Config::Instance().getAlgorithmMap("flow_network");
 }
 
 IAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
