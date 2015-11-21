@@ -4,6 +4,7 @@
 #include <memory>
 #include <QPointF>
 
+class AWeightedStrategyBase;
 class Edge;
 class EdgeImage;
 class GraphImage;
@@ -24,3 +25,4 @@ typedef std::pair<int, QPointF>		PointPair;
 typedef std::map<int, QPointF>		PointMap;
 
 typedef GraphImage* (*GraphCreateFunc)(GraphConfig * config);
+typedef AWeightedStrategyBase* (*EdgeStrategyCreateFunc)();

@@ -9,6 +9,7 @@
 #include "Edges.h"
 #include "Consts.h"
 
+class AWeightedStrategyBase;
 class Edge;
 class EdgeImage;
 class Graph;
@@ -24,8 +25,8 @@ protected:
 	Graph * _graph;
 	VertexImageMap	_vertexMap;
 	EdgeImageMap	_edgeMap;
+	AWeightedStrategyBase * _edgeStrategy;
 
-	bool _weighted;
 public:
 	GraphImage(GraphConfig * graphConfig);
 	GraphImage(GraphImage const & graph);
@@ -60,8 +61,8 @@ public:
 
 	inline Graph * getGraph() const { return _graph; }
 	void setGraph(Graph * val) { _graph = val; }
-	inline bool setWeighted() const { return _weighted; }
-	void setWeighted(bool val) { _weighted = val; }
+	inline AWeightedStrategyBase * getWeightStrategy() const { return _edgeStrategy; }
+	void setWeightStrategy(AWeightedStrategyBase * val) { _edgeStrategy = val; }
 	inline GraphConfig * getConfig() const { return _config; }
 	void setConfig(GraphConfig * val) { _config = val; }
 	inline VertexImageMap getVertices() const { return _vertexMap; }

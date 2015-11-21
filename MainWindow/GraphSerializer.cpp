@@ -2,6 +2,8 @@
 #include "StraightEdgeImage.h"
 #include "BezierEdgeImage.h"
 #include <typeinfo>
+#include "WeightedEdgeStrategy.h"
+#include "UnweightedEdgeStrategy.h"
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
@@ -35,14 +37,17 @@ bool GraphSerializer::parse(std::string const & filePath)
 GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 {
 	GraphImage * graph;
+	AWeightedStrategyBase * weightStrategy;
 	parse(filePath);
 	xml_node<> * root = _doc.first_node(ROOT);
 	xml_node<> * configNode = root->first_node(CONFIG_NODE);
 	GraphConfig * config = deserializeConfig(configNode);
 	xml_node<> * modelNode = root->first_node(MODEL_NODE);
-	std::string type = root->first_attribute(TYPE_ATR)->value();
-	if (type == DIRECTED_VAL)
+	std::string graphType = root->first_attribute(TYPE_ATR)->value();
+	if (graphType == DIRECTED_VAL)
 		graph = new DirectedGraphImage(config);
+	weightStrategy = deserializeWeightStrategy(root, weightStrategy);
+	graph->setWeightStrategy(weightStrategy);
 	deserializeModel(modelNode, graph);
 	return graph;
 }
@@ -57,7 +62,8 @@ bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fi
 	// korzeñ
 	xml_node<> * root = createNode(ROOT);
 	createAttribute(root, TYPE_ATR, DIRECTED_VAL);
-	createAttribute(root, WEIGHTED_ATR, graph.setWeighted() ? TRUE_VAL : FALSE_VAL);
+	createAttribute(root, WEIGHTED_ATR,
+		dynamic_cast<WeightedEdgeStrategy*>(graph.getWeightStrategy()) != NULL ? TRUE_VAL : FALSE_VAL);
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
 	serializeConfig(graph.getConfig(), root);
@@ -451,4 +457,14 @@ void GraphSerializer::deserializeTextItem(xml_node<>* node, EdgeImage * edge)
 {
 	QPointF position = deserializePosition(node->first_node(POS_NODE));
 	edge->getTextItem()->setPos(position);
+}
+
+AWeightedStrategyBase * GraphSerializer::deserializeWeightStrategy(xml_node<> * root, AWeightedStrategyBase * weightStrategy)
+{
+	std::string strategy = root->first_attribute(WEIGHTED_ATR)->value();
+	if (strategy == TRUE_VAL)
+		weightStrategy = WeightedEdgeStrategy::getInstance();
+	else
+		weightStrategy = UnweightedEdgeStrategy::getInstance();
+	return weightStrategy;
 }

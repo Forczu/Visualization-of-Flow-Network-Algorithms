@@ -122,6 +122,7 @@ private:
 	void deserializeEdges(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeEdge(xml_node<>* node, GraphImage * graph);
 	void deserializeTextItem(xml_node<>* node, EdgeImage * edge);
+	AWeightedStrategyBase * deserializeWeightStrategy(xml_node<> * root, AWeightedStrategyBase * weightStrategy);
 #pragma endregion
 	
 #pragma region Parsowanie

@@ -60,7 +60,7 @@ void MainWindow::newFile()
 		return;
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.isWeighted());
+	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.getEdgeStrategy());
 	_graphTabs->addTab(graph, dialog.getName());
 }
 
@@ -202,7 +202,7 @@ void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
 {
 }
 
-GraphImage * MainWindow::createGraph(GraphCreateFunc func, bool weighted)
+GraphImage * MainWindow::createGraph(GraphCreateFunc graphFunc, EdgeStrategyCreateFunc strategyFunc)
 {
 	GraphImage * graph;
 	GraphConfig * config = new GraphConfig(
@@ -210,8 +210,8 @@ GraphImage * MainWindow::createGraph(GraphCreateFunc func, bool weighted)
 		Application::Config::Instance().DefaultEdgeContext()->clone(),
 		Application::Config::Instance().SelectedVertexContext()->clone(),
 		Application::Config::Instance().SelectedEdgeContext()->clone());
-	graph = func(config);
-	graph->setWeighted(weighted);
+	graph = graphFunc(config);
+	graph->setWeightStrategy(strategyFunc());
 	return graph;
 }
 

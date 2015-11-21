@@ -3,6 +3,6 @@
 template<class T>
 class ICloneable
 {
-protected:
+public:
 	virtual T * clone() const = 0;
 };

@@ -9,6 +9,7 @@
 #include "Graph.h"
 #include "AddWeightToEdgeDialog.h"
 #include "BezierEdgeImage.h"
+#include "AWeightedStrategyBase.h"
 #include <utility>
 
 GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
@@ -21,9 +22,9 @@ GraphImage::GraphImage(GraphImage const & graph)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	_config = graph._config->clone();
-	_graph = new Graph(/**graph._graph*/);
+	_graph = new Graph(/*graph._graph*/);
 	cloneVertices(graph);
-	_weighted = graph._weighted;
+	_edgeStrategy = graph._edgeStrategy->clone();
 }
 
 void GraphImage::cloneVertices(GraphImage const & graph)
@@ -48,15 +49,6 @@ void GraphImage::cloneEdges(GraphImage & graph)
 	{
 		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id(),
 			edge->getCapacity(), EdgeType::StraightLine, edge->getFlow());
-
-
-		//createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
-		/*EdgeImage * img = map[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())];
-		if (dynamic_cast<StraightEdgeImage*>(img) != NULL)
-		newEdge = createFullEdgeImage(edge, EdgeType::StraightLine, edge->getCapacity());
-		else if (dynamic_cast<BezierEdgeImage*>(img) != NULL)
-		newEdge = createFullEdgeImage(edge, EdgeType::BezierLine, edge->getCapacity());
-		newEdge->scaleText(img->scaleText());*/
 	}
 }
 
@@ -96,12 +88,9 @@ void GraphImage::addVertex(int id, QPointF const & position, PointMap const & po
 void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2, float scale)
 {
 	int weight;
-	if (_weighted)
-	{
-		bool succeeded = showEdgeImageDialog(vertexId1, vertexId2, weight);
-		if (!succeeded)
-			return;
-	}
+	bool succeeded = _edgeStrategy->addEdgeByDialog(vertexId1, vertexId2, weight);
+	if (!succeeded)
+		return;
 	EdgeImage * img = addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType());
 	img->scaleText(scale);
 }
@@ -145,11 +134,7 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	edgeImg->setParentItem(this);
-	if (_weighted)
-	{
-		edgeImg->setWeight(weight);
-		edgeImg->setTextItem(new EdgeTextItem(edgeImg, QPointF()));
-	}
+	_edgeStrategy->addWeightToEdge(edgeImg, weight);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
 }

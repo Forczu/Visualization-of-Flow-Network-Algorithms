@@ -73,7 +73,7 @@ private:
 	void pointItem(QList<QGraphicsItem*> const & item);
 	void removeItem(QList<QGraphicsItem*> const & item);
 	void hideGraphTab();
-	GraphImage * createGraph(GraphCreateFunc func, bool weighted = true);
+	GraphImage * createGraph(GraphCreateFunc func, EdgeStrategyCreateFunc strategyFunc);
 };
 
 #endif // MAINWINDOW_H

@@ -1,5 +1,7 @@
 #include "CreateNewGraphDialog.h"
 #include "FlowNetwork.h"
+#include "WeightedEdgeStrategy.h"
+#include "UnweightedEdgeStrategy.h"
 
 CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 : QDialog(parent), _result(DialogCode::Rejected)
@@ -9,14 +11,14 @@ CreateNewGraphDialog::CreateNewGraphDialog(int newTabIndex, QWidget *parent)
 	ui.graphNameText->setText(QString("Graf %1").arg(newTabIndex));
 
 	_graphTypeMap["Sieæ przep³ywowa"] = FlowNetwork::getInstance;
-	_weightMap["Graf wa¿ony"] = true;
-	_weightMap["Graf niewa¿ony"] = false;
+	_weightStrategyMap["Graf wa¿ony"] = WeightedEdgeStrategy::getInstance;
+	_weightStrategyMap["Graf niewa¿ony"] = UnweightedEdgeStrategy::getInstance;
 
 	for (QString key : _graphTypeMap.keys())
 	{
 		ui.orderComboBox->addItem(key);
 	}
-	for (QString key : _weightMap.keys())
+	for (QString key : _weightStrategyMap.keys())
 	{
 		ui.weightComboBox->addItem(key);
 	}

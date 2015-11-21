@@ -473,4 +473,15 @@
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AWeightedStrategyBase.h">
+      <Filter>Header Files\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="WeightedEdgeStrategy.h">
+      <Filter>Header Files\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="UnweightedEdgeStrategy.h">
+      <Filter>Header Files\Graphs</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

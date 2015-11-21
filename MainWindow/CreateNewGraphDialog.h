@@ -13,7 +13,7 @@ class CreateNewGraphDialog : public QDialog
 	Q_OBJECT
 	Ui::CreateNewGraphDialog ui;
 	QMap<QString, GraphCreateFunc> _graphTypeMap;
-	QMap<QString, bool> _weightMap;
+	QMap<QString, EdgeStrategyCreateFunc> _weightStrategyMap;
 	DialogCode _result;
 public:
 	CreateNewGraphDialog(int newTabIndex, QWidget *parent = 0);
@@ -27,9 +27,9 @@ public:
 	{
 		return _result;
 	}
-	inline bool isWeighted()
+	inline EdgeStrategyCreateFunc getEdgeStrategy()
 	{
-		return _weightMap[ui.weightComboBox->currentText()];
+		return _weightStrategyMap[ui.weightComboBox->currentText()];
 	}
 	inline GraphCreateFunc getGraphFunc()
 	{
