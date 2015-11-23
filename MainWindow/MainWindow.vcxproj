@@ -1152,6 +1152,7 @@
   <ItemGroup>
     <ClInclude Include="AWeightedStrategyBase.h" />
     <ClInclude Include="DirectedGraphAlgorithmState.h" />
+    <ClInclude Include="MyMath.h" />
     <ClInclude Include="UnweightedEdgeStrategy.h" />
     <ClInclude Include="WeightedEdgeStrategy.h" />
   </ItemGroup>

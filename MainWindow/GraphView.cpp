@@ -302,7 +302,9 @@ QRect GraphView::mapRubberBandToScene()
 
 void GraphView::buildVertex(QPointF const & position, QList<QGraphicsItem*> const & items)
 {
-	if (items.size() != 0)
+	// je¿eli kliknêliœmy w powierzchniê grafu, ale nie zajmowan¹ przez
+	// ¿aden z jego elementów, to dodajemy nowy wierzcho³ek
+	if (items.size() != 0 && dynamic_cast<GraphImage*>(items.first()) == NULL)
 		return;
 	_graph->addVertex(mapToScene(position.toPoint()));
 	emit graphChanged();

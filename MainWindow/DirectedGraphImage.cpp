@@ -32,7 +32,6 @@ EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight
 	if (edge == nullptr)
 		return nullptr;
 	auto edgeImg = createFullEdgeImage(edge, type, weight, flow);
-	_edgeStrategy->scaleText(edgeImg, scale);
 	return edgeImg;
 }
 

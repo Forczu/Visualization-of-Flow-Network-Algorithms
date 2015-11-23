@@ -4,6 +4,8 @@
 #include <typeinfo>
 #include "WeightedEdgeStrategy.h"
 #include "UnweightedEdgeStrategy.h"
+#include "UndirectedGraphImage.h"
+#include "FlowNetwork.h"
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
@@ -35,17 +37,15 @@ bool GraphSerializer::parse(std::string const & filePath)
 
 GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 {
-	GraphImage * graph;
-	AWeightedStrategyBase * weightStrategy;
 	parse(filePath);
 	xml_node<> * root = _doc.first_node(ROOT);
 	xml_node<> * configNode = root->first_node(CONFIG_NODE);
 	GraphConfig * config = deserializeConfig(configNode);
 	xml_node<> * modelNode = root->first_node(MODEL_NODE);
 	std::string graphType = root->first_attribute(TYPE_ATR)->value();
-	if (graphType == DIRECTED_VAL)
-		graph = new DirectedGraphImage(config);
-	weightStrategy = deserializeWeightStrategy(root, weightStrategy);
+	GraphImage * graph = deserializeGraphType(graphType, config);
+	std::string strategy = root->first_attribute(WEIGHTED_ATR)->value();
+	AWeightedStrategyBase * weightStrategy = deserializeWeightStrategy(root, strategy);
 	graph->setWeightStrategy(weightStrategy);
 	deserializeModel(modelNode, graph);
 	return graph;
@@ -59,17 +59,13 @@ bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fi
 	createAttribute(decl, "encoding", "UTF-8");
 	_doc.append_node(decl);
 	// korzeñ
-	xml_node<> * root = createNode(ROOT);
-	createAttribute(root, TYPE_ATR, DIRECTED_VAL);
-	createAttribute(root, WEIGHTED_ATR,
-		dynamic_cast<WeightedEdgeStrategy*>(graph.getWeightStrategy()) != NULL ? TRUE_VAL : FALSE_VAL);
-	createAttribute(root, SCALE_ATR, DIRECTED_VAL);
+	xml_node<> * root = createRoot(graph);
 	_doc.append_node(root);
 	// dane konfiguracyjne ca³ego grafu
 	serializeConfig(graph.getConfig(), root);
 	// struktura grafu
 	serializeModel(graph, root);
-
+	// zapisanie do pliku
 	std::ofstream file_stored(fileName);
 	file_stored << _doc;
 	file_stored.close();
@@ -159,6 +155,33 @@ float GraphSerializer::toFloat(char * str)
 bool GraphSerializer::toBool(char * str)
 {
 	return strcmp(str, TRUE_VAL) == 0;
+}
+
+const char * GraphSerializer::getWeightStrategy(AWeightedStrategyBase * strategy)
+{
+	return dynamic_cast<WeightedEdgeStrategy*>(strategy) != NULL ? TRUE_VAL : FALSE_VAL;
+}
+
+xml_node<> * GraphSerializer::createRoot(GraphImage const & graph)
+{
+	xml_node<> * root = createNode(ROOT);
+	const char * type = getGraphType(graph);
+	createAttribute(root, TYPE_ATR, type);
+	const char * strategy = getWeightStrategy(graph.getWeightStrategy());
+	createAttribute(root, WEIGHTED_ATR, strategy);
+	return root;
+}
+
+const char * GraphSerializer::getGraphType(GraphImage const & graph)
+{
+	GraphImage * graphPtr = const_cast<GraphImage*>(&graph);
+	if (dynamic_cast<FlowNetwork*>(graphPtr) != NULL)
+		return FLOW_NETWORK_VAL;
+	if (dynamic_cast<DirectedGraphImage*>(graphPtr) != NULL)
+		return DIRECTED_VAL;
+	if (dynamic_cast<UndirectedGraphImage*>(graphPtr) != NULL)
+		return UNDIRECTED_VAL;
+	return nullptr;
 }
 
 void GraphSerializer::serializeColor(QColor const & color, xml_node<> * parentNode, const char * childName)
@@ -279,7 +302,9 @@ void GraphSerializer::serializeEdge(EdgeImage * edge, xml_node<> * parent)
 	createAttribute(edgeNode, VERTEX_FROM_ATR, parseInt(e->VertexFrom()->Id()));
 	createAttribute(edgeNode, VERTEX_TO_ATR, parseInt(e->VertexTo()->Id()));
 	const char * capacity = parseInt(e->getCapacity());
-	createAttribute(edgeNode, WEIGHT_ATR, capacity);
+	createAttribute(edgeNode, CAPACITY_ATR, capacity);
+	const char * flow = parseInt(e->getFlow());
+	createAttribute(edgeNode, FLOW_ATR, flow);
 	auto offset = edge->getOffset();
 	createAttribute(edgeNode, OFFSET_TYPE_ATR, offset.first ? TRUE_VAL : FALSE_VAL);
 	createAttribute(edgeNode, OFFSET_VAL_ATR, parseFloat(offset.second));
@@ -445,10 +470,11 @@ void GraphSerializer::deserializeEdge(xml_node<>* node, GraphImage * graph)
 		edgeType = EdgeType::BezierLine;
 	int vertexFrom = toInt(readAttribute(node, VERTEX_FROM_ATR));
 	int vertexTo = toInt(readAttribute(node, VERTEX_TO_ATR));
-	int weight = toInt(readAttribute(node, WEIGHT_ATR));
+	int capacity = toInt(readAttribute(node, CAPACITY_ATR));
+	int flow = toInt(readAttribute(node, FLOW_ATR));
 	bool offsetType = toBool(readAttribute(node, OFFSET_TYPE_ATR));
 	float offsetValue = toFloat(readAttribute(node, OFFSET_VAL_ATR));
-	edge = graph->addEdge(vertexFrom, vertexTo, weight, edgeType);
+	edge = graph->addEdge(vertexFrom, vertexTo, capacity, edgeType, flow);
 	edge->setOffset(offsetType, offsetValue);
 	deserializeTextItem(node->first_node(EDGE_TEXT_ITEM_NODE), edge);
 }
@@ -459,12 +485,21 @@ void GraphSerializer::deserializeTextItem(xml_node<>* node, EdgeImage * edge)
 	edge->getTextItem()->setPos(position);
 }
 
-AWeightedStrategyBase * GraphSerializer::deserializeWeightStrategy(xml_node<> * root, AWeightedStrategyBase * weightStrategy)
+GraphImage * GraphSerializer::deserializeGraphType(std::string const & type, GraphConfig * config)
 {
-	std::string strategy = root->first_attribute(WEIGHTED_ATR)->value();
+	if (type == DIRECTED_VAL)
+		return new DirectedGraphImage(config);
+	if (type == UNDIRECTED_VAL)
+		return new UndirectedGraphImage(config);
+	if (type == FLOW_NETWORK_VAL)
+		return new FlowNetwork(config);
+	return nullptr;
+}
+
+AWeightedStrategyBase * GraphSerializer::deserializeWeightStrategy(xml_node<> * root, std::string const & strategy)
+{
 	if (strategy == TRUE_VAL)
-		weightStrategy = WeightedEdgeStrategy::getInstance();
+		return WeightedEdgeStrategy::getInstance();
 	else
-		weightStrategy = UnweightedEdgeStrategy::getInstance();
-	return weightStrategy;
+		return UnweightedEdgeStrategy::getInstance();
 }

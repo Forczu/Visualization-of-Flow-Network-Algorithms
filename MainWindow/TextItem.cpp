@@ -2,12 +2,15 @@
 #include <QPalette>
 #include <QKeyEvent>
 
-TextItem::TextItem(QPointF const & point, QGraphicsItem* parent) : QGraphicsItem(parent)
+TextItem::TextItem(QPointF const & position, QGraphicsItem* parent)
+: QGraphicsItem(parent)
 {
 	init();
+	setPos(position);
 }
 
-TextItem::TextItem(const QString& text, QGraphicsItem* parent) : QGraphicsItem(parent)
+TextItem::TextItem(const QString& text, QGraphicsItem* parent)
+: QGraphicsItem(parent)
 {
 	_text = text;
 	init();

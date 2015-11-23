@@ -115,6 +115,11 @@ QRectF GraphImage::boundingRect() const
 	return childrenBoundingRect();
 }
 
+void GraphImage::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+	QGraphicsItem::mousePressEvent(event);
+}
+
 EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weight /*= 0*/)
 {
 	int size = _config->NormalVertexContext()->Size();

@@ -90,6 +90,9 @@
     <Filter Include="Source Files\Serialization">
       <UniqueIdentifier>{0ac192da-5492-4992-9778-41bee2eaab04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{f5980365-92e6-4427-a5d9-61f4c383a8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -251,9 +254,6 @@
     <ClCompile Include="PointImage.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="EdgeTextItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AlgorithmInfo.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
@@ -283,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="DirectedGraphAlgorithmState.cpp">
       <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeTextItem.cpp">
+      <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +491,9 @@
     </ClInclude>
     <ClInclude Include="DirectedGraphAlgorithmState.h">
       <Filter>Header Files\Algorithms\States</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMath.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

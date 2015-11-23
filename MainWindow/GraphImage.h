@@ -50,6 +50,7 @@ protected:
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
+	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 public:
 	void removeItem(QList<QGraphicsItem*> const & items);

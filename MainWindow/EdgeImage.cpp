@@ -38,7 +38,10 @@ void EdgeImage::changeFlow(int flow)
 void EdgeImage::setFlow(int flow)
 {
 	if (_text != nullptr)
+	{
 		_edge->setFlow(flow);
+		_text->setText(QString::number(flow) + " / " + QString::number(_edge->getCapacity()));
+	}
 }
 
 void EdgeImage::changeCapacity(int capacity)

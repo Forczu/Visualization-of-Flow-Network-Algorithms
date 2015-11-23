@@ -49,12 +49,15 @@ namespace Serialization
 		static const char * POS_Y_ATR =				"y";
 		static const char * VERTEX_FROM_ATR =		"vertexFrom";
 		static const char * VERTEX_TO_ATR =			"vertexTo";
-		static const char * WEIGHT_ATR =			"weight";
+		static const char * CAPACITY_ATR =			"capacity";
 		static const char * OFFSET_TYPE_ATR =		"offsetType";
 		static const char * OFFSET_VAL_ATR =		"offsetValue";
 		static const char * SCALE_ATR =				"scale";
+		static const char * FLOW_ATR =				"flow";
 		// wartoœci
-		static const char * DIRECTED_VAL =			"directed";
+		static const char * DIRECTED_VAL =			"directed_graph";
+		static const char * UNDIRECTED_VAL =		"undirected_graph";
+		static const char * FLOW_NETWORK_VAL =		"flow_network";
 		static const char * TRUE_VAL =				"true";
 		static const char * FALSE_VAL =				"false";
 		static const char * NORMAL_VAL =			"normal";
@@ -87,6 +90,9 @@ public:
 private:
 	char * stringToChar(std::string const & s);
 	char * xmlToChar(std::string const & stageFile);
+	xml_node<> * createRoot(GraphImage const & graph);
+	const char * getGraphType(GraphImage const & graph);
+	const char * getWeightStrategy(AWeightedStrategyBase * strategy);
 	xml_node<> * createNode(char const * name);
 	xml_node<> * createNode(char const * name, xml_node<> * parent);
 	void createAttribute(xml_node<> * node, char const * name, char const * value);
@@ -123,7 +129,8 @@ private:
 	void deserializeEdges(xml_node<> * modelNode, GraphImage * graph);
 	void deserializeEdge(xml_node<>* node, GraphImage * graph);
 	void deserializeTextItem(xml_node<>* node, EdgeImage * edge);
-	AWeightedStrategyBase * deserializeWeightStrategy(xml_node<> * root, AWeightedStrategyBase * weightStrategy);
+	GraphImage * deserializeGraphType(std::string const & type, GraphConfig * config);
+	AWeightedStrategyBase * deserializeWeightStrategy(xml_node<> * root, std::string const & strategy);
 #pragma endregion
 	
 #pragma region Parsowanie
