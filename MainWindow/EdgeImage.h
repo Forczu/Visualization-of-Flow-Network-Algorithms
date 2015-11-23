@@ -69,7 +69,7 @@ public:
 protected:
 	void checkNewLine();
 	void calculateNewLine(QLineF const & newLine);
-
+	void updateText();
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
 public:

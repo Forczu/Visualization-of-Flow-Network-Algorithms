@@ -195,7 +195,10 @@ void GraphView::setGraphImage(GraphImage * val)
 		_graph = val;
 	}
 	if (scene())
+	{
 		scene()->addItem(_graph);
+		_graph->setPos(0, _graph->pos().y());
+	}
 }
 
 void GraphView::mousePressEvent(QMouseEvent * event)

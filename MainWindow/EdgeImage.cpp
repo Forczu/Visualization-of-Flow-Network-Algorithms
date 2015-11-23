@@ -25,7 +25,7 @@ EdgeImage::~EdgeImage()
 void EdgeImage::setTextItem(EdgeTextItem * text)
 {
 	_text = text;
-	_text->setText(QString::number(_edge->getCapacity()));
+	updateText();
 }
 
 void EdgeImage::changeFlow(int flow)
@@ -40,7 +40,7 @@ void EdgeImage::setFlow(int flow)
 	if (_text != nullptr)
 	{
 		_edge->setFlow(flow);
-		_text->setText(QString::number(flow) + " / " + QString::number(_edge->getCapacity()));
+		updateText();
 	}
 }
 
@@ -143,6 +143,16 @@ void EdgeImage::calculateNewLine(QLineF const & newLine)
 	}
 	_vertexTo->setPointForEdge(_edge->Id(), vToAngle);
 	_actualLine = newLine;
+}
+
+void EdgeImage::updateText()
+{
+	QString capacity = QString::number(_edge->getCapacity());
+	int flow;
+	if ((flow = _edge->getFlow()) != 0)
+		_text->setText(QString::number(flow)+ " / " + capacity);
+	else
+		_text->setText(capacity);
 }
 
 void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)

@@ -15,7 +15,9 @@
 GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
 {
 	_graph = new Graph();
+#if RELEASE
 	setFlag(QGraphicsItem::ItemHasNoContents);
+#endif
 }
 
 GraphImage::GraphImage(GraphImage const & graph)
@@ -23,7 +25,7 @@ GraphImage::GraphImage(GraphImage const & graph)
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	_config = graph._config->clone();
 	_edgeStrategy = graph._edgeStrategy->clone();
-	_graph = new Graph(/*graph._graph*/);
+	_graph = new Graph();
 	cloneVertices(graph);
 }
 
@@ -105,10 +107,14 @@ VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & pos
 	_vertexMap[id] = vertexImg;
 	return vertexImg;
 }
-
+#if DEBUG
 void GraphImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
 {
+	painter->setRenderHint(QPainter::Antialiasing);
+	painter->setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+	painter->drawRect(boundingRect());
 }
+#endif
 
 QRectF GraphImage::boundingRect() const
 {

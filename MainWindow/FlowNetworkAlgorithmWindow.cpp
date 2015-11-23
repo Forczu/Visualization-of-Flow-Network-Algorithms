@@ -38,7 +38,7 @@ void FlowNetworkAlgorithmWindow::scaleViews(FlowNetwork * network)
 	}
 	network->updateScale(_scaleFactor);
 	_dx = std::max(
-			static_cast<float>(networkRect.width() * 2),
+			static_cast<float>(networkRect.width() * 1.20),
 			static_cast<float>(network->sceneBoundingRect().width()));
 	ui.mainNetworkView->setGraphImage(network);
 	ui.mainNetworkView->centerOn(network);
@@ -70,9 +70,9 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	{
 		FlowNetwork * residualNewtork = _algorithm->makeResidualNetwork(_network);
 		residualNewtork->updateScale(_scaleFactor);
-		residualNewtork->moveBy(_dx, 0);
 		residualNewtork->unselectAll();
 		ui.residualNetworkView->scene()->addItem(residualNewtork);
+		residualNewtork->setPos(_dx, residualNewtork->pos().y());
 		ui.residualNetworkView->centerOn(residualNewtork);
 		ui.residualNetworkView->viewport()->update();
 	}
