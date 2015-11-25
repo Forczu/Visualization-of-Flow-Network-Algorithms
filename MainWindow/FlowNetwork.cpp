@@ -96,7 +96,6 @@ void FlowNetwork::markTarget(int id, VertexImage * vertex)
 	_targetLabel->setParentItem(vertex);
 	if (!_targetLabel->isVisible())
 		_targetLabel->show();
-	makeResidualNetwork();
 }
 
 FlowNetwork * FlowNetwork::makeResidualNetwork()

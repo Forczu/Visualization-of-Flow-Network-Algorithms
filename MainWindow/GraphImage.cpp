@@ -107,14 +107,15 @@ VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & pos
 	_vertexMap[id] = vertexImg;
 	return vertexImg;
 }
-#if DEBUG
+
 void GraphImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
 {
+#if DEBUG
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 	painter->drawRect(boundingRect());
-}
 #endif
+}
 
 QRectF GraphImage::boundingRect() const
 {

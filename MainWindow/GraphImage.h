@@ -47,9 +47,7 @@ protected:
 	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
 	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
-#if DEBUG
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
-#endif
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 

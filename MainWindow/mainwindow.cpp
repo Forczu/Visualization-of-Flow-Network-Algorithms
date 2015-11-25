@@ -71,7 +71,7 @@ void MainWindow::open()
 	fileName = "serialized_graph.xml";
 #else
 	fileName = QFileDialog::getOpenFileName(this,
-		tr("Open Graph File..."), QString(), tr("XML File (*.xml)"));
+		tr("Open Graph File..."), QString(), tr("XML File (*.xml)")).toStdString();
 #endif
 	GraphSerializer serializer;
 	GraphImage * graph = serializer.deserialize(fileName);
