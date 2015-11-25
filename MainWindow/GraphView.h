@@ -81,6 +81,9 @@ protected:
 	void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+	void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+	void alignItems(QList<QGraphicsItem*> const & chosenItems, int key);
 
 	QRect mapRubberBandToScene();
 public:

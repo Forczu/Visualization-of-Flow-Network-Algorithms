@@ -161,18 +161,6 @@ void GraphView::pointItem(QPointF const & position, QList<QGraphicsItem*> const 
 	{
 		startRubberBand(position);
 	}
-	else if (item.first()->isSelected())
-	{
-		grabItem(position);
-	}
-	else
-	{
-		unselectAll();
-		for each (QGraphicsItem* item in item)
-		{
-			item->setSelected(true);
-		}
-	}
 	viewport()->update();
 }
 
@@ -236,6 +224,34 @@ void GraphView::mouseMoveEvent(QMouseEvent * event)
 		}
 	}
 	QGraphicsView::mouseMoveEvent(event);
+	viewport()->update();
+}
+
+void GraphView::keyPressEvent(QKeyEvent *event)
+{
+	if (event->modifiers() & Qt::ShiftModifier)
+	{
+		QList<QGraphicsItem*> chosenItems = scene()->selectedItems();
+		alignItems(chosenItems, event->key());
+	}
+}
+
+void GraphView::alignItems(QList<QGraphicsItem*> const & chosenItems, int key)
+{
+	using Qt::Key;
+	QPointF pos = chosenItems.first()->pos();
+	for (QGraphicsItem * item : chosenItems)
+	{
+		switch (key)
+		{
+		case Key::Key_Up: case Key::Key_Down:
+			item->setPos(item->pos().x(), pos.y());
+			break;
+		case Key::Key_Left: case Key::Key_Right:
+			item->setPos(pos.x(), item->pos().y());
+			break;
+		}
+	}
 	viewport()->update();
 }
 
