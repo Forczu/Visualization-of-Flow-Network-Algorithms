@@ -45,6 +45,7 @@ public:
 	void setPoints(PointMap const & points) { _pointList = points; };
 
 	void setPointForEdge(int edgeId, float angle);
+	void removePointForEdge(int edgeId);
 	void setToolTip(int degree);
 	void setToolTip(int indegree, int outdegree);
 

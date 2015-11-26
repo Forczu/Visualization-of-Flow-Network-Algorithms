@@ -218,6 +218,7 @@ void GraphImage::removeEdge(EdgeImage * const edge)
 		EdgeImage * item = (*it).second;
 		if (edge == item)
 		{
+			removeOffsetFromEdge(edge);
 			getGraph()->RemoveEdge(edge->getEdge());
 			removeItem(edge);
 			_edgeMap.erase(it);
@@ -244,18 +245,19 @@ void GraphImage::removeEdges(EdgeVector const & vector)
 
 void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 {
+	const int MAX = 2;
+	int count = 0;
 	EdgeImage * edgeImg;
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
 		edgeImg = it->second;
-		if (edgeImg->VertexFrom()->getVertex() == first->VertexFrom())
+		if (edgeImg->getEdge() == first || edgeImg->getEdge() == second)
 		{
 			edgeImg->correctEdge(true, EDGE_OFFSET);
+			++count;
 		}
-		else if (edgeImg->VertexTo()->getVertex() == second->VertexTo())
-		{
-			edgeImg->correctEdge(true, EDGE_OFFSET);
-		}
+		if (count == MAX)
+			break;
 	}
 }
 
@@ -308,5 +310,23 @@ void GraphImage::updateEdges()
 	for (auto edge : _edgeMap)
 	{
 		edge.second->checkNewLine();
+	}
+}
+
+void GraphImage::removeOffsetFromEdge(EdgeImage * const edge)
+{
+	int edgeId = edge->getEdge()->Id();
+	edge->VertexFrom()->removePointForEdge(edgeId);
+	edge->VertexTo()->removePointForEdge(edgeId);
+	for (auto e : _edgeMap)
+	{
+		EdgeImage* img = e.second;
+		if (img->VertexFrom() == edge->VertexTo() &&
+			img->VertexTo() == edge->VertexFrom())
+		{
+			img->setOffset(false);
+			img->checkNewLine();
+			break;
+		}
 	}
 }

@@ -175,6 +175,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="PointImage.cpp" />
     <ClCompile Include="PointTool.cpp" />
     <ClCompile Include="RemoveTool.cpp" />

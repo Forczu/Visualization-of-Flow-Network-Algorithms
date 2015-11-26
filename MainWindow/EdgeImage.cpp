@@ -6,6 +6,7 @@
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
 #include "GraphImage.h"
+#include "MyMath.h"
 
 EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
 : _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _text(nullptr)
@@ -85,7 +86,7 @@ void EdgeImage::correctEdge(bool type, float theta)
 {
 	_offset.first = type;
 	_offset.second = theta;
-	calculateNewLine(QLineF(VertexFrom()->pos(), VertexTo()->pos()));
+	checkNewLine();
 }
 
 void EdgeImage::deleteArrowHead()
@@ -115,33 +116,20 @@ void EdgeImage::addArrowHead()
 void EdgeImage::checkNewLine()
 {
 	QLineF newLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
-	float angle = newLine.angleTo(_actualLine);
-	if (angle < 10.0f)
-		return;
 	calculateNewLine(newLine);
 }
 
 void EdgeImage::calculateNewLine(QLineF const & newLine)
 {
-	float vFromAngle, vToAngle;
-	vFromAngle = vToAngle = newLine.angle();
+	float fromAngle = newLine.angle();
+	float toAngle = std::fmod(fromAngle + MyMath::HALF_FULL_ANGLE, MyMath::FULL_ANGLE);
 	if (_offset.first)
 	{
-		vFromAngle -= _offset.second;
-		vToAngle += _offset.second;
+		fromAngle = MyMath::wrapAngle(fromAngle - _offset.second);
+		toAngle = MyMath::wrapAngle(toAngle + _offset.second);
 	}
-	_vertexFrom->setPointForEdge(_edge->Id(), vFromAngle);
-	if (_vertexTo->pos().y() < _vertexFrom->pos().y())
-	{
-		vFromAngle += 180.0f;
-		vToAngle += 180.0f;
-	}
-	else
-	{
-		vFromAngle -= 180.0f;
-		vToAngle -= 180.0f;
-	}
-	_vertexTo->setPointForEdge(_edge->Id(), vToAngle);
+	_vertexFrom->setPointForEdge(_edge->Id(), fromAngle);
+	_vertexTo->setPointForEdge(_edge->Id(), toAngle);
 	_actualLine = newLine;
 }
 

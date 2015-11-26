@@ -74,5 +74,6 @@ public:
 	void updateScale(float scale);
 	void unselectAll();
 	void updateEdges();
+	void removeOffsetFromEdge(EdgeImage * const edge);
 };
 

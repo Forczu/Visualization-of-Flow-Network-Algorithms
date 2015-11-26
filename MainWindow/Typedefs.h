@@ -13,6 +13,8 @@ class Vertex;
 class VertexImage;
 class TextItem;
 
+static const float ANGLE_INTERVAL = 5.0f;
+
 typedef std::vector<Vertex*>				VertexVector;
 typedef std::vector<Edge*>					EdgeVector;
 typedef std::pair<VertexVector, EdgeVector>	GraphPair;

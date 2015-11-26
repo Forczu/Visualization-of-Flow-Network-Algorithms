@@ -49,7 +49,7 @@ public:
 	inline std::pair<bool, float> getOffset() const { return _offset; }
 	inline EdgeTextItem * getTextItem() const { return _text; }
 	void setTextItem(EdgeTextItem * text);
-	void setOffset(bool b, float theta) { _offset = std::make_pair(b, theta); }
+	void setOffset(bool b, float theta = 0.0f) { _offset = std::make_pair(b, theta); }
 	inline QPointF center() const { return _center; }
 
 	void changeFlow(int flow);

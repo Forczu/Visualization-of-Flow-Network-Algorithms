@@ -261,6 +261,7 @@ void GraphView::keyPressEvent(QKeyEvent *event)
 		QList<QGraphicsItem*> chosenItems = scene()->selectedItems();
 		alignItems(chosenItems, event->key());
 	}
+	QGraphicsView::keyPressEvent(event);
 }
 
 void GraphView::alignItems(QList<QGraphicsItem*> const & items, int key)

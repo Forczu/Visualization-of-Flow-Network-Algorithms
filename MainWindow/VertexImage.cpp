@@ -89,6 +89,11 @@ void VertexImage::setPointForEdge(int edgeId, float angle)
 	_pointList[edgeId] = findPointOnCircle(angle);
 }
 
+void VertexImage::removePointForEdge(int edgeId)
+{
+	_pointList.erase(edgeId);
+}
+
 void VertexImage::setToolTip(int degree)
 {
 	QGraphicsItem::setToolTip(QString("Stopieñ: %1").arg(degree));
@@ -103,11 +108,10 @@ void VertexImage::setToolTip(int indegree, int outdegree)
 
 QPointF VertexImage::findPointOnCircle(float angle)
 {
-	const float ANGLE_INTERVAL = 10.0f;
 	float foundAngle = 0.0f;
-	for (int i = 0; i < 360; i += ANGLE_INTERVAL)
+	for (float i = 0.0f; i < 360.0f; i += ANGLE_INTERVAL)
 	{
-		if (i < angle - 2.0f)
+		if (i < angle - 0.25f)
 			continue;
 		foundAngle = i;
 		break;
