@@ -16,10 +16,11 @@ public:
 		return showEdgeImageDialog(vertexId1, vertexId2, weight);
 	}
 	
-	void addWeightToEdge(EdgeImage * edgeImg, int weight) override
+	void addWeightToEdge(EdgeImage * edgeImg, QPointF const & pos, int weight, float scale) override
 	{
 		edgeImg->setWeight(weight);
-		edgeImg->setTextItem(new EdgeTextItem(edgeImg, QPointF()));
+		edgeImg->setTextItem(new EdgeTextItem(edgeImg, pos));
+		edgeImg->scaleText(scale);
 	}
 
 	AWeightedStrategyBase * clone() const override

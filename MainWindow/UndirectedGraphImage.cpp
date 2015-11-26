@@ -40,9 +40,9 @@ void UndirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, Vertex
 	vertexTo->setToolTip(degree.first + degree.second);
 }
 
-EdgeImage * UndirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/, int flow /*= 0*/)
+EdgeImage * UndirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/, int flow /*= 0*/, float scale /*= 0.0f*/)
 {
-	EdgeImage * edgeImg = createEdgeImage(edge, type, weight);
+	EdgeImage * edgeImg = createEdgeImage(edge, type, weight, scale);
 	if (edgeImg == nullptr)
 		return edgeImg;
 	updateVerticesDegree(edgeImg->VertexFrom(), edgeImg->VertexTo());

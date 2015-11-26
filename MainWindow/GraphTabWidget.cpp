@@ -12,6 +12,11 @@ GraphTabWidget::GraphTabWidget(QWidget * parent) : QTabWidget(parent)
 
 GraphTabWidget::~GraphTabWidget()
 {
+	int tabNumber = count();
+	for (int i = tabNumber; i; --i)
+	{
+		closeTab(i);
+	}
 }
 
 void GraphTabWidget::addTab(GraphImage * graph)
@@ -47,6 +52,8 @@ void GraphTabWidget::createTab(GraphView * widget, QString const & name)
 
 void GraphTabWidget::closeTab(int index)
 {
+	auto widget = QTabWidget::widget(index);
+	if (widget) delete widget;
 	removeTab(index);
 	if (count() == 0)
 		hide();

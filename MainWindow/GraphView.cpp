@@ -34,6 +34,8 @@ GraphView::~GraphView()
 	delete _sourceLabel;
 	delete _targetLabel;
 	delete _graph;
+	if (scene())
+		delete scene();
 }
 
 void GraphView::init()
@@ -297,7 +299,6 @@ void GraphView::alignItems(QList<QGraphicsItem*> const & items, int key)
 	switch (key)
 	{
 	case Key::Key_Up: case Key::Key_Down:
-		EdgeImage* edge;
 		for (QGraphicsItem * item : items)
 		{
 			float x = item->pos().x(), y = (*it)->pos().y();

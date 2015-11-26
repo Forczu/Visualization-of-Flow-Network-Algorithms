@@ -115,6 +115,7 @@ void EdgeImage::addArrowHead()
 
 void EdgeImage::checkNewLine()
 {
+	setPos(_vertexFrom->PointAt(getEdge()->Id()));
 	QLineF newLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	calculateNewLine(newLine);
 }

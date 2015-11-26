@@ -59,24 +59,13 @@ GraphImage::~GraphImage()
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
 	{
 		VertexImage * item = (*it).second;
-		if (item)
-		{
-			item->setParentItem(NULL);
-			delete item;
-		}
+		if (item) delete item;
 	}
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
 		EdgeImage * item = (*it).second;
-		if (item)
-		{
-			item->setParentItem(NULL);
-			delete item;
-		}
+		if (item) delete item;
 	}
-	delete _config;
-	delete _graph;
-	delete _edgeStrategy;
 }
 
 void GraphImage::addVertex(QPointF const & position)
@@ -109,7 +98,7 @@ void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2, float scale)
 
 VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
 {
-	VertexImage * vertexImg = new VertexImage(_config->NormalVertexContext());
+	VertexImage * vertexImg = new VertexImage(_config->NormalVertexContext()->clone());
 	vertexImg->setVertex(vertex);
 	vertexImg->setPos(position);
 	vertexImg->setZValue(VERTICE_Z_VALUE);
@@ -138,7 +127,7 @@ void GraphImage::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	QGraphicsItem::mousePressEvent(event);
 }
 
-EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weight /*= 0*/, float scale /*= 0.0f*/)
+EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weight /*= 0*/)
 {
 	int size = _config->NormalVertexContext()->Size();
 	EdgeImage * edgeImg;
@@ -147,16 +136,16 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 	switch (edgeType)
 	{
 	case EdgeType::StraightLine: default:
-		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext());
+		edgeImg = new StraightEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
 		break;
 	case EdgeType::BezierLine:
-		edgeImg = new BezierEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext());
+		edgeImg = new BezierEdgeImage(edge, vertexFrom, vertexTo, _config->NormalEdgeContext()->clone());
 		break;
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	edgeImg->setParentItem(this);
-	_edgeStrategy->addWeightToEdge(edgeImg, vertexTo->pos() - vertexFrom->pos(), weight, scale);
+	_edgeStrategy->addWeightToEdge(edgeImg, weight);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
 }
@@ -182,16 +171,16 @@ void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
 			if (NULL != vImg)
 			{
 				Vertex * vertex = vImg->getVertex();
+				_graph->RemoveVertex(vertex);
 				removeVertex(vImg);
-				_graph->removeVertex(vertex);
 				continue;
 			}
 			EdgeImage * eImg = dynamic_cast<EdgeImage*>(item);
 			if (NULL != eImg)
 			{
 				Edge * edge = eImg->getEdge();
-				removeEdge(eImg);
 				_graph->RemoveEdge(edge);
+				removeEdge(eImg);
 				continue;
 			}
 		}
@@ -203,13 +192,11 @@ void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
 
 void GraphImage::removeItem(QGraphicsItem * item)
 {
-	item->setParentItem(NULL);
 	delete item;
 }
 
 void GraphImage::removeVertex(VertexImage * const vertex)
 {
-	int id = vertex->getVertex()->Id();
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end();)
 	{
 		EdgeImage * edge = (*it).second;
@@ -221,7 +208,6 @@ void GraphImage::removeVertex(VertexImage * const vertex)
 		else
 			++it;
 	}
-	_vertexMap.erase(id);
 	removeItem(vertex);
 }
 
@@ -257,21 +243,17 @@ void GraphImage::removeEdges(EdgeVector const & vector)
 	});
 }
 
-void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
+void GraphImage::correctNeighborEdge(Edge * const first, Edge * const second)
 {
-	const int MAX = 2;
-	int count = 0;
 	EdgeImage * edgeImg;
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
 		edgeImg = it->second;
-		if (edgeImg->getEdge() == first || edgeImg->getEdge() == second)
+		if (edgeImg->getEdge() == second)
 		{
 			edgeImg->correctEdge(true, EDGE_OFFSET);
-			++count;
+
 		}
-		if (count == MAX)
-			break;
 	}
 }
 

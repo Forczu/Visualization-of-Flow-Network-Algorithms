@@ -8,7 +8,12 @@
 StraightEdgeImage::StraightEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
 : EdgeImage(edge, vertexFrom, vertexTo, context)
 {
-	_line = QLineF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id()));
+	QPointF first = _vertexFrom->PointAt(_edge->Id());
+	setPos(first);
+	QPointF second = _vertexTo->PointAt(getEdge()->Id()) - pos();
+	_line = QLineF(QPointF(), second);
+	checkNewLine();
+	setCenterPoint();
 }
 
 
@@ -43,12 +48,12 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	if (isArrow)
 	{
 		_arrow->setRotation(-currAngle - 90);
-		_arrow->setPos(_vertexTo->PointAt(_edge->Id()));
+		_arrow->setPos(VertexTo()->PointAt(getEdge()->Id()) - pos());
 		_arrow->updateCenterPoint();
 		arrowCenter = _arrow->Center();
 	}
 	oldAngle = currAngle;
-	_line.setPoints(_vertexFrom->PointAt(_edge->Id()), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
+	_line.setPoints(QPointF(), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 	painter->drawLine(_line);
@@ -60,7 +65,7 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 QRectF StraightEdgeImage::boundingRect() const
 {
-	return QRectF(_vertexFrom->PointAt(_edge->Id()), _vertexTo->PointAt(_edge->Id())).normalized();
+	return QRectF(QPointF(), _arrow == nullptr ? _vertexTo->PointAt(_edge->Id()) : _arrow->Center()).normalized();
 }
 
 QPainterPath StraightEdgeImage::shape() const

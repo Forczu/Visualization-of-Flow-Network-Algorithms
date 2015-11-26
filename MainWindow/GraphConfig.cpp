@@ -17,4 +17,8 @@ GraphConfig::GraphConfig(GraphConfig const & other)
 
 GraphConfig::~GraphConfig()
 {
+	delete _normalVertexContext;
+	delete _normalEdgeContext;
+	delete _selectedVertexContext;
+	delete _selectedEdgeContext;
 }

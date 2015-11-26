@@ -24,6 +24,8 @@ FlowNetwork::FlowNetwork(FlowNetwork const & network)
 
 FlowNetwork::~FlowNetwork()
 {
+	delete _sourceLabel;
+	delete _targetLabel;
 }
 
 void FlowNetwork::init()

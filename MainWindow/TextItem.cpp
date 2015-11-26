@@ -5,8 +5,8 @@
 TextItem::TextItem(QPointF const & position, QGraphicsItem* parent)
 : QGraphicsItem(parent)
 {
-	init();
 	setPos(position);
+	init();
 }
 
 TextItem::TextItem(const QString& text, QGraphicsItem* parent)

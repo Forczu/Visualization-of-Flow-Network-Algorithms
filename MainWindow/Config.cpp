@@ -22,9 +22,10 @@ namespace Application
 
 	Config::~Config()
 	{
-		libconfig::Setting const & root = _cfg.getRoot();
-		WriteVertices(root);
-		WriteEdges(root);
+		delete _defaultVertexContext;
+		delete _selectedVertexContext;
+		delete _defaultEdgeContext;
+		delete _selectedEdgeContext;
 	}
 
 	QMap<QString, QString> Config::getAlgorithmMap(std::string const & algo)

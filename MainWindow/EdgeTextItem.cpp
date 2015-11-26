@@ -10,6 +10,7 @@ EdgeTextItem::EdgeTextItem(EdgeImage * subject, QPointF const & position)
 	setRegex("[[:digit:][:blank:]\\/[:blank:][:digit:]]+");	// "liczba / liczba"
 	setFlag(QGraphicsItem::ItemIgnoresTransformations);
 	_oldStr = _text;
+	setPos(_subjectEdge->center());
 }
 
 void EdgeTextItem::updateText()

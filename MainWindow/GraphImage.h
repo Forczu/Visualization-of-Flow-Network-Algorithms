@@ -32,7 +32,6 @@ public:
 	GraphImage(GraphImage const & graph);
 	void cloneVertices(GraphImage const & graph);
 	void cloneEdges(GraphImage & graph);
-public:
 	virtual ~GraphImage();
 
 	void addVertex(QPointF const & position);
@@ -40,11 +39,11 @@ public:
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
 
 	void addEdgeByDialog(int vertexId1, int vertexId2, float scale);
-	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow = 0, float scale = 0.0f) = 0;
-	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0, int flow = 0) = 0;
+	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow = 0, float scale = 1.0f) = 0;
+	virtual EdgeImage * createFullEdgeImage(Edge * edge, EdgeType type, int weight = 0, int flow = 0, float scale = 1.0f) = 0;
 
 protected:
-	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0);
+	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0, float scale = 1.0f);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
 	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;

@@ -17,6 +17,7 @@ GraphSerializer::~GraphSerializer()
 	{
 		free(*it);
 	}
+	delete _contents;
 }
 
 bool GraphSerializer::parse(std::string const & filePath)
@@ -308,6 +309,7 @@ void GraphSerializer::serializeEdge(EdgeImage * edge, xml_node<> * parent)
 	auto offset = edge->getOffset();
 	createAttribute(edgeNode, OFFSET_TYPE_ATR, offset.first ? TRUE_VAL : FALSE_VAL);
 	createAttribute(edgeNode, OFFSET_VAL_ATR, parseFloat(offset.second));
+	serializePosition(edge->pos(), edgeNode);
 	serializeTextItem(edge->getTextItem(), capacity, edgeNode);
 }
 
@@ -476,6 +478,8 @@ void GraphSerializer::deserializeEdge(xml_node<>* node, GraphImage * graph)
 	float offsetValue = toFloat(readAttribute(node, OFFSET_VAL_ATR));
 	edge = graph->addEdge(vertexFrom, vertexTo, capacity, edgeType, flow);
 	edge->setOffset(offsetType, offsetValue);
+	QPointF pos = deserializePosition(node->first_node(POS_NODE));
+	edge->setPos(pos);
 	deserializeTextItem(node->first_node(EDGE_TEXT_ITEM_NODE), edge);
 }
 

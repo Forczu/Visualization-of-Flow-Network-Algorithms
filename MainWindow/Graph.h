@@ -23,14 +23,14 @@ public:
 	Vertex * AddVertex(int n);
 	void AddVertex(Vertex * const vertex);
 	Vertex * VertexNo(short n) const;
-	void RemoveVertex(short n);
-	void RemoveVertex(Vertex * const vertex);
+	void removeVertex(short n);
+	void removeVertex(Vertex * const vertex);
 
 	Edge * addEdge(int first, int second);
 	void addEdge(Edge * const edge);
 	Edge * AddEdgeSingle(int first, int second);
 	void RemoveEdge(Edge * const edge);
-	void RemoveNeighbourEdges(Vertex * const vertex);
+	void removeNeighbourEdges(Vertex * const vertex);
 
 	Matrix GetNeighborhoodMatrix() const;
 

@@ -44,6 +44,7 @@ void MainWindow::createButtonVector()
 
 MainWindow::~MainWindow()
 {
+	delete _graphTabs;
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
@@ -98,6 +99,7 @@ void MainWindow::saveAs()
 
 void MainWindow::close()
 {
+	delete _graphTabs;
 	QApplication::quit();
 }
 

@@ -14,7 +14,7 @@ public:
 		return true;
 	}
 
-	void addWeightToEdge(EdgeImage * edgeImg, int weight) override
+	void addWeightToEdge(EdgeImage * edgeImg, QPointF const & pos, int weight, float scale) override
 	{
 		return;
 	}

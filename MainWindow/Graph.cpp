@@ -116,14 +116,14 @@ Edge * Graph::AddEdgeSingle(int first, int second)
 	return edge;
 }
 
-void Graph::RemoveVertex(short n)
+void Graph::removeVertex(short n)
 {
 	VertexVector * v = &_graph->first;
 	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
 	{
 		if ((*it)->Id() == n)
 		{
-			RemoveNeighbourEdges(*it);
+			removeNeighbourEdges(*it);
 			delete *it;
 			v->erase(it);
 			break;
@@ -131,14 +131,14 @@ void Graph::RemoveVertex(short n)
 	}
 }
 
-void Graph::RemoveVertex(Vertex * const vertex)
+void Graph::removeVertex(Vertex * const vertex)
 {
 	VertexVector * v = &_graph->first;
 	for (VertexVector::iterator it = v->begin(); it != v->end(); ++it)
 	{
 		if ((*it) == vertex)
 		{
-			RemoveNeighbourEdges(*it);
+			removeNeighbourEdges(*it);
 			delete *it;
 			v->erase(it);
 			break;
@@ -160,7 +160,7 @@ void Graph::RemoveEdge(Edge * const edge)
 	}
 }
 
-void Graph::RemoveNeighbourEdges(Vertex * const vertex)
+void Graph::removeNeighbourEdges(Vertex * const vertex)
 {
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); )
