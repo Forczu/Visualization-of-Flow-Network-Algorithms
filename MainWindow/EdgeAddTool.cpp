@@ -2,7 +2,7 @@
 
 EdgeAddTool * EdgeAddTool::_pInstance = 0;
 
-void EdgeAddTool::handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items)
+void EdgeAddTool::handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers)
 {
 	if (items.size() == 0)
 		return;
@@ -12,9 +12,4 @@ void EdgeAddTool::handleMousePress(GraphView * graph, QPointF const & pos, QList
 void EdgeAddTool::handleMouseMove(GraphView * graph, QPoint const & position)
 {
 	graph->changeVerticesLabels(position);
-}
-
-void EdgeAddTool::handleMouseRelease(GraphView * graph)
-{
-
 }

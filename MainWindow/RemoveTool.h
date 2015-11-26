@@ -4,6 +4,6 @@
 class RemoveTool : public Tool, public Singleton<RemoveTool>
 {
 public:
-	void handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items);
+	void handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers);
 };
 

@@ -318,3 +318,6 @@ Makefile*
 MainWindow/serialized_graph.xml
 *.2ex
 *.xyp
+*.hc1
+*.fan
+MainWindow/serialized_graph - Copy.xml

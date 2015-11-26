@@ -64,7 +64,6 @@ public:
 	void removeEdges(EdgeVector const & vector);
 
 	void grabItem(QPointF const & pos);
-	void pointItem(QPointF const & position, QList<QGraphicsItem*> const & item);
 	void startRubberBand(QPointF const & position);
 	void setTool(ToolType tool);
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
@@ -89,6 +88,7 @@ protected:
 public:
 	void changeVerticesLabels(QPoint const & position);
 	void addScene(QGraphicsScene * scene);
+	void updateView();
 
 private:
 	void init();
@@ -107,5 +107,6 @@ private:
 	void setSourceLabelPost(VertexImage * img);
 	void setTargetLabelPos(VertexImage * img);
 	void unglueLabels();
+	QList<QGraphicsItem*> takeGraphElements(QPoint const & position);
 };
 

@@ -248,12 +248,6 @@
     <ClCompile Include="RemoveTool.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="PointTool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PointImage.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="AlgorithmInfo.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
@@ -286,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="EdgeTextItem.cpp">
       <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="PointTool.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="PointImage.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

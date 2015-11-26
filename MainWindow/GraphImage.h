@@ -73,5 +73,6 @@ public:
 	void changeEdge(EdgeImage * edge, EdgeType type);
 	void updateScale(float scale);
 	void unselectAll();
+	void updateEdges();
 };
 

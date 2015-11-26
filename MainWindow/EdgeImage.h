@@ -66,8 +66,8 @@ public:
 	void deleteArrowHead();
 	void setWeight(int weight);
 
-protected:
 	void checkNewLine();
+protected:
 	void calculateNewLine(QLineF const & newLine);
 	void updateText();
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;

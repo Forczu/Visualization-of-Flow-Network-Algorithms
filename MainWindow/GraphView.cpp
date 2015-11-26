@@ -126,6 +126,24 @@ void GraphView::unglueLabels()
 	_targetLabel->hide();
 }
 
+/// <summary>
+/// Funkcja zwraca listê elementów grafu w wybranym punkcie, ale bez obiektu pojemnika (samego grafu).
+/// </summary>
+/// <param name="position">The position.</param>
+/// <returns>Lista elementów grafu we wskazanym punkcie.</returns>
+QList<QGraphicsItem*> GraphView::takeGraphElements(QPoint const & position)
+{
+	auto chosenItems = items(position);
+	for (QList<QGraphicsItem*>::iterator it = chosenItems.begin(); it != chosenItems.end(); )
+	{
+		if (dynamic_cast<GraphImage*>(*it) != NULL)
+			it = chosenItems.erase(it);
+		else
+			++it;
+	}
+	return chosenItems;
+}
+
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	if (_blocked)
@@ -153,15 +171,6 @@ void GraphView::grabItem(QPointF const & pos)
 	setCursor(Qt::ClosedHandCursor);
 	_offset = mapToScene(pos.toPoint()).toPoint();
 	_grabFlag = true;
-}
-
-void GraphView::pointItem(QPointF const & position, QList<QGraphicsItem*> const & item)
-{
-	if (item.size() == 0)
-	{
-		startRubberBand(position);
-	}
-	viewport()->update();
 }
 
 void GraphView::startRubberBand(QPointF const & position)
@@ -194,11 +203,11 @@ void GraphView::mousePressEvent(QMouseEvent * event)
 	if (_blocked)
 		return;
 	QPoint position = event->pos();
-	auto chosenItems = items(position);
+	QList<QGraphicsItem*> chosenItems = takeGraphElements(position);
 	DrawingTool * tool = Application::Config::Instance().CurrentTool();
-	tool->mousePressed(this, position, chosenItems);
+	tool->mousePressed(this, position, chosenItems, event->modifiers());
 	QGraphicsView::mousePressEvent(event);
-	viewport()->update();
+	updateView();
 }
 
 void GraphView::mouseMoveEvent(QMouseEvent * event)
@@ -227,6 +236,24 @@ void GraphView::mouseMoveEvent(QMouseEvent * event)
 	viewport()->update();
 }
 
+void GraphView::mouseReleaseEvent(QMouseEvent * event)
+{
+	if (_blocked)
+		return;
+	if (_grabFlag)
+	{
+		_grabFlag = false;
+		setCursor(Qt::OpenHandCursor);
+	}
+	else if (_rubberBand != nullptr && _rubberFlag)
+	{
+		_rubberBand->hide();
+		viewport()->update();
+		_rubberFlag = false;
+	}
+	QGraphicsView::mouseReleaseEvent(event);
+}
+
 void GraphView::keyPressEvent(QKeyEvent *event)
 {
 	if (event->modifiers() & Qt::ShiftModifier)
@@ -236,23 +263,56 @@ void GraphView::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-void GraphView::alignItems(QList<QGraphicsItem*> const & chosenItems, int key)
+void GraphView::alignItems(QList<QGraphicsItem*> const & items, int key)
 {
 	using Qt::Key;
-	QPointF pos = chosenItems.first()->pos();
-	for (QGraphicsItem * item : chosenItems)
+	QList<QGraphicsItem*>::const_iterator it;
+	switch (key)
 	{
-		switch (key)
+	case Key::Key_Up:
+		it = std::min_element(items.begin(), items.end(), [](QGraphicsItem * a, QGraphicsItem * b) -> bool
 		{
-		case Key::Key_Up: case Key::Key_Down:
-			item->setPos(item->pos().x(), pos.y());
-			break;
-		case Key::Key_Left: case Key::Key_Right:
-			item->setPos(pos.x(), item->pos().y());
-			break;
-		}
+			return a->pos().y() < b->pos().y();
+		});
+		break;
+	case Key::Key_Down:
+		it = std::max_element(items.begin(), items.end(), [](QGraphicsItem * a, QGraphicsItem * b) -> bool
+		{
+			return a->pos().y() < b->pos().y();
+		});
+	case Key::Key_Right:
+		it = std::max_element(items.begin(), items.end(), [](QGraphicsItem * a, QGraphicsItem * b) -> bool
+		{
+			return a->pos().x() < b->pos().x();
+		});
+		break;
+	case Key::Key_Left:
+		it = std::min_element(items.begin(), items.end(), [](QGraphicsItem * a, QGraphicsItem * b) -> bool
+		{
+			return a->pos().x() < b->pos().x();
+		});
+		break;
 	}
-	viewport()->update();
+	switch (key)
+	{
+	case Key::Key_Up: case Key::Key_Down:
+		EdgeImage* edge;
+		for (QGraphicsItem * item : items)
+		{
+			float x = item->pos().x(), y = (*it)->pos().y();
+			item->setPos(x, y);
+		}
+		break;
+	case Key::Key_Right: case Key::Key_Left:
+		for (QGraphicsItem * item : items)
+		{
+			float x = (*it)->pos().x(), y = item->pos().y();
+			item->setPos(x, y);
+		}
+		break;
+	}
+	_graph->updateEdges();
+	updateView();
 }
 
 void GraphView::changeVerticesLabels(QPoint const & position)
@@ -292,22 +352,10 @@ void GraphView::addScene(QGraphicsScene * scene)
 	scene->addItem(_targetLabel);
 }
 
-void GraphView::mouseReleaseEvent(QMouseEvent * event)
+void GraphView::updateView()
 {
-	if (_blocked)
-		return;
-	if (_grabFlag)
-	{
-		_grabFlag = false;
-		setCursor(Qt::OpenHandCursor);
-	}
-	else if (_rubberBand != nullptr && _rubberFlag)
-	{
-		_rubberBand->hide();
-		viewport()->update();
-		_rubberFlag = false;
-	}
-	QGraphicsView::mouseReleaseEvent(event);
+	update();
+	viewport()->update();
 }
 
 QRect GraphView::mapRubberBandToScene()

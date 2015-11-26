@@ -8,9 +8,9 @@ class DrawingTool;
 class Tool
 {
 public:
-	virtual void handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items) { }
+	virtual void handleMousePress(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers) { }
 	virtual void handleMouseMove(GraphView * graph, QPoint const & position) {}
-	virtual void handleMouseRelease(GraphView * graph) {}
+	virtual void handleMouseRelease(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers) {}
 };
 
 class DrawingTool
@@ -20,7 +20,7 @@ class DrawingTool
 
 public:
 	void changeTool(Tool * tool);
-	void mousePressed(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items);
+	void mousePressed(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers);
 	void mouseMoved(GraphView * graph, QPoint const & position);
-	void mouseReleased(GraphView * graph);
+	void mouseReleased(GraphView * graph, QPointF const & pos, QList<QGraphicsItem*> const & items, Qt::KeyboardModifiers const & modifiers);
 };

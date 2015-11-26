@@ -302,3 +302,11 @@ void GraphImage::unselectAll()
 			edge.second->setSelected(false);
 	}
 }
+
+void GraphImage::updateEdges()
+{
+	for (auto edge : _edgeMap)
+	{
+		edge.second->checkNewLine();
+	}
+}
