@@ -49,6 +49,12 @@ GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 	AWeightedStrategyBase * weightStrategy = deserializeWeightStrategy(root, strategy);
 	graph->setWeightStrategy(weightStrategy);
 	deserializeModel(modelNode, graph);
+	if (graphType == FLOW_NETWORK_VAL)
+	{
+		FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
+		network->markSource(toInt(root->first_attribute(SOURCE_ATR)->value()));
+		network->markTarget(toInt(root->first_attribute(TARGET_ATR)->value()));
+	}
 	return graph;
 }
 
@@ -168,6 +174,13 @@ xml_node<> * GraphSerializer::createRoot(GraphImage const & graph)
 	xml_node<> * root = createNode(ROOT);
 	const char * type = getGraphType(graph);
 	createAttribute(root, TYPE_ATR, type);
+	if (type == FLOW_NETWORK_VAL)
+	{
+		GraphImage * graphPtr = const_cast<GraphImage*>(&graph);
+		FlowNetwork * network = dynamic_cast<FlowNetwork*>(graphPtr);
+		createAttribute(root, SOURCE_ATR, parseInt(network->getSource()));
+		createAttribute(root, TARGET_ATR, parseInt(network->getTarget()));
+	}
 	const char * strategy = getWeightStrategy(graph.getWeightStrategy());
 	createAttribute(root, WEIGHTED_ATR, strategy);
 	return root;

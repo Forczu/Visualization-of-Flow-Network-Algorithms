@@ -54,6 +54,8 @@ namespace Serialization
 		static const char * OFFSET_VAL_ATR =		"offsetValue";
 		static const char * SCALE_ATR =				"scale";
 		static const char * FLOW_ATR =				"flow";
+		static const char * SOURCE_ATR =			"source";
+		static const char * TARGET_ATR =			"target";
 		// wartoœci
 		static const char * DIRECTED_VAL =			"directed_graph";
 		static const char * UNDIRECTED_VAL =		"undirected_graph";
