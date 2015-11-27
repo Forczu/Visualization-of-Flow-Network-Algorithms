@@ -31,8 +31,7 @@ void EdgeTextItem::turnOffEditorMode()
 		capacity = list[1].toInt();
 		if (flow <= capacity)
 		{
-			_subjectEdge->setFlow(flow);
-			_subjectEdge->setCapacity(capacity);
+			_subjectEdge->setValues(flow, capacity);
 		}
 		else
 		{

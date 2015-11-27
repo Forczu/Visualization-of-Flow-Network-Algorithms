@@ -27,3 +27,8 @@ QDialog * AlgorithmInfo::getDialog(GraphImage * graph, QString const & name)
 {
 	return _state->getDialog(graph, name);
 }
+
+bool AlgorithmInfo::checkGraph(GraphImage * graph)
+{
+	return _state->checkGraph(graph);
+}

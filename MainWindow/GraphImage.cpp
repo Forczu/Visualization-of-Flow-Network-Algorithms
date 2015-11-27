@@ -58,25 +58,23 @@ GraphImage::~GraphImage()
 {
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
 	{
-		VertexImage * item = (*it).second;
-		if (item)
-		{
-			item->setParentItem(NULL);
-			delete item;
-		}
+		deleteItem((*it).second);
 	}
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		EdgeImage * item = (*it).second;
-		if (item)
-		{
-			item->setParentItem(NULL);
-			delete item;
-		}
+		deleteItem((*it).second);
 	}
 	delete _config;
 	delete _graph;
 	delete _edgeStrategy;
+}
+
+void GraphImage::deleteItem(QGraphicsItem * const item)
+{
+	if (!item)
+		return
+	item->setParentItem(NULL);
+	delete item;
 }
 
 void GraphImage::addVertex(QPointF const & position)

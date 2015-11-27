@@ -33,7 +33,9 @@ public:
 	void cloneVertices(GraphImage const & graph);
 	void cloneEdges(GraphImage & graph);
 	virtual ~GraphImage();
-
+private:
+	void deleteItem(QGraphicsItem * const item);
+public:
 	void addVertex(QPointF const & position);
 	void addVertex(int id, QPointF const & position);
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);

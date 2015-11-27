@@ -29,6 +29,16 @@ void EdgeImage::setTextItem(EdgeTextItem * text)
 	updateText();
 }
 
+int EdgeImage::getFlow() const
+{
+	return getEdge()->getFlow();
+}
+
+int EdgeImage::getCapacity() const
+{
+	return getEdge()->getCapacity();
+}
+
 void EdgeImage::changeFlow(int flow)
 {
 	setFlow(flow);
@@ -38,11 +48,9 @@ void EdgeImage::changeFlow(int flow)
 
 void EdgeImage::setFlow(int flow)
 {
+	_edge->setFlow(flow);
 	if (_text != nullptr)
-	{
-		_edge->setFlow(flow);
 		updateText();
-	}
 }
 
 void EdgeImage::changeCapacity(int capacity)
@@ -55,6 +63,16 @@ void EdgeImage::changeCapacity(int capacity)
 void EdgeImage::setCapacity(int capacity)
 {
 	_edge->setCapacity(capacity);
+	if (_text != nullptr)
+		updateText();
+}
+
+void EdgeImage::setValues(int flow, int capacity)
+{
+	_edge->setFlow(flow);
+	_edge->setCapacity(capacity);
+	if (_text != nullptr)
+		updateText();
 }
 
 void EdgeImage::scaleText(float scale)

@@ -52,10 +52,14 @@ public:
 	void setOffset(bool b, float theta = 0.0f) { _offset = std::make_pair(b, theta); }
 	inline QPointF center() const { return _center; }
 
+	int getFlow() const;
+	int getCapacity() const;
+
 	void changeFlow(int flow);
-	void setFlow(int flow);
 	void changeCapacity(int capacity);
+	void setFlow(int flow);
 	void setCapacity(int capacity);
+	void setValues(int flow, int capacity);
 	void scaleText(float scale);
 	void setSelected(bool selected);
 

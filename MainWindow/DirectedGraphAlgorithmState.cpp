@@ -32,3 +32,9 @@ QDialog * DirectedGraphAlgorithmState::getDialog(GraphImage * graph, QString con
 {
 	return nullptr;
 }
+
+bool DirectedGraphAlgorithmState::checkGraph(GraphImage * graph)
+{
+	// TODO
+	return true;
+}

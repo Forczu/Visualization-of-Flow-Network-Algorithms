@@ -19,7 +19,9 @@ typedef std::vector<Vertex*>				VertexVector;
 typedef std::vector<Edge*>					EdgeVector;
 typedef std::pair<VertexVector, EdgeVector>	GraphPair;
 
+typedef std::pair<int, VertexImage*>				VertexImagePair;
 typedef std::map<int, VertexImage*>					VertexImageMap;
+typedef std::pair<std::pair<int, int>, EdgeImage*>	EdgeImagePair;
 typedef std::map<std::pair<int, int>, EdgeImage*>	EdgeImageMap;
 typedef std::map<std::string, TextItem*>			LabelMap;
 

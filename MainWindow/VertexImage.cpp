@@ -106,6 +106,11 @@ void VertexImage::setToolTip(int indegree, int outdegree)
 		.arg(indegree).arg(outdegree).arg(indegree + outdegree));
 }
 
+int VertexImage::getId() const
+{
+	return getVertex()->Id();
+}
+
 QPointF VertexImage::findPointOnCircle(float angle)
 {
 	float foundAngle = 0.0f;

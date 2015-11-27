@@ -40,3 +40,21 @@ QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const
 	dialog->scaleViews(network);
 	return dialog;
 }
+
+bool FlowNetworkAlgorithmState::checkGraph(GraphImage * graph)
+{
+	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
+	if (network == NULL)
+		return false;
+	if (network->getSource() == 0)
+		return false;
+	if (network->getTarget() == 0)
+		return false;
+	if (!network->checkCapacityCondition())
+		return false;
+	if (!network->checkFlowPreservation())
+		return false;
+	if (!network->checkStructure())
+		return false;
+	return true;
+}

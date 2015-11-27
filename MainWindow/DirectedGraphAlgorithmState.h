@@ -19,5 +19,7 @@ public:
 
 	QDialog * getDialog(GraphImage * graph, QString const & name) override;
 
+	bool checkGraph(GraphImage * graph) override;
+
 };
 

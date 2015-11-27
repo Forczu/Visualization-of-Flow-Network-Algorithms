@@ -13,5 +13,6 @@ public:
 	IAlgorithm * getAlgorithm(QString const & name);
 	QStringList getAlgorithmList();
 	QDialog * getDialog(GraphImage * graph, QString const & name);
+	bool checkGraph(GraphImage * graph);
 };
 

@@ -14,5 +14,6 @@ public:
 	QMap<QString, QString> getAlgorithmMap() override;
 	IAlgorithm * getAlgorithm(QString const & name) override;
 	QDialog * getDialog(GraphImage * graph, QString const & name) override;
+	bool checkGraph(GraphImage * graph) override;
 };
 

@@ -27,6 +27,8 @@ public:
 
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+	void markSource(int id);
+	void markTarget(int id);
 	void markSource(int id, VertexImage * vertex);
 	void markTarget(int id, VertexImage * vertex);
 
@@ -35,6 +37,15 @@ public:
 	{
 		return new FlowNetwork(*this);
 	}
+
+	inline int getSource() const { return _source; }
+	inline int getTarget() const { return _target; }
+	void setSource(int source) { _source = source; }
+	void setTarget(int target) { _target = target; }
+
+	bool checkCapacityCondition();
+	bool checkFlowPreservation();
+	bool checkStructure();
 
 private:
 	void init();

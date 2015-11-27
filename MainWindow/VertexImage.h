@@ -37,7 +37,6 @@ public:
 	inline VertexContext const * Context() const { return _context; }
 	inline Vertex * getVertex() const { return _vertex; }
 	void setVertex(Vertex * const val) { _vertex = val; }
-
 	void addEdgePoint(EdgeImage * edge, VertexImage * vertex, bool first);
 
 	inline QPointF PointAt(int edgeId) { return _pointList[edgeId]; }
@@ -51,6 +50,8 @@ public:
 
 	inline GraphImage * getParent() const { return parent; }
 	void setParent(GraphImage * val) { parent = val; }
+
+	int getId() const;
 	
 private:
 	QPointF findPointOnCircle(float angle);

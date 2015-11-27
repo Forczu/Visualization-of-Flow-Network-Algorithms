@@ -243,7 +243,11 @@ void MainWindow::checkBezierCurve(bool b)
 
 void MainWindow::runAlgorithm(QListWidgetItem * item)
 {
+	// wyci¹gnij graf
 	GraphImage * graph = _graphTabs->currentGraphView()->getGraphImage();
+	// sprawdŸ czy siê nadaje do u¿ytku
+	bool succeeded = _algorithmInfo.checkGraph(graph);
+	// jeœli tak, to uruchom okno z algorytmem
 	QDialog * window = _algorithmInfo.getDialog(graph, item->text());
 	window->show();
 }
