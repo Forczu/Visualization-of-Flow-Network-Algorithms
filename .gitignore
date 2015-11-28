@@ -321,3 +321,5 @@ MainWindow/serialized_graph.xml
 *.hc1
 *.fan
 MainWindow/serialized_graph - Copy.xml
+*.oxc
+*.puq

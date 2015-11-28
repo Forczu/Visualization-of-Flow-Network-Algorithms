@@ -3,6 +3,7 @@
 #include "VertexImage.h"
 #include "TextItem.h"
 #include "EdgeImage.h"
+#include "Strings.h"
 
 
 FlowNetwork::FlowNetwork(GraphConfig * config)
@@ -57,16 +58,20 @@ void FlowNetwork::createLabel(TextItem *& label, QString const & text, Qt::Align
 /// ¯adna krawêdŸ nie mo¿e mieæ przep³ywu wiêkszego od przepustowoœci.
 /// </summary>
 /// <returns>True, je¿eli za³o¿enia s¹ spe³nione, false jeœli nie</returns>
-bool FlowNetwork::checkCapacityCondition()
+bool FlowNetwork::checkCapacityCondition(CheckInfo &info)
 {
 	EdgeImage * edge;
-	return std::all_of(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & item)
+	bool succeeded = true;
+	for (EdgeImagePair const & item : _edgeMap)
 	{
 		edge = item.second;
 		if (edge->getFlow() <= edge->getCapacity())
-			return true;
-		return false;
-	});
+			continue;
+		info += Strings::Instance().get(FLOW_GREATER_THAN_CAPACITY)
+			.arg(edge->VertexFrom()->getId()).arg(edge->VertexTo()->getId());
+		succeeded = false;
+	}
+	return succeeded;
 }
 
 
@@ -75,15 +80,16 @@ bool FlowNetwork::checkCapacityCondition()
 /// Suma przep³ywów wp³ywaj¹cych do wierzcho³ka, nie bêd¹cego Ÿród³em ani ujœciem, musi byæ równa sumie wyp³ywaj¹cych z niego.
 /// </summary>
 /// <returns>True, je¿eli za³o¿enia s¹ spe³nione, false jeœli nie</returns>
-bool FlowNetwork::checkFlowPreservation()
+bool FlowNetwork::checkFlowPreservation(CheckInfo &info)
 {
 	VertexImage * vertex;
 	EdgeImage * edge;
-	return std::all_of(_vertexMap.begin(), _vertexMap.end(), [&](VertexImagePair const & item)
+	bool succeeded = true;
+	for (VertexImagePair const & item : _vertexMap)
 	{
 		vertex = item.second;
 		if (_source == vertex->getId() || _target == vertex->getId())
-			return true;
+			continue;
 		std::vector<EdgeImage*> inEdges, outEdges;
 		std::for_each(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & edgeItem)
 		{
@@ -103,9 +109,13 @@ bool FlowNetwork::checkFlowPreservation()
 			outSum += edge->getFlow();
 		});
 		if (inSum != outSum)
-			return false;
-		return true;
-	});
+		{
+			info += Strings::Instance().get(SUMS_OF_INFLOWS_AND_OUTFLOWS_NOT_EQUAL)
+				.arg(vertex->getId());
+			succeeded = false;
+		}
+	}
+	return succeeded;
 }
 
 /// <summary>
@@ -113,25 +123,35 @@ bool FlowNetwork::checkFlowPreservation()
 /// istnieje œcie¿ka prowadz¹ca do Ÿród³a.
 /// </summary>
 /// <returns>True, je¿eli struktura jest w porz¹dku, jeœli nie to false</returns>
-bool FlowNetwork::checkStructure()
+bool FlowNetwork::checkStructure(CheckInfo &info)
 {
-	VertexImage * vertex;
+	VertexImage * vertex, * source;
 	EdgeImage * edge;
-	return std::all_of(_vertexMap.begin(), _vertexMap.end(), [&](VertexImagePair const & item)
+	bool succeeded = true;
+	for (VertexImagePair const & item : _vertexMap)
 	{
 		vertex = item.second;
 		if (_source == vertex->getId() || _target == vertex->getId())
-			return true;
+			continue;
 		std::vector<EdgeImage*> edges;
+		if (_vertexMap.find(getSource()) != _vertexMap.end())
+			source = _vertexMap.at(getSource());
+		else
+			source = NULL;
 		auto it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & edgeItem)
 		{
 			edge = edgeItem.second;
-			if (edge->VertexFrom() == vertex && edge->VertexTo() != _vertexMap[getSource()])
+			if (edge->VertexFrom() == vertex && edge->VertexTo() != source)
 				return true;
 			return false;
 		});
-		return it != _edgeMap.end();
-	});
+		if (it == _edgeMap.end())
+		{
+			info += Strings::Instance().get(NO_ROUTE_TO_TARGET).arg(vertex->getId());
+			succeeded = false;
+		}
+	}
+	return succeeded;
 }
 
 void FlowNetwork::mousePressEvent(QGraphicsSceneMouseEvent *event)

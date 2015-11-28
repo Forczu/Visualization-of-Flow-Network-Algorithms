@@ -1,4 +1,5 @@
 #include "DirectedGraphAlgorithmState.h"
+#include "CheckInfo.h"
 
 DirectedGraphAlgorithmState * DirectedGraphAlgorithmState::_pInstance = 0;
 char const * DirectedGraphAlgorithmState::FLOYD_WARSHALL = "floyd_warshall";
@@ -33,8 +34,8 @@ QDialog * DirectedGraphAlgorithmState::getDialog(GraphImage * graph, QString con
 	return nullptr;
 }
 
-bool DirectedGraphAlgorithmState::checkGraph(GraphImage * graph)
+CheckInfo DirectedGraphAlgorithmState::checkGraph(GraphImage * graph)
 {
 	// TODO
-	return true;
+	return CheckInfo(true);
 }

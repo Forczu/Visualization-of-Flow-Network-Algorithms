@@ -18,6 +18,9 @@
 #include "FlowNetworkAlgorithmWindow.h"
 #include "FordFulkersonAlgorithm.h"
 #include "UndirectedGraphImage.h"
+#include "Strings.h"
+#include <QLocale>
+#include "WeightedEdgeStrategy.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -54,15 +57,24 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 void MainWindow::newFile()
 {
 	int index = _graphTabs->count() + 1;
+#if DEBUG
+	GraphImage * graph = createGraph(FlowNetwork::getInstance, WeightedEdgeStrategy::getInstance);
+#else
 	CreateNewGraphDialog dialog(index);
 	dialog.show();
 	dialog.exec();
 	if (dialog.getResult() != QDialog::Accepted)
 		return;
+	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.getEdgeStrategy());
+#endif
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.getEdgeStrategy());
-	_graphTabs->addTab(graph, dialog.getName());
+	_graphTabs->addTab(graph,
+#if DEBUG
+		"Debug");
+#else
+		dialog.getName());
+#endif
 }
 
 void MainWindow::open()
@@ -246,10 +258,22 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	// wyci¹gnij graf
 	GraphImage * graph = _graphTabs->currentGraphView()->getGraphImage();
 	// sprawdŸ czy siê nadaje do u¿ytku
-	bool succeeded = _algorithmInfo.checkGraph(graph);
+	CheckInfo info = _algorithmInfo.checkGraph(graph);
 	// jeœli tak, to uruchom okno z algorytmem
-	QDialog * window = _algorithmInfo.getDialog(graph, item->text());
-	window->show();
+	if (info.didSucceeded())
+	{
+		QDialog * window = _algorithmInfo.getDialog(graph, item->text());
+		window->show();
+	}
+	else
+	{
+		QMessageBox msgBox;
+		msgBox.setWindowTitle(Strings::Instance().get(ALGORITHM_ERROR));
+		msgBox.setText(Strings::Instance().get(ERROR_MAIN_INFO));
+		msgBox.setInformativeText(info.getInformation());
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.exec();
+	}
 }
 
 void MainWindow::updateGraphStatus()

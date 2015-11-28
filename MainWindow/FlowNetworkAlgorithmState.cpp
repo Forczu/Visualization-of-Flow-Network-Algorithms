@@ -1,6 +1,8 @@
 #include "FlowNetworkAlgorithmState.h"
 #include "Config.h"
 #include "FordFulkersonAlgorithm.h"
+#include "CheckInfo.h"
+#include "Strings.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
 char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
@@ -41,20 +43,41 @@ QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const
 	return dialog;
 }
 
-bool FlowNetworkAlgorithmState::checkGraph(GraphImage * graph)
+CheckInfo FlowNetworkAlgorithmState::checkGraph(GraphImage * graph)
 {
+	CheckInfo info(true);
 	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
 	if (network == NULL)
-		return false;
+	{
+		addErrorMessage(info, EMPTY_NETWORK);
+		info.setSucceeded(false);
+	}
 	if (network->getSource() == 0)
-		return false;
+	{
+		addErrorMessage(info, WRONG_SOURCE);
+		info.setSucceeded(false);
+	}
 	if (network->getTarget() == 0)
-		return false;
-	if (!network->checkCapacityCondition())
-		return false;
-	if (!network->checkFlowPreservation())
-		return false;
-	if (!network->checkStructure())
-		return false;
-	return true;
+	{
+		addErrorMessage(info, WRONG_TARGET);
+		info.setSucceeded(false);
+	}
+	if (!network->checkCapacityCondition(info))
+	{
+		info.setSucceeded(false);
+	}
+	if (!network->checkFlowPreservation(info))
+	{
+
+	}
+	if (!network->checkStructure(info))
+	{
+		info.setSucceeded(false);
+	}
+	return info;
+}
+
+void FlowNetworkAlgorithmState::addErrorMessage(CheckInfo &info, const char *code)
+{
+	info += Strings::Instance().get(code);
 }

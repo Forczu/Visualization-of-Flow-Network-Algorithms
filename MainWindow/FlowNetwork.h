@@ -2,6 +2,7 @@
 #include "DirectedGraphImage.h"
 #include "ICloneable.h"
 #include <map>
+#include "CheckInfo.h"
 
 class TextItem;
 
@@ -43,9 +44,9 @@ public:
 	void setSource(int source) { _source = source; }
 	void setTarget(int target) { _target = target; }
 
-	bool checkCapacityCondition();
-	bool checkFlowPreservation();
-	bool checkStructure();
+	bool checkCapacityCondition(CheckInfo &info);
+	bool checkFlowPreservation(CheckInfo &info);
+	bool checkStructure(CheckInfo &info);
 
 private:
 	void init();

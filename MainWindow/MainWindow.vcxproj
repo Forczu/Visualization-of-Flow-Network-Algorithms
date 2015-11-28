@@ -82,6 +82,7 @@
     <ClCompile Include="AlgorithmInfo.cpp" />
     <ClCompile Include="ArrowHeadImage.cpp" />
     <ClCompile Include="BezierEdgeImage.cpp" />
+    <ClCompile Include="CheckInfo.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateNewGraphDialog.cpp" />
     <ClCompile Include="DirectedGraphAlgorithmState.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="RemoveTool.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="StraightEdgeImage.cpp" />
+    <ClCompile Include="Strings.cpp" />
     <ClCompile Include="TextItem.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="UndirectedGraphImage.cpp" />
@@ -1152,8 +1154,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AWeightedStrategyBase.h" />
+    <ClInclude Include="CheckInfo.h" />
     <ClInclude Include="DirectedGraphAlgorithmState.h" />
     <ClInclude Include="MyMath.h" />
+    <ClInclude Include="Strings.h" />
     <ClInclude Include="UnweightedEdgeStrategy.h" />
     <ClInclude Include="WeightedEdgeStrategy.h" />
   </ItemGroup>
