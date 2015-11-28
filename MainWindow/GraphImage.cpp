@@ -98,11 +98,11 @@ void GraphImage::addVertex(int id, QPointF const & position, PointMap const & po
 
 void GraphImage::addEdgeByDialog(int vertexId1, int vertexId2, float scale)
 {
-	int weight;
-	bool succeeded = _edgeStrategy->addEdgeByDialog(vertexId1, vertexId2, weight);
+	int capacity, flow;
+	bool succeeded = _edgeStrategy->addEdgeByDialog(vertexId1, vertexId2, capacity, flow);
 	if (!succeeded)
 		return;
-	addEdge(vertexId1, vertexId2, weight, Application::Config::Instance().CurrentEdgeType(), 0, scale);
+	addEdge(vertexId1, vertexId2, capacity, Application::Config::Instance().CurrentEdgeType(), flow, scale);
 }
 
 VertexImage * GraphImage::createVertexImage(Vertex * vertex, QPointF const & position, int id)
@@ -157,17 +157,6 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 	_edgeStrategy->addWeightToEdge(edgeImg, vertexTo->pos() - vertexFrom->pos(), weight, scale);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
-}
-
-bool GraphImage::showEdgeImageDialog(int vertexId1, int vertexId2, int & weight)
-{
-	bool succeeded = false;
-	AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
-	dialog.show();
-	dialog.exec();
-	if (succeeded = dialog.isConfirmed())
-		weight = dialog.getWeight();
-	return succeeded;
 }
 
 void GraphImage::removeItem(QList<QGraphicsItem*> const & items)

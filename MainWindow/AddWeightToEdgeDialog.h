@@ -12,18 +12,17 @@ public:
 	AddWeightToEdgeDialog(int from, int to);
 	~AddWeightToEdgeDialog();
 
-	inline int getWeight() const
+	inline int getFlow() const
 	{
-		return ui.weightBox->value();
+		return ui.flowBox->value();
 	}
-	inline bool isConfirmed() const
+	inline int getCapacity() const
 	{
-		return _confirmed;
+		return ui.capacityBox->value();
 	}
 
 private:
 	Ui::AddWeightToEdgeDialog ui;
-	bool _confirmed;
 
 private slots:
 	void okClicked();

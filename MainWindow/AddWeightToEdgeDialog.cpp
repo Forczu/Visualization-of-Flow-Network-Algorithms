@@ -1,7 +1,8 @@
 #include "AddWeightToEdgeDialog.h"
 #include "Strings.h"
+#include "QMessageBox"
 
-AddWeightToEdgeDialog::AddWeightToEdgeDialog(int from, int to) : _confirmed(false)
+AddWeightToEdgeDialog::AddWeightToEdgeDialog(int from, int to)
 {
 	ui.setupUi(this);
 	ui.sourceEdit->setText(Strings::Instance().get(VERTEX_WITH_ID).arg(from));
@@ -16,12 +17,19 @@ AddWeightToEdgeDialog::~AddWeightToEdgeDialog()
 
 void AddWeightToEdgeDialog::okClicked()
 {
-	_confirmed = true;
-	close();
+	if (getFlow() <= getCapacity())
+	{
+		accept();
+		return;
+	}
+	QMessageBox msgBox;
+	msgBox.setWindowTitle(Strings::Instance().get(WRONG_VALUE));
+	msgBox.setText(Strings::Instance().get(FLOW_GREATER_THAN_CAPACITY_MSGBX));
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.exec();
 }
 
 void AddWeightToEdgeDialog::cancelClicked()
 {
-	_confirmed = false;
-	close();
+	reject();
 }

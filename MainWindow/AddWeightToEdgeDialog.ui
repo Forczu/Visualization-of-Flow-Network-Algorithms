@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>261</width>
-    <height>116</height>
+    <width>302</width>
+    <height>143</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AddWeightToEdgeDialog</string>
+   <string>Utworzenie nowej krawędzi</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>151</width>
-     <height>91</height>
+     <width>191</width>
+     <height>122</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -58,14 +58,27 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="weightLabel">
+     <widget class="QLabel" name="flowLabel">
       <property name="text">
-       <string>Waga</string>
+       <string>Przepływ</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QSpinBox" name="weightBox">
+     <widget class="QSpinBox" name="flowBox">
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>9999</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QSpinBox" name="capacityBox">
       <property name="minimum">
        <number>1</number>
       </property>
@@ -74,15 +87,22 @@
       </property>
      </widget>
     </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="weightLabel_2">
+      <property name="text">
+       <string>Przepustowość</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>210</x>
      <y>10</y>
      <width>77</width>
-     <height>91</height>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">

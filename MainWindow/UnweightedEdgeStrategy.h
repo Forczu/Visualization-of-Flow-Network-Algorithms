@@ -9,7 +9,7 @@ public:
 		return new UnweightedEdgeStrategy;
 	}
 
-	bool addEdgeByDialog(int vertexId1, int vertexId2, int & weight) override
+	bool addEdgeByDialog(int vertexId1, int vertexId2, int & capacity, int & flow) override
 	{
 		return true;
 	}

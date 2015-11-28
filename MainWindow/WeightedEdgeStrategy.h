@@ -11,14 +11,14 @@ public:
 		return new WeightedEdgeStrategy;
 	}
 
-	bool addEdgeByDialog(int vertexId1, int vertexId2, int & weight) override
+	bool addEdgeByDialog(int vertexId1, int vertexId2, int & capacity, int & flow) override
 	{
-		return showEdgeImageDialog(vertexId1, vertexId2, weight);
+		return showEdgeImageDialog(vertexId1, vertexId2, capacity, flow);
 	}
 	
-	void addWeightToEdge(EdgeImage * edgeImg, QPointF const & pos, int weight, float scale) override
+	void addWeightToEdge(EdgeImage * edgeImg, QPointF const & pos, int capacity, float scale) override
 	{
-		edgeImg->setWeight(weight);
+		edgeImg->setWeight(capacity);
 		edgeImg->setTextItem(new EdgeTextItem(edgeImg, pos));
 		edgeImg->scaleText(scale);
 	}
@@ -28,14 +28,16 @@ public:
 		return getInstance();
 	}
 
-	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight)
+	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & capacity, int & flow)
 	{
 		bool succeeded = false;
 		AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
 		dialog.show();
-		dialog.exec();
-		if (succeeded = dialog.isConfirmed())
-			weight = dialog.getWeight();
+		if (succeeded = dialog.exec() == QDialog::Accepted)
+		{
+			flow = dialog.getFlow();
+			capacity = dialog.getCapacity();
+		}
 		return succeeded;
 	}
 

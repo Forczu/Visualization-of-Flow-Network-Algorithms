@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CreateNewGraphDialog</string>
+   <string>Utworzenie nowego grafu</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -36,7 +36,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="OrderLabel">
       <property name="text">
-       <string>Porządek</string>
+       <string>Rodzaj</string>
       </property>
      </widget>
     </item>
@@ -55,7 +55,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
