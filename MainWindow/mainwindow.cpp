@@ -282,7 +282,7 @@ void MainWindow::updateGraphStatus()
 	if (graphView == nullptr)
 		return;
 	Graph * graph = graphView->getGraphImage()->getGraph();
-	QString newStatus = Application::Config::Instance().GraphStatusString()
+	QString newStatus = Strings::Instance().get(GRAPH_STATUS)
 		.arg(graph->VertexNumber()).arg(graph->EdgeNumber());
 	ui.graphTextStatus->setText(newStatus);
 }

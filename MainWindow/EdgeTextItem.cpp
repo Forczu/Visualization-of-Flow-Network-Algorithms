@@ -2,6 +2,7 @@
 #include "EdgeImage.h"
 #include "Edge.h"
 #include <QMessageBox>
+#include "Strings.h"
 
 EdgeTextItem::EdgeTextItem(EdgeImage * subject, QPointF const & position)
 : TextItem(position, subject), _subjectEdge(subject)
@@ -36,8 +37,8 @@ void EdgeTextItem::turnOffEditorMode()
 		else
 		{
 			QMessageBox msgBox;
-			msgBox.setWindowTitle("B³êdna wartoœæ.");
-			msgBox.setText("Przep³yw nie mo¿e byæ wiêkszy ni¿ przepusowoœæ.");
+			msgBox.setWindowTitle(Strings::Instance().get(WRONG_VALUE));
+			msgBox.setText(Strings::Instance().get(FLOW_GREATER_THAN_CAPACITY_MSGBX));
 			msgBox.exec();
 			_text = _oldStr;
 			_textEdit->setPlainText(_text);

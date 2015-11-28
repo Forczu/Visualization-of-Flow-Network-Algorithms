@@ -27,6 +27,8 @@ public:
 	}
 
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
+
 
 	void markSource(int id);
 	void markTarget(int id);
@@ -52,5 +54,6 @@ private:
 	void init();
 	void createFont();
 	void createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align);
+	void drawLabel(TextItem * label, int key, QPainter * painter);
 };
 

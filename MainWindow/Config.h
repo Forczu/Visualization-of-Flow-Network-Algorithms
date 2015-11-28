@@ -70,7 +70,6 @@ namespace Application
 		void WriteEdges(libconfig::Setting const & root);
 		void WriteEdgeContext(libconfig::Setting const & edges, std::string const & nodeName, EdgeContext * context);
 
-		void ReadStatusString(libconfig::Setting const & root);
 		void ReadAlgorithmMap(libconfig::Setting const & algoritmsNode, QMap<QString, QString> & algoritmMap);
 	};
 }

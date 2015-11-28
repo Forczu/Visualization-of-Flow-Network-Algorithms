@@ -13,7 +13,6 @@ namespace Application
 			libconfig::Setting const & root = _cfg.getRoot();
 			ReadVertices(root);
 			ReadEdges(root);
-			ReadStatusString(root);
 		}
 		catch (libconfig::FileIOException e)
 		{
@@ -120,14 +119,6 @@ namespace Application
 		colorNode["g"] = color.green();
 		colorNode["b"] = color.blue();
 		_cfg.writeFile("Config\\config.cfg");
-	}
-
-	void Config::ReadStatusString(libconfig::Setting const & root)
-	{
-		QTextCodec::setCodecForLocale(QTextCodec::codecForName("Windows-1250"));
-		libconfig::Setting const & graphNode = root["application"]["graph"];
-		std::string tmp = graphNode["status"].c_str();
-		_graphStatusString = QString::fromLocal8Bit(graphNode["status"]);
 	}
 
 	void Config::ReadAlgorithmMap(libconfig::Setting const & algoritmsNode, QMap<QString, QString> & algoritmMap)

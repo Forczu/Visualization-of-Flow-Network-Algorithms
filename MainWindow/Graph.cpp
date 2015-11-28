@@ -33,7 +33,7 @@ Graph::~Graph()
 	delete _graph;
 }
 
-bool Graph::VertexExists(short vertexId) const
+bool Graph::vertexExists(short vertexId) const
 {
 	if (!_graph->first.empty())
 	{
@@ -48,29 +48,29 @@ bool Graph::VertexExists(short vertexId) const
 	return false;
 }
 
-Vertex * Graph::AddVertex()
+Vertex * Graph::addVertex()
 {
-	int id = SmallestMissingVertexIndex();
+	int id = smallestMissingVertexIndex();
 	Vertex * vertex = new Vertex(id);
-	AddVertex(vertex);
+	addVertex(vertex);
 	return vertex;
 }
 
-Vertex * Graph::AddVertex(int n)
+Vertex * Graph::addVertex(int n)
 {
-	if (VertexExists(n))
-		return VertexNo(n);
+	if (vertexExists(n))
+		return vertexNo(n);
 	Vertex * vertex = new Vertex(n);
-	AddVertex(vertex);
+	addVertex(vertex);
 	return vertex;
 }
 
-void Graph::AddVertex(Vertex * const vertex)
+void Graph::addVertex(Vertex * const vertex)
 {
 	_graph->first.push_back(vertex);
 }
 
-Vertex * Graph::VertexNo(short n) const
+Vertex * Graph::vertexNo(short n) const
 {
 	if (!_graph->first.empty())
 	{
@@ -92,24 +92,24 @@ void Graph::addEdge(Edge * const edge)
 
 Edge * Graph::addEdge(int first, int second)
 {
-	if (EdgeExists(first, second))
+	if (edgeExists(first, second))
 		return nullptr;
-	int id = SmallestMissingEdgeIndex();
-	Vertex * from = VertexNo(first);
-	Vertex * to = VertexNo(second);
+	int id = smallestMissingEdgeIndex();
+	Vertex * from = vertexNo(first);
+	Vertex * to = vertexNo(second);
 	Edge * edge = new Edge(from, to);
 	edge->Id(id);
 	addEdge(edge);
 	return edge;
 }
 
-Edge * Graph::AddEdgeSingle(int first, int second)
+Edge * Graph::addEdgeSingle(int first, int second)
 {
-	if (EdgeExists(first, second))
+	if (edgeExists(first, second))
 		return nullptr;
-	int id = SmallestMissingEdgeIndex();
-	Vertex * from = VertexNo(first);
-	Vertex * to = VertexNo(second);
+	int id = smallestMissingEdgeIndex();
+	Vertex * from = vertexNo(first);
+	Vertex * to = vertexNo(second);
 	Edge * edge = new Edge(from, to);
 	edge->Id(id);
 	addEdge(edge);
@@ -146,7 +146,7 @@ void Graph::removeVertex(Vertex * const vertex)
 	}
 }
 
-void Graph::RemoveEdge(Edge * const edge)
+void Graph::removeEdge(Edge * const edge)
 {
 	EdgeVector * e = &_graph->second;
 	for (EdgeVector::iterator it = e->begin(); it != e->end(); ++it)
@@ -175,7 +175,7 @@ void Graph::removeNeighbourEdges(Vertex * const vertex)
 	}
 }
 
-Matrix Graph::GetNeighborhoodMatrix() const
+Matrix Graph::getNeighborhoodMatrix() const
 {
 	short n = VertexNumber();
 	Matrix nMatrix(n, n, 0);
@@ -186,7 +186,7 @@ Matrix Graph::GetNeighborhoodMatrix() const
 	return nMatrix;
 }
 
-Edge * Graph::GetNeighborEdge(Edge * const edge)
+Edge * Graph::getNeighborEdge(Edge * const edge)
 {
 	Vertex * first = edge->VertexFrom();
 	Vertex * second = edge->VertexTo();
@@ -201,7 +201,7 @@ Edge * Graph::GetNeighborEdge(Edge * const edge)
 	return nullptr;
 }
 
-int Graph::SmallestMissingVertexIndex()
+int Graph::smallestMissingVertexIndex()
 {
 	int index = 1;	// poszukiwany indeks
 	VertexVector const & vertices = _graph->first;
@@ -227,7 +227,7 @@ int Graph::SmallestMissingVertexIndex()
 	return index;
 }
 
-int Graph::SmallestMissingEdgeIndex()
+int Graph::smallestMissingEdgeIndex()
 {
 	int index = 1;
 	EdgeVector const & edges = _graph->second;
@@ -251,10 +251,10 @@ int Graph::SmallestMissingEdgeIndex()
 	return index;
 }
 
-bool Graph::EdgeExists(int from, int to)
+bool Graph::edgeExists(int from, int to)
 {
-	Vertex * first = VertexNo(from);
-	Vertex * second = VertexNo(to);
+	Vertex * first = vertexNo(from);
+	Vertex * second = vertexNo(to);
 	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
 	{
 		if (e->VertexFrom() == first && e->VertexTo() == second)
@@ -264,10 +264,10 @@ bool Graph::EdgeExists(int from, int to)
 	return it != _graph->second.end();
 }
 
-bool Graph::EdgeExistsSingle(int from, int to)
+bool Graph::edgeExistsSingle(int from, int to)
 {
-	Vertex * first = VertexNo(from);
-	Vertex * second = VertexNo(to);
+	Vertex * first = vertexNo(from);
+	Vertex * second = vertexNo(to);
 	auto it = std::find_if(_graph->second.begin(), _graph->second.end(), [&](Edge * e) -> bool
 	{
 		if (e->VertexFrom() == first && e->VertexTo() == second ||
@@ -294,7 +294,7 @@ std::pair<int, int> Graph::getDegree(Vertex * vertex)
 	return degree;
 }
 
-EdgeVector Graph::GetNeighbours()
+EdgeVector Graph::getNeighbours()
 {
 	EdgeVector result;
 	for (EdgeVector::iterator it = _graph->second.begin(); it != _graph->second.end(); ++it)

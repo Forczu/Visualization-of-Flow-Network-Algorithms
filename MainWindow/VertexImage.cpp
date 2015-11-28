@@ -1,6 +1,7 @@
 #include "VertexImage.h"
 #include "EdgeImage.h"
 #include "Edge.h"
+#include "Strings.h"
 
 VertexImage::VertexImage(VertexContext * context) : _context(context)
 {
@@ -96,14 +97,13 @@ void VertexImage::removePointForEdge(int edgeId)
 
 void VertexImage::setToolTip(int degree)
 {
-	QGraphicsItem::setToolTip(QString("Stopieñ: %1").arg(degree));
+	QGraphicsItem::setToolTip(QString(VERTEX_TOOL_TIP_1).arg(degree));
 }
 
 void VertexImage::setToolTip(int indegree, int outdegree)
 {
-	QGraphicsItem::setToolTip(QString::fromUtf8(
-		"Stopieñ wejœciowy: %1\nStopieñ wyjœciowy: %2\nSuma stopni: %3")
-		.arg(indegree).arg(outdegree).arg(indegree + outdegree));
+	QGraphicsItem::setToolTip(Strings::Instance().get(VERTEX_TOOL_TIP_2).
+		arg(indegree).arg(outdegree).arg(indegree + outdegree));
 }
 
 int VertexImage::getId() const

@@ -79,19 +79,19 @@ void GraphImage::deleteItem(QGraphicsItem * const item)
 
 void GraphImage::addVertex(QPointF const & position)
 {
-	Vertex * vertex = _graph->AddVertex();
+	Vertex * vertex = _graph->addVertex();
 	createVertexImage(vertex, position, vertex->Id());
 }
 
 void GraphImage::addVertex(int id, QPointF const & position)
 {
-	Vertex * vertex = _graph->AddVertex(id);
+	Vertex * vertex = _graph->addVertex(id);
 	createVertexImage(vertex, position, id);
 }
 
 void GraphImage::addVertex(int id, QPointF const & position, PointMap const & pointMap)
 {
-	Vertex * vertex = _graph->AddVertex(id);
+	Vertex * vertex = _graph->addVertex(id);
 	VertexImage * vertexImg = createVertexImage(vertex, position, id);
 	vertexImg->setPoints(pointMap);
 }
@@ -189,7 +189,7 @@ void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
 			{
 				Edge * edge = eImg->getEdge();
 				removeEdge(eImg);
-				_graph->RemoveEdge(edge);
+				_graph->removeEdge(edge);
 				continue;
 			}
 		}
@@ -231,7 +231,7 @@ void GraphImage::removeEdge(EdgeImage * const edge)
 		if (edge == item)
 		{
 			removeOffsetFromEdge(edge);
-			getGraph()->RemoveEdge(edge->getEdge());
+			getGraph()->removeEdge(edge->getEdge());
 			removeItem(edge);
 			_edgeMap.erase(it);
 			break;

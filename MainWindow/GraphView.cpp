@@ -14,6 +14,7 @@
 #include "GraphScene.h"
 #include "Tool.h"
 #include "FlowNetwork.h"
+#include "Strings.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
 const float GraphView::MAX_SCALE = 16.0f;
@@ -53,8 +54,8 @@ void GraphView::init()
 	viewport()->setMouseTracking(true);
 
 	createFont();
-	createLabel(_sourceLabel, "Source", Qt::AlignLeft);
-	createLabel(_targetLabel, "Target", Qt::AlignRight);
+	createLabel(_sourceLabel, Strings::Instance().get(SOURCE), Qt::AlignLeft);
+	createLabel(_targetLabel, Strings::Instance().get(TARGET), Qt::AlignRight);
 }
 
 void GraphView::createFont()
@@ -403,8 +404,10 @@ void GraphView::buildEdge(QGraphicsItem * const item)
 		coord.second = img->pos();
 		setEdgeFlag(EdgeFlag::Source);
 		firstVertexChecked = true;
-		_graph->addEdgeByDialog(pair.first, pair.second, _scale);
 		unglueLabels();
+		if (_graph->edgeExists(pair.first, pair.second))
+			return;
+		_graph->addEdgeByDialog(pair.first, pair.second, _scale);
 		emit graphChanged();
 	}
 }

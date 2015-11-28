@@ -8,11 +8,11 @@
 #include "GraphConfig.h"
 #include "Edges.h"
 #include "Consts.h"
+#include "Graph.h"
 
 class AWeightedStrategyBase;
 class Edge;
 class EdgeImage;
-class Graph;
 class Vertex;
 class VertexImage;
 
@@ -48,7 +48,7 @@ protected:
 	EdgeImage * createEdgeImage(Edge * edge, EdgeType edgeType, int weight = 0, float scale = 1.0f);
 	bool showEdgeImageDialog(int vertexId1, int vertexId2, int & weight);
 	VertexImage * createVertexImage(Vertex * vertex, QPointF const & position, int id);
-	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
+	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
@@ -76,5 +76,6 @@ public:
 	void unselectAll();
 	void updateEdges();
 	void removeOffsetFromEdge(EdgeImage * const edge);
+	inline bool edgeExists(int from, int to) { return getGraph()->edgeExists(from, to); }
 };
 

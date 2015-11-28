@@ -7,6 +7,11 @@
 
 Strings * Strings::_pInstance = 0;
 
+/// <summary>
+/// Konstruktor <see cref="Strings"/>.
+/// Otwiera domyœlny plik ze stringami, sprawdza poprawnoœæ rekordów 
+/// i jeœli s¹ poprawne to tworzy wpisy w mapie.
+/// </summary>
 Strings::Strings()
 {
 	QFile data("Config\\strings.cfg");
@@ -29,4 +34,9 @@ Strings::Strings()
 			}
 		}
 	}
+}
+
+void Strings::add(QString const & key, QString const & value)
+{
+	_map[key] = value;
 }

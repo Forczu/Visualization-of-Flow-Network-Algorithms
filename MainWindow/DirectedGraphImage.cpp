@@ -50,7 +50,7 @@ EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, 
 		return edgeImg;
 	edgeImg->addArrowHead();
 	edgeImg->setFlow(flow);
-	Edge * neighbor = _graph->GetNeighborEdge(edge);
+	Edge * neighbor = _graph->getNeighborEdge(edge);
 	if (neighbor != nullptr)
 		correctNeighborEdges(edge, neighbor);
 	updateVerticesDegree(edgeImg->VertexFrom(), edgeImg->VertexTo());

@@ -4,7 +4,8 @@
 #include "TextItem.h"
 #include "EdgeImage.h"
 #include "Strings.h"
-
+#include <QLine>
+#include <QLineF>
 
 FlowNetwork::FlowNetwork(GraphConfig * config)
 : DirectedGraphImage(config), _source(0), _target(0)
@@ -178,6 +179,22 @@ void FlowNetwork::mousePressEvent(QGraphicsSceneMouseEvent *event)
 				delete setAsTarget;
 			}
 		}
+	}
+}
+
+void FlowNetwork::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget /*= 0*/)
+{
+	drawLabel(_sourceLabel, _source, painter);
+	drawLabel(_targetLabel, _target, painter);
+}
+
+void FlowNetwork::drawLabel(TextItem * label, int key, QPainter * painter)
+{
+	if (label->isVisible() && label->isSelected())
+	{
+		QLineF connection = QLineF(label->scenePos(), _vertexMap[key]->pos());
+		painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
+		painter->drawLine(connection);
 	}
 }
 

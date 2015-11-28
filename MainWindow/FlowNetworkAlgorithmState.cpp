@@ -68,7 +68,7 @@ CheckInfo FlowNetworkAlgorithmState::checkGraph(GraphImage * graph)
 	}
 	if (!network->checkFlowPreservation(info))
 	{
-
+		info.setSucceeded(false);
 	}
 	if (!network->checkStructure(info))
 	{

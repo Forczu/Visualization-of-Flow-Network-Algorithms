@@ -18,21 +18,21 @@ public:
 	Graph(Graph const & other);
 	~Graph();
 
-	bool VertexExists(short verticeId) const;
-	Vertex * AddVertex();
-	Vertex * AddVertex(int n);
-	void AddVertex(Vertex * const vertex);
-	Vertex * VertexNo(short n) const;
+	bool vertexExists(short verticeId) const;
+	Vertex * addVertex();
+	Vertex * addVertex(int n);
+	void addVertex(Vertex * const vertex);
+	Vertex * vertexNo(short n) const;
 	void removeVertex(short n);
 	void removeVertex(Vertex * const vertex);
 
 	Edge * addEdge(int first, int second);
 	void addEdge(Edge * const edge);
-	Edge * AddEdgeSingle(int first, int second);
-	void RemoveEdge(Edge * const edge);
+	Edge * addEdgeSingle(int first, int second);
+	void removeEdge(Edge * const edge);
 	void removeNeighbourEdges(Vertex * const vertex);
 
-	Matrix GetNeighborhoodMatrix() const;
+	Matrix getNeighborhoodMatrix() const;
 
 	inline short VertexNumber() const
 	{
@@ -43,8 +43,8 @@ public:
 		return _graph->second.size();
 	}
 
-	Edge * GetNeighborEdge(Edge * const edge);
-	EdgeVector GetNeighbours();
+	Edge * getNeighborEdge(Edge * const edge);
+	EdgeVector getNeighbours();
 	std::pair<int, int> getDegree(Vertex * vertex);
 
 	inline VertexVector getVertices() const { return _graph->first; }
@@ -52,10 +52,10 @@ public:
 
 	inline Graph * clone() const { return new Graph(*this); }
 
+	bool edgeExists(int from, int to);
+	bool edgeExistsSingle(int from, int to);
 private:
-	int SmallestMissingVertexIndex();
-	int SmallestMissingEdgeIndex();
-	bool EdgeExists(int from, int to);
-	bool EdgeExistsSingle(int from, int to);
+	int smallestMissingVertexIndex();
+	int smallestMissingEdgeIndex();
 };
 
