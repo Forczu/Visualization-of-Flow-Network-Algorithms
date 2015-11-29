@@ -120,15 +120,22 @@ void EdgeImage::setWeight(int weight)
 	_edge->setCapacity(weight);
 }
 
-void EdgeImage::addArrowHead()
+void EdgeImage::updateArrowHead(float angle)
+{
+	_arrow->setRotation(angle);
+	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()) - pos());
+	_arrow->updateCenterPoint();
+}
+
+void EdgeImage::createArrowHead()
 {
 	if (_arrow != nullptr)
 		return;
-	float angle = -getAngle() - 90;
-	_arrow = new ArrowHeadImage(this, 50, 70, angle, true);
-	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()));
+	_arrow = new ArrowHeadImage(this, 50, 70, 0.0f, true);
 	_arrow->setZValue(ARROWHEAD_Z_VALUE);
 	_arrow->setParentItem(this);
+	float angle = -getAngle() - 90;
+	updateArrowHead(angle);
 }
 
 void EdgeImage::checkNewLine()

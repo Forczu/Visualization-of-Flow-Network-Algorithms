@@ -18,11 +18,9 @@ FlowNetwork::FlowNetwork(GraphConfig * config)
 FlowNetwork::FlowNetwork(FlowNetwork const & network)
 : DirectedGraphImage(network)
 {
-	_source = network._source;
-	_target = network._target;
-	_labelFont = network._labelFont;
-	_sourceLabel = new TextItem(*network._sourceLabel);
-	_targetLabel = new TextItem(*network._targetLabel);
+	init();
+	markSource(network._source);
+	markTarget(network._target);
 }
 
 FlowNetwork::~FlowNetwork()
@@ -166,7 +164,7 @@ void FlowNetwork::mousePressEvent(QGraphicsSceneMouseEvent *event)
 			VertexImage * vImg = dynamic_cast<VertexImage*>(item);
 			if (NULL != vImg)
 			{
-				QString source = "Oznacz jako Ÿród³o", target = "Oznacz jako ujœcie";
+				QString source = Strings::Instance().get(MARK_SOURCE), target = Strings::Instance().get(MARK_TARGET);
 				QMenu menu;
 				QAction * setAsSource = menu.addAction(source);
 				QAction * setAsTarget = menu.addAction(target);
@@ -186,6 +184,7 @@ void FlowNetwork::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 {
 	drawLabel(_sourceLabel, _source, painter);
 	drawLabel(_targetLabel, _target, painter);
+	DirectedGraphImage::paint(painter, option, widget);
 }
 
 void FlowNetwork::drawLabel(TextItem * label, int key, QPainter * painter)
@@ -211,6 +210,8 @@ void FlowNetwork::markSource(int id, VertexImage * vertex)
 
 void FlowNetwork::markSource(int id)
 {
+	if (id == 0)
+		return;
 	VertexImage * vertex = _vertexMap[id];
 	markSource(id, vertex);
 }
@@ -228,6 +229,8 @@ void FlowNetwork::markTarget(int id, VertexImage * vertex)
 
 void FlowNetwork::markTarget(int id)
 {
+	if (id == 0)
+		return;
 	VertexImage * vertex = _vertexMap[id];
 	markTarget(id, vertex);
 }

@@ -17,8 +17,32 @@ VertexImage::~VertexImage()
 
 QRectF VertexImage::boundingRect() const
 {
-	int size = _context->Size() * 2;
-	return QRectF(-_context->Size(), -_context->Size(), size, size);
+	int innerRadius = _context->Size();
+	int stroke = _context->StrokeSize() / 2.0f;
+	int x = -innerRadius - stroke;
+	int size = 2 * (stroke + innerRadius);
+	return QRectF(x, x, size, size);
+}
+
+void VertexImage::drawVertex(QPainter *painter)
+{
+	QBrush brush;
+	brush.setColor(_context->Color());
+	brush.setStyle(Qt::Dense2Pattern);
+	painter->setBrush(brush);
+	QPainterPath vertex;
+	int size = _context->Size();
+	vertex.addEllipse(QPointF(), size, size);
+	painter->setPen(QPen(_context->StrokeColor(), _context->StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
+	painter->drawPath(vertex);
+}
+
+void VertexImage::drawNumber(QPainter * painter)
+{
+	int size = _context->Size();
+	painter->setFont(_context->Font());
+	painter->setPen(QColor(0, 0, 0));
+	painter->drawText(QRectF(-size, -size, size * 2, size * 2), QString::number(getId()), QTextOption(Qt::AlignCenter));
 }
 
 void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -26,17 +50,8 @@ void VertexImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	Q_UNUSED(option);
 	Q_UNUSED(widget);
 	painter->setRenderHint(QPainter::RenderHint::HighQualityAntialiasing);
-	QBrush brush;
-	brush.setColor(_context->Color());
-	brush.setStyle(Qt::Dense2Pattern);
-	painter->setBrush(brush);
-	QPainterPath vertex;
-	vertex.addEllipse(QPointF(), _context->Size(), _context->Size());
-	painter->setPen(QPen(_context->StrokeColor(), _context->StrokeSize(), Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
-	painter->drawPath(vertex);
-	painter->setFont(_context->Font());
-	painter->setPen(QColor(0, 0, 0));
-	painter->drawText(QRectF(-_context->Size(), -_context->Size(), _context->Size() * 2, _context->Size() * 2), QString::number(_vertex->Id()), QTextOption(Qt::AlignCenter));
+	drawVertex(painter);
+	drawNumber(painter);
 }
 
 QVariant VertexImage::itemChange(GraphicsItemChange change, const QVariant &value)

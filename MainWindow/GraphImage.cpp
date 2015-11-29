@@ -14,19 +14,23 @@
 
 GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
 {
-	_graph = new Graph();
-#if RELEASE
-	setFlag(QGraphicsItem::ItemHasNoContents);
-#endif
+	init();
 }
 
 GraphImage::GraphImage(GraphImage const & graph)
 {
-	setFlag(QGraphicsItem::ItemHasNoContents);
+	init();
 	_config = graph._config->clone();
 	_edgeStrategy = graph._edgeStrategy->clone();
-	_graph = new Graph();
 	cloneVertices(graph);
+}
+
+void GraphImage::init()
+{
+	_graph = new Graph();
+#if RELEASE
+	setFlag(QGraphicsItem::ItemHasNoContents);
+#endif
 }
 
 void GraphImage::cloneVertices(GraphImage const & graph)
@@ -36,8 +40,7 @@ void GraphImage::cloneVertices(GraphImage const & graph)
 	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		vertexImg = (*it).second;
-		Vertex * vertex = vertexImg->getVertex();
-		int id = vertex->Id();
+		int id = vertexImg->getId();
 		QPointF position = vertexImg->pos();
 		addVertex(id, position, vertexImg->getPoints());
 	}

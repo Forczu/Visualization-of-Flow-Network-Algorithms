@@ -49,6 +49,7 @@ public:
 	inline std::pair<bool, float> getOffset() const { return _offset; }
 	inline EdgeTextItem * getTextItem() const { return _text; }
 	void setTextItem(EdgeTextItem * text);
+
 	void setOffset(bool b, float theta = 0.0f) { _offset = std::make_pair(b, theta); }
 	inline QPointF center() const { return _center; }
 
@@ -66,7 +67,7 @@ public:
 	qreal scaleText() const;
 	float getAngle() const;
 	void correctEdge(bool type, float theta);
-	void addArrowHead();
+	void createArrowHead();
 	void deleteArrowHead();
 	void setWeight(int weight);
 
@@ -76,6 +77,7 @@ protected:
 	void updateText();
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
+	void updateArrowHead(float angle);
 public:
 	virtual void setCenterPoint() = 0;
 signals:

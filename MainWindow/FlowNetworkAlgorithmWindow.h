@@ -9,8 +9,8 @@
 class FlowNetworkAlgorithmWindow : public QDialog
 {
 	Q_OBJECT
-	QGraphicsScene * _residualScene;
 	FlowNetwork * _network;
+	FlowNetwork * residualNewtork;
 public:
 	FlowNetworkAlgorithmWindow(QWidget *parent = 0);
 	~FlowNetworkAlgorithmWindow();
@@ -18,6 +18,7 @@ public:
 	void scaleViews(FlowNetwork * network);
 	void setAlgorithm(FlowNetworkAlgorithm * algorithm);
 private:
+	void configureView(GraphView * view, QGraphicsScene * scene);
 	void createConnections();
 private slots:
 	void makeNextStep();

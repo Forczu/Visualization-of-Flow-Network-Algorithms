@@ -27,11 +27,13 @@ public:
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
+
 	void setLabel(QString const & text);
 
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-
+	void drawVertex(QPainter *painter);
+	void drawNumber(QPainter *painter);
 public:
 	void Context(VertexContext * val) { _context = val; }
 	inline VertexContext const * Context() const { return _context; }

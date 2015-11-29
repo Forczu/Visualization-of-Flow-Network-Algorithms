@@ -71,7 +71,7 @@ public:
 
 
 	inline GraphImage * getGraphImage() const { return _graph; }
-	void setGraphImage(GraphImage * val);
+	void setGraphImage(GraphImage * val, QPointF const & position = QPointF());
 	inline float getScale() const { return _scale; }
 	void setBlocked(bool blocked) { _blocked = blocked; }
 

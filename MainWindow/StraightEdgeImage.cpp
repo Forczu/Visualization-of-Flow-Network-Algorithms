@@ -47,9 +47,7 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 	QPointF arrowCenter;
 	if (isArrow)
 	{
-		_arrow->setRotation(-currAngle - 90);
-		_arrow->setPos(VertexTo()->PointAt(getEdge()->Id()) - pos());
-		_arrow->updateCenterPoint();
+		updateArrowHead(-currAngle - 90);
 		arrowCenter = _arrow->Center();
 	}
 	oldAngle = currAngle;
@@ -65,7 +63,7 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 QRectF StraightEdgeImage::boundingRect() const
 {
-	return QRectF(QPointF(), _arrow == nullptr ? _vertexTo->PointAt(_edge->Id()) : _arrow->Center()).normalized();
+	return shape().boundingRect();
 }
 
 QPainterPath StraightEdgeImage::shape() const

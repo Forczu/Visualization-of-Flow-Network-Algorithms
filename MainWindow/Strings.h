@@ -20,6 +20,8 @@ static const char * WRONG_VALUE = "WRONG_VALUE";
 static const char * FLOW_GREATER_THAN_CAPACITY_MSGBX = "FLOW_GREATER_THAN_CAPACITY_MSGBX";
 static const char * VERTEX_WITH_ID = "VERTEX_WITH_ID";
 static const char * GRAPH_STATUS = "GRAPH_STATUS";
+static const char * MARK_SOURCE = "MARK_SOURCE";
+static const char * MARK_TARGET = "MARK_TARGET";
 
 class Strings : public Singleton<Strings>
 {

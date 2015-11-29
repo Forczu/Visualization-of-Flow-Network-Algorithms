@@ -48,7 +48,7 @@ EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, 
 	EdgeImage * edgeImg = createEdgeImage(edge, type, weight, scale);
 	if (edgeImg == nullptr)
 		return edgeImg;
-	edgeImg->addArrowHead();
+	edgeImg->createArrowHead();
 	edgeImg->setFlow(flow);
 	Edge * neighbor = _graph->getNeighborEdge(edge);
 	if (neighbor != nullptr)

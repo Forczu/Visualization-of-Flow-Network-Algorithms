@@ -187,17 +187,19 @@ void GraphView::startRubberBand(QPointF const & position)
 	_rubberFlag = true;
 }
 
-void GraphView::setGraphImage(GraphImage * val)
+void GraphView::setGraphImage(GraphImage * val, QPointF const & position /*= QPointF()*/)
 {
 	if (val != _graph)
 	{
+		if (scene())
+			scene()->removeItem(_graph);
 		delete _graph;
 		_graph = val;
 	}
 	if (scene())
 	{
 		scene()->addItem(_graph);
-		_graph->setPos(0, _graph->pos().y());
+		_graph->setPos(position);
 	}
 }
 
