@@ -2,9 +2,10 @@
 #include <math.h>
 #include "IAlgorithm.h"
 #include "GraphScene.h"
+#include "Strings.h"
 
-FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(QWidget *parent)
-	: QDialog(parent)
+FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
+: QDialog(parent), _algorithm(algorithm), _network(network), _step(0)
 {
 	ui.setupUi(this);
 	createConnections();
@@ -25,9 +26,8 @@ void FlowNetworkAlgorithmWindow::configureView(GraphView * view, QGraphicsScene 
 	view->setBlocked(true);
 }
 
-void FlowNetworkAlgorithmWindow::scaleViews(FlowNetwork * network)
+void FlowNetworkAlgorithmWindow::scaleViews()
 {
-	_network = network;
 	QRectF networkRect = _network->childrenBoundingRect();
 	QRectF viewRect = ui.mainNetworkView->geometry();
 	float widthScale = viewRect.width() / networkRect.width();
@@ -35,7 +35,7 @@ void FlowNetworkAlgorithmWindow::scaleViews(FlowNetwork * network)
 	_scaleFactor = std::min(widthScale, heightScale);
 	if (_scaleFactor < 1.0f)
 	{
-		_scaleFactor -= 0.03f;	// odrobina przestrzeni przy ramce
+		_scaleFactor -= 0.01f;	// odrobina przestrzeni przy ramce
 		ui.mainNetworkView->scale(_scaleFactor, _scaleFactor);
 		ui.residualNetworkView->scale(_scaleFactor, _scaleFactor);
 	}
@@ -54,16 +54,32 @@ void FlowNetworkAlgorithmWindow::setAlgorithm(FlowNetworkAlgorithm * algorithm)
 	_algorithm = algorithm;
 }
 
+void FlowNetworkAlgorithmWindow::seNetwork(FlowNetwork * network)
+{
+	_network = network;
+}
+
+void FlowNetworkAlgorithmWindow::showEvent(QShowEvent * evt)
+{
+	scaleViews();
+	QDialog::showEvent(evt);
+}
+
 void FlowNetworkAlgorithmWindow::createConnections()
 {
 	connect(ui.nextStepButton, SIGNAL(clicked()), this, SLOT(makeNextStep()));
 	connect(ui.finishAlgorithmButton, SIGNAL(clicked()), this, SLOT(finish()));
 }
 
+void FlowNetworkAlgorithmWindow::updateConsole(QString const & message)
+{
+	_info.setInformation(_step, message);
+	ui.progressConsole->insertPlainText(_info[_step]);
+}
+
 void FlowNetworkAlgorithmWindow::makeNextStep()
 {
-	static int step = 0;
-	if (step % 3 == 0)
+	if (_step % 3 == 0)
 	{
 		residualNewtork = _algorithm->makeResidualNetwork(_network);
 		residualNewtork->updateScale(_scaleFactor);
@@ -71,8 +87,10 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 		QPointF residualPosition = QPointF(_network->pos().x() + _dx, _network->pos().y());
 		ui.residualNetworkView->setGraphImage(residualNewtork, residualPosition);
 		ui.residualNetworkView->centerOn(residualNewtork);
+		QString message = Strings::Instance().get(FLOW_NETWORK_RESIDUAL_CREATED);
+		updateConsole(message);
 	}
-	else if (step % 3 == 1)
+	else if (_step % 3 == 1)
 	{
 		QList<int> path = _algorithm->findAugumentingPath();
 		_algorithm->increaseFlow(path);
@@ -81,7 +99,7 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	{
 		
 	}
-	step++;
+	_step++;
 }
 
 void FlowNetworkAlgorithmWindow::finish()

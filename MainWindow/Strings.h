@@ -22,6 +22,7 @@ static const char * VERTEX_WITH_ID = "VERTEX_WITH_ID";
 static const char * GRAPH_STATUS = "GRAPH_STATUS";
 static const char * MARK_SOURCE = "MARK_SOURCE";
 static const char * MARK_TARGET = "MARK_TARGET";
+static const char * FLOW_NETWORK_RESIDUAL_CREATED = "FLOW_NETWORK_RESIDUAL_CREATED";
 
 class Strings : public Singleton<Strings>
 {
