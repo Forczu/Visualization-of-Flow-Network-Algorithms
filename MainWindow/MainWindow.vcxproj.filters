@@ -257,15 +257,6 @@
     <ClCompile Include="FordFulkersonAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="FlowNetwork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_FlowNetworkAlgorithmWindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_FlowNetworkAlgorithmWindow.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="FlowNetworkAlgorithmWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -295,6 +286,24 @@
     </ClCompile>
     <ClCompile Include="Strings.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetwork.cpp">
+      <Filter>Source Files\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgorithmProgressInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FlowNetworkAlgorithmWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FlowNetworkAlgorithmWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FlowNetworkAlgorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FlowNetworkAlgorithm.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,9 +448,6 @@
     <CustomBuild Include="FlowNetworkAlgorithmWindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="EdgeTextItem.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Singleton.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -459,9 +465,6 @@
     </CustomBuild>
     <CustomBuild Include="VertexAddTool.h">
       <Filter>Header Files\Tools</Filter>
-    </CustomBuild>
-    <CustomBuild Include="AlgorithmInfo.h">
-      <Filter>Header Files\Algorithms\States</Filter>
     </CustomBuild>
     <CustomBuild Include="FlowNetworkAlgorithmState.h">
       <Filter>Header Files\Algorithms\States</Filter>
@@ -484,31 +487,38 @@
     <CustomBuild Include="FlowNetwork.h">
       <Filter>Header Files\Graphs</Filter>
     </CustomBuild>
+    <CustomBuild Include="AWeightedStrategyBase.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UnweightedEdgeStrategy.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="WeightedEdgeStrategy.h">
+      <Filter>Header Files\Graphs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DirectedGraphAlgorithmState.h">
+      <Filter>Header Files\Algorithms\States</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MyMath.h">
+      <Filter>Header Files\Utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CheckInfo.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="AlgorithmProgressInfo.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Strings.h">
+      <Filter>Header Files\Utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="AlgorithmInfo.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="EdgeTextItem.h">
+      <Filter>Header Files\TextItems</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AWeightedStrategyBase.h">
-      <Filter>Header Files\Graphs</Filter>
-    </ClInclude>
-    <ClInclude Include="WeightedEdgeStrategy.h">
-      <Filter>Header Files\Graphs</Filter>
-    </ClInclude>
-    <ClInclude Include="UnweightedEdgeStrategy.h">
-      <Filter>Header Files\Graphs</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectedGraphAlgorithmState.h">
-      <Filter>Header Files\Algorithms\States</Filter>
-    </ClInclude>
-    <ClInclude Include="MyMath.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Strings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

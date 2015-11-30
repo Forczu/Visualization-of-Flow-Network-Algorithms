@@ -34,30 +34,124 @@ FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network)
 	}
 	// analiza krawêdzi i utworzenie sieci residualnej
 	EdgeImageMap edges = network->getEdges();
+	QList<EdgeImage*> visitedNeighbours;
 	for (EdgeImageMap::iterator it = edges.begin(); it != edges.end(); ++it)
 	{
-		Edge * edge = (*it).second->getEdge();
+		EdgeImage * edge = (*it).second;
 		int capacity = edge->getCapacity();
 		int flow = edge->getFlow();
-		Vertex * vertexFrom = edge->VertexFrom();
-		Vertex * vertexTo = edge->VertexTo();
+		int vertexFromId = edge->VertexFrom()->getId();
+		int vertexToId = edge->VertexTo()->getId();
 		int residualCapacity = capacity - flow;
-		if (flow != 0)
-			residualNewtork->addEdge(vertexTo->Id(), vertexFrom->Id(), flow, EdgeType::StraightLine);
-		if (residualCapacity != 0)
-			residualNewtork->addEdge(vertexFrom->Id(), vertexTo->Id(), residualCapacity, EdgeType::StraightLine);
+		EdgeImage * neighbor;
+		if (edge->hasNeighbor() && !visitedNeighbours.contains(neighbor = network->edgeAt(vertexToId, vertexFromId)))
+		{
+			visitedNeighbours.push_back(neighbor);
+			visitedNeighbours.push_back(edge);
+			int neighborFlow = neighbor->getFlow();
+			int neighborCapacity = neighbor->getCapacity();
+			residualCapacity = capacity - flow + neighborFlow;
+			int neighborResidualCapacity = neighborCapacity - neighborFlow + flow;
+			if (residualCapacity != 0)
+				residualNewtork->addEdge(vertexFromId, vertexToId, residualCapacity, EdgeType::StraightLine);
+			if (neighborResidualCapacity != 0)
+				residualNewtork->addEdge(vertexToId, vertexFromId, neighborResidualCapacity, EdgeType::StraightLine);
+		}
+		else
+		{
+			if (flow != 0)
+				residualNewtork->addEdge(vertexToId, vertexFromId, flow, EdgeType::StraightLine);
+			if (residualCapacity != 0)
+				residualNewtork->addEdge(vertexFromId, vertexToId, residualCapacity, EdgeType::StraightLine);
+		}
 	}
 	residualNewtork->markSource(network->getSource());
 	residualNewtork->markTarget(network->getTarget());
 	return residualNewtork;
 }
 
-QList<int> FordFulkersonAlgorithm::findAugumentingPath()
+QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
 {
-	return QList<int>();
+	QList<EdgeImage*> augumentingPath;
+	int sourceId = residualNetwork->getSource();
+	VertexImage * source = residualNetwork->vertexAt(sourceId);
+	EdgeImageMap edges = residualNetwork->getEdges();
+	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImagePair item)
+	{
+		EdgeImage * edge = item.second;
+		if (edge->VertexFrom() == source)
+			return true;
+		return false;
+	});
+	if (!augumentationExists)
+		return augumentingPath;
+	srand(time(NULL));
+
+
+
+	bool finished = false;
+	VertexImage * currentVertex = source;
+	VertexImage * target = residualNetwork->vertexAt(residualNetwork->getTarget());
+	int currentMaxCapacity = INT_MAX;
+	QList<VertexImage*> visitedVertices;
+	QList<VertexImage*> rejectedVertices;
+	EdgeImage * lastEdge = nullptr;
+	while (!finished)
+	{
+		QList<EdgeImage*> possibleEdges;
+		for (auto item : edges)
+		{
+			EdgeImage * edge = item.second;
+			if (edge->VertexFrom() == currentVertex &&
+				edge->VertexTo() != source &&
+				!visitedVertices.contains(edge->VertexTo()) &&
+				!rejectedVertices.contains(edge->VertexTo()))
+			{
+				possibleEdges.push_back(edge);
+			}
+		}
+		if (possibleEdges.empty())
+		{
+			if (lastEdge == nullptr)
+			{
+				currentMaxCapacity = 0;
+				finished = true;
+				break;
+			}
+			else
+			{
+				rejectedVertices.push_back(currentVertex);
+				augumentingPath.pop_back();
+				if (!augumentingPath.empty())
+				{
+					lastEdge = augumentingPath.last();
+					currentVertex = lastEdge->VertexTo();
+				}
+				else
+				{
+					lastEdge = nullptr;
+					currentVertex = source;
+				}
+				continue;
+			}
+		}
+		EdgeImage * chosenEdge = possibleEdges.at(rand() % possibleEdges.size());
+		int newCapacity = chosenEdge->getCapacity();
+		currentMaxCapacity = std::min(newCapacity, currentMaxCapacity);
+		VertexImage * nextVertex = chosenEdge->VertexTo();
+		visitedVertices.push_back(nextVertex);
+		augumentingPath.push_back(chosenEdge);
+		currentVertex = nextVertex;
+		lastEdge = chosenEdge;
+		if (currentVertex == target)
+			finished = true;
+	}
+	capacity = currentMaxCapacity;
+	_currentMaxFlow += capacity;
+	return augumentingPath;
 }
 
-void FordFulkersonAlgorithm::increaseFlow(QList<int> const & path)
+void FordFulkersonAlgorithm::increaseFlow(QList<EdgeImage*> const & path)
 {
 
 }

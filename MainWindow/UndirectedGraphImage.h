@@ -13,6 +13,10 @@ public:
 	{
 		return new UndirectedGraphImage(config);
 	}
+	GraphImage * clone() const override
+	{
+		return new UndirectedGraphImage(*this);
+	}
 
 protected:
 	void updateVerticesDegree(VertexImage * vertexFrom, VertexImage * vertexTo);

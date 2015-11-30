@@ -27,12 +27,12 @@ protected:
 	VertexImage * _vertexFrom;
 	VertexImage * _vertexTo;
 	ArrowHeadImage * _arrow;
-
+	GraphImage * _parent;
 	QLineF _actualLine;
 	EdgeTextItem * _text;
 
 	std::pair<bool, float> _offset;
-
+	bool _hasNeighbor;
 public:
 	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
 	virtual ~EdgeImage();
@@ -49,12 +49,16 @@ public:
 	inline std::pair<bool, float> getOffset() const { return _offset; }
 	inline EdgeTextItem * getTextItem() const { return _text; }
 	void setTextItem(EdgeTextItem * text);
+	inline bool hasNeighbor() const { return _hasNeighbor; }
+	void setNeighbor(bool val) { _hasNeighbor = val; }
 
 	void setOffset(bool b, float theta = 0.0f) { _offset = std::make_pair(b, theta); }
 	inline QPointF center() const { return _center; }
 
 	int getFlow() const;
 	int getCapacity() const;
+	void setParent(GraphImage * graph) { _parent = graph; }
+	inline GraphImage * getParent() const { return _parent; }
 
 	void changeFlow(int flow);
 	void changeCapacity(int capacity);
@@ -78,6 +82,7 @@ protected:
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
 	void updateArrowHead(float angle);
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 public:
 	virtual void setCenterPoint() = 0;
 signals:

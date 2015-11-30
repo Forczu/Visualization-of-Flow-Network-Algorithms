@@ -25,18 +25,18 @@ GraphView::GraphView(GraphImage * graph) : _graph(graph)
 	init();
 }
 
-GraphView::GraphView(QWidget * parent /*= 0*/) : QGraphicsView(parent), _graph(nullptr)
+GraphView::GraphView(QWidget * parent /*= 0*/) : QGraphicsView(parent), _graph(NULL)
 {
 	init();
 }
 
 GraphView::~GraphView()
 {
-	delete _sourceLabel;
-	delete _targetLabel;
-	delete _graph;
 	if (scene())
+	{
 		delete scene();
+		setScene(NULL);
+	}
 }
 
 void GraphView::init()
@@ -66,7 +66,7 @@ void GraphView::createFont()
 	_labelFont.setFamily(QString("Calibri"));
 }
 
-void GraphView::createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align)
+void GraphView::createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align)
 {
 	label = new TextItem(text);
 	label->replaceFont(_labelFont);
@@ -189,15 +189,13 @@ void GraphView::startRubberBand(QPointF const & position)
 
 void GraphView::setGraphImage(GraphImage * val, QPointF const & position /*= QPointF()*/)
 {
-	if (val != _graph)
+	if (!val)
+		return;
+	if (scene() && val != _graph.data())
 	{
-		if (scene())
+		if (_graph)
 			scene()->removeItem(_graph);
-		delete _graph;
 		_graph = val;
-	}
-	if (scene())
-	{
 		scene()->addItem(_graph);
 		_graph->setPos(position);
 	}
@@ -351,7 +349,7 @@ void GraphView::changeVerticesLabels(QPoint const & position)
 void GraphView::addScene(QGraphicsScene * scene)
 {
 	setScene(scene);
-	if (_graph != nullptr)
+	if (_graph && _graph != nullptr)
 		scene->addItem(_graph);
 	scene->addItem(_sourceLabel);
 	scene->addItem(_targetLabel);
