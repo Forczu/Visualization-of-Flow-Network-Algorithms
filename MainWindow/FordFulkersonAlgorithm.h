@@ -8,7 +8,7 @@ public:
 	static FordFulkersonAlgorithm * getInstance();
 	void run(GraphImage * graph) override;
 	FlowNetwork * makeResidualNetwork(FlowNetwork * network) override;
-	QList<int> findAugumentingPath() override;
-	void increaseFlow(QList<int> const & path) override;
+	QList<EdgeImage*> findAugumentingPath(FlowNetwork * residualNetwork, int & capacity) override;
+	void increaseFlow(QList<EdgeImage*> const & path) override;
 };
 

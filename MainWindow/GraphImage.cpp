@@ -57,6 +57,13 @@ void GraphImage::cloneEdges(GraphImage & graph)
 	}
 }
 
+GraphImage * GraphImage::createCopy()
+{
+	_copy = clone();
+	_copy->setPos(pos());
+	return _copy;
+}
+
 GraphImage::~GraphImage()
 {
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
@@ -75,7 +82,7 @@ GraphImage::~GraphImage()
 void GraphImage::deleteItem(QGraphicsItem * const item)
 {
 	if (!item)
-		return
+		return;
 	item->setParentItem(NULL);
 	delete item;
 }
@@ -155,8 +162,10 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 		break;
 	}
 	edgeImg->setFlag(QGraphicsItem::ItemIsMovable, false);
+	edgeImg->setFlag(QGraphicsItem::ItemIsSelectable, true);
 	edgeImg->setZValue(EDGE_Z_VALUE);
 	edgeImg->setParentItem(this);
+	edgeImg->setParent(this);
 	_edgeStrategy->addWeightToEdge(edgeImg, vertexTo->pos() - vertexFrom->pos(), weight, scale);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
 	return edgeImg;
@@ -258,11 +267,27 @@ void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 		if (edgeImg->getEdge() == first || edgeImg->getEdge() == second)
 		{
 			edgeImg->correctEdge(true, EDGE_OFFSET);
+			edgeImg->setNeighbor(true);
 			++count;
 		}
 		if (count == MAX)
 			break;
 	}
+}
+
+/// <summary>
+/// Zwraca wskaŸnik na krawêdŸ na podstawie pary kluczy.
+/// </summary>
+/// <param name="from">Pocz¹tek krawêdzi.</param>
+/// <param name="to">Koniec krawêdzi.</param>
+/// <returns>KrawêdŸ, je¿eli istnieje, nullptr, je¿eli nie istnieje</returns>
+EdgeImage * GraphImage::edgeAt(int from, int to)
+{
+	std::pair<int, int> key(from, to);
+	if (_edgeMap.find(key) != _edgeMap.end())
+		return _edgeMap[std::pair<int, int>(from, to)];
+	else
+		return nullptr;
 }
 
 void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
@@ -322,6 +347,9 @@ void GraphImage::removeOffsetFromEdge(EdgeImage * const edge)
 	int edgeId = edge->getEdge()->Id();
 	edge->VertexFrom()->removePointForEdge(edgeId);
 	edge->VertexTo()->removePointForEdge(edgeId);
+	if (!edge->hasNeighbor())
+		return;
+	edge->setNeighbor(false);
 	for (auto e : _edgeMap)
 	{
 		EdgeImage* img = e.second;
@@ -330,6 +358,7 @@ void GraphImage::removeOffsetFromEdge(EdgeImage * const edge)
 		{
 			img->setOffset(false);
 			img->checkNewLine();
+			img->setNeighbor(false);
 			break;
 		}
 	}

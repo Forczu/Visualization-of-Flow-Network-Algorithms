@@ -5,9 +5,13 @@
 #include <QTimeLine>
 #include <QWheelEvent>
 #include <QRubberBand>
-
+#include <memory>
 #include "Tools.h"
 #include "Typedefs.h"
+#include <memory>
+#include "TextItem.h"
+#include <QPointer>
+#include "GraphImage.h"
 
 class GraphScrollBar;
 class VertexContext;
@@ -16,9 +20,7 @@ class EdgeContext;
 class EdgeImage;
 class LoopEdgeImage;
 class StraightEdgeImage;
-class TextItem;
 class ArrowHeadImage;
-class GraphImage;
 class GraphScene;
 class Tool;
 
@@ -35,11 +37,11 @@ class GraphView : public QGraphicsView
 	static const float MAX_SCALE;
 	static const float SCALE_FACTOR;
 
-	TextItem * _sourceLabel;
-	TextItem * _targetLabel;
+	QPointer<TextItem> _sourceLabel;
+	QPointer<TextItem> _targetLabel;
 	QRubberBand * _rubberBand;
 	QPoint _origin;
-	GraphImage * _graph;
+	QPointer<GraphImage> _graph;
 	QFont _labelFont;
 
 private:
@@ -69,8 +71,7 @@ public:
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 
-
-	inline GraphImage * getGraphImage() const { return _graph; }
+	inline GraphImage * getGraphImage() const { return _graph.data(); }
 	void setGraphImage(GraphImage * val, QPointF const & position = QPointF());
 	inline float getScale() const { return _scale; }
 	void setBlocked(bool blocked) { _blocked = blocked; }
@@ -93,7 +94,7 @@ public:
 private:
 	void init();
 	void createFont();
-	void createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align);
+	void createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align);
 	void unselectAll(QGraphicsItem * const except = nullptr);
 
 signals:

@@ -262,8 +262,11 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	// jeœli tak, to uruchom okno z algorytmem
 	if (info.didSucceeded())
 	{
-		QDialog * window = _algorithmInfo.getDialog(graph, item->text());
-		window->show();
+		QDialog * windowPtr =_algorithmInfo.getDialog(graph, item->text());
+		auto copy = graph->createCopy();
+		windowPtr->exec();
+		delete windowPtr;
+		_graphTabs->currentGraphView()->setGraphImage(copy);
 	}
 	else
 	{

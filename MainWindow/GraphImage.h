@@ -9,6 +9,7 @@
 #include "Edges.h"
 #include "Consts.h"
 #include "Graph.h"
+#include "ICloneable.h"
 
 class AWeightedStrategyBase;
 class Edge;
@@ -16,7 +17,7 @@ class EdgeImage;
 class Vertex;
 class VertexImage;
 
-class GraphImage : public QObject, public QGraphicsItem
+class GraphImage : public QObject, public QGraphicsItem, public ICloneable<GraphImage>
 {
 	Q_OBJECT
 	Q_INTERFACES(QGraphicsItem)
@@ -32,6 +33,7 @@ public:
 	GraphImage(GraphImage const & graph);
 	void cloneVertices(GraphImage const & graph);
 	void cloneEdges(GraphImage & graph);
+	GraphImage * createCopy();
 	virtual ~GraphImage();
 private:
 	void deleteItem(QGraphicsItem * const item);
@@ -40,6 +42,7 @@ public:
 	void addVertex(QPointF const & position);
 	void addVertex(int id, QPointF const & position);
 	void addVertex(int id, QPointF const & position, PointMap const & pointMap);
+	inline VertexImage * vertexAt(int id) { return _vertexMap[id]; }
 
 	void addEdgeByDialog(int vertexId1, int vertexId2, float scale);
 	virtual EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow = 0, float scale = 1.0f) = 0;
@@ -70,6 +73,8 @@ public:
 	inline EdgeImageMap getEdges() const { return _edgeMap; }
 	void setName(QString const & name) { _config->setName(name); }
 	inline QString getName() const { return _config->getName(); }
+
+	EdgeImage * edgeAt(int from, int to);
 	
 	void changeEdge(EdgeImage * edge, EdgeType type);
 	void updateScale(float scale);

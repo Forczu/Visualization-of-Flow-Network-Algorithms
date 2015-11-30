@@ -9,7 +9,7 @@
 #include "MyMath.h"
 
 EdgeImage::EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context)
-: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _text(nullptr)
+: _edge(edge), _vertexFrom(vertexFrom), _vertexTo(vertexTo), _context(context), _arrow(nullptr), _text(nullptr), _hasNeighbor(false)
 {
 	_actualLine = QLineF(_vertexFrom->pos(), _vertexTo->pos());
 	vertexFrom->addEdgePoint(this, vertexTo, true);
@@ -125,6 +125,22 @@ void EdgeImage::updateArrowHead(float angle)
 	_arrow->setRotation(angle);
 	_arrow->setPos(_vertexTo->PointAt(getEdge()->Id()) - pos());
 	_arrow->updateCenterPoint();
+}
+
+QVariant EdgeImage::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+	if (change == ItemSelectedChange)
+	{
+		if (value.toBool() == true)
+		{
+			_context = getParent()->getConfig()->SelectedEdgeContext();
+		}
+		else
+		{
+			_context = getParent()->getConfig()->NormalEdgeContext();
+		}
+	}
+	return QGraphicsItem::itemChange(change, value);
 }
 
 void EdgeImage::createArrowHead()
