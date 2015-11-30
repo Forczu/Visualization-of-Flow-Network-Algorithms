@@ -18,32 +18,26 @@ void FordFulkersonAlgorithm::run(GraphImage * graph)
 {
 }
 
-FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network)
+void FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& residualNewtork)
 {
-	FlowNetwork * residualNewtork = new FlowNetwork(network->getConfig()->clone());
-	residualNewtork->setWeightStrategy(WeightedEdgeStrategy::getInstance());
-	// skopiuj wierzcho³ki
-	VertexImageMap vertices = network->getVertices();
-	for (VertexImageMap::iterator it = vertices.begin(); it != vertices.end(); ++it)
+	// usuniêcie starych wierzcho³ków
+	auto oldEdges = residualNewtork->getEdges();
+	for (auto it = oldEdges.begin(); it != oldEdges.end(); ++it)
 	{
-		VertexImage * vertex = (*it).second;
-		int id = vertex->getId();
-		QPointF position = vertex->scenePos();
-		auto points = vertex->getPoints();
-		residualNewtork->addVertex(id, position, points);
+		residualNewtork->removeEdge((*it).second);
 	}
 	// analiza krawêdzi i utworzenie sieci residualnej
-	EdgeImageMap edges = network->getEdges();
+	auto edges = network->getEdges();
 	QList<EdgeImage*> visitedNeighbours;
+	EdgeImage * edge, *neighbor;
 	for (EdgeImageMap::iterator it = edges.begin(); it != edges.end(); ++it)
 	{
-		EdgeImage * edge = (*it).second;
+		edge = (*it).second;
 		int capacity = edge->getCapacity();
 		int flow = edge->getFlow();
 		int vertexFromId = edge->VertexFrom()->getId();
 		int vertexToId = edge->VertexTo()->getId();
 		int residualCapacity = capacity - flow;
-		EdgeImage * neighbor;
 		if (edge->hasNeighbor() && !visitedNeighbours.contains(neighbor = network->edgeAt(vertexToId, vertexFromId)))
 		{
 			visitedNeighbours.push_back(neighbor);
@@ -65,9 +59,6 @@ FlowNetwork * FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network)
 				residualNewtork->addEdge(vertexFromId, vertexToId, residualCapacity, EdgeType::StraightLine);
 		}
 	}
-	residualNewtork->markSource(network->getSource());
-	residualNewtork->markTarget(network->getTarget());
-	return residualNewtork;
 }
 
 QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)

@@ -12,5 +12,5 @@ GraphScene::~GraphScene()
 
 GraphScene * GraphScene::getInstance()
 {
-	return new GraphScene(QRect(-2000, -2000, 4000, 4000));
+	return new GraphScene(QRect(POS_X, POS_Y, WIDTH, HEIGHT));
 }

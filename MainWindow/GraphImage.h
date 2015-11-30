@@ -37,7 +37,7 @@ public:
 	virtual ~GraphImage();
 private:
 	void deleteItem(QGraphicsItem * const item);
-	void init();
+	virtual void init();
 public:
 	void addVertex(QPointF const & position);
 	void addVertex(int id, QPointF const & position);

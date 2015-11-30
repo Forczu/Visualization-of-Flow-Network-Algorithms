@@ -202,7 +202,6 @@ void GraphImage::removeItem(QList<QGraphicsItem*> const & items)
 
 void GraphImage::removeItem(QGraphicsItem * item)
 {
-	item->setParentItem(NULL);
 	delete item;
 }
 

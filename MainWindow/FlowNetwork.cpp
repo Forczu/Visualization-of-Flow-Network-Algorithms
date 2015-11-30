@@ -44,7 +44,7 @@ void FlowNetwork::createFont()
 	_labelFont.setFamily(QString("Calibri"));
 }
 
-void FlowNetwork::createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align)
+void FlowNetwork::createLabel(QPointer<TextItem>& label, QString const & text, Qt::AlignmentFlag align) const
 {
 	label = new TextItem(text);
 	label->replaceFont(_labelFont);
@@ -187,9 +187,9 @@ void FlowNetwork::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	DirectedGraphImage::paint(painter, option, widget);
 }
 
-void FlowNetwork::drawLabel(TextItem * label, int key, QPainter * painter)
+void FlowNetwork::drawLabel(QPointer<TextItem>& label, int key, QPainter * painter)
 {
-	if (label->isVisible() && label->isSelected())
+	if (label && label->isVisible() && label->isSelected())
 	{
 		QLineF connection = QLineF(label->scenePos(), _vertexMap[key]->pos());
 		painter->setPen(QPen(Qt::black, 2, Qt::DotLine));
@@ -199,6 +199,8 @@ void FlowNetwork::drawLabel(TextItem * label, int key, QPainter * painter)
 
 void FlowNetwork::markSource(int id, VertexImage * vertex)
 {
+	if (!_sourceLabel)
+		return;
 	_source = id;
 	_sourceLabel->setPos(
 		- vertex->Context()->Size() - _sourceLabel->boundingRect().width() / 2.0f,
@@ -218,6 +220,8 @@ void FlowNetwork::markSource(int id)
 
 void FlowNetwork::markTarget(int id, VertexImage * vertex)
 {
+	if (!_targetLabel)
+		return;
 	_target = id;
 	_targetLabel->setPos(
 		+ vertex->Context()->Size() - _targetLabel->boundingRect().width() / 2.0f,
@@ -233,12 +237,4 @@ void FlowNetwork::markTarget(int id)
 		return;
 	VertexImage * vertex = _vertexMap[id];
 	markTarget(id, vertex);
-}
-
-FlowNetwork * FlowNetwork::makeResidualNetwork()
-{
-	FlowNetwork * residualNetwork = new FlowNetwork(*this);
-	residualNetwork->setParentItem(this);
-	residualNetwork->moveBy(500, 0);
-	return residualNetwork;
 }

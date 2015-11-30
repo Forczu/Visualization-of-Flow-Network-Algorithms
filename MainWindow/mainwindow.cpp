@@ -263,10 +263,10 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	if (info.didSucceeded())
 	{
 		QDialog * windowPtr =_algorithmInfo.getDialog(graph, item->text());
-		auto copy = graph->createCopy();
+		//auto copy = graph->createCopy();
 		windowPtr->exec();
 		delete windowPtr;
-		_graphTabs->currentGraphView()->setGraphImage(copy);
+		//_graphTabs->currentGraphView()->setGraphImage(copy);
 	}
 	else
 	{
@@ -279,12 +279,15 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	}
 }
 
-void MainWindow::updateGraphStatus()
+void MainWindow::updateGraphStatus() const
 {
 	GraphView * graphView = _graphTabs->currentGraphView();
 	if (graphView == nullptr)
 		return;
-	Graph * graph = graphView->getGraphImage()->getGraph();
+	auto graphImage = graphView->getGraphImage();
+	if (!graphImage)
+		return;
+	Graph * graph = graphImage->getGraph();
 	QString newStatus = Strings::Instance().get(GRAPH_STATUS)
 		.arg(graph->VertexNumber()).arg(graph->EdgeNumber());
 	ui.graphTextStatus->setText(newStatus);

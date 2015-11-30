@@ -1,19 +1,9 @@
 #include "GraphView.h"
-#include "GraphScrollBar.h"
 #include "VertexImage.h"
-#include "EdgeImage.h"
-#include "LoopEdgeImage.h"
-#include "StraightEdgeImage.h"
 #include "TextItem.h"
-#include "ArrowHeadImage.h"
 #include "GraphImage.h"
-#include "DirectedGraphImage.h"
-#include "UndirectedGraphImage.h"
-#include "EdgeContext.h"
 #include "Config.h"
-#include "GraphScene.h"
 #include "Tool.h"
-#include "FlowNetwork.h"
 #include "Strings.h"
 
 const float GraphView::MIN_SCALE = 0.0625f;
@@ -25,7 +15,7 @@ GraphView::GraphView(GraphImage * graph) : _graph(graph)
 	init();
 }
 
-GraphView::GraphView(QWidget * parent /*= 0*/) : QGraphicsView(parent), _graph(NULL)
+GraphView::GraphView(QWidget * parent /*= 0*/) : QGraphicsView(parent), _graph(nullptr)
 {
 	init();
 }
@@ -35,7 +25,7 @@ GraphView::~GraphView()
 	if (scene())
 	{
 		delete scene();
-		setScene(NULL);
+		setScene(nullptr);
 	}
 }
 
@@ -66,7 +56,7 @@ void GraphView::createFont()
 	_labelFont.setFamily(QString("Calibri"));
 }
 
-void GraphView::createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align)
+void GraphView::createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align) const
 {
 	label = new TextItem(text);
 	label->replaceFont(_labelFont);
@@ -74,7 +64,7 @@ void GraphView::createLabel(QPointer<TextItem> & label, QString const & text, Qt
 	label->hide();
 }
 
-void GraphView::unselectAll(QGraphicsItem * const except)
+void GraphView::unselectAll(QGraphicsItem * const except) const
 {
 	if (except == nullptr)
 	{
@@ -108,14 +98,14 @@ void GraphView::glueLabel(EdgeFlag edgeFlag, VertexImage * img)
 	}
 }
 
-void GraphView::setSourceLabelPost(VertexImage * img)
+void GraphView::setSourceLabelPost(VertexImage * img) const
 {
 	_sourceLabel->setPos(
 		img->scenePos().x() - img->Context()->Size() - _sourceLabel->boundingRect().width() / 2.0f,
 		img->scenePos().y() - img->Context()->Size() - _sourceLabel->boundingRect().height());
 }
 
-void GraphView::setTargetLabelPos(VertexImage * img)
+void GraphView::setTargetLabelPos(VertexImage * img) const
 {
 	_targetLabel->setPos(
 		img->scenePos().x() + img->Context()->Size() - _targetLabel->boundingRect().width() / 2.0f,
@@ -134,7 +124,7 @@ void GraphView::unglueLabels()
 /// </summary>
 /// <param name="position">The position.</param>
 /// <returns>Lista elementów grafu we wskazanym punkcie.</returns>
-QList<QGraphicsItem*> GraphView::takeGraphElements(QPoint const & position)
+QList<QGraphicsItem*> GraphView::takeGraphElements(QPoint const & position) const
 {
 	auto chosenItems = items(position);
 	for (QList<QGraphicsItem*>::iterator it = chosenItems.begin(); it != chosenItems.end(); )
@@ -153,19 +143,26 @@ void GraphView::wheelEvent(QWheelEvent * event)
 		return;
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 	// Zoom in
-	if (event->delta() > 0 && _scale <= MAX_SCALE) {
+	if (event->delta() > 0 && _scale <= MAX_SCALE)
+	{
 		scale(SCALE_FACTOR, SCALE_FACTOR);
 		_scale *= SCALE_FACTOR;
 		emit scaleChanged(_scale);
 		_graph->updateScale(_scale);
 	}
 	// Zoom out
-	else if (event->delta() < 0 && _scale >= MIN_SCALE) {
-		float factor = 1.0f / SCALE_FACTOR;
-		scale(factor, factor);
-		_scale *= factor;
-		emit scaleChanged(_scale);
-		_graph->updateScale(_scale);
+	else if (event->delta() < 0)
+	{
+		float widthFactor = viewport()->width() / scene()->width();
+		float heightFactor = viewport()->height() / scene()->height();
+		if (_scale >= widthFactor && _scale >= heightFactor)
+		{
+			float factor = 1.0f / SCALE_FACTOR;
+			scale(factor, factor);
+			_scale *= factor;
+			emit scaleChanged(_scale);
+			_graph->updateScale(_scale);
+		}
 	}
 }
 
@@ -193,8 +190,6 @@ void GraphView::setGraphImage(GraphImage * val, QPointF const & position /*= QPo
 		return;
 	if (scene() && val != _graph.data())
 	{
-		if (_graph)
-			scene()->removeItem(_graph);
 		_graph = val;
 		scene()->addItem(_graph);
 		_graph->setPos(position);

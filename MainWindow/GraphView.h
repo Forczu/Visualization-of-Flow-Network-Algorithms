@@ -1,14 +1,9 @@
 #pragma once
 
 #include <QtWidgets/QGraphicsView>
-#include <QGraphicsScene>
-#include <QTimeLine>
 #include <QWheelEvent>
 #include <QRubberBand>
-#include <memory>
-#include "Tools.h"
 #include "Typedefs.h"
-#include <memory>
 #include "TextItem.h"
 #include <QPointer>
 #include "GraphImage.h"
@@ -63,11 +58,8 @@ public:
 	void buildEdge(QGraphicsItem * const item);
 	void remove(QList<QGraphicsItem*> const &items);
 
-	void removeEdges(EdgeVector const & vector);
-
 	void grabItem(QPointF const & pos);
 	void startRubberBand(QPointF const & position);
-	void setTool(ToolType tool);
 	EdgeFlag getEdgeFlag() const { return _edgeFlag; }
 	void setEdgeFlag(EdgeFlag val) { _edgeFlag = val; }
 
@@ -94,8 +86,8 @@ public:
 private:
 	void init();
 	void createFont();
-	void createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align);
-	void unselectAll(QGraphicsItem * const except = nullptr);
+	void createLabel(QPointer<TextItem> & label, QString const & text, Qt::AlignmentFlag align) const;
+	void unselectAll(QGraphicsItem * const except = nullptr) const;
 
 signals:
 	void clicked(QPoint const & position, QList<QGraphicsItem*>);
@@ -105,9 +97,9 @@ signals:
 
 private:
 	void glueLabel(EdgeFlag edgeFlag, VertexImage * img);
-	void setSourceLabelPost(VertexImage * img);
-	void setTargetLabelPos(VertexImage * img);
+	void setSourceLabelPost(VertexImage * img) const;
+	void setTargetLabelPos(VertexImage * img) const;
 	void unglueLabels();
-	QList<QGraphicsItem*> takeGraphElements(QPoint const & position);
+	QList<QGraphicsItem*> takeGraphElements(QPoint const & position) const;
 };
 

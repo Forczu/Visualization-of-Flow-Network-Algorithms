@@ -1,19 +1,16 @@
 #pragma once
 #include "DirectedGraphImage.h"
 #include "ICloneable.h"
-#include <map>
 #include "CheckInfo.h"
-
-class TextItem;
+#include "TextItem.h"
+#include <QPointer>
 
 class FlowNetwork : public DirectedGraphImage, public ICloneable<FlowNetwork>
 {
 	int _source;
 	int _target;
-	TextItem * _sourceLabel;
-	TextItem * _targetLabel;
-	std::map<int, int> _flowMap;
-	std::map<int, int> _capacityMap;
+	QPointer<TextItem> _sourceLabel;
+	QPointer<TextItem> _targetLabel;
 	QFont _labelFont;
 
 public:
@@ -21,25 +18,16 @@ public:
 	FlowNetwork(FlowNetwork const & network);
 	~FlowNetwork();
 
-	static GraphImage * getInstance(GraphConfig * config)
-	{
-		return new FlowNetwork(config);
-	}
+	inline static GraphImage * getInstance(GraphConfig * config) { return new FlowNetwork(config); }
+	inline FlowNetwork * clone() const override { return new FlowNetwork(*this); }
 
 	void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
-
 
 	void markSource(int id);
 	void markTarget(int id);
 	void markSource(int id, VertexImage * vertex);
 	void markTarget(int id, VertexImage * vertex);
-
-	FlowNetwork * makeResidualNetwork();
-	FlowNetwork * clone() const override
-	{
-		return new FlowNetwork(*this);
-	}
 
 	inline int getSource() const { return _source; }
 	inline int getTarget() const { return _target; }
@@ -51,9 +39,9 @@ public:
 	bool checkStructure(CheckInfo &info);
 
 private:
-	void init();
+	void init() override;
 	void createFont();
-	void createLabel(TextItem *& label, QString const & text, Qt::AlignmentFlag align);
-	void drawLabel(TextItem * label, int key, QPainter * painter);
+	void createLabel(QPointer<TextItem>& label, QString const & text, Qt::AlignmentFlag align) const;
+	void drawLabel(QPointer<TextItem>& label, int key, QPainter * painter);
 };
 

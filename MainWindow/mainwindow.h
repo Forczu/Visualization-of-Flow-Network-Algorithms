@@ -57,7 +57,7 @@ private slots:
 	void checkRemoveButton(bool b);
 	void openGraphShapeDialog();
 	void changeGraphInformation();
-	void updateGraphStatus();
+	void updateGraphStatus() const;
 	void checkStraightLine(bool b);
 	void checkBezierCurve(bool b);
 	void runAlgorithm(QListWidgetItem * item);

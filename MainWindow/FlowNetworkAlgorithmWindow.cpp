@@ -1,21 +1,26 @@
 #include "FlowNetworkAlgorithmWindow.h"
-#include <math.h>
-#include <chrono>
-#include <thread>
-#include "IAlgorithm.h"
 #include "GraphScene.h"
 #include "Strings.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
-: QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr), _finished(false)
+: QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr), _capacity(0)
 {
 	ui.setupUi(this);
 	createConnections();
-	_scene = GraphScene::getInstance();
+	createScene();
 	configureView(ui.mainNetworkView);
 	configureView(ui.residualNetworkView);
+	_started =_finished = false;
+}
+
+void FlowNetworkAlgorithmWindow::createScene()
+{
+	_scene = GraphScene::getInstance();
+	QRectF rect = _scene->sceneRect();
+	rect.setWidth(rect.width() * 3);
+	_scene->setSceneRect(rect);
 }
 
 FlowNetworkAlgorithmWindow::~FlowNetworkAlgorithmWindow()
@@ -30,7 +35,7 @@ void FlowNetworkAlgorithmWindow::setSceneForViews(QGraphicsScene * scene)
 	ui.residualNetworkView->addScene(scene);
 }
 
-void FlowNetworkAlgorithmWindow::configureView(GraphView * view)
+void FlowNetworkAlgorithmWindow::configureView(GraphView * view) const
 {
 	view->addScene(_scene);
 	view->setInteractive(false);
@@ -52,9 +57,8 @@ void FlowNetworkAlgorithmWindow::scaleViews()
 		ui.residualNetworkView->scale(_scaleFactor, _scaleFactor);
 	}
 	_network->updateScale(_scaleFactor);
-	_dx = std::max(
-			static_cast<float>(networkRect.width() * 2.0),
-			static_cast<float>(_network->sceneBoundingRect().width()));
+	int windowWidth = ui.mainNetworkView->viewport()->width();
+	_dx = _scene->width() / 2.0f;
 	ui.mainNetworkView->setGraphImage(_network);
 	ui.mainNetworkView->centerOn(_network);
 	ui.residualNetworkView->centerOn(_network->pos().x() + _dx, _network->pos().y());
@@ -82,7 +86,23 @@ void FlowNetworkAlgorithmWindow::closeEvent(QCloseEvent * evt)
 	deleteDialog();
 }
 
-void FlowNetworkAlgorithmWindow::createConnections()
+int FlowNetworkAlgorithmWindow::getCurrentFlowToTarget(FlowNetwork* network)
+{
+	int maxFlow = 0;
+	VertexImage * target = network->vertexAt(network->getTarget());
+	EdgeImage * edge;
+	for (auto item : network->getEdges())
+	{
+		edge = item.second;
+		if (edge->VertexTo() == target)
+		{
+			maxFlow += edge->getFlow();
+		}
+	}
+	return maxFlow;
+}
+
+void FlowNetworkAlgorithmWindow::createConnections() const
 {
 	connect(ui.nextStepButton, SIGNAL(clicked()), this, SLOT(makeNextStep()));
 	connect(ui.finishAlgorithmButton, SIGNAL(clicked()), this, SLOT(finish()));
@@ -97,13 +117,16 @@ void FlowNetworkAlgorithmWindow::updateConsole(QString const & message)
 
 void FlowNetworkAlgorithmWindow::makeNextStep()
 {
-	static QList<EdgeImage*> path;
-	static int capacity;
 	if (_step % 3 == 0)
 	{
 		_network->unselectAll();
-		delete _residualNetwork;
-		_residualNetwork = _algorithm->makeResidualNetwork(_network);
+		if (!_started)
+		{
+			_algorithm->setCurrentMaxFlow(getCurrentFlowToTarget(_network));
+			_residualNetwork = _network->clone();
+			_started = true;
+		}
+		_algorithm->makeResidualNetwork(_network, _residualNetwork);
 		_residualNetwork->updateScale(_scaleFactor);
 		_residualNetwork->unselectAll();
 		QPointF residualPosition = QPointF(_network->pos().x() + _dx, _network->pos().y());
@@ -114,18 +137,18 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	}
 	else if (_step % 3 == 1)
 	{
-		path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
-		if (capacity != 0)
+		_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
+		if (_capacity != 0)
 		{
 			QString numbers;
-			numbers.push_back(QString::number(path.first()->VertexFrom()->getId()) + ' ');
-			for (EdgeImage * edge : path)
+			numbers.push_back(QString::number(_path.first()->VertexFrom()->getId()) + ' ');
+			for (EdgeImage * edge : _path)
 			{
 				edge->setSelected(true);
 				numbers.push_back(QString::number(edge->VertexTo()->getId()) + ' ');
 			}
 			QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_FOUND)
-				.arg(numbers).arg(capacity);
+				.arg(numbers).arg(_capacity);
 			updateConsole(message);
 			_finished = true;
 		}
@@ -143,7 +166,7 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	{
 		int oldFlow;
 		EdgeImage * networkEdge;
-		for (EdgeImage * edge : path)
+		for (EdgeImage * edge : _path)
 		{
 			int vertexFromId = edge->VertexFrom()->getId();
 			int vertexToId = edge->VertexTo()->getId();
@@ -154,7 +177,7 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 			{
 				networkEdge = _network->edgeAt(vertexToId, vertexFromId);
 				oldFlow = networkEdge->getFlow();
-				networkEdge->setFlow(oldFlow - capacity);
+				networkEdge->setFlow(oldFlow - _capacity);
 			}
 			// je¿eli krawêdŸ istnieje, ale posiada s¹siada, nale¿y zmniejszyæ jego przep³yw
 			else if (networkEdge != nullptr && networkEdge->hasNeighbor())
@@ -162,14 +185,14 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 				oldFlow = networkEdge->getFlow();
 				EdgeImage * neighbourEdge = _network->edgeAt(edge->VertexTo()->getId(), edge->VertexFrom()->getId());
 				int currentNeighborFlow = neighbourEdge->getFlow();
-				networkEdge->setFlow(std::max(capacity - currentNeighborFlow, 0));
-				neighbourEdge->setFlow(std::max(currentNeighborFlow - capacity, 0));
+				networkEdge->setFlow(std::max(_capacity - currentNeighborFlow, 0));
+				neighbourEdge->setFlow(std::max(currentNeighborFlow - _capacity, 0));
 			}
 			// istnieje, ale nie posiada s¹siada, zwyk³e zwiêkszenie
 			else
 			{
 				oldFlow = networkEdge->getFlow();
-				networkEdge->setFlow(oldFlow + capacity);
+				networkEdge->setFlow(oldFlow + _capacity);
 			}
 			edge->setSelected(false);
 			networkEdge->setSelected(true);
@@ -237,7 +260,7 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	ui.residualNetworkView->updateGeometry();
 }
 
-void FlowNetworkAlgorithmWindow::stopTimer()
+void FlowNetworkAlgorithmWindow::stopTimer() const
 {
 	_timer->stop();
 	_network->unselectAll();
@@ -251,10 +274,8 @@ void FlowNetworkAlgorithmWindow::finish()
 	_timer->start(500);
 }
 
-void FlowNetworkAlgorithmWindow::deleteDialog()
+void FlowNetworkAlgorithmWindow::deleteDialog() const
 {
-	if (_residualNetwork)
-		delete _residualNetwork;
 	if (_algorithm)
 		delete _algorithm;
 }
