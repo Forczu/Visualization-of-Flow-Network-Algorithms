@@ -105,9 +105,9 @@ QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * resi
 		{
 			if (lastEdge == nullptr)
 			{
-				currentMaxCapacity = 0;
+				capacity = 0;
 				finished = true;
-				break;
+				return augumentingPath;
 			}
 			else
 			{
@@ -127,8 +127,6 @@ QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * resi
 			}
 		}
 		EdgeImage * chosenEdge = possibleEdges.at(rand() % possibleEdges.size());
-		int newCapacity = chosenEdge->getCapacity();
-		currentMaxCapacity = std::min(newCapacity, currentMaxCapacity);
 		VertexImage * nextVertex = chosenEdge->VertexTo();
 		visitedVertices.push_back(nextVertex);
 		augumentingPath.push_back(chosenEdge);
@@ -137,8 +135,12 @@ QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * resi
 		if (currentVertex == target)
 			finished = true;
 	}
-	capacity = currentMaxCapacity;
-	_currentMaxFlow += capacity;
+	// znajdz najmniejsza wartoœæ
+	auto it = std::min_element(augumentingPath.begin(), augumentingPath.end(), [&](EdgeImage * edge1, EdgeImage * edge2)
+	{
+		return edge1->getCapacity() < edge2->getCapacity();
+	});
+	_currentMaxFlow += (capacity = (*it)->getCapacity());
 	return augumentingPath;
 }
 
