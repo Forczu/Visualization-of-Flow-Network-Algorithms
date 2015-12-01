@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="MainWindow">
+    <file>GlassIcon.png</file>
     <file>GrabIcon.png</file>
     <file>RemoveIcon.svg</file>
     <file>SelectionIcon.svg</file>

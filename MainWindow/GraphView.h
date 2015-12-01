@@ -70,6 +70,10 @@ public:
 
 protected:
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+
+	void zoomOut();
+	void zoomIn();
+
 	void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
@@ -82,6 +86,7 @@ public:
 	void changeVerticesLabels(QPoint const & position);
 	void addScene(QGraphicsScene * scene);
 	void updateView();
+	void zoom(QPointF const & pos, Qt::KeyboardModifiers const & modifiers);
 
 private:
 	void init();

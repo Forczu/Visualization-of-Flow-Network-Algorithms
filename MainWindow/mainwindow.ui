@@ -146,6 +146,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionPointer"/>
+   <addaction name="actionZoom"/>
    <addaction name="separator"/>
    <addaction name="actionAddVertex"/>
    <addaction name="actionAddEdge"/>
@@ -354,6 +355,24 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionZoom">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/GlassIcon.png</normaloff>:/MainWindow/GlassIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Przybliżanie</string>
+   </property>
+   <property name="toolTip">
+    <string>Umożliwia pogląd grafu w przybliżeniu lub oddaleniu</string>
+   </property>
+   <property name="shortcut">
+    <string>Z</string>
    </property>
   </action>
  </widget>

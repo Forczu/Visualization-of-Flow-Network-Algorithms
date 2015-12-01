@@ -2,9 +2,6 @@
 #include "VertexImage.h"
 #include "GraphShapeDialog.h"
 #include "Config.h"
-#include "Vertex.h"
-#include "StraightEdgeImage.h"
-#include "LoopEdgeImage.h"
 #include "GraphView.h"
 #include "GraphImage.h"
 #include "GraphSerializer.h"
@@ -13,14 +10,10 @@
 #include "EdgeAddTool.h"
 #include "RemoveTool.h"
 #include "PointTool.h"
-#include "QAction"
-#include "IAlgorithm.h"
 #include "FlowNetworkAlgorithmWindow.h"
-#include "FordFulkersonAlgorithm.h"
-#include "UndirectedGraphImage.h"
 #include "Strings.h"
-#include <QLocale>
 #include "WeightedEdgeStrategy.h"
+#include "ZoomTool.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -43,6 +36,7 @@ void MainWindow::createButtonVector()
 	_buttons.push_back(ui.actionSelect);
 	_buttons.push_back(ui.actionPointer);
 	_buttons.push_back(ui.actionRemove);
+	_buttons.push_back(ui.actionZoom);
 }
 
 MainWindow::~MainWindow()
@@ -165,7 +159,7 @@ void MainWindow::openGraphShapeDialog()
 	graphShapeDialog.exec();
 }
 
-void MainWindow::createActions()
+void MainWindow::createActions() const
 {
 	ui.actionClose->setShortcuts(QKeySequence::Close);
 	ui.actionClose->setStatusTip(tr("Zamyka program"));
@@ -186,6 +180,7 @@ void MainWindow::createActions()
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
+	connect(ui.actionZoom, SIGNAL(triggered(bool)), this, SLOT(checkZoomButton(bool)));
 
 	connect(ui.actionStraightLine, SIGNAL(triggered(bool)), this, SLOT(checkStraightLine(bool)));
 	connect(ui.actionBezierLine, SIGNAL(triggered(bool)), this, SLOT(checkBezierCurve(bool)));
@@ -209,7 +204,7 @@ void MainWindow::uncheckButtons(QAction const * action)
 	}
 }
 
-void MainWindow::grabItem(QPoint const & pos)
+void MainWindow::grabItem(QPoint const & pos) const
 {
 	_graphTabs->currentGraphView()->grabItem(pos);
 }
@@ -229,6 +224,12 @@ GraphImage * MainWindow::createGraph(GraphCreateFunc graphFunc, EdgeStrategyCrea
 	graph = graphFunc(config);
 	graph->setWeightStrategy(strategyFunc());
 	return graph;
+}
+
+void MainWindow::checkZoomButton(bool b)
+{
+	checkButton(&ZoomTool::Instance(), ui.actionZoom, b);
+	setCursorForWidget(_graphTabs->currentWidget(), Qt::CrossCursor);
 }
 
 void MainWindow::checkStraightLine(bool b)

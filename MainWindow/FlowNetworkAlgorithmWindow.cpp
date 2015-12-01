@@ -160,6 +160,9 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 			updateConsole(message);
 			ui.nextStepButton->setEnabled(false);
 			ui.finishAlgorithmButton->setEnabled(false);
+			_finished = true;
+			emit endAlgorithm();
+			return;
 		}
 	}
 	else

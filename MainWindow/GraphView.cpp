@@ -137,32 +137,48 @@ QList<QGraphicsItem*> GraphView::takeGraphElements(QPoint const & position) cons
 	return chosenItems;
 }
 
+void GraphView::zoom(QPointF const & pos, Qt::KeyboardModifiers const & modifiers)
+{
+	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+	if (modifiers & Qt::AltModifier)
+	{
+		zoomOut();
+	}
+	else
+	{
+		zoomIn();
+	}
+}
+
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	if (_blocked)
 		return;
-	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-	// Zoom in
-	if (event->delta() > 0 && _scale <= MAX_SCALE)
+	event->delta() > 0 ? zoomIn() : zoomOut();
+}
+
+void GraphView::zoomOut()
+{
+	float widthFactor = viewport()->width() / scene()->width();
+	float heightFactor = viewport()->height() / scene()->height();
+	if (_scale >= widthFactor && _scale >= heightFactor)
+	{
+		float factor = 1.0f / SCALE_FACTOR;
+		scale(factor, factor);
+		_scale *= factor;
+		emit scaleChanged(_scale);
+		_graph->updateScale(_scale);
+	}
+}
+
+void GraphView::zoomIn()
+{
+	if (_scale <= MAX_SCALE)
 	{
 		scale(SCALE_FACTOR, SCALE_FACTOR);
 		_scale *= SCALE_FACTOR;
 		emit scaleChanged(_scale);
 		_graph->updateScale(_scale);
-	}
-	// Zoom out
-	else if (event->delta() < 0)
-	{
-		float widthFactor = viewport()->width() / scene()->width();
-		float heightFactor = viewport()->height() / scene()->height();
-		if (_scale >= widthFactor && _scale >= heightFactor)
-		{
-			float factor = 1.0f / SCALE_FACTOR;
-			scale(factor, factor);
-			_scale *= factor;
-			emit scaleChanged(_scale);
-			_graph->updateScale(_scale);
-		}
 	}
 }
 
