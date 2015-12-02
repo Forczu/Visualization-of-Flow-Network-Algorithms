@@ -264,6 +264,7 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	if (info.didSucceeded())
 	{
 		QDialog * windowPtr =_algorithmInfo.getDialog(graph, item->text());
+		windowPtr->setWindowTitle(item->text());
 		//auto copy = graph->createCopy();
 		windowPtr->exec();
 		delete windowPtr;

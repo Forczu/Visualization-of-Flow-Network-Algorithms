@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>931</width>
-    <height>565</height>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,35 +19,10 @@
      <x>30</x>
      <y>20</y>
      <width>871</width>
-     <height>521</height>
+     <height>571</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="2" rowspan="2">
-     <widget class="QTextBrowser" name="progressConsole">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>431</width>
-        <height>125</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <property name="lineWidth">
-       <number>2</number>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="1">
      <widget class="QCommandLinkButton" name="nextStepButton">
       <property name="text">
@@ -137,6 +112,44 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QCommandLinkButton" name="saveResultButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Zapisz wynik</string>
+      </property>
+      <property name="description">
+       <string>Zapisuje otrzymany graf do pliku</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" rowspan="3">
+     <widget class="QTextBrowser" name="progressConsole">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>431</width>
+        <height>999</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
       </property>
      </widget>
     </item>

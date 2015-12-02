@@ -11,7 +11,7 @@
 class FlowNetworkAlgorithmWindow : public QDialog
 {
 	Q_OBJECT
-	QPointer<FlowNetwork> _network;
+	FlowNetwork * _network;
 	FlowNetwork * _residualNetwork;
 	QPointer<FlowNetworkAlgorithm> _algorithm;
 	AlgorithmProgressInfo _info;
@@ -24,8 +24,6 @@ class FlowNetworkAlgorithmWindow : public QDialog
 public:
 	FlowNetworkAlgorithmWindow(FlowNetwork * network,
 		FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
-
-
 	~FlowNetworkAlgorithmWindow();
 	void setSceneForViews(QGraphicsScene * scene);
 	void scaleViews();
@@ -41,6 +39,13 @@ private:
 	void updateConsole(QString const & message);
 	void deleteDialog() const;
 	void createScene();
+	void createResidualNetwork();
+	void printMessage(const char * key);
+	void findAugumentingPath();
+	void finishAlgorithm();
+	void increaseFlow();
+	void checkAlgorithmEnd();
+
 private slots:
 	void makeNextStep();
 	void finish();

@@ -260,9 +260,6 @@
     <ClCompile Include="FlowNetworkAlgorithmWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FlowNetworkAlgorithm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphSerializer.cpp">
       <Filter>Source Files\Serialization</Filter>
     </ClCompile>
@@ -307,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="ZoomTool.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowNetworkAlgorithm.cpp">
+      <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,13 +520,11 @@
     <CustomBuild Include="EdgeTextItem.h">
       <Filter>Header Files\TextItems</Filter>
     </CustomBuild>
+    <CustomBuild Include="ZoomTool.h">
+      <Filter>Header Files\Tools</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ZoomTool.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

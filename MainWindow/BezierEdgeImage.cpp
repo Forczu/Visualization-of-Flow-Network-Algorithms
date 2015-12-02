@@ -92,7 +92,7 @@ void BezierEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 QRectF BezierEdgeImage::boundingRect() const
 {
-	return _path.boundingRect();
+	return QRectF();
 }
 
 void BezierEdgeImage::setCenterPoint()

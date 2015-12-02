@@ -1,13 +1,8 @@
 #include "FordFulkersonAlgorithm.h"
-#include "FlowNetworkAlgorithmWindow.h"
 #include "FlowNetwork.h"
 #include "Typedefs.h"
-#include "Graph.h"
-#include "Edge.h"
 #include "EdgeImage.h"
-#include "Vertex.h"
 #include "VertexImage.h"
-#include "WeightedEdgeStrategy.h"
 
 FordFulkersonAlgorithm * FordFulkersonAlgorithm::getInstance()
 {
@@ -64,7 +59,7 @@ void FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetw
 QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
 {
 	QList<EdgeImage*> augumentingPath;
-	int sourceId = residualNetwork->getSource();
+	int sourceId = residualNetwork->getSourceId();
 	VertexImage * source = residualNetwork->vertexAt(sourceId);
 	EdgeImageMap edges = residualNetwork->getEdges();
 	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImagePair item)
@@ -82,8 +77,7 @@ QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * resi
 
 	bool finished = false;
 	VertexImage * currentVertex = source;
-	VertexImage * target = residualNetwork->vertexAt(residualNetwork->getTarget());
-	int currentMaxCapacity = INT_MAX;
+	VertexImage * target = residualNetwork->vertexAt(residualNetwork->getTargetId());
 	QList<VertexImage*> visitedVertices;
 	QList<VertexImage*> rejectedVertices;
 	EdgeImage * lastEdge = nullptr;
@@ -144,7 +138,38 @@ QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * resi
 	return augumentingPath;
 }
 
-void FordFulkersonAlgorithm::increaseFlow(QList<EdgeImage*> const & path)
+void FordFulkersonAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
 {
-
+	int oldFlow;
+	EdgeImage * networkEdge;
+	for (EdgeImage * edge : path)
+	{
+		int vertexFromId = edge->VertexFrom()->getId();
+		int vertexToId = edge->VertexTo()->getId();
+		networkEdge = network->edgeAt(vertexFromId, vertexToId);
+		// je¿eli krawêdŸ nie istnieje w prawdziwej sieci, nale¿y utworzyæ przep³yw zwrotny
+		if (networkEdge == nullptr)
+		{
+			networkEdge = network->edgeAt(vertexToId, vertexFromId);
+			oldFlow = networkEdge->getFlow();
+			networkEdge->setFlow(oldFlow - increase);
+		}
+		// je¿eli krawêdŸ istnieje, ale posiada s¹siada, nale¿y zmniejszyæ jego przep³yw
+		else if (networkEdge != nullptr && networkEdge->hasNeighbor())
+		{
+			oldFlow = networkEdge->getFlow();
+			EdgeImage * neighbourEdge = network->edgeAt(edge->VertexTo()->getId(), edge->VertexFrom()->getId());
+			int currentNeighborFlow = neighbourEdge->getFlow();
+			networkEdge->setFlow(std::max(increase - currentNeighborFlow, 0));
+			neighbourEdge->setFlow(std::max(currentNeighborFlow - increase, 0));
+		}
+		// istnieje, ale nie posiada s¹siada, zwyk³e zwiêkszenie
+		else
+		{
+			oldFlow = networkEdge->getFlow();
+			networkEdge->setFlow(oldFlow + increase);
+		}
+		edge->setSelected(false);
+		networkEdge->setSelected(true);
+	}
 }

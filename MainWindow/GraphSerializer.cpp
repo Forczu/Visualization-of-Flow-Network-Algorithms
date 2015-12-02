@@ -178,8 +178,8 @@ xml_node<> * GraphSerializer::createRoot(GraphImage const & graph)
 	{
 		GraphImage * graphPtr = const_cast<GraphImage*>(&graph);
 		FlowNetwork * network = dynamic_cast<FlowNetwork*>(graphPtr);
-		createAttribute(root, SOURCE_ATR, parseInt(network->getSource()));
-		createAttribute(root, TARGET_ATR, parseInt(network->getTarget()));
+		createAttribute(root, SOURCE_ATR, parseInt(network->getSourceId()));
+		createAttribute(root, TARGET_ATR, parseInt(network->getTargetId()));
 	}
 	const char * strategy = getWeightStrategy(graph.getWeightStrategy());
 	createAttribute(root, WEIGHTED_ATR, strategy);

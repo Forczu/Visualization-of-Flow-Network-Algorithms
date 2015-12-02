@@ -29,10 +29,12 @@ public:
 	void markSource(int id, VertexImage * vertex);
 	void markTarget(int id, VertexImage * vertex);
 
-	inline int getSource() const { return _source; }
-	inline int getTarget() const { return _target; }
+	inline int getSourceId() const { return _source; }
+	inline int getTargetId() const { return _target; }
 	void setSource(int source) { _source = source; }
 	void setTarget(int target) { _target = target; }
+	VertexImage * getSource() { return vertexAt(getSourceId()); }
+	VertexImage * getTarget() { return vertexAt(getTargetId()); }
 
 	bool checkCapacityCondition(CheckInfo &info);
 	bool checkFlowPreservation(CheckInfo &info);

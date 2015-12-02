@@ -133,8 +133,8 @@ bool FlowNetwork::checkStructure(CheckInfo &info)
 		if (_source == vertex->getId() || _target == vertex->getId())
 			continue;
 		std::vector<EdgeImage*> edges;
-		if (_vertexMap.find(getSource()) != _vertexMap.end())
-			source = _vertexMap.at(getSource());
+		if (_vertexMap.find(getSourceId()) != _vertexMap.end())
+			source = _vertexMap.at(getSourceId());
 		else
 			source = NULL;
 		auto it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & edgeItem)

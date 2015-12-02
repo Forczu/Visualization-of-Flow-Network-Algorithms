@@ -3,6 +3,7 @@
 #include "FordFulkersonAlgorithm.h"
 #include "CheckInfo.h"
 #include "Strings.h"
+#include "FlowNetworkAlgorithmWindow.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
 char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
@@ -50,12 +51,12 @@ CheckInfo FlowNetworkAlgorithmState::checkGraph(GraphImage * graph)
 		addErrorMessage(info, EMPTY_NETWORK);
 		info.setSucceeded(false);
 	}
-	if (network->getSource() == 0)
+	if (network->getSourceId() == 0)
 	{
 		addErrorMessage(info, WRONG_SOURCE);
 		info.setSucceeded(false);
 	}
-	if (network->getTarget() == 0)
+	if (network->getTargetId() == 0)
 	{
 		addErrorMessage(info, WRONG_TARGET);
 		info.setSucceeded(false);
