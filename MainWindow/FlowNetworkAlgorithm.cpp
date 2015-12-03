@@ -50,6 +50,79 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 	return 0;
 }
 
+QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
+{
+	QList<EdgeImage*> augumentingPath;
+	int sourceId = residualNetwork->getSourceId();
+	VertexImage * source = residualNetwork->vertexAt(sourceId);
+	EdgeImageMap edges = residualNetwork->getEdges();
+	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImagePair item)
+	{
+		EdgeImage * edge = item.second;
+		if (edge->VertexFrom() == source)
+			return true;
+		return false;
+	});
+	if (!augumentationExists)
+		return augumentingPath;
+	srand(time(NULL));
+	bool finished = false;
+	VertexImage * currentVertex = source;
+	VertexImage * target = residualNetwork->vertexAt(residualNetwork->getTargetId());
+	QList<VertexImage*> visitedVertices;
+	QList<VertexImage*> rejectedVertices;
+	EdgeImage * lastEdge = nullptr;
+	while (!finished)
+	{
+		QList<EdgeImage*> possibleEdges;
+		for (auto item : edges)
+		{
+			EdgeImage * edge = item.second;
+			addEdgeToPath(possibleEdges, edge, currentVertex, source, visitedVertices, rejectedVertices);
+		}
+		if (possibleEdges.empty())
+		{
+			if (lastEdge == nullptr)
+			{
+				capacity = 0;
+				finished = true;
+				return augumentingPath;
+			}
+			else
+			{
+				rejectedVertices.push_back(currentVertex);
+				augumentingPath.pop_back();
+				if (!augumentingPath.empty())
+				{
+					lastEdge = augumentingPath.last();
+					currentVertex = lastEdge->VertexTo();
+				}
+				else
+				{
+					lastEdge = nullptr;
+					currentVertex = source;
+				}
+				continue;
+			}
+		}
+		EdgeImage * chosenEdge = possibleEdges.at(rand() % possibleEdges.size());
+		VertexImage * nextVertex = chosenEdge->VertexTo();
+		visitedVertices.push_back(nextVertex);
+		augumentingPath.push_back(chosenEdge);
+		currentVertex = nextVertex;
+		lastEdge = chosenEdge;
+		if (currentVertex == target)
+			finished = true;
+	}
+	// znajdz najmniejsza wartoœæ
+	auto it = std::min_element(augumentingPath.begin(), augumentingPath.end(), [&](EdgeImage * edge1, EdgeImage * edge2)
+	{
+		return edge1->getCapacity() < edge2->getCapacity();
+	});
+	_currentMaxFlow += (capacity = (*it)->getCapacity());
+	return augumentingPath;
+}
+
 void FlowNetworkAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
 {
 	int oldFlow;
