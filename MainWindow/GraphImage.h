@@ -82,5 +82,8 @@ public:
 	void updateEdges();
 	void removeOffsetFromEdge(EdgeImage * const edge);
 	inline bool edgeExists(int from, int to) { return getGraph()->edgeExists(from, to); }
+
+	inline int vertexNumber() const { return _vertexMap.size(); }
+	inline int edgeNumber() const { return _edgeMap.size(); }
 };
 

@@ -40,7 +40,6 @@ private:
 	void deleteDialog() const;
 	void createScene();
 	void createResidualNetwork();
-	void printMessage(const char * key);
 	void findAugumentingPath();
 	void finishAlgorithm();
 	void increaseFlow();

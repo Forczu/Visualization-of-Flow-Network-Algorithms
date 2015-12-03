@@ -1,13 +1,11 @@
 #include "GraphImage.h"
 #include "Edge.h"
 #include "EdgeImage.h"
-#include "LoopEdgeImage.h"
 #include "StraightEdgeImage.h"
 #include "Vertex.h"
 #include "VertexImage.h"
 #include "Config.h"
 #include "Graph.h"
-#include "AddWeightToEdgeDialog.h"
 #include "BezierEdgeImage.h"
 #include "AWeightedStrategyBase.h"
 #include <utility>

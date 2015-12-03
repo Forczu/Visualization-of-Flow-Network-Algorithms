@@ -86,6 +86,7 @@
     <ClCompile Include="CheckInfo.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateNewGraphDialog.cpp" />
+    <ClCompile Include="DinicAlgorithm.cpp" />
     <ClCompile Include="DirectedGraphAlgorithmState.cpp" />
     <ClCompile Include="DirectedGraphImage.cpp" />
     <ClCompile Include="Edge.cpp" />
@@ -1305,6 +1306,9 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </AdditionalInputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DinicAlgorithm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

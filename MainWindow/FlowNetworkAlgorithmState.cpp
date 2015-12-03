@@ -4,6 +4,7 @@
 #include "CheckInfo.h"
 #include "Strings.h"
 #include "FlowNetworkAlgorithmWindow.h"
+#include "DinicAlgorithm.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
 char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
@@ -29,9 +30,9 @@ IAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
 {
 	QString algName = _map.key(name);
 	if (algName == FORD_FULKERSON)
-	{
 		return FordFulkersonAlgorithm::getInstance();
-	}
+	if (algName == DINIC)
+		return DinicAlgorithm::getInstance();
 }
 
 QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const & name)

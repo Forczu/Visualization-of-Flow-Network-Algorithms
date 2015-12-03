@@ -308,6 +308,9 @@
     <ClCompile Include="FlowNetworkAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
+    <ClCompile Include="DinicAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -526,5 +529,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DinicAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

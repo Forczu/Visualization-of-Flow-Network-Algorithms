@@ -3,6 +3,7 @@
 #include "Strings.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
+#include "DinicAlgorithm.h"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
 : QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr), _capacity(0)
@@ -173,27 +174,51 @@ void FlowNetworkAlgorithmWindow::checkAlgorithmEnd()
 /// </summary>
 void FlowNetworkAlgorithmWindow::findAugumentingPath()
 {
-	_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
-	if (_capacity != 0)
+	if (dynamic_cast<DinicAlgorithm*>(_algorithm.data()) != NULL)
 	{
-		QString numbers;
-		numbers.push_back(QString::number(_path.first()->VertexFrom()->getId()) + ' ');
-		for (EdgeImage * edge : _path)
+		bool found = false;
+		do 
 		{
-			edge->setSelected(true);
-			numbers.push_back(QString::number(edge->VertexTo()->getId()) + ' ');
+			_path.clear();
+			_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
+			if (_path.size() != 0)
+			{
+				if (!found)
+				{
+					updateConsole(Strings::Instance().get(BLOCKING_FLOW_CREATED));
+					found = true;
+				}
+				_algorithm->increaseFlow(_network, _path, _capacity);
+				QString message = _algorithm->augumentingPathFoundMessage(_path, _capacity);
+				updateConsole(message);
+				
+			}
+		} while (_path.size() != 0);
+		if (!found)
+		{
+			QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
+				Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
+				Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
+			updateConsole(message);
+			finishAlgorithm();
 		}
-		QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_FOUND)
-			.arg(numbers).arg(_capacity);
-		updateConsole(message);
 	}
 	else
 	{
-		QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
-			Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
-			Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
-		updateConsole(message);
-		finishAlgorithm();
+		_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
+		if (_capacity != 0)
+		{
+			QString message = _algorithm->augumentingPathFoundMessage(_path, _capacity);
+			updateConsole(message);
+		}
+		else
+		{
+			QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
+				Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
+				Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
+			updateConsole(message);
+			finishAlgorithm();
+		}
 	}
 }
 
@@ -222,25 +247,20 @@ void FlowNetworkAlgorithmWindow::createResidualNetwork()
 		_started = true;
 	}
 	// utworzenie sieci residualnej i umieszczenie jej na scenie
-	_algorithm->makeResidualNetwork(_network, _residualNetwork);
+	auto value = _algorithm->makeResidualNetwork(_network, _residualNetwork);
 	_residualNetwork->updateScale(_scaleFactor);
 	_residualNetwork->unselectAll();
 	QPointF residualPosition = QPointF(_network->pos().x() + _dx, _network->pos().y());
 	ui.residualNetworkView->setGraphImage(_residualNetwork, residualPosition);
 	ui.residualNetworkView->centerOn(_residualNetwork);
-	printMessage(FLOW_NETWORK_RESIDUAL_CREATED);
+	QString message = _algorithm->resaidualNetworkFinishedMessage(value);
+	updateConsole(message);
 }
 
 void FlowNetworkAlgorithmWindow::stopTimer() const
 {
 	_timer->stop();
 	_network->unselectAll();
-}
-
-void FlowNetworkAlgorithmWindow::printMessage(const char * key)
-{
-	QString message = Strings::Instance().get(key);
-	updateConsole(message);
 }
 
 void FlowNetworkAlgorithmWindow::finish()
