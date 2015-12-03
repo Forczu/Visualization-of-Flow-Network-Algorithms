@@ -20,6 +20,8 @@ public:
 
 protected:
 	void pushBlockingSet(QList<EdgeImage*> const & path, int capacity);
-	void copyResidualNetworkAsBlockingFlow();
+	void copyResidualNetworkAsBlockingFlow() const;
+	void findAugumentingPathInBlockingFlow();
+	void increaseFlowInResidaulNetwork();
 };
 

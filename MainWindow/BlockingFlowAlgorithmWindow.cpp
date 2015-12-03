@@ -8,6 +8,9 @@ BlockingFlowAlgorithmWindow::BlockingFlowAlgorithmWindow(FlowNetwork * network, 
 {
 }
 
+/// <summary>
+/// Wykonanie nastêpnego kroku algorytmu z przep³ywem blokuj¹cym.
+/// </summary>
 void BlockingFlowAlgorithmWindow::makeNextStep()
 {
 	switch (_step % 5)
@@ -35,6 +38,11 @@ void BlockingFlowAlgorithmWindow::makeNextStep()
 		_step = 2;
 }
 
+/// <summary>
+/// Tworzy sieæ residualn¹. Je¿eli minimalna odleg³oœæ od Ÿród³a do ujœcia
+/// w utworzonej sieci jest równo zeru, algorytm koñczy pracê.
+/// </summary>
+/// <returns></returns>
 int BlockingFlowAlgorithmWindow::createResidualNetwork()
 {
 	int sourceTargetDistance = FlowNetworkAlgorithmWindow::createResidualNetwork();
@@ -49,64 +57,80 @@ int BlockingFlowAlgorithmWindow::createResidualNetwork()
 	return sourceTargetDistance;
 }
 
+/// <summary>
+/// Wyszukuje œcie¿kê powiêkszaj¹c¹ i zwiêksza przep³yw w sieci.
+/// </summary>
 void BlockingFlowAlgorithmWindow::findAugumentingPath()
 {
 	if (_blockingStep % 2 == 0)
-	{
-		_currentCapacity = 0;
-		_currentBlockingPath = _algorithm->findAugumentingPath(_blockingFlow, _currentCapacity);
-		if (_currentBlockingPath.size() != 0)
-		{
-			pushBlockingSet(_currentBlockingPath, _currentCapacity);
-			QString message = _algorithm->augumentingPathFoundMessage(_currentBlockingPath, _currentCapacity);
-			updateConsole(message);
-		}
-		else
-		{
-			_blockingFlowInProgress = false;
-			QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND)
-				+ ' ' + Strings::Instance().get(BLOCKING_FLOW_FOUND);
-			updateConsole(message);
-			return;
-		}
-	}
+		findAugumentingPathInBlockingFlow();
 	else
-	{
-		bool verticesRemoved = false;
-		_algorithm->increaseFlow(_residualNetwork, _currentBlockingPath, _currentCapacity);
-		for (EdgeImage * edge : _currentBlockingPath)
-		{
-			edge->setCapacity(edge->getCapacity() - _currentCapacity);
-			if (edge->getCapacity() == 0)
-				_blockingFlow->removeEdge(edge);
-		}
-		VertexImage * source = _blockingFlow->getSource();
-		VertexImage * target = _blockingFlow->getTarget();
-		VertexImage * vertex;
-		for (auto item : _blockingFlow->getVertices())
-		{
-			vertex = item.second;
-			if (vertex != source && vertex != target && (vertex->getOutDegree() == 0 || vertex->getInDegree() == 0))
-			{
-				vertex->hide();
-				for (auto item : _blockingFlow->getEdges())
-				{
-					EdgeImage * edge = item.second;
-					if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
-						_blockingFlow->removeEdge(edge);
-				}
-				if (!verticesRemoved)
-					verticesRemoved = true;
-			}
-		}
-		QString message = Strings::Instance().get(RESIDUAL_NETWORK_FLOW_INCREASED);
-		if (verticesRemoved)
-			message += ' ' + Strings::Instance().get(NULL_DEGREE_VERTICES_REMOVED);
-		updateConsole(message);
-	}
+		increaseFlowInResidaulNetwork();
 	_blockingStep++;
 }
 
+
+/// <summary>
+/// Zwiêksza przep³yw w przep³ywie sieci residualnej i aktualizauje przep³yw blokuj¹cy,
+/// usuwa krawêdzie i wierzcho³ki je¿eli jest to potrzebne.
+/// </summary>
+void BlockingFlowAlgorithmWindow::increaseFlowInResidaulNetwork()
+{
+	bool verticesRemoved = false;
+	_algorithm->increaseFlow(_residualNetwork, _currentBlockingPath, _currentCapacity);
+	for (EdgeImage * edge : _currentBlockingPath)
+	{
+		edge->setCapacity(edge->getCapacity() - _currentCapacity);
+		if (edge->getCapacity() == 0)
+			_blockingFlow->removeEdge(edge);
+	}
+	VertexImage * source = _blockingFlow->getSource();
+	VertexImage * target = _blockingFlow->getTarget();
+	VertexImage * vertex;
+	for (auto item : _blockingFlow->getVertices())
+	{
+		vertex = item.second;
+		if (vertex != source && vertex != target && (vertex->getOutDegree() == 0 || vertex->getInDegree() == 0))
+		{
+			vertex->hide();
+			for (auto item : _blockingFlow->getEdges())
+			{
+				EdgeImage * edge = item.second;
+				if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
+					_blockingFlow->removeEdge(edge);
+			}
+			if (!verticesRemoved)
+				verticesRemoved = true;
+		}
+	}
+	QString message = Strings::Instance().get(RESIDUAL_NETWORK_FLOW_INCREASED);
+	if (verticesRemoved)
+		message += ' ' + Strings::Instance().get(NULL_DEGREE_VERTICES_REMOVED);
+	updateConsole(message);
+}
+
+/// <summary>
+/// Przeszukanie przep³ywu blokuj¹cego w celu znalezienia œcie¿ki powiêkszaj¹cej.
+/// Je¿eli isnieje, dodaje j¹ i przep³yw do kontenerów.
+/// </summary>
+void BlockingFlowAlgorithmWindow::findAugumentingPathInBlockingFlow()
+{
+	_currentCapacity = 0;
+	_currentBlockingPath = _algorithm->findAugumentingPath(_blockingFlow, _currentCapacity);
+	if (_currentBlockingPath.size() != 0)
+	{
+		pushBlockingSet(_currentBlockingPath, _currentCapacity);
+		QString message = _algorithm->augumentingPathFoundMessage(_currentBlockingPath, _currentCapacity);
+		updateConsole(message);
+	}
+	else
+	{
+		_blockingFlowInProgress = false;
+		QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND)
+			+ ' ' + Strings::Instance().get(BLOCKING_FLOW_FOUND);
+		updateConsole(message);
+	}
+}
 
 void BlockingFlowAlgorithmWindow::pushBlockingSet(QList<EdgeImage*> const & path, int capacity)
 {
@@ -147,8 +171,12 @@ void BlockingFlowAlgorithmWindow::createBlockingFlow()
 	}
 	_blockingFlow->updateScale(_scaleFactor);
 	_blockingFlow->setPos(residualPosition);
+	_blockingStep = 0;
 }
 
+/// <summary>
+/// Koñczy przeszukianie przep³ywu blokuj¹cego i usuwa go z podgl¹du.
+/// </summary>
 void BlockingFlowAlgorithmWindow::removeBlockingFlow()
 {
 	// przywróæ podgl¹d do poprzedniego stanu
@@ -162,7 +190,10 @@ void BlockingFlowAlgorithmWindow::removeBlockingFlow()
 	updateConsole(message);
 }
 
-void BlockingFlowAlgorithmWindow::copyResidualNetworkAsBlockingFlow()
+/// <summary>
+/// Utworzenie przep³ywu blokuj¹cego na podstawie aktualnej sieci residualnej.
+/// </summary>
+void BlockingFlowAlgorithmWindow::copyResidualNetworkAsBlockingFlow() const
 {
 	// usuniêcie starych krawêdzi
 	auto oldEdges = _blockingFlow->getEdges();
