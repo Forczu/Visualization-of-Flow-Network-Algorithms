@@ -6,7 +6,7 @@
 #include "DinicAlgorithm.h"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
-: QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr), _capacity(0)
+: QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr)
 {
 	ui.setupUi(this);
 	createConnections();
@@ -143,7 +143,11 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 /// </summary>
 void FlowNetworkAlgorithmWindow::increaseFlow()
 {
-	_algorithm->increaseFlow(_network, _path, _capacity);
+	for (int i = 0; i < _capacities.size(); ++i)
+	{
+		_algorithm->increaseFlow(_network, _paths[i], _capacities[i]);
+	}
+	clearSets();
 	QString message = Strings::Instance().get(FLOW_NETWORK_FLOW_INCREASED)
 		.arg(_algorithm->getMaxFlow());
 	updateConsole(message);
@@ -176,24 +180,25 @@ void FlowNetworkAlgorithmWindow::findAugumentingPath()
 {
 	if (dynamic_cast<DinicAlgorithm*>(_algorithm.data()) != NULL)
 	{
+		int capacity = 0;
+		QList<EdgeImage*> path;
 		bool found = false;
 		do 
 		{
-			_path.clear();
-			_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
-			if (_path.size() != 0)
+			path.clear();
+			path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
+			if (path.size() != 0)
 			{
 				if (!found)
 				{
 					updateConsole(Strings::Instance().get(BLOCKING_FLOW_CREATED));
 					found = true;
 				}
-				_algorithm->increaseFlow(_network, _path, _capacity);
-				QString message = _algorithm->augumentingPathFoundMessage(_path, _capacity);
+				pushNewSet(path, capacity);
+				QString message = _algorithm->augumentingPathFoundMessage(path, capacity);
 				updateConsole(message);
-				
 			}
-		} while (_path.size() != 0);
+		} while (path.size() != 0);
 		if (!found)
 		{
 			QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
@@ -205,10 +210,12 @@ void FlowNetworkAlgorithmWindow::findAugumentingPath()
 	}
 	else
 	{
-		_path = _algorithm->findAugumentingPath(_residualNetwork, _capacity);
-		if (_capacity != 0)
+		int capacity = 0;
+		auto path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
+		if (capacity != 0)
 		{
-			QString message = _algorithm->augumentingPathFoundMessage(_path, _capacity);
+			QString message = _algorithm->augumentingPathFoundMessage(path, capacity);
+			pushNewSet(path, capacity);
 			updateConsole(message);
 		}
 		else
@@ -275,4 +282,16 @@ void FlowNetworkAlgorithmWindow::deleteDialog() const
 {
 	if (_algorithm)
 		delete _algorithm;
+}
+
+void FlowNetworkAlgorithmWindow::pushNewSet(QList<EdgeImage*> const & path, int capacity)
+{
+	_paths.push_back(path);
+	_capacities.push_back(capacity);
+}
+
+void FlowNetworkAlgorithmWindow::clearSets()
+{
+	_paths.clear();
+	_capacities.clear();
 }

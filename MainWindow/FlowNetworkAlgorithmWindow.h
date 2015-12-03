@@ -19,8 +19,10 @@ class FlowNetworkAlgorithmWindow : public QDialog
 	QTimer * _timer;
 	QPointer<QGraphicsScene> _scene;
 	bool _started;
-	int _capacity;
-	QList<EdgeImage*> _path;
+
+	std::vector<int> _capacities;
+	std::vector<QList<EdgeImage*>> _paths;
+
 public:
 	FlowNetworkAlgorithmWindow(FlowNetwork * network,
 		FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
@@ -44,6 +46,8 @@ private:
 	void finishAlgorithm();
 	void increaseFlow();
 	void checkAlgorithmEnd();
+	void pushNewSet(QList<EdgeImage*> const & path, int capacity);
+	void clearSets();
 
 private slots:
 	void makeNextStep();
