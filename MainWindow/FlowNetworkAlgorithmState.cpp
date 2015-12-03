@@ -5,6 +5,7 @@
 #include "Strings.h"
 #include "FlowNetworkAlgorithmWindow.h"
 #include "DinicAlgorithm.h"
+#include "BlockingFlowAlgorithmWindow.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
 char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
@@ -26,7 +27,7 @@ QMap<QString, QString> FlowNetworkAlgorithmState::getAlgorithmMap()
 	return Application::Config::Instance().getAlgorithmMap("flow_network");
 }
 
-IAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
+FlowNetworkAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
 {
 	QString algName = _map.key(name);
 	if (algName == FORD_FULKERSON)
@@ -39,7 +40,11 @@ QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const
 {
 	FlowNetworkAlgorithm * algorithm = dynamic_cast<FlowNetworkAlgorithm*>(getAlgorithm(name));
 	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
-	FlowNetworkAlgorithmWindow * dialog = new FlowNetworkAlgorithmWindow(network, algorithm);
+	FlowNetworkAlgorithmWindow * dialog;
+	if (dynamic_cast<FordFulkersonAlgorithm*>(algorithm))
+		dialog = new FlowNetworkAlgorithmWindow(network, algorithm);
+	else
+		dialog = new BlockingFlowAlgorithmWindow(network, algorithm);
 	return dialog;
 }
 

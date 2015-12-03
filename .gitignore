@@ -335,3 +335,8 @@ MainWindow/serialized_graph - Copy.xml
 *.knw
 *.cys
 *.cnb
+*.upt
+*.zin
+*.zd4
+*.3ms
+*.2ac

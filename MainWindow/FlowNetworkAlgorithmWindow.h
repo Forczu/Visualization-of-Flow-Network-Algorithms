@@ -6,11 +6,14 @@
 #include "FlowNetwork.h"
 #include "FlowNetworkAlgorithm.h"
 #include "AlgorithmProgressInfo.h"
-#include <QPointer>
+
+class FordFulkersonAlgorithm;
+class DinicAlgorithm;
 
 class FlowNetworkAlgorithmWindow : public QDialog
 {
 	Q_OBJECT
+protected:
 	FlowNetwork * _network;
 	FlowNetwork * _residualNetwork;
 	QPointer<FlowNetworkAlgorithm> _algorithm;
@@ -19,14 +22,13 @@ class FlowNetworkAlgorithmWindow : public QDialog
 	QTimer * _timer;
 	QPointer<QGraphicsScene> _scene;
 	bool _started;
-
 	std::vector<int> _capacities;
 	std::vector<QList<EdgeImage*>> _paths;
 
 public:
 	FlowNetworkAlgorithmWindow(FlowNetwork * network,
 		FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
-	~FlowNetworkAlgorithmWindow();
+	virtual ~FlowNetworkAlgorithmWindow();
 	void setSceneForViews(QGraphicsScene * scene);
 	void scaleViews();
 	void setAlgorithm(FlowNetworkAlgorithm * algorithm);
@@ -35,27 +37,34 @@ protected:
 	void showEvent(QShowEvent * evt) Q_DECL_OVERRIDE;
 	void closeEvent(QCloseEvent * evt) Q_DECL_OVERRIDE;
 	static int getCurrentFlowToTarget(FlowNetwork * network);
-private:
 	void configureView(GraphView * view) const;
 	void createConnections() const;
 	void updateConsole(QString const & message);
 	void deleteDialog() const;
 	void createScene();
-	void createResidualNetwork();
-	void findAugumentingPath();
+	virtual int createResidualNetwork();
+	virtual void findAugumentingPath();
 	void finishAlgorithm();
-	void increaseFlow();
-	void checkAlgorithmEnd();
+	virtual void increaseFlow();
+	virtual void checkAlgorithmEnd();
 	void pushNewSet(QList<EdgeImage*> const & path, int capacity);
 	void clearSets();
 
+#pragma region Metody odwiedzaj¹ce algorytmy
+public:
+	void visitFordFulkersonNextStep(FordFulkersonAlgorithm * algorithm);
+	void visitDinicNextStep(DinicAlgorithm * algorithm);
+	void visitFordFulkersonFindAugumentingPath(FordFulkersonAlgorithm * algorithm);
+	void visitDinicFindAugumentingPath(DinicAlgorithm * algorithm);
+#pragma region
+
 private slots:
-	void makeNextStep();
+	virtual void makeNextStep();
 	void finish();
 	void stopTimer() const;
 signals:
 	void endAlgorithm();
-private:
+protected:
 	Ui::FlowNetworkAlgorithmWindow ui;
 	float _scaleFactor;
 	float _dx;

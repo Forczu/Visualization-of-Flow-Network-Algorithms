@@ -120,6 +120,7 @@ void FlowNetworkAlgorithmWindow::updateConsole(QString const & message)
 /// </summary>
 void FlowNetworkAlgorithmWindow::makeNextStep()
 {
+
 	switch (_step % 3)
 	{
 	case 0:
@@ -136,6 +137,22 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	_step++;
 	ui.mainNetworkView->updateGeometry();
 	ui.residualNetworkView->updateGeometry();
+}
+
+void FlowNetworkAlgorithmWindow::visitFordFulkersonNextStep(FordFulkersonAlgorithm * algorithm)
+{
+}
+
+void FlowNetworkAlgorithmWindow::visitDinicNextStep(DinicAlgorithm * algorithm)
+{
+}
+
+void FlowNetworkAlgorithmWindow::visitFordFulkersonFindAugumentingPath(FordFulkersonAlgorithm * algorithm)
+{
+}
+
+void FlowNetworkAlgorithmWindow::visitDinicFindAugumentingPath(DinicAlgorithm * algorithm)
+{
 }
 
 /// <summary>
@@ -178,54 +195,21 @@ void FlowNetworkAlgorithmWindow::checkAlgorithmEnd()
 /// </summary>
 void FlowNetworkAlgorithmWindow::findAugumentingPath()
 {
-	if (dynamic_cast<DinicAlgorithm*>(_algorithm.data()) != NULL)
+	int capacity = 0;
+	auto path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
+	if (capacity != 0)
 	{
-		int capacity = 0;
-		QList<EdgeImage*> path;
-		bool found = false;
-		do 
-		{
-			path.clear();
-			path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
-			if (path.size() != 0)
-			{
-				if (!found)
-				{
-					updateConsole(Strings::Instance().get(BLOCKING_FLOW_CREATED));
-					found = true;
-				}
-				pushNewSet(path, capacity);
-				QString message = _algorithm->augumentingPathFoundMessage(path, capacity);
-				updateConsole(message);
-			}
-		} while (path.size() != 0);
-		if (!found)
-		{
-			QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
-				Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
-				Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
-			updateConsole(message);
-			finishAlgorithm();
-		}
+		QString message = _algorithm->augumentingPathFoundMessage(path, capacity);
+		pushNewSet(path, capacity);
+		updateConsole(message);
 	}
 	else
 	{
-		int capacity = 0;
-		auto path = _algorithm->findAugumentingPath(_residualNetwork, capacity);
-		if (capacity != 0)
-		{
-			QString message = _algorithm->augumentingPathFoundMessage(path, capacity);
-			pushNewSet(path, capacity);
-			updateConsole(message);
-		}
-		else
-		{
-			QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
-				Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
-				Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
-			updateConsole(message);
-			finishAlgorithm();
-		}
+		QString message = Strings::Instance().get(FLOW_NETWORK_ALGORITHM_FINISHED) + ' ' +
+			Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND) + ' ' +
+			Strings::Instance().get(FLOW_NETWORK_MAX_FLOW).arg(_algorithm->getMaxFlow());
+		updateConsole(message);
+		finishAlgorithm();
 	}
 }
 
@@ -243,7 +227,7 @@ void FlowNetworkAlgorithmWindow::finishAlgorithm()
 /// <summary>
 /// Utworzenie nowej sieci residualnej na podstawie sieci wejœciowej.
 /// </summary>
-void FlowNetworkAlgorithmWindow::createResidualNetwork()
+int FlowNetworkAlgorithmWindow::createResidualNetwork()
 {
 	_network->unselectAll();
 	// je¿eli to pierwszy krok, sklonuj aktualn¹ sieæ
@@ -262,6 +246,7 @@ void FlowNetworkAlgorithmWindow::createResidualNetwork()
 	ui.residualNetworkView->centerOn(_residualNetwork);
 	QString message = _algorithm->resaidualNetworkFinishedMessage(value);
 	updateConsole(message);
+	return value;
 }
 
 void FlowNetworkAlgorithmWindow::stopTimer() const

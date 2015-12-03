@@ -1,8 +1,12 @@
 #pragma once
-#include "IAlgorithm.h"
-#include "FlowNetwork.h"
+#include <QObject>
+#include <QList>
+class FlowNetwork;
+class FlowNetworkAlgorithmWindow;
+class EdgeImage;
+class VertexImage;
 
-class FlowNetworkAlgorithm : public QObject, public IAlgorithm
+class FlowNetworkAlgorithm : public QObject
 {
 	Q_OBJECT
 protected:
@@ -23,4 +27,7 @@ public:
 protected:
 	virtual void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 		QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) = 0;
+public:
+	virtual void acceptNextStep(FlowNetworkAlgorithmWindow * window) = 0;
+	virtual void acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window) = 0;
 };

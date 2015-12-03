@@ -1,7 +1,10 @@
 #pragma once
-#include "IAlgorithm.h"
 #include <QMap>
 #include "CheckInfo.h"
+
+class GraphImage;
+class FlowNetworkAlgorithm;
+class QDialog;
 
 class AlgorithmState
 {
@@ -10,7 +13,7 @@ protected:
 public:
 	virtual QStringList getAlgorithmList() = 0;
 	virtual QMap<QString, QString> getAlgorithmMap() = 0;
-	virtual IAlgorithm * getAlgorithm(QString const & name) = 0;
+	virtual FlowNetworkAlgorithm * getAlgorithm(QString const & name) = 0;
 	virtual QDialog * getDialog(GraphImage * graph, QString const & name) = 0;
 	virtual CheckInfo checkGraph(GraphImage * graph) = 0;
 };

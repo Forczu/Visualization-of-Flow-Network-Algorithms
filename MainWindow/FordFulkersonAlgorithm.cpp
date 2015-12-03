@@ -4,14 +4,11 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "Strings.h"
+#include "FlowNetworkAlgorithmWindow.h"
 
 FordFulkersonAlgorithm * FordFulkersonAlgorithm::getInstance()
 {
 	return new FordFulkersonAlgorithm;
-}
-
-void FordFulkersonAlgorithm::run(GraphImage * graph)
-{
 }
 
 int FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& residualNewtork)
@@ -57,4 +54,14 @@ void FordFulkersonAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, Ed
 	{
 		possibleEdges.push_back(edge);
 	}
+}
+
+void FordFulkersonAlgorithm::acceptNextStep(FlowNetworkAlgorithmWindow * window)
+{
+	window->visitFordFulkersonNextStep(this);
+}
+
+void FordFulkersonAlgorithm::acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window)
+{
+
 }

@@ -20,14 +20,14 @@ class VertexImage : public QGraphicsItem
 	VertexContext * _context;
 	PointMap _pointList;
 
+	int _inDegree;
+	int _outDegree;
 public:
 	VertexImage(VertexContext * context);
 	~VertexImage();
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-
-
 	void setLabel(QString const & text);
 
 protected:
@@ -54,7 +54,11 @@ public:
 	void setParent(GraphImage * val) { parent = val; }
 
 	int getId() const;
-	
+
+	int getInDegree() const { return _inDegree; }
+	void setInDegree(int val) { _inDegree = val; }
+	int getOutDegree() const { return _outDegree; }
+	void setOutDegree(int val) { _outDegree = val; }
 private:
 	QPointF findPointOnCircle(float angle);
 };

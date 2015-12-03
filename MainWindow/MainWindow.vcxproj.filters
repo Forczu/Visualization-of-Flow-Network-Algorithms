@@ -263,9 +263,6 @@
     <ClCompile Include="GraphSerializer.cpp">
       <Filter>Source Files\Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="DirectedGraphAlgorithmState.cpp">
-      <Filter>Source Files\Algorithms</Filter>
-    </ClCompile>
     <ClCompile Include="EdgeTextItem.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
@@ -308,8 +305,11 @@
     <ClCompile Include="FlowNetworkAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="DinicAlgorithm.cpp">
+    <ClCompile Include="BlockingFlowAlgorithmWindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DinicAlgorithm.cpp">
+      <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,9 +475,6 @@
     <CustomBuild Include="FlowNetworkAlgorithmState.h">
       <Filter>Header Files\Algorithms\States</Filter>
     </CustomBuild>
-    <CustomBuild Include="IAlgorithm.h">
-      <Filter>Header Files\Algorithms</Filter>
-    </CustomBuild>
     <CustomBuild Include="FordFulkersonAlgorithm.h">
       <Filter>Header Files\Algorithms</Filter>
     </CustomBuild>
@@ -502,9 +499,6 @@
     <CustomBuild Include="WeightedEdgeStrategy.h">
       <Filter>Header Files\Graphs</Filter>
     </CustomBuild>
-    <CustomBuild Include="DirectedGraphAlgorithmState.h">
-      <Filter>Header Files\Algorithms\States</Filter>
-    </CustomBuild>
     <CustomBuild Include="MyMath.h">
       <Filter>Header Files\Utils</Filter>
     </CustomBuild>
@@ -526,12 +520,15 @@
     <CustomBuild Include="ZoomTool.h">
       <Filter>Header Files\Tools</Filter>
     </CustomBuild>
+    <CustomBuild Include="DinicAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DinicAlgorithm.h">
+    <ClInclude Include="BlockingFlowAlgorithmWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

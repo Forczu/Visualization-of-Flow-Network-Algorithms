@@ -1,7 +1,6 @@
 #pragma once
 #include "AlgorithmState.h"
 #include "Singleton.h"
-#include "CheckInfo.h"
 
 class FlowNetworkAlgorithmState : public AlgorithmState, public Singleton<FlowNetworkAlgorithmState>
 {
@@ -13,7 +12,7 @@ public:
 	FlowNetworkAlgorithmState();
 	QStringList getAlgorithmList() override;
 	QMap<QString, QString> getAlgorithmMap() override;
-	IAlgorithm * getAlgorithm(QString const & name) override;
+	FlowNetworkAlgorithm * getAlgorithm(QString const & name) override;
 	QDialog * getDialog(GraphImage * graph, QString const & name) override;
 	CheckInfo checkGraph(GraphImage * graph) override;
 private:

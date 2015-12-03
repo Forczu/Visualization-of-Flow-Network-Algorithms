@@ -41,6 +41,11 @@ void GraphImage::cloneVertices(GraphImage const & graph)
 		int id = vertexImg->getId();
 		QPointF position = vertexImg->pos();
 		addVertex(id, position, vertexImg->getPoints());
+		if (!vertexImg->isVisible())
+		{
+			VertexImage * newVertex = vertexAt(id);
+			newVertex->hide();
+		}
 	}
 }
 
@@ -146,7 +151,6 @@ void GraphImage::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weight /*= 0*/, float scale /*= 0.0f*/)
 {
-	int size = _config->NormalVertexContext()->Size();
 	EdgeImage * edgeImg;
 	VertexImage * vertexFrom = _vertexMap[edge->VertexFrom()->Id()];
 	VertexImage * vertexTo = _vertexMap[edge->VertexTo()->Id()];
@@ -166,6 +170,8 @@ EdgeImage * GraphImage::createEdgeImage(Edge * edge, EdgeType edgeType, int weig
 	edgeImg->setParent(this);
 	_edgeStrategy->addWeightToEdge(edgeImg, vertexTo->pos() - vertexFrom->pos(), weight, scale);
 	_edgeMap[std::make_pair(edge->VertexFrom()->Id(), edge->VertexTo()->Id())] = edgeImg;
+	vertexFrom->setOutDegree(vertexFrom->getOutDegree() + 1);
+	vertexTo->setInDegree(vertexTo->getInDegree() + 1);
 	return edgeImg;
 }
 
@@ -228,6 +234,10 @@ void GraphImage::removeEdge(EdgeImage * const edge)
 		EdgeImage * item = (*it).second;
 		if (edge == item)
 		{
+			VertexImage * from = edge->VertexFrom();
+			VertexImage * to = edge->VertexTo();
+			from->setOutDegree(from->getOutDegree() - 1);
+			to->setInDegree(to->getInDegree() - 1);
 			removeOffsetFromEdge(edge);
 			getGraph()->removeEdge(edge->getEdge());
 			removeItem(edge);
@@ -243,9 +253,14 @@ void GraphImage::removeEdges(EdgeVector const & vector)
 	{
 		for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 		{
-			if (edge == (*it).second->getEdge())
+			EdgeImage * edge2 = (*it).second;
+			if (edge == edge2->getEdge())
 			{
-				delete (*it).second;
+				VertexImage * from = edge2->VertexFrom();
+				VertexImage * to = edge2->VertexTo();
+				from->setOutDegree(from->getOutDegree() - 1);
+				to->setInDegree(to->getInDegree() - 1);
+				delete edge2;
 				_edgeMap.erase(it);
 				break;
 			}

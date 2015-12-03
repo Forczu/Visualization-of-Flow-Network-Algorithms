@@ -2,6 +2,7 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "Strings.h"
+#include "FlowNetworkAlgorithmWindow.h"
 
 DinicAlgorithm * DinicAlgorithm::getInstance()
 {
@@ -29,12 +30,7 @@ QList<EdgeImage*> DinicAlgorithm::findAugumentingPath(FlowNetwork * residualNetw
 void DinicAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
 {
 	FlowNetworkAlgorithm::increaseFlow(network, path, increase);
-}
-
-void DinicAlgorithm::run(GraphImage * graph)
-{
-	
-}
+} 
 
 /// <summary>
 /// Usuwa wszystkie nadmiarowe elementy grafu, które nie pojawi¹ siê w przep³ywie blokuj¹cym.
@@ -163,6 +159,16 @@ void DinicAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage 
 	{
 		possibleEdges.push_back(edge);
 	}
+}
+
+void DinicAlgorithm::acceptNextStep(FlowNetworkAlgorithmWindow * window)
+{
+	window->visitDinicNextStep(this);
+}
+
+void DinicAlgorithm::acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window)
+{
+	window->visitDinicFindAugumentingPath(this);
 }
 
 QString DinicAlgorithm::resaidualNetworkFinishedMessage(int value)

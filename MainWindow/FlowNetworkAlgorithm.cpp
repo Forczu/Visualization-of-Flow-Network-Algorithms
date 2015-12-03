@@ -1,6 +1,7 @@
 #include "FlowNetworkAlgorithm.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
+#include "FlowNetwork.h"
 
 FlowNetworkAlgorithm::FlowNetworkAlgorithm() : _scaleFactor(0.0f), _currentMaxFlow(0)
 {

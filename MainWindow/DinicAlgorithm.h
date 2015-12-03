@@ -17,8 +17,6 @@ public:
 
 	void increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase) override;
 
-	void run(GraphImage * graph) override;
-
 	virtual QString resaidualNetworkFinishedMessage(int value) override;
 
 	QString augumentingPathFoundMessage(QList<EdgeImage*> const & path, int capacity) override;
@@ -34,5 +32,8 @@ private:
 	void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 		QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) override;
 
+	void acceptNextStep(FlowNetworkAlgorithmWindow * window) override;
+
+	void acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window) override;
 };
 
