@@ -13,15 +13,15 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 	auto oldEdges = outResidaulNetwork->getEdges();
 	for (auto it = oldEdges.begin(); it != oldEdges.end(); ++it)
 	{
-		outResidaulNetwork->removeEdge((*it).second);
+		outResidaulNetwork->removeEdge(*it);
 	}
 	// analiza krawêdzi i utworzenie sieci residualnej
 	auto edges = network->getEdges();
 	QList<EdgeImage*> visitedNeighbours;
-	EdgeImage * edge, *neighbor;
+	EdgeImage *neighbor;
 	for (EdgeImageMap::iterator it = edges.begin(); it != edges.end(); ++it)
+	for (EdgeImage * edge : edges)
 	{
-		edge = (*it).second;
 		int capacity = edge->getCapacity();
 		int flow = edge->getFlow();
 		int vertexFromId = edge->VertexFrom()->getId();
@@ -57,9 +57,8 @@ QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * residu
 	int sourceId = residualNetwork->getSourceId();
 	VertexImage * source = residualNetwork->vertexAt(sourceId);
 	EdgeImageMap edges = residualNetwork->getEdges();
-	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImagePair item)
+	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
 	{
-		EdgeImage * edge = item.second;
 		if (edge->VertexFrom() == source)
 			return true;
 		return false;
@@ -76,9 +75,8 @@ QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * residu
 	while (!finished)
 	{
 		QList<EdgeImage*> possibleEdges;
-		for (auto item : edges)
+		for (auto edge : edges)
 		{
-			EdgeImage * edge = item.second;
 			addEdgeToPath(possibleEdges, edge, currentVertex, source, visitedVertices, rejectedVertices);
 		}
 		if (possibleEdges.empty())
@@ -167,12 +165,10 @@ void FlowNetworkAlgorithm::setCurrentMaxFlow(int flow)
 
 bool FlowNetworkAlgorithm::checkExistingPathsFromSource(FlowNetwork * network)
 {
-	EdgeImage * networkEdge;
 	VertexImage * source = network->getSource();
 	bool pathExists = false;
-	for (auto item : network->getEdges())
+	for (auto networkEdge : network->getEdges())
 	{
-		networkEdge = item.second;
 		if (networkEdge->VertexFrom() == source)
 			if (networkEdge->getFlow() == networkEdge->getCapacity())
 				continue;
@@ -187,12 +183,10 @@ bool FlowNetworkAlgorithm::checkExistingPathsFromSource(FlowNetwork * network)
 
 bool FlowNetworkAlgorithm::checkExistingPathsToTarget(FlowNetwork * network)
 {
-	EdgeImage * networkEdge;
 	VertexImage * target = network->getTarget();
 	bool pathExists = false;
-	for (auto item : network->getEdges())
+	for (auto networkEdge : network->getEdges())
 	{
-		networkEdge = item.second;
 		if (networkEdge->VertexTo() == target)
 		{
 			if (networkEdge->getFlow() == networkEdge->getCapacity())

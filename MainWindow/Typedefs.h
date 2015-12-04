@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
 #include <QMap>
-#include <memory>
 #include <QPointF>
 
 class AWeightedStrategyBase;
@@ -20,9 +19,9 @@ typedef std::vector<Edge*>					EdgeVector;
 typedef std::pair<VertexVector, EdgeVector>	GraphPair;
 
 typedef std::pair<int, VertexImage*>				VertexImagePair;
-typedef std::map<int, VertexImage*>					VertexImageMap;
+typedef QMap<int, VertexImage*>						VertexImageMap;
 typedef std::pair<std::pair<int, int>, EdgeImage*>	EdgeImagePair;
-typedef std::map<std::pair<int, int>, EdgeImage*>	EdgeImageMap;
+typedef QMap<std::pair<int, int>, EdgeImage*>		EdgeImageMap;
 typedef std::map<std::string, TextItem*>			LabelMap;
 
 typedef std::pair<int, QPointF>		PointPair;

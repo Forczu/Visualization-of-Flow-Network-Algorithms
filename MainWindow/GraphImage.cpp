@@ -37,11 +37,10 @@ void GraphImage::cloneVertices(GraphImage const & graph)
 	VertexImage * vertexImg;
 	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
-		vertexImg = (*it).second;
-		int id = vertexImg->getId();
-		QPointF position = vertexImg->pos();
-		addVertex(id, position, vertexImg->getPoints());
-		if (!vertexImg->isVisible())
+		int id = (*it)->getId();
+		QPointF position = (*it)->pos();
+		addVertex(id, position, (*it)->getPoints());
+		if (!(*it)->isVisible())
 		{
 			VertexImage * newVertex = vertexAt(id);
 			newVertex->hide();
@@ -71,11 +70,11 @@ GraphImage::~GraphImage()
 {
 	for (VertexImageMap::iterator it = _vertexMap.begin(); it != _vertexMap.end(); ++it)
 	{
-		deleteItem((*it).second);
+		deleteItem(*it);
 	}
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		deleteItem((*it).second);
+		deleteItem(*it);
 	}
 	delete _config;
 	delete _graph;
@@ -211,39 +210,34 @@ void GraphImage::removeItem(QGraphicsItem * item)
 
 void GraphImage::removeVertex(VertexImage * const vertex)
 {
-	int id = vertex->getVertex()->Id();
+	int id = vertex->getId();
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end();)
 	{
-		EdgeImage * edge = (*it).second;
-		if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
+		if ((*it)->VertexFrom() == vertex || (*it)->VertexTo() == vertex)
 		{
-			removeItem(edge);
+			removeItem(*it);
 			it = _edgeMap.erase(it);
 		}
 		else
 			++it;
 	}
-	_vertexMap.erase(id);
+	_vertexMap.remove(id);
 	removeItem(vertex);
 }
 
 void GraphImage::removeEdge(EdgeImage * const edge)
 {
-	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
+	auto key = std::make_pair(edge->VertexFrom()->getId(), edge->VertexTo()->getId());
+	if (_edgeMap.contains(key))
 	{
-		EdgeImage * item = (*it).second;
-		if (edge == item)
-		{
-			VertexImage * from = edge->VertexFrom();
-			VertexImage * to = edge->VertexTo();
-			from->setOutDegree(from->getOutDegree() - 1);
-			to->setInDegree(to->getInDegree() - 1);
-			removeOffsetFromEdge(edge);
-			getGraph()->removeEdge(edge->getEdge());
-			removeItem(edge);
-			_edgeMap.erase(it);
-			break;
-		}
+		VertexImage * from = edge->VertexFrom();
+		VertexImage * to = edge->VertexTo();
+		from->setOutDegree(from->getOutDegree() - 1);
+		to->setInDegree(to->getInDegree() - 1);
+		removeOffsetFromEdge(edge);
+		getGraph()->removeEdge(edge->getEdge());
+		removeItem(edge);
+		_edgeMap.remove(key);
 	}
 }
 
@@ -253,14 +247,13 @@ void GraphImage::removeEdges(EdgeVector const & vector)
 	{
 		for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 		{
-			EdgeImage * edge2 = (*it).second;
-			if (edge == edge2->getEdge())
+			if (edge == (*it)->getEdge())
 			{
-				VertexImage * from = edge2->VertexFrom();
-				VertexImage * to = edge2->VertexTo();
+				VertexImage * from = (*it)->VertexFrom();
+				VertexImage * to = (*it)->VertexTo();
 				from->setOutDegree(from->getOutDegree() - 1);
 				to->setInDegree(to->getInDegree() - 1);
-				delete edge2;
+				delete *it;
 				_edgeMap.erase(it);
 				break;
 			}
@@ -272,14 +265,12 @@ void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 {
 	const int MAX = 2;
 	int count = 0;
-	EdgeImage * edgeImg;
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		edgeImg = it->second;
-		if (edgeImg->getEdge() == first || edgeImg->getEdge() == second)
+		if ((*it)->getEdge() == first || (*it)->getEdge() == second)
 		{
-			edgeImg->correctEdge(true, EDGE_OFFSET);
-			edgeImg->setNeighbor(true);
+			(*it)->correctEdge(true, EDGE_OFFSET);
+			(*it)->setNeighbor(true);
 			++count;
 		}
 		if (count == MAX)
@@ -308,7 +299,6 @@ void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
 	if (NULL != seImg && type != EdgeType::StraightLine)
 	{
 		Edge * edge = seImg->getEdge();
-		int weight = seImg->getEdge()->getCapacity();
 		removeEdge(edgeImg);
 		createFullEdgeImage(edge, type);
 		return;
@@ -320,7 +310,6 @@ void GraphImage::changeEdge(EdgeImage * edgeImg, EdgeType type)
 		int weight = seImg->getEdge()->getCapacity();
 		removeEdge(edgeImg);
 		createFullEdgeImage(edge, type, weight);
-		return;
 	}
 }
 
@@ -328,7 +317,7 @@ void GraphImage::updateScale(float scale)
 {
 	for (EdgeImageMap::iterator it = _edgeMap.begin(); it != _edgeMap.end(); ++it)
 	{
-		_edgeStrategy->scaleText((*it).second, scale);
+		_edgeStrategy->scaleText(*it, scale);
 	}
 }
 
@@ -336,13 +325,13 @@ void GraphImage::unselectAll()
 {
 	for (auto vertex : _vertexMap)
 	{
-		if (vertex.second->isSelected())
-			vertex.second->setSelected(false);
+		if (vertex->isSelected())
+			vertex->setSelected(false);
 	}
 	for (auto edge : _edgeMap)
 	{
-		if (edge.second->isSelected())
-			edge.second->setSelected(false);
+		if (edge->isSelected())
+			edge->setSelected(false);
 	}
 }
 
@@ -350,7 +339,7 @@ void GraphImage::updateEdges()
 {
 	for (auto edge : _edgeMap)
 	{
-		edge.second->checkNewLine();
+		edge->checkNewLine();
 	}
 }
 
@@ -364,13 +353,12 @@ void GraphImage::removeOffsetFromEdge(EdgeImage * const edge)
 	edge->setNeighbor(false);
 	for (auto e : _edgeMap)
 	{
-		EdgeImage* img = e.second;
-		if (img->VertexFrom() == edge->VertexTo() &&
-			img->VertexTo() == edge->VertexFrom())
+		if (e->VertexFrom() == edge->VertexTo() &&
+			e->VertexTo() == edge->VertexFrom())
 		{
-			img->setOffset(false);
-			img->checkNewLine();
-			img->setNeighbor(false);
+			e->setOffset(false);
+			e->checkNewLine();
+			e->setNeighbor(false);
 			break;
 		}
 	}

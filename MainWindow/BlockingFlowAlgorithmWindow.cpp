@@ -87,15 +87,13 @@ void BlockingFlowAlgorithmWindow::increaseFlowInResidaulNetwork()
 	VertexImage * source = _blockingFlow->getSource();
 	VertexImage * target = _blockingFlow->getTarget();
 	VertexImage * vertex;
-	for (auto item : _blockingFlow->getVertices())
+	for (auto vertex : _blockingFlow->getVertices())
 	{
-		vertex = item.second;
 		if (vertex != source && vertex != target && (vertex->getOutDegree() == 0 || vertex->getInDegree() == 0))
 		{
 			vertex->hide();
-			for (auto item : _blockingFlow->getEdges())
+			for (auto edge : _blockingFlow->getEdges())
 			{
-				EdgeImage * edge = item.second;
 				if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
 					_blockingFlow->removeEdge(edge);
 			}
@@ -199,18 +197,16 @@ void BlockingFlowAlgorithmWindow::copyResidualNetworkAsBlockingFlow() const
 	auto oldEdges = _blockingFlow->getEdges();
 	for (auto it = oldEdges.begin(); it != oldEdges.end(); ++it)
 	{
-		_blockingFlow->removeEdge((*it).second);
+		_blockingFlow->removeEdge(*it);
 	}
 	// skopiowanie nowych
-	for (auto item : _residualNetwork->getEdges())
+	for (auto edge : _residualNetwork->getEdges())
 	{
-		EdgeImage * edge = item.second;
 		_blockingFlow->addEdge(edge->VertexFrom()->getId(), edge->VertexTo()->getId(), edge->getCapacity(), EdgeType::StraightLine, edge->getFlow());
 	}
 	// ukryj niewidoczne wierzcho³ki
-	for (auto item : _residualNetwork->getVertices())
+	for (auto vertex : _residualNetwork->getVertices())
 	{
-		VertexImage * vertex = item.second;
 		VertexImage * blockingVertex = _blockingFlow->vertexAt(vertex->getId());
 		if (!vertex->isVisible())
 			blockingVertex->hide();

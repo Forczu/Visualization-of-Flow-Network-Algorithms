@@ -23,7 +23,7 @@ QList<EdgeImage*> MkmAlgorithm::findAugumentingPath(FlowNetwork * residualNetwor
 
 void MkmAlgorithm::calculateVertexPotentials()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	
 }
 
 QString MkmAlgorithm::resaidualNetworkFinishedMessage(int value /*= 0*/)

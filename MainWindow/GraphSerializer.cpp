@@ -265,7 +265,7 @@ void GraphSerializer::serializeVertices(VertexImageMap const & map, xml_node<> *
 {
 	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
-		serializeVertex((*it).second, parent);
+		serializeVertex(*it, parent);
 	}
 }
 
@@ -273,7 +273,7 @@ void GraphSerializer::serializeEdges(EdgeImageMap const & map, xml_node<> * pare
 {
 	for (EdgeImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
-		serializeEdge((*it).second, parent);
+		serializeEdge(*it, parent);
 	}
 }
 

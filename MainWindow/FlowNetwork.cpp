@@ -1,11 +1,8 @@
 #include "FlowNetwork.h"
-#include "QGraphicsSceneEvent"
 #include "VertexImage.h"
 #include "TextItem.h"
 #include "EdgeImage.h"
 #include "Strings.h"
-#include <QLine>
-#include <QLineF>
 
 FlowNetwork::FlowNetwork(GraphConfig * config)
 : DirectedGraphImage(config), _source(0), _target(0)
@@ -61,9 +58,8 @@ bool FlowNetwork::checkCapacityCondition(CheckInfo &info)
 {
 	EdgeImage * edge;
 	bool succeeded = true;
-	for (EdgeImagePair const & item : _edgeMap)
+	for (EdgeImage * edge : _edgeMap)
 	{
-		edge = item.second;
 		if (edge->getFlow() <= edge->getCapacity())
 			continue;
 		info += Strings::Instance().get(FLOW_GREATER_THAN_CAPACITY)
@@ -81,18 +77,14 @@ bool FlowNetwork::checkCapacityCondition(CheckInfo &info)
 /// <returns>True, je¿eli za³o¿enia s¹ spe³nione, false jeœli nie</returns>
 bool FlowNetwork::checkFlowPreservation(CheckInfo &info)
 {
-	VertexImage * vertex;
-	EdgeImage * edge;
 	bool succeeded = true;
-	for (VertexImagePair const & item : _vertexMap)
+	for (VertexImage * vertex : _vertexMap)
 	{
-		vertex = item.second;
 		if (_source == vertex->getId() || _target == vertex->getId())
 			continue;
 		std::vector<EdgeImage*> inEdges, outEdges;
-		std::for_each(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & edgeItem)
+		std::for_each(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImage * edge)
 		{
-			edge = edgeItem.second;
 			if (edge->VertexTo() == vertex)
 				inEdges.push_back(edge);
 			if (edge->VertexFrom() == vertex)
@@ -124,22 +116,19 @@ bool FlowNetwork::checkFlowPreservation(CheckInfo &info)
 /// <returns>True, je¿eli struktura jest w porz¹dku, jeœli nie to false</returns>
 bool FlowNetwork::checkStructure(CheckInfo &info)
 {
-	VertexImage * vertex, * source;
-	EdgeImage * edge;
+	VertexImage * source;
 	bool succeeded = true;
-	for (VertexImagePair const & item : _vertexMap)
+	for (VertexImage * vertex : _vertexMap)
 	{
-		vertex = item.second;
 		if (_source == vertex->getId() || _target == vertex->getId())
 			continue;
 		std::vector<EdgeImage*> edges;
 		if (_vertexMap.find(getSourceId()) != _vertexMap.end())
-			source = _vertexMap.at(getSourceId());
+			source = _vertexMap[getSourceId()];
 		else
 			source = NULL;
-		auto it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImagePair const & edgeItem)
+		auto it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImage * edge)
 		{
-			edge = edgeItem.second;
 			if (edge->VertexFrom() == vertex && edge->VertexTo() != source)
 				return true;
 			return false;

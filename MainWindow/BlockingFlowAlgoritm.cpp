@@ -12,9 +12,8 @@
 /// <param name="residualNewtork">Sieæ przep³ywowa.</param>
 void BlockingFlowAlgoritm::hideRedundantVertices(FlowNetwork *& residualNewtork)
 {
-	for (auto item : residualNewtork->getVertices())
+	for (auto vertex : residualNewtork->getVertices())
 	{
-		VertexImage * vertex = item.second;
 		int vertexId = vertex->getId() - 1;
 		if (_pathMatrix[_sourceId][_targetId] <= _pathMatrix[_sourceId][vertexId] && vertexId != _targetId)
 		{
@@ -57,10 +56,8 @@ void BlockingFlowAlgoritm::createShortestPathsMatrix(FlowNetwork *& newtork)
 				_pathMatrix[i][j] = std::numeric_limits<float>::infinity();
 		}
 	}
-	std::pair<int, int> coord;
-	for (auto item : newtork->getEdges())
+	for (auto coord : newtork->getEdges().keys())
 	{
-		coord = item.first;
 		_pathMatrix[coord.first - 1][coord.second - 1] = 1.0f;
 	}
 	for (int k = 0; k < n; ++k)
@@ -87,9 +84,8 @@ void BlockingFlowAlgoritm::createShortestPathsMatrix(FlowNetwork *& newtork)
 void BlockingFlowAlgoritm::removeRedundantEdges(FlowNetwork *& residualNewtork)
 {
 	QList<EdgeImage*> edgesToRemove;
-	for (auto item : residualNewtork->getEdges())
+	for (auto edge : residualNewtork->getEdges())
 	{
-		EdgeImage * edge = item.second;
 		int from = edge->VertexFrom()->getId() - 1;
 		int to = edge->VertexTo()->getId() - 1;
 		int first = _pathMatrix[_sourceId][to];
@@ -103,9 +99,8 @@ void BlockingFlowAlgoritm::removeRedundantEdges(FlowNetwork *& residualNewtork)
 	}
 	for (auto vertex : _currentHiddenVertices)
 	{
-		for (auto item : residualNewtork->getEdges())
+		for (auto edge : residualNewtork->getEdges())
 		{
-			EdgeImage * edge = item.second;
 			if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
 			{
 				residualNewtork->removeEdge(edge);
