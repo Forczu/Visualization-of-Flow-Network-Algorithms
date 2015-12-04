@@ -6,6 +6,7 @@
 #include "FlowNetworkAlgorithmWindow.h"
 #include "DinicAlgorithm.h"
 #include "BlockingFlowAlgorithmWindow.h"
+#include "MkmAlgorithm.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
 char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
@@ -34,6 +35,8 @@ FlowNetworkAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & n
 		return FordFulkersonAlgorithm::getInstance();
 	if (algName == DINIC)
 		return DinicAlgorithm::getInstance();
+	if (algName == MKM)
+		return MkmAlgorithm::getInstance();
 }
 
 QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const & name)

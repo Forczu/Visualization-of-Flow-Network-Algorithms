@@ -27,7 +27,4 @@ public:
 protected:
 	virtual void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 		QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) = 0;
-public:
-	virtual void acceptNextStep(FlowNetworkAlgorithmWindow * window) = 0;
-	virtual void acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window) = 0;
 };

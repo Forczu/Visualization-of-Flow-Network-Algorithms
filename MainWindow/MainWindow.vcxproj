@@ -84,6 +84,7 @@
     <ClCompile Include="ArrowHeadImage.cpp" />
     <ClCompile Include="BezierEdgeImage.cpp" />
     <ClCompile Include="BlockingFlowAlgorithmWindow.cpp" />
+    <ClCompile Include="BlockingFlowAlgoritm.cpp" />
     <ClCompile Include="CheckInfo.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateNewGraphDialog.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="MkmAlgorithm.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="PointImage.cpp" />
     <ClCompile Include="PointTool.cpp" />
@@ -1295,6 +1297,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockingFlowAlgorithmWindow.h" />
+    <ClInclude Include="BlockingFlowAlgoritm.h" />
+    <ClInclude Include="MkmAlgorithm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

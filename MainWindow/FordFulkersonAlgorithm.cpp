@@ -55,13 +55,3 @@ void FordFulkersonAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, Ed
 		possibleEdges.push_back(edge);
 	}
 }
-
-void FordFulkersonAlgorithm::acceptNextStep(FlowNetworkAlgorithmWindow * window)
-{
-	window->visitFordFulkersonNextStep(this);
-}
-
-void FordFulkersonAlgorithm::acceptFindAugumentingPath(FlowNetworkAlgorithmWindow * window)
-{
-
-}

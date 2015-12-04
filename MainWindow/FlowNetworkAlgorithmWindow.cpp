@@ -139,22 +139,6 @@ void FlowNetworkAlgorithmWindow::makeNextStep()
 	ui.residualNetworkView->updateGeometry();
 }
 
-void FlowNetworkAlgorithmWindow::visitFordFulkersonNextStep(FordFulkersonAlgorithm * algorithm)
-{
-}
-
-void FlowNetworkAlgorithmWindow::visitDinicNextStep(DinicAlgorithm * algorithm)
-{
-}
-
-void FlowNetworkAlgorithmWindow::visitFordFulkersonFindAugumentingPath(FordFulkersonAlgorithm * algorithm)
-{
-}
-
-void FlowNetworkAlgorithmWindow::visitDinicFindAugumentingPath(DinicAlgorithm * algorithm)
-{
-}
-
 /// <summary>
 /// Zwiêksza przep³yw w sieci przep³ywaj¹cej o dodatkow¹ wartoœæ w znalezionej œcie¿ce.
 /// </summary>

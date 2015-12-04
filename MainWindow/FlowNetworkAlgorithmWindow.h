@@ -50,14 +50,6 @@ protected:
 	void pushNewSet(QList<EdgeImage*> const & path, int capacity);
 	void clearSets();
 
-#pragma region Metody odwiedzaj¹ce algorytmy
-public:
-	void visitFordFulkersonNextStep(FordFulkersonAlgorithm * algorithm);
-	void visitDinicNextStep(DinicAlgorithm * algorithm);
-	void visitFordFulkersonFindAugumentingPath(FordFulkersonAlgorithm * algorithm);
-	void visitDinicFindAugumentingPath(DinicAlgorithm * algorithm);
-#pragma region
-
 private slots:
 	virtual void makeNextStep();
 	void finish();
