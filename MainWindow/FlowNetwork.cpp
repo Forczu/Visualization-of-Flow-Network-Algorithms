@@ -49,6 +49,19 @@ void FlowNetwork::createLabel(QPointer<TextItem>& label, QString const & text, Q
 	label->hide();
 }
 
+void FlowNetwork::removeVertex(VertexImage * const vertex)
+{
+	int vertexId = vertex->getId();
+	if (_vertexMap.contains(vertexId))
+	{
+		if (vertexId == _source)
+			_source = 0;
+		if (vertexId == _target)
+			_target = 0;
+	}
+	GraphImage::removeVertex(vertex);
+}
+
 /// <summary>
 /// Sprawdzenie warunku zachowania przepustowoœci.
 /// ¯adna krawêdŸ nie mo¿e mieæ przep³ywu wiêkszego od przepustowoœci.

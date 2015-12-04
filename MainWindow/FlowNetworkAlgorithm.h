@@ -27,8 +27,10 @@ public:
 	bool checkExistingPathsToTarget(FlowNetwork * network);
 	virtual QString resaidualNetworkFinishedMessage(int value = 0) = 0;
 	virtual QString augumentingPathFoundMessage(QList<EdgeImage*> const & path, int capacity) = 0;
+	virtual bool removeNeedlessElements(FlowNetwork * network);
 protected:
 	virtual void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 		QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) = 0;
 	QList<EdgeImage*> findPathBetween(FlowNetwork * network, VertexImage * from, VertexImage * to);
+	bool removeNeedlessElements();
 };

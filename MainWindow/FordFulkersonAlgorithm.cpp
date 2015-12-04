@@ -1,10 +1,8 @@
 #include "FordFulkersonAlgorithm.h"
 #include "FlowNetwork.h"
-#include "Typedefs.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "Strings.h"
-#include "FlowNetworkAlgorithmWindow.h"
 
 FordFulkersonAlgorithm * FordFulkersonAlgorithm::getInstance()
 {

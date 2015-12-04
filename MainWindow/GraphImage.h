@@ -58,7 +58,7 @@ protected:
 public:
 	void removeItem(QList<QGraphicsItem*> const & items);
 	void removeItem(QGraphicsItem * item);
-	void removeVertex(VertexImage * const vertex);
+	virtual void removeVertex(VertexImage * const vertex);
 	void removeEdge(EdgeImage * const edge);
 	void removeEdges(EdgeVector const & vector);
 	void correctNeighborEdges(Edge * const first, Edge * const second);

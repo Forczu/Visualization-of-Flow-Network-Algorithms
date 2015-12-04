@@ -2,6 +2,7 @@
 #include "Strings.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
+#include "DinicAlgorithm.h"
 
 BlockingFlowAlgorithmWindow::BlockingFlowAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent /*= 0*/)
 : FlowNetworkAlgorithmWindow(network, algorithm, parent), _blockingFlowInProgress(false), _blockingFlow(nullptr), _blockingStep(0), _currentCapacity(0)
@@ -76,35 +77,25 @@ void BlockingFlowAlgorithmWindow::findAugumentingPath()
 /// </summary>
 void BlockingFlowAlgorithmWindow::increaseFlowInResidaulNetwork()
 {
-	bool verticesRemoved = false;
 	_algorithm->increaseFlow(_residualNetwork, _currentBlockingPath, _currentCapacity);
 	for (EdgeImage * edge : _currentBlockingPath)
 	{
 		edge->setCapacity(edge->getCapacity() - _currentCapacity);
-		if (edge->getCapacity() == 0)
-			_blockingFlow->removeEdge(edge);
 	}
-	VertexImage * source = _blockingFlow->getSource();
-	VertexImage * target = _blockingFlow->getTarget();
-	VertexImage * vertex;
-	for (auto vertex : _blockingFlow->getVertices())
-	{
-		if (vertex != source && vertex != target && (vertex->getOutDegree() == 0 || vertex->getInDegree() == 0))
-		{
-			vertex->hide();
-			for (auto edge : _blockingFlow->getEdges())
-			{
-				if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
-					_blockingFlow->removeEdge(edge);
-			}
-			if (!verticesRemoved)
-				verticesRemoved = true;
-		}
-	}
+	bool verticesRemoved = _algorithm->removeNeedlessElements(_blockingFlow);
 	QString message = Strings::Instance().get(RESIDUAL_NETWORK_FLOW_INCREASED);
 	if (verticesRemoved)
-		message += ' ' + Strings::Instance().get(NULL_DEGREE_VERTICES_REMOVED);
+	{
+		if (dynamic_cast<DinicAlgorithm*>(_algorithm.data()) != NULL)
+			message += ' ' + Strings::Instance().get(NULL_DEGREE_VERTICES_REMOVED);
+		else
+			message += ' ' + Strings::Instance().get(NULL_POTENTIAL_VERTICES_REMOVED);
+	}
 	updateConsole(message);
+	if (!_blockingFlow->getSource()->isVisible() || !_blockingFlow->getTarget()->isVisible())
+	{
+		_blockingFlowInProgress = false;
+	}
 }
 
 /// <summary>

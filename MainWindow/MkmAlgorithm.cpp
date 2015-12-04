@@ -13,18 +13,37 @@ int MkmAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& resi
 	showHiddenVertices();
 	FlowNetworkAlgorithm::makeResidualNetwork(network, residualNewtork);
 	int result = removeRedundantElements(residualNewtork);
-	calculateVertexPotentials(network);
-	auto vertex = findVertexWithMinimalPotential();
-	vertex->setSelected(true);
-	auto path1 = sendUnitsToTarget(network, vertex);
-	auto path2 = sendUnitsToSource(network, vertex);
+	calculateVertexPotentials(residualNewtork);
 	return result;
 }
 
-QList<EdgeImage*> MkmAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
+QList<EdgeImage*> MkmAlgorithm::findAugumentingPath(FlowNetwork * network, int & capacity)
 {
-	QList<EdgeImage*> path;
-	return path;
+	VertexImage * vertex;
+	QList<EdgeImage*> pathToTarget, pathToSource;
+	do 
+	{
+		pathToTarget.clear();
+		pathToSource.clear();
+		vertex = findVertexWithMinimalPotential(network);
+		if (vertex == nullptr)
+			break;
+		pathToTarget = sendUnitsToTarget(network, vertex->getId());
+		pathToSource = sendUnitsToSource(network, vertex->getId());
+		bool succeeded = pathToSource.size() != 0 && pathToTarget.size() != 0;
+		if (!succeeded)
+		{
+			_rejectedVertices.push_back(vertex);
+		}
+		else
+		{
+			capacity = std::get<2>(_potentialMap[vertex->getId()]);
+			_currentMaxFlow += capacity;
+			vertex->setSelected(true);
+			network->vertexAt(vertex->getId())->setSelected(true);
+		}
+	} while (pathToSource.size() == 0 || pathToTarget.size() == 0);
+	return pathToSource + pathToTarget;
 }
 
 /// <summary>
@@ -33,10 +52,14 @@ QList<EdgeImage*> MkmAlgorithm::findAugumentingPath(FlowNetwork * residualNetwor
 /// <param name="network">Sieæ przep³ywowa.</param>
 void MkmAlgorithm::calculateVertexPotentials(FlowNetwork * network)
 {
+	_potentialMap.clear();
+	_rejectedVertices.clear();
 	VertexImage * source = network->getSource();
 	VertexImage * target = network->getTarget();
 	for (auto vertex : network->getVertices())
 	{
+		if (!vertex->isVisible())
+			continue;
 		float inPotential, outPotential, potential;
 		inPotential = outPotential = potential = 0;
 		for (auto edge : network->getEdges())
@@ -55,11 +78,11 @@ void MkmAlgorithm::calculateVertexPotentials(FlowNetwork * network)
 		else if (vertex == target)
 			outPotential = std::numeric_limits<float>::infinity();
 		potential = std::min(inPotential, outPotential);
-		_potentialMap[vertex] = std::make_tuple(inPotential, outPotential, potential);
+		_potentialMap[vertex->getId()] = std::make_tuple(inPotential, outPotential, potential);
 	}
 }
 
-VertexImage * MkmAlgorithm::findVertexWithMinimalPotential()
+VertexImage * MkmAlgorithm::findVertexWithMinimalPotential(FlowNetwork * network)
 {
 	float minimalPotential = std::numeric_limits<float>::infinity();
 	float currentPotential;
@@ -67,23 +90,46 @@ VertexImage * MkmAlgorithm::findVertexWithMinimalPotential()
 	for (PotentialMap::const_iterator it = _potentialMap.begin(); it != _potentialMap.end(); ++it)
 	{
 		currentPotential = std::get<2>(*it);
-		if (currentPotential < minimalPotential)
+		VertexImage * vertex = network->vertexAt(it.key());
+		if (currentPotential != 0 && vertex->isVisible()
+			&& !_rejectedVertices.contains(vertex) && currentPotential < minimalPotential)
 		{
-			chosenVertex = it.key();
+			chosenVertex = vertex;
 			minimalPotential = currentPotential;
 		}
 	}
 	return chosenVertex;
 }
 
-QList<EdgeImage*> MkmAlgorithm::sendUnitsToTarget(FlowNetwork * network, VertexImage * vertex)
+QList<EdgeImage*> MkmAlgorithm::sendUnitsToTarget(FlowNetwork * network, int vertexId)
 {
-	return findPathBetween(network, vertex, network->getTarget());
+	return findPathBetween(network, network->vertexAt(vertexId), network->getTarget());
 }
 
-QList<EdgeImage*> MkmAlgorithm::sendUnitsToSource(FlowNetwork * network, VertexImage * vertex)
+QList<EdgeImage*> MkmAlgorithm::sendUnitsToSource(FlowNetwork * network, int vertexId)
 {
-	return findPathBetween(network, network->getSource(), vertex);
+	return findPathBetween(network, network->getSource(), network->vertexAt(vertexId));
+}
+
+bool MkmAlgorithm::removeNeedlessElements(FlowNetwork * network)
+{
+	calculateVertexPotentials(network);
+	bool removed = false;
+	for (auto vertex : network->getVertices())
+	{
+		int vertexId = vertex->getId();
+		if (std::get<0>(_potentialMap[vertexId]) == 0 || std::get<1>(_potentialMap[vertexId]) == 0)
+		{
+			vertex->hide();
+			for (auto edge : network->getEdges())
+			{
+				if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
+					network->removeEdge(edge);
+			}
+			removed = true;
+		}
+	}
+	return removed;
 }
 
 QString MkmAlgorithm::resaidualNetworkFinishedMessage(int value /*= 0*/)

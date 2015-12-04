@@ -16,5 +16,8 @@ private:
 
 	void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 		QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) override;
+
+	bool removeNeedlessElements(FlowNetwork * network) override;
+
 };
 

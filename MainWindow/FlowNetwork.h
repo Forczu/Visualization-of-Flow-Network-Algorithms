@@ -36,6 +36,8 @@ public:
 	VertexImage * getSource() { return vertexAt(getSourceId()); }
 	VertexImage * getTarget() { return vertexAt(getTargetId()); }
 
+	void removeVertex(VertexImage * const vertex) override;
+
 	bool checkCapacityCondition(CheckInfo &info);
 	bool checkFlowPreservation(CheckInfo &info);
 	bool checkStructure(CheckInfo &info);

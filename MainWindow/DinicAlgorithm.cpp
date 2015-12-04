@@ -28,6 +28,33 @@ void DinicAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage 
 	}
 }
 
+bool DinicAlgorithm::removeNeedlessElements(FlowNetwork * network)
+{
+	bool verticesRemoved = false;
+	VertexImage * source = network->getSource();
+	VertexImage * target = network->getTarget();
+	for (EdgeImage * edge : network->getEdges())
+	{
+		if (edge->getCapacity() == 0)
+			network->removeEdge(edge);
+	}
+	for (auto vertex : network->getVertices())
+	{
+		if (vertex != source && vertex != target && (vertex->getOutDegree() == 0 || vertex->getInDegree() == 0))
+		{
+			vertex->hide();
+			for (auto edge : network->getEdges())
+			{
+				if (edge->VertexFrom() == vertex || edge->VertexTo() == vertex)
+					network->removeEdge(edge);
+			}
+			if (!verticesRemoved)
+				verticesRemoved = true;
+		}
+	}
+	return verticesRemoved;
+}
+
 QString DinicAlgorithm::resaidualNetworkFinishedMessage(int value)
 {
 	return BlockingFlowAlgoritm::getResidualNetworkFinishedMessage(value);

@@ -231,3 +231,8 @@ QList<EdgeImage*> FlowNetworkAlgorithm::findPathBetween(FlowNetwork * network, V
 	}
 	return path;
 }
+
+bool FlowNetworkAlgorithm::removeNeedlessElements(FlowNetwork * network)
+{
+	return false;
+}
