@@ -265,10 +265,10 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	{
 		QDialog * windowPtr =_algorithmInfo.getDialog(graph, item->text());
 		windowPtr->setWindowTitle(item->text());
-		//auto copy = graph->createCopy();
+		auto copy = graph->createCopy();
 		windowPtr->exec();
 		delete windowPtr;
-		//_graphTabs->currentGraphView()->setGraphImage(copy);
+		_graphTabs->currentGraphView()->setGraphImage(copy);
 	}
 	else
 	{

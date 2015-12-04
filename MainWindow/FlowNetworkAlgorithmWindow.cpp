@@ -4,6 +4,8 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "DinicAlgorithm.h"
+#include "GraphSerializer.h"
+#include "QFileDialog"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
 : QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr)
@@ -105,6 +107,7 @@ void FlowNetworkAlgorithmWindow::createConnections() const
 {
 	connect(ui.nextStepButton, SIGNAL(clicked()), this, SLOT(makeNextStep()));
 	connect(ui.finishAlgorithmButton, SIGNAL(clicked()), this, SLOT(finish()));
+	connect(ui.saveResultButton, SIGNAL(clicked()), this, SLOT(saveResult()));
 }
 
 void FlowNetworkAlgorithmWindow::updateConsole(QString const & message)
@@ -119,7 +122,6 @@ void FlowNetworkAlgorithmWindow::updateConsole(QString const & message)
 /// </summary>
 void FlowNetworkAlgorithmWindow::makeNextStep()
 {
-
 	switch (_step % 3)
 	{
 	case 0:
@@ -203,6 +205,7 @@ void FlowNetworkAlgorithmWindow::finishAlgorithm()
 {
 	ui.nextStepButton->setEnabled(false);
 	ui.finishAlgorithmButton->setEnabled(false);
+	ui.saveResultButton->setEnabled(true);
 	_finished = true;
 	emit endAlgorithm();
 }
@@ -236,6 +239,16 @@ void FlowNetworkAlgorithmWindow::stopTimer() const
 {
 	_timer->stop();
 	_network->unselectAll();
+}
+
+void FlowNetworkAlgorithmWindow::saveResult()
+{
+	std::string fileName = QFileDialog::getSaveFileName(this,
+		Strings::Instance().get(SAVE_GRAPH_TO_FILE), QString(), tr("XML File (*.xml)")).toStdString();
+	if (fileName.empty())
+		return;
+	GraphSerializer serializer;
+	serializer.serialize(*_network, fileName);
 }
 
 void FlowNetworkAlgorithmWindow::finish()

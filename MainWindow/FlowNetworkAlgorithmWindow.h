@@ -54,6 +54,7 @@ private slots:
 	virtual void makeNextStep();
 	void finish();
 	void stopTimer() const;
+	void saveResult();
 signals:
 	void endAlgorithm();
 protected:

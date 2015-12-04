@@ -45,6 +45,8 @@ static const char * NULL_DEGREE_VERTICES_REMOVED = "NULL_DEGREE_VERTICES_REMOVED
 static const char * BLOCKING_FLOW_FOUND = "BLOCKING_FLOW_FOUND";
 static const char * FLOW_NETWORK_RESTORED = "FLOW_NETWORK_RESTORED";
 static const char * NULL_POTENTIAL_VERTICES_REMOVED = "NULL_POTENTIAL_VERTICES_REMOVED";
+static const char * OPEN_GRAPH_FILE = "OPEN_GRAPH_FILE";
+static const char * SAVE_GRAPH_TO_FILE = "SAVE_GRAPH_TO_FILE";
 
 class Strings : public Singleton<Strings>
 {
