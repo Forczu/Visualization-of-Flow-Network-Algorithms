@@ -16,22 +16,13 @@ int DinicAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& re
 	return removeRedundantElements(residualNewtork);
 }
 
-QList<EdgeImage*> DinicAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
-{
-	QList<EdgeImage*> path = FlowNetworkAlgorithm::findAugumentingPath(residualNetwork, capacity);
-	_usedEdges.append(path);
-	return path;
-}
-
-
 void DinicAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source,
 	QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices)
 {
 	if (edge->VertexFrom() == currentVertex &&
 		edge->VertexTo() != source &&
 		!visitedVertices.contains(edge->VertexTo()) &&
-		!rejectedVertices.contains(edge->VertexTo()) &&
-		!_usedEdges.contains(edge))
+		!rejectedVertices.contains(edge->VertexTo()))
 	{
 		possibleEdges.push_back(edge);
 	}

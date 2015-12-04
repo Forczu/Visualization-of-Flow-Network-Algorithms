@@ -51,75 +51,45 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 	return 0;
 }
 
-QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
+QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * network, int & capacity)
 {
 	QList<EdgeImage*> augumentingPath;
-	int sourceId = residualNetwork->getSourceId();
-	VertexImage * source = residualNetwork->vertexAt(sourceId);
-	EdgeImageMap edges = residualNetwork->getEdges();
-	bool augumentationExists = std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
+	VertexImage * source = network->getSource();
+	VertexImage * target = network->getTarget();
+	if (!checkAugumentingPathExists(network, source))
+		return augumentingPath;
+	augumentingPath = findPathBetween(network, source, target);
+	if (augumentingPath.size() == 0)
+	{
+		capacity = 0;
+	}
+	else
+	{
+		// znajdz najmniejsza wartoœæ
+		auto it = std::min_element(augumentingPath.begin(), augumentingPath.end(), [&](EdgeImage * edge1, EdgeImage * edge2)
+		{
+			return edge1->getCapacity() < edge2->getCapacity();
+		});
+		_currentMaxFlow += (capacity = (*it)->getCapacity());
+	}
+	return augumentingPath;
+}
+
+/// <summary>
+/// Sprawdza czy istnieje œcie¿ka powiêkszaj¹ca prowadz¹ca ze Ÿród³a.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <param name="source">The source.</param>
+/// <returns></returns>
+bool FlowNetworkAlgorithm::checkAugumentingPathExists(FlowNetwork * network, VertexImage * source)
+{
+	EdgeImageMap edges = network->getEdges();
+	return std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
 	{
 		if (edge->VertexFrom() == source)
 			return true;
 		return false;
 	});
-	if (!augumentationExists)
-		return augumentingPath;
-	srand(time(NULL));
-	bool finished = false;
-	VertexImage * currentVertex = source;
-	VertexImage * target = residualNetwork->vertexAt(residualNetwork->getTargetId());
-	QList<VertexImage*> visitedVertices;
-	QList<VertexImage*> rejectedVertices;
-	EdgeImage * lastEdge = nullptr;
-	while (!finished)
-	{
-		QList<EdgeImage*> possibleEdges;
-		for (auto edge : edges)
-		{
-			addEdgeToPath(possibleEdges, edge, currentVertex, source, visitedVertices, rejectedVertices);
-		}
-		if (possibleEdges.empty())
-		{
-			if (lastEdge == nullptr)
-			{
-				capacity = 0;
-				finished = true;
-				return augumentingPath;
-			}
-			else
-			{
-				rejectedVertices.push_back(currentVertex);
-				augumentingPath.pop_back();
-				if (!augumentingPath.empty())
-				{
-					lastEdge = augumentingPath.last();
-					currentVertex = lastEdge->VertexTo();
-				}
-				else
-				{
-					lastEdge = nullptr;
-					currentVertex = source;
-				}
-				continue;
-			}
-		}
-		EdgeImage * chosenEdge = possibleEdges.at(rand() % possibleEdges.size());
-		VertexImage * nextVertex = chosenEdge->VertexTo();
-		visitedVertices.push_back(nextVertex);
-		augumentingPath.push_back(chosenEdge);
-		currentVertex = nextVertex;
-		lastEdge = chosenEdge;
-		if (currentVertex == target)
-			finished = true;
-	}
-	// znajdz najmniejsza wartoœæ
-	auto it = std::min_element(augumentingPath.begin(), augumentingPath.end(), [&](EdgeImage * edge1, EdgeImage * edge2)
-	{
-		return edge1->getCapacity() < edge2->getCapacity();
-	});
-	_currentMaxFlow += (capacity = (*it)->getCapacity());
-	return augumentingPath;
 }
 
 void FlowNetworkAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
@@ -199,4 +169,65 @@ bool FlowNetworkAlgorithm::checkExistingPathsToTarget(FlowNetwork * network)
 		}
 	}
 	return pathExists;
+}
+
+/// <summary>
+/// Znajduje œcie¿kê w sieci pomiêdzy wybranymi wierzcho³kami.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <param name="from">Wierzcho³ek Ÿród³owy.</param>
+/// <param name="to">Wierzcho³ek docelowy.</param>
+/// <returns></returns>
+QList<EdgeImage*> FlowNetworkAlgorithm::findPathBetween(FlowNetwork * network, VertexImage * from, VertexImage * to)
+{
+	QList<EdgeImage*> path;
+	VertexImage * source = network->getSource();
+	EdgeImageMap edges = network->getEdges();
+	bool finished = false;
+	VertexImage * currentVertex = from;
+	QList<VertexImage*> visitedVertices;
+	QList<VertexImage*> rejectedVertices;
+	EdgeImage * lastEdge = nullptr;
+	srand(time(NULL));
+	while (!finished)
+	{
+		QList<EdgeImage*> possibleEdges;
+		for (auto edge : edges)
+		{
+			addEdgeToPath(possibleEdges, edge, currentVertex, source, visitedVertices, rejectedVertices);
+		}
+		if (possibleEdges.empty())
+		{
+			if (lastEdge == nullptr)
+			{
+				finished = true;
+				return path;
+			}
+			else
+			{
+				rejectedVertices.push_back(currentVertex);
+				path.pop_back();
+				if (!path.empty())
+				{
+					lastEdge = path.last();
+					currentVertex = lastEdge->VertexTo();
+				}
+				else
+				{
+					lastEdge = nullptr;
+					currentVertex = from;
+				}
+				continue;
+			}
+		}
+		EdgeImage * chosenEdge = possibleEdges.at(rand() % possibleEdges.size());
+		VertexImage * nextVertex = chosenEdge->VertexTo();
+		visitedVertices.push_back(nextVertex);
+		path.push_back(chosenEdge);
+		currentVertex = nextVertex;
+		lastEdge = chosenEdge;
+		if (currentVertex == to)
+			finished = true;
+	}
+	return path;
 }

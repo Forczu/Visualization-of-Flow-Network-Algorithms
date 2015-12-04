@@ -4,13 +4,10 @@
 
 class DinicAlgorithm : public FlowNetworkAlgorithm, public BlockingFlowAlgoritm
 {
-	QList<EdgeImage*> _usedEdges;
 public:
 	static DinicAlgorithm * getInstance();
 
 	int makeResidualNetwork(FlowNetwork * network, FlowNetwork *& outResidaulNetwork) override;
-
-	QList<EdgeImage*> findAugumentingPath(FlowNetwork * residualNetwork, int & capacity) override;
 
 	virtual QString resaidualNetworkFinishedMessage(int value) override;
 

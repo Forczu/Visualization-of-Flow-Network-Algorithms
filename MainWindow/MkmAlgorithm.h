@@ -5,7 +5,8 @@
 
 class MkmAlgorithm : public FlowNetworkAlgorithm, public BlockingFlowAlgoritm
 {
-	QMap<VertexImage*, std::tuple<int, int, int>> _potentialMap;
+	typedef QMap<VertexImage*, std::tuple<float, float, float>> PotentialMap;
+	PotentialMap _potentialMap;
 public:
 	static MkmAlgorithm * getInstance();
 
@@ -19,6 +20,12 @@ public:
 
 	void addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source, QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices) override;
 private:
-	void calculateVertexPotentials();
+	void calculateVertexPotentials(FlowNetwork * network);
+
+	VertexImage * findVertexWithMinimalPotential();
+
+	QList<EdgeImage*> sendUnitsToTarget(FlowNetwork * network, VertexImage * vertex);
+
+	QList<EdgeImage*> sendUnitsToSource(FlowNetwork * network, VertexImage * vertex);
 };
 
