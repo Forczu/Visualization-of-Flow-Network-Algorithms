@@ -305,9 +305,6 @@
     <ClCompile Include="FlowNetworkAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="BlockingFlowAlgorithmWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DinicAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
@@ -315,6 +312,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlockingFlowAlgoritm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockingFlowAlgorithmWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -529,14 +529,14 @@
     <CustomBuild Include="DinicAlgorithm.h">
       <Filter>Header Files\Algorithms</Filter>
     </CustomBuild>
-    <CustomBuild Include="BlockingFlowAlgorithmWindow.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="BlockingFlowAlgoritm.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="MkmAlgorithm.h">
       <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BlockingFlowAlgorithmWindow.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

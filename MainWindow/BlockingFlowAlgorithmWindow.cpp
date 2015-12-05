@@ -7,6 +7,21 @@
 BlockingFlowAlgorithmWindow::BlockingFlowAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent /*= 0*/)
 : FlowNetworkAlgorithmWindow(network, algorithm, parent), _blockingFlowInProgress(false), _blockingFlow(nullptr), _blockingStep(0), _currentCapacity(0)
 {
+	// utworzenie dodatkowego okna dlareprezentacji przep³ywu blokuj¹cego
+	blockingView = new GraphView(this);
+	blockingView->setGeometry(ui.residualNetworkView->geometry());
+	blockingView->setSizePolicy(ui.residualNetworkView->sizePolicy());
+	blockingView->setMaximumSize(ui.residualNetworkView->maximumSize());
+	blockingView->setFocusPolicy(ui.residualNetworkView->focusPolicy());
+	blockingView->setHorizontalScrollBarPolicy(ui.residualNetworkView->horizontalScrollBarPolicy());
+	blockingView->setVerticalScrollBarPolicy(ui.residualNetworkView->verticalScrollBarPolicy());
+	configureView(blockingView);
+	ui.gridLayout->addWidget(blockingView, 1, 2, 1, 1);
+	auto blockingLabel = new QLabel(this);
+	blockingLabel->setText(Strings::Instance().get(BLOCKING_FLOW));
+	blockingLabel->setFont(ui.rightLabel->font());
+	blockingLabel->setAlignment(ui.rightLabel->alignment());
+	ui.gridLayout->addWidget(blockingLabel, 0, 2, 1, 1);
 }
 
 /// <summary>
@@ -26,9 +41,6 @@ void BlockingFlowAlgorithmWindow::makeNextStep()
 		findAugumentingPath();
 		break;
 	case 3:
-		removeBlockingFlow();
-		break;
-	case 4:
 		increaseFlow();
 		checkAlgorithmEnd();
 		break;
@@ -95,7 +107,14 @@ void BlockingFlowAlgorithmWindow::increaseFlowInResidaulNetwork()
 	if (!_blockingFlow->getSource()->isVisible() || !_blockingFlow->getTarget()->isVisible())
 	{
 		_blockingFlowInProgress = false;
+		_blockingFlow->hide();
 	}
+}
+
+void BlockingFlowAlgorithmWindow::showEvent(QShowEvent * evt)
+{
+	FlowNetworkAlgorithmWindow::showEvent(evt);
+	blockingView->scale(_scaleFactor, _scaleFactor);
 }
 
 /// <summary>
@@ -118,6 +137,7 @@ void BlockingFlowAlgorithmWindow::findAugumentingPathInBlockingFlow()
 		QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_NOT_FOUND)
 			+ ' ' + Strings::Instance().get(BLOCKING_FLOW_FOUND);
 		updateConsole(message);
+		_blockingFlow->hide();
 	}
 }
 
@@ -141,42 +161,24 @@ void BlockingFlowAlgorithmWindow::createBlockingFlow()
 {
 	_blockingFlowInProgress = true;
 	updateConsole(Strings::Instance().get(BLOCKING_FLOW_STARTED));
-	ui.leftLabel->setText(Strings::Instance().get(RESIDUAL_NETWORK));
-	ui.rightLabel->setText(Strings::Instance().get(BLOCKING_FLOW));
-	QPointF networkPosition = _network->pos();
 	QPointF residualPosition = _residualNetwork->pos();
-	_network->hide();
-	_residualNetwork->setPos(networkPosition);
+	QPointF blockingPosition = QPointF(residualPosition.x() + _dx, residualPosition.y());
 	if (_blockingFlow == nullptr)
 	{
 		_blockingFlow = _residualNetwork->clone();
-		_scene->addItem(_blockingFlow);
+		_blockingFlow->updateScale(_scaleFactor);
+		blockingView->setGraphImage(_blockingFlow);
 	}
 	else
 	{
 		copyResidualNetworkAsBlockingFlow();
-		_blockingFlow->show();
+		_blockingFlow->updateScale(_scaleFactor);
 		_blockingFlow->unselectAll();
 	}
-	_blockingFlow->updateScale(_scaleFactor);
-	_blockingFlow->setPos(residualPosition);
+	_blockingFlow->setPos(blockingPosition);
+	_blockingFlow->show();
+	blockingView->centerOn(_blockingFlow);
 	_blockingStep = 0;
-}
-
-/// <summary>
-/// Koñczy przeszukianie przep³ywu blokuj¹cego i usuwa go z podgl¹du.
-/// </summary>
-void BlockingFlowAlgorithmWindow::removeBlockingFlow()
-{
-	// przywróæ podgl¹d do poprzedniego stanu
-	ui.leftLabel->setText(Strings::Instance().get(FLOW_NETWORK));
-	ui.rightLabel->setText(Strings::Instance().get(RESIDUAL_NETWORK));
-	QPointF residualPosition = _blockingFlow->pos();
-	_network->show();
-	_residualNetwork->setPos(residualPosition);
-	_blockingFlow->hide();
-	QString message = Strings::Instance().get(FLOW_NETWORK_RESTORED);
-	updateConsole(message);
 }
 
 /// <summary>

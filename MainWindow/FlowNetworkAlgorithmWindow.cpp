@@ -22,7 +22,7 @@ void FlowNetworkAlgorithmWindow::createScene()
 {
 	_scene = GraphScene::getInstance();
 	QRectF rect = _scene->sceneRect();
-	rect.setWidth(rect.width() * 3);
+	rect.setWidth(rect.width() * 6);
 	_scene->setSceneRect(rect);
 }
 
@@ -60,7 +60,7 @@ void FlowNetworkAlgorithmWindow::scaleViews()
 		ui.residualNetworkView->scale(_scaleFactor, _scaleFactor);
 	}
 	_network->updateScale(_scaleFactor);
-	_dx = _scene->width() / 2.0f;
+	_dx = _scene->width() / 4.0f;
 	ui.mainNetworkView->setGraphImage(_network);
 	ui.mainNetworkView->centerOn(_network);
 	ui.residualNetworkView->centerOn(_network->pos().x() + _dx, _network->pos().y());

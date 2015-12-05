@@ -34,7 +34,7 @@ public:
 	void setAlgorithm(FlowNetworkAlgorithm * algorithm);
 	void seNetwork(FlowNetwork * network);
 protected:
-	void showEvent(QShowEvent * evt) Q_DECL_OVERRIDE;
+	virtual void showEvent(QShowEvent * evt) Q_DECL_OVERRIDE;
 	void closeEvent(QCloseEvent * evt) Q_DECL_OVERRIDE;
 	static int getCurrentFlowToTarget(FlowNetwork * network);
 	void configureView(GraphView * view) const;
