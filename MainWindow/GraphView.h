@@ -50,8 +50,8 @@ private:
 	bool _blocked;
 
 public:
-	GraphView(QWidget * parent = 0);
-	GraphView(GraphImage * graph);
+	explicit GraphView(QWidget * parent = 0);
+	explicit GraphView(GraphImage * graph);
 	~GraphView();
 
 	void buildVertex(QPointF const & position, QList<QGraphicsItem*> const & items);

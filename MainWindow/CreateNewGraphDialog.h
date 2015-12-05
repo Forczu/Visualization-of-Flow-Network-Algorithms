@@ -16,7 +16,7 @@ class CreateNewGraphDialog : public QDialog
 	QMap<QString, EdgeStrategyCreateFunc> _weightStrategyMap;
 	DialogCode _result;
 public:
-	CreateNewGraphDialog(int newTabIndex, QWidget *parent = 0);
+	explicit CreateNewGraphDialog(int newTabIndex, QWidget *parent = 0);
 	~CreateNewGraphDialog();
 
 	inline QString getName() const

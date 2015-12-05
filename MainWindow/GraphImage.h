@@ -27,7 +27,7 @@ protected:
 	AWeightedStrategyBase * _edgeStrategy;
 
 public:
-	GraphImage(GraphConfig * graphConfig);
+	explicit GraphImage(GraphConfig * graphConfig);
 	GraphImage(GraphImage const & graph);
 	void cloneVertices(GraphImage const & graph);
 	void cloneEdges(GraphImage & graph);

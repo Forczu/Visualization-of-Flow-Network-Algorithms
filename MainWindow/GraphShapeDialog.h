@@ -25,7 +25,7 @@ class GraphShapeDialog : public QDialog
 	UndirectedGraphImage * graph;
 
 public:
-	GraphShapeDialog(GraphImage * graph, GraphConfig * config, QWidget *parent = 0);
+	explicit GraphShapeDialog(GraphImage * graph, GraphConfig * config, QWidget *parent = 0);
 	~GraphShapeDialog();
 
 private:

@@ -9,7 +9,7 @@ class GraphTabWidget : public QTabWidget
 	std::map<int, QString> _tabNameMap;
 
 public:
-	GraphTabWidget(QWidget * parent);
+	explicit GraphTabWidget(QWidget * parent);
 	~GraphTabWidget();
 
 	void addTab(GraphImage * graph);

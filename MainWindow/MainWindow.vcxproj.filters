@@ -122,9 +122,6 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Edge.cpp">
       <Filter>Source Files\Edges</Filter>
     </ClCompile>
@@ -308,14 +305,14 @@
     <ClCompile Include="DinicAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="MkmAlgorithm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlockingFlowAlgoritm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlockingFlowAlgorithmWindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MkmAlgorithm.cpp">
+      <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,9 +339,6 @@
     </CustomBuild>
     <CustomBuild Include="EdgeImage.h">
       <Filter>Header Files\Edges</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Matrix.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Vertex.h">
       <Filter>Header Files</Filter>

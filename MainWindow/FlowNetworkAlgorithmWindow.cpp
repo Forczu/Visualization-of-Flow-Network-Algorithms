@@ -92,7 +92,6 @@ int FlowNetworkAlgorithmWindow::getCurrentFlowToTarget(FlowNetwork* network)
 {
 	int maxFlow = 0;
 	VertexImage * target = network->vertexAt(network->getTargetId());
-	EdgeImage * edge;
 	for (auto edge : network->getEdges())
 	{
 		if (edge->VertexTo() == target)

@@ -11,7 +11,7 @@ class BlockingFlowAlgorithmWindow : public FlowNetworkAlgorithmWindow
 	std::vector<QList<EdgeImage*>> _blockingPaths;
 	GraphView * blockingView;
 public:
-	BlockingFlowAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
+	explicit BlockingFlowAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
 
 	void makeNextStep() override;
 	int createResidualNetwork() override;

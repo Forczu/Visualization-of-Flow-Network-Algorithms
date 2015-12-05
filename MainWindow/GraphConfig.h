@@ -12,7 +12,7 @@ protected:
 	VertexContext * _selectedVertexContext;
 	EdgeContext * _selectedEdgeContext;
 public:
-	GraphConfig(VertexContext * normalVertexContext, EdgeContext * normalEdgeContext,
+	explicit GraphConfig(VertexContext * normalVertexContext, EdgeContext * normalEdgeContext,
 		VertexContext * selectedVertexContext, EdgeContext * selectedEdgeContext);
 	GraphConfig(GraphConfig const & other);
 	~GraphConfig();

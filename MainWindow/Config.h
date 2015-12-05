@@ -30,7 +30,7 @@ namespace Application
 		ToolType _currentTool;
 		EdgeType _currentEdgeType;
 	private:
-		Config();
+		explicit Config();
 		~Config();
 
 	public:

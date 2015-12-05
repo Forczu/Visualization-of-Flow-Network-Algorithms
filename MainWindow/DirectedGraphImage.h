@@ -4,7 +4,7 @@
 class DirectedGraphImage : public GraphImage
 {
 public:
-	DirectedGraphImage(GraphConfig * config);
+	explicit DirectedGraphImage(GraphConfig * config);
 	DirectedGraphImage(DirectedGraphImage const & graph);
 	virtual ~DirectedGraphImage();
 	EdgeImage * addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow = 0, float scale = 1.0f) override;

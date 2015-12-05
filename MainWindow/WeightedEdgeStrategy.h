@@ -33,7 +33,7 @@ public:
 		bool succeeded = false;
 		AddWeightToEdgeDialog dialog(vertexId1, vertexId2);
 		dialog.show();
-		if (succeeded = dialog.exec() == QDialog::Accepted)
+		if (succeeded = (dialog.exec() == QDialog::Accepted))
 		{
 			flow = dialog.getFlow();
 			capacity = dialog.getCapacity();

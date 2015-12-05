@@ -2,19 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLayout>
 #include <QListWidget>
-#include <qtextcodec.h>
-#include <map>
-#include <vector>
 #include "ui_mainwindow.h"
-#include "Graph.h"
 #include "Typedefs.h"
 #include "GraphTabWidget.h"
-#include "CreateNewGraphDialog.h"
 #include "Tool.h"
 #include "AlgorithmInfo.h"
-#include "Typedefs.h"
 
 class Config;
 class EdgeImage;
@@ -41,9 +34,6 @@ public:
 private:
 	Ui::MainWindowClass ui;
 	void setCursorForWidget(QWidget * widget, Qt::CursorShape shape);
-
-protected:
-	void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
 	void newFile();

@@ -13,7 +13,7 @@ protected:
 	QColor _inColor;
 	
 public:
-	PointImage(QPointF const & position);
+	explicit PointImage(QPointF const & position);
 	~PointImage();
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 	QRectF boundingRect() const Q_DECL_OVERRIDE;

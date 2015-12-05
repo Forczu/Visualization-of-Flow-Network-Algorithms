@@ -196,10 +196,10 @@ void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 	changeIntoBezierAction->setCheckable(true);
 	updateContextMenu(menu.actions());
 	QAction * selectedAction = menu.exec(event->screenPos());
-	EdgeType type;
 	GraphImage * image = dynamic_cast<GraphImage*>(parent());
 	if (NULL != image)
 	{
+		EdgeType type;
 		if (straight == selectedAction->text())
 		{
 			type = EdgeType::StraightLine;

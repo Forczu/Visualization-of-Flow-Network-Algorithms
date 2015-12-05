@@ -1,7 +1,6 @@
 #include "Graph.h"
 #include "Vertex.h"
 #include "Edge.h"
-#include "Matrix.h"
 
 Graph::Graph()
 {
@@ -175,17 +174,6 @@ void Graph::removeNeighbourEdges(Vertex * const vertex)
 	}
 }
 
-Matrix Graph::getNeighborhoodMatrix() const
-{
-	short n = VertexNumber();
-	Matrix nMatrix(n, n, 0);
-	for each (auto edge in _graph->second)
-	{
-		nMatrix.Set(edge->VertexFrom()->Id() - 1, edge->VertexFrom()->Id() - 1, 1);
-	}
-	return nMatrix;
-}
-
 Edge * Graph::getNeighborEdge(Edge * const edge)
 {
 	Vertex * first = edge->VertexFrom();
@@ -207,10 +195,9 @@ int Graph::smallestMissingVertexIndex()
 	VertexVector const & vertices = _graph->first;
 	if (vertices.size() == 0)
 		return index;
-	bool notFound = true;
 	for (; index <= vertices.size(); ++index)
 	{
-		notFound = true;
+		bool notFound = true;
 		for (VertexVector::const_iterator it = vertices.begin(); it != vertices.end(); ++it)
 		{
 			// jeœli liczba jest obecna wœród wierzcho³ków, szukaj dalej
@@ -233,10 +220,9 @@ int Graph::smallestMissingEdgeIndex()
 	EdgeVector const & edges = _graph->second;
 	if (edges.size() == 0)
 		return index;
-	bool notFound = true;
 	for (; index <= edges.size(); ++index)
 	{
-		notFound = true;
+		bool notFound = true;
 		for (EdgeVector::const_iterator it = edges.begin(); it != edges.end(); ++it)
 		{
 			if (index == (*it)->Id())

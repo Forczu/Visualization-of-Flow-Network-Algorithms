@@ -8,7 +8,7 @@ class Vertex
 	short _id;
 	
 public:
-	Vertex(short id);
+	explicit Vertex(short id);
 	Vertex(Vertex const & v);
 	~Vertex();
 

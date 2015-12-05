@@ -8,7 +8,7 @@ class EdgeContext
 	QColor _color;
 public:
 	EdgeContext();
-	EdgeContext(int size, QColor const & color);
+	explicit EdgeContext(int size, QColor const & color);
 	EdgeContext(EdgeContext const & other);
 
 	inline int Size() const { return _size; }

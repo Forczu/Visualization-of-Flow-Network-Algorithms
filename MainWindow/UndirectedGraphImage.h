@@ -4,7 +4,7 @@
 class UndirectedGraphImage : public GraphImage
 {
 public:
-	UndirectedGraphImage(GraphConfig * config);
+	explicit UndirectedGraphImage(GraphConfig * config);
 	UndirectedGraphImage(UndirectedGraphImage const & graph);
 	~UndirectedGraphImage();
 

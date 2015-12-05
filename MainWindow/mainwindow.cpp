@@ -44,10 +44,6 @@ MainWindow::~MainWindow()
 	delete _graphTabs;
 }
 
-void MainWindow::contextMenuEvent(QContextMenuEvent *event)
-{
-}
-
 void MainWindow::newFile()
 {
 	int index = _graphTabs->count() + 1;

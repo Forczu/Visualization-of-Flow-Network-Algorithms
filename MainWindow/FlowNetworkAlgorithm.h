@@ -12,7 +12,7 @@ class FlowNetworkAlgorithm : public QObject
 protected:
 	float _scaleFactor;
 	int _currentMaxFlow;
-	FlowNetworkAlgorithm();
+	explicit FlowNetworkAlgorithm();
 
 public:
 	virtual int makeResidualNetwork(FlowNetwork * network, FlowNetwork *& outResidaulNetwork);

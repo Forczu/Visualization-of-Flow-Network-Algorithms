@@ -19,13 +19,12 @@ int MkmAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& resi
 
 QList<EdgeImage*> MkmAlgorithm::findAugumentingPath(FlowNetwork * network, int & capacity)
 {
-	VertexImage * vertex;
 	QList<EdgeImage*> pathToTarget, pathToSource;
 	do 
 	{
 		pathToTarget.clear();
 		pathToSource.clear();
-		vertex = findVertexWithMinimalPotential(network);
+		VertexImage * vertex = findVertexWithMinimalPotential(network);
 		if (vertex == nullptr)
 			break;
 		pathToTarget = sendUnitsToTarget(network, vertex->getId());
@@ -85,11 +84,10 @@ void MkmAlgorithm::calculateVertexPotentials(FlowNetwork * network)
 VertexImage * MkmAlgorithm::findVertexWithMinimalPotential(FlowNetwork * network)
 {
 	float minimalPotential = std::numeric_limits<float>::infinity();
-	float currentPotential;
 	VertexImage * chosenVertex = nullptr;
 	for (PotentialMap::const_iterator it = _potentialMap.begin(); it != _potentialMap.end(); ++it)
 	{
-		currentPotential = std::get<2>(*it);
+		float currentPotential = std::get<2>(*it);
 		VertexImage * vertex = network->vertexAt(it.key());
 		if (currentPotential != 0 && vertex->isVisible()
 			&& !_rejectedVertices.contains(vertex) && currentPotential < minimalPotential)

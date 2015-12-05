@@ -14,7 +14,7 @@ class VertexContext
 	QFont _font;
 
 public:
-	VertexContext(VertexBuilder * builder);
+	explicit VertexContext(VertexBuilder * builder);
 	VertexContext(VertexContext const & other);
 	
 public:

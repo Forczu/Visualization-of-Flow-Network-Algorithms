@@ -3,7 +3,7 @@
 #include "Edge.h"
 #include "Strings.h"
 
-VertexImage::VertexImage(VertexContext * context) : _context(context), _inDegree(0), _outDegree(0)
+VertexImage::VertexImage(VertexContext * context) : _context(context), _inDegree(0), _outDegree(0), parent(0), _vertex(nullptr)
 {
 	setCursor(Qt::OpenHandCursor);
 	setAcceptedMouseButtons(Qt::LeftButton);

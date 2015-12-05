@@ -25,10 +25,10 @@ void EdgeTextItem::turnOffEditorMode()
 {
 	TextItem::turnOffEditorMode();
 	QStringList list = _text.split(QRegExp("\\D+"), QString::SkipEmptyParts);
-	int flow, capacity;
+	int capacity;
 	if (list.size() == 2)
 	{
-		flow = list[0].toInt();
+		int flow = list[0].toInt();
 		capacity = list[1].toInt();
 		if (flow <= capacity)
 		{

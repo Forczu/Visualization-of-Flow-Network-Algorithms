@@ -14,7 +14,7 @@ class FlowNetwork : public DirectedGraphImage, public ICloneable<FlowNetwork>
 	QFont _labelFont;
 
 public:
-	FlowNetwork(GraphConfig * config);
+	explicit FlowNetwork(GraphConfig * config);
 	FlowNetwork(FlowNetwork const & network);
 	~FlowNetwork();
 

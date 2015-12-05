@@ -10,7 +10,7 @@
 #include "AWeightedStrategyBase.h"
 #include <utility>
 
-GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig)
+GraphImage::GraphImage(GraphConfig * graphConfig) : _config(graphConfig), _edgeStrategy(nullptr)
 {
 	init();
 }
@@ -34,7 +34,6 @@ void GraphImage::init()
 void GraphImage::cloneVertices(GraphImage const & graph)
 {
 	VertexImageMap map = graph.getVertices();
-	VertexImage * vertexImg;
 	for (VertexImageMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		int id = (*it)->getId();
@@ -51,7 +50,6 @@ void GraphImage::cloneVertices(GraphImage const & graph)
 void GraphImage::cloneEdges(GraphImage & graph)
 {
 	EdgeImageMap map = graph.getEdges();
-	EdgeImage * newEdge;
 	for (Edge * edge : graph.getGraph()->getEdges())
 	{
 		addEdge(edge->VertexFrom()->Id(), edge->VertexTo()->Id(),

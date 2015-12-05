@@ -16,7 +16,7 @@ class ArrowHeadImage : public QGraphicsItem
 	EdgeImage * _parentEdge;
 
 public:
-	ArrowHeadImage(EdgeImage * parent, int width, int height, float theta, bool filled);
+	explicit ArrowHeadImage(EdgeImage * parent, int width, int height, float theta, bool filled);
 	~ArrowHeadImage();
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;

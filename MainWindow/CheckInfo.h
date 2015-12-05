@@ -5,7 +5,7 @@ class CheckInfo
 	bool _succeeded;
 	QString _info;
 public:
-	CheckInfo(bool succeeded);
+	explicit CheckInfo(bool succeeded);
 
 	inline bool didSucceeded() const { return _succeeded; }
 	void setSucceeded(bool succeeded) { _succeeded = succeeded; }

@@ -34,7 +34,7 @@ protected:
 	std::pair<bool, float> _offset;
 	bool _hasNeighbor;
 public:
-	EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
+	explicit EdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
 	virtual ~EdgeImage();
 
 	inline Edge * getEdge() const { return _edge; }

@@ -82,7 +82,7 @@ protected:
 	std::vector<char*> _atrVector;
 
 public:
-	GraphSerializer();
+	explicit GraphSerializer();
 	~GraphSerializer();
 
 	bool parse(std::string const & filePath);
@@ -90,7 +90,6 @@ public:
 	bool serialize(GraphImage const & graph, std::string const & fileNam);
 
 private:
-	char * stringToChar(std::string const & s);
 	char * xmlToChar(std::string const & stageFile);
 	xml_node<> * createRoot(GraphImage const & graph);
 	const char * getGraphType(GraphImage const & graph);

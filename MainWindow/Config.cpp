@@ -14,7 +14,7 @@ namespace Application
 			ReadVertices(root);
 			ReadEdges(root);
 		}
-		catch (libconfig::FileIOException e)
+		catch (libconfig::FileIOException const & e)
 		{
 		}
 	}

@@ -9,7 +9,7 @@ protected:
 	static const char * DINIC;
 	static const char * MKM;
 public:
-	FlowNetworkAlgorithmState();
+	explicit FlowNetworkAlgorithmState();
 	QStringList getAlgorithmList() override;
 	QMap<QString, QString> getAlgorithmMap() override;
 	FlowNetworkAlgorithm * getAlgorithm(QString const & name) override;

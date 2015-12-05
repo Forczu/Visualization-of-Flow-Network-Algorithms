@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <vector>
-#include <memory>
 #include "Typedefs.h"
 
 class Vertex;
@@ -31,8 +30,6 @@ public:
 	Edge * addEdgeSingle(int first, int second);
 	void removeEdge(Edge * const edge);
 	void removeNeighbourEdges(Vertex * const vertex);
-
-	Matrix getNeighborhoodMatrix() const;
 
 	inline short VertexNumber() const
 	{

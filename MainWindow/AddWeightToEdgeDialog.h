@@ -9,7 +9,7 @@ class AddWeightToEdgeDialog : public QDialog
 	Q_OBJECT
 
 public:
-	AddWeightToEdgeDialog(int from, int to);
+	explicit AddWeightToEdgeDialog(int from, int to);
 	~AddWeightToEdgeDialog();
 
 	inline int getFlow() const

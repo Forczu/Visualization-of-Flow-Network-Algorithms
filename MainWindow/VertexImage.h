@@ -1,13 +1,8 @@
 #pragma once
 
 #include <QtWidgets/QtWidgets>
-#include <Qt>
-#include <memory>
-
 #include "VertexContext.h"
 #include "Vertex.h"
-#include "Config.h"
-#include "Labels.h"
 #include "Typedefs.h"
 #include "GraphImage.h"
 
@@ -23,7 +18,7 @@ class VertexImage : public QGraphicsItem
 	int _inDegree;
 	int _outDegree;
 public:
-	VertexImage(VertexContext * context);
+	explicit VertexImage(VertexContext * context);
 	~VertexImage();
 
 	QRectF boundingRect() const Q_DECL_OVERRIDE;

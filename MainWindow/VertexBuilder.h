@@ -11,7 +11,7 @@ class VertexBuilder
 	QColor _strokeColor;
 	QFont _font;
 public:
-	VertexBuilder(short size, short strokeSize)
+	explicit VertexBuilder(short size, short strokeSize)
 	{
 		_size = size;
 		_strokeSize = strokeSize;

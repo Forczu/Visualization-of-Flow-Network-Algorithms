@@ -69,7 +69,6 @@ void FlowNetwork::removeVertex(VertexImage * const vertex)
 /// <returns>True, je¿eli za³o¿enia s¹ spe³nione, false jeœli nie</returns>
 bool FlowNetwork::checkCapacityCondition(CheckInfo &info)
 {
-	EdgeImage * edge;
 	bool succeeded = true;
 	for (EdgeImage * edge : _edgeMap)
 	{
@@ -135,7 +134,6 @@ bool FlowNetwork::checkStructure(CheckInfo &info)
 	{
 		if (_source == vertex->getId() || _target == vertex->getId())
 			continue;
-		std::vector<EdgeImage*> edges;
 		if (_vertexMap.find(getSourceId()) != _vertexMap.end())
 			source = _vertexMap[getSourceId()];
 		else

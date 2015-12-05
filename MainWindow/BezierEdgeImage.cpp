@@ -106,13 +106,12 @@ void BezierEdgeImage::rotateArrowHead()
 	QPointF p1 = _points[1];
 	QPointF p2 = _points[2];
 	QPointF p3 = _points[3];
-	float x = 0, y = 0;
 	float xold = 0, yold = 0;
 	float angle = 0;
 	for (float t = 0.90f; t < 1.001f; t += 0.01f)
 	{
-		x = std::pow(1 - t, 3) * p0.x() + 3 * std::pow(1 - t, 2) * t * p1.x() + 3 * (1 - t) * std::pow(t, 2) * p2.x() + std::pow(t, 3) * p3.x();
-		y = std::pow(1 - t, 3) * p0.y() + 3 * std::pow(1 - t, 2) * t * p1.y() + 3 * (1 - t) * std::pow(t, 2) * p2.y() + std::pow(t, 3) * p3.y();
+		float x = std::pow(1 - t, 3) * p0.x() + 3 * std::pow(1 - t, 2) * t * p1.x() + 3 * (1 - t) * std::pow(t, 2) * p2.x() + std::pow(t, 3) * p3.x();
+		float y = std::pow(1 - t, 3) * p0.y() + 3 * std::pow(1 - t, 2) * t * p1.y() + 3 * (1 - t) * std::pow(t, 2) * p2.y() + std::pow(t, 3) * p3.y();
 		angle = Angle(xold, yold, x, y);
 		xold = x; yold = y;
 	}

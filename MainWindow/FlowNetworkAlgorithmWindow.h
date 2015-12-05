@@ -26,7 +26,7 @@ protected:
 	std::vector<QList<EdgeImage*>> _paths;
 
 public:
-	FlowNetworkAlgorithmWindow(FlowNetwork * network,
+	explicit FlowNetworkAlgorithmWindow(FlowNetwork * network,
 		FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
 	virtual ~FlowNetworkAlgorithmWindow();
 	void setSceneForViews(QGraphicsScene * scene);

@@ -14,7 +14,7 @@ class BezierEdgeImage : public EdgeImage
 	bool _isMoveMode;
 
 public:
-	BezierEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
+	explicit BezierEdgeImage(Edge * edge, VertexImage * const vertexFrom, VertexImage * const vertexTo, EdgeContext * context);
 	~BezierEdgeImage();
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

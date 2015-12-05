@@ -1,8 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include <QString>
 #include <QMap>
-#include <vector>
 
 static const char * ALGORITHM_ERROR = "ALGORITHM_ERROR";
 static const char * ERROR_MAIN_INFO = "ERROR_MAIN_INFO";
@@ -55,7 +53,7 @@ class Strings : public Singleton<Strings>
 	/// </summary>
 	QMap<QString, QString> _map;
 public:
-	Strings();
+	explicit Strings();
 
 	inline QString get(QString const & key) { return _map[key]; }
 

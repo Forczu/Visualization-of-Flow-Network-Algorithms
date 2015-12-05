@@ -1,11 +1,11 @@
 #include "GraphSerializer.h"
 #include "StraightEdgeImage.h"
 #include "BezierEdgeImage.h"
-#include <typeinfo>
 #include "WeightedEdgeStrategy.h"
 #include "UnweightedEdgeStrategy.h"
 #include "UndirectedGraphImage.h"
 #include "FlowNetwork.h"
+#include "VertexBuilder.h"
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
@@ -30,7 +30,7 @@ bool GraphSerializer::parse(std::string const & filePath)
 		_doc.parse<0>(_contents);
 		return true;
 	}
-	catch (rapidxml::parse_error e)
+	catch (rapidxml::parse_error const & e)
 	{
 		return false;
 	}
@@ -77,14 +77,6 @@ bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fi
 	file_stored << _doc;
 	file_stored.close();
 	return true;
-}
-
-char * GraphSerializer::stringToChar(std::string const & s)
-{
-	unsigned int N = s.length();
-	char * out = new char[N + 1];
-	std::copy(s.c_str(), (s.c_str() + N - 1), out);
-	return out;
 }
 
 char * GraphSerializer::xmlToChar(std::string const & stageFile)
