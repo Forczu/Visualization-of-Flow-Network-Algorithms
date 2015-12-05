@@ -7,7 +7,7 @@ VertexContext::VertexContext(VertexContext const & other)
 	StrokeSize(other.StrokeSize());
 	Color(other.Color());
 	StrokeColor(other.StrokeColor());
-	Font(other.Font());
+	Font(QFont(other.Font()));
 }
 
 VertexContext::VertexContext(VertexBuilder * builder)

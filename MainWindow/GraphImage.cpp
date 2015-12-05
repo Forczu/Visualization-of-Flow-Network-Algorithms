@@ -85,7 +85,6 @@ void GraphImage::deleteItem(QGraphicsItem * const item)
 {
 	if (!item)
 		return;
-	item->setParentItem(NULL);
 	delete item;
 }
 
@@ -275,6 +274,28 @@ void GraphImage::correctNeighborEdges(Edge * const first, Edge * const second)
 		}
 		if (count == MAX)
 			break;
+	}
+}
+
+void GraphImage::setConfig(GraphConfig * val)
+{
+	if (_config == val)
+		return;
+	delete _config;
+	_config = val;
+	for (auto vertex : _vertexMap)
+	{
+		if (!vertex->isSelected())
+			vertex->setContext(_config->NormalVertexContext());
+		else
+			vertex->setContext(_config->SelectedVertexContext());
+	}
+	for (auto edge : _edgeMap)
+	{
+		if (!edge->isSelected())
+			edge->setContext(_config->NormalEdgeContext());
+		else
+			edge->setContext(_config->SelectedEdgeContext());
 	}
 }
 

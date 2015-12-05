@@ -96,7 +96,7 @@ void MainWindow::saveAs()
 	fileName = "serialized_graph.xml";
 #else
 	fileName = QFileDialog::getSaveFileName(this,
-		tr("Save Graph File..."), QString(), tr("XML File (*.xml)"));
+		Strings::Instance().get(SAVE_GRAPH_TO_FILE), QString(), tr("XML File (*.xml)"));
 #endif
 	auto graph = _graphTabs->currentGraphView()->getGraphImage();
 	GraphSerializer serializer;
@@ -153,10 +153,12 @@ void MainWindow::openGraphShapeDialog()
 {
 	if (_graphTabs->isHidden())
 		return;
-	GraphConfig * config = _graphTabs->currentGraphView()->getGraphImage()->getConfig();
-	GraphShapeDialog graphShapeDialog = GraphShapeDialog(config, this);
+	GraphImage * graph = _graphTabs->currentGraphView()->getGraphImage();
+	GraphConfig * config = graph->getConfig();
+	GraphShapeDialog graphShapeDialog = GraphShapeDialog(graph, config, this);
 	graphShapeDialog.setModal(false);
 	graphShapeDialog.exec();
+	_graphTabs->currentGraphView()->scene()->update();
 }
 
 void MainWindow::createActions() const

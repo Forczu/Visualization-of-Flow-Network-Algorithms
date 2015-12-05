@@ -51,7 +51,7 @@ void StraightEdgeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 		arrowCenter = _arrow->Center();
 	}
 	oldAngle = currAngle;
-	_line.setPoints(QPointF(), !isArrow ? _vertexTo->PointAt(_edge->Id()) : arrowCenter);
+	_line.setPoints(QPointF(), !isArrow ? _vertexTo->PointAt(_edge->Id()) - pos() : arrowCenter);
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(QPen(_context->Color(), _context->Size(), Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 	painter->drawLine(_line);

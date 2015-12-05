@@ -5,6 +5,7 @@
 #include "Edge.h"
 #include "TextItem.h"
 #include "ArrowHeadImage.h"
+#include "Consts.h"
 #include "GraphImage.h"
 #include "MyMath.h"
 
@@ -147,7 +148,7 @@ void EdgeImage::createArrowHead()
 {
 	if (_arrow != nullptr)
 		return;
-	_arrow = new ArrowHeadImage(this, 50, 70, 0.0f, true);
+	_arrow = new ArrowHeadImage(this, 60, 80, 0.0f, true);
 	_arrow->setZValue(ARROWHEAD_Z_VALUE);
 	_arrow->setParentItem(this);
 	float angle = -getAngle() - 90;

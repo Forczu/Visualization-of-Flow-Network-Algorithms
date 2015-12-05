@@ -59,6 +59,9 @@ public:
 	void setInDegree(int val) { _inDegree = val; }
 	int getOutDegree() const { return _outDegree; }
 	void setOutDegree(int val) { _outDegree = val; }
+
+	void setContext(VertexContext * context) { _context = context; }
+
 private:
 	QPointF findPointOnCircle(float angle);
 };

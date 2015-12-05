@@ -529,19 +529,17 @@
     <CustomBuild Include="DinicAlgorithm.h">
       <Filter>Header Files\Algorithms</Filter>
     </CustomBuild>
+    <CustomBuild Include="BlockingFlowAlgorithmWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BlockingFlowAlgoritm.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MkmAlgorithm.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainWindow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BlockingFlowAlgorithmWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MkmAlgorithm.h">
-      <Filter>Header Files\Algorithms</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockingFlowAlgoritm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

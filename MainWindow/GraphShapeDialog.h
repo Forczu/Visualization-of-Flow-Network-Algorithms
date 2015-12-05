@@ -6,6 +6,7 @@
 #include "ui_GraphShapeDialog.h"
 #include "GraphConfig.h"
 
+class GraphImage;
 class ArrowHeadImage;
 class Config;
 class Edge;
@@ -14,26 +15,24 @@ class StraightEdgeImage;
 class Vertex;
 class VertexImage;
 class VertexContext;
+class UndirectedGraphImage;
 
 class GraphShapeDialog : public QDialog
 {
 	Q_OBJECT
 	GraphConfig * _config;
+	GraphImage * _graph;
+	UndirectedGraphImage * graph;
 
 public:
-	GraphShapeDialog(GraphConfig * config, QWidget *parent = 0);
+	GraphShapeDialog(GraphImage * graph, GraphConfig * config, QWidget *parent = 0);
 	~GraphShapeDialog();
 
 private:
 	Ui::GraphShapeDialog ui;
-
 	GraphConfig * _backupConfig;
-
-	VertexImage * _verticePreview, *_v1, *_v2;
-	StraightEdgeImage * _edgePreview;
-	ArrowHeadImage * _arrow;
+	VertexImage * _verticePreview;
 	Vertex * _vertex;
-	Edge * _edge;
 
 	void initVertexTab();
 	void initEdgeTab();

@@ -1,13 +1,11 @@
 #pragma once
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include <QObject>
 #include <QAction>
-#include <vector>
+#include <QPointer>
 #include "Typedefs.h"
 #include "GraphConfig.h"
 #include "Edges.h"
-#include "Consts.h"
 #include "Graph.h"
 #include "ICloneable.h"
 
@@ -68,7 +66,7 @@ public:
 	inline AWeightedStrategyBase * getWeightStrategy() const { return _edgeStrategy; }
 	void setWeightStrategy(AWeightedStrategyBase * val) { _edgeStrategy = val; }
 	inline GraphConfig * getConfig() const { return _config; }
-	void setConfig(GraphConfig * val) { _config = val; }
+	void setConfig(GraphConfig * val);
 	inline VertexImageMap getVertices() const { return _vertexMap; }
 	inline EdgeImageMap getEdges() const { return _edgeMap; }
 	void setName(QString const & name) { _config->setName(name); }

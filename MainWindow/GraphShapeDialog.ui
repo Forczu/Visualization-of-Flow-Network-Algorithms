@@ -35,7 +35,7 @@
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="verticeTab">
     <attribute name="title">
@@ -112,10 +112,10 @@
       <item row="1" column="0" colspan="3">
        <widget class="QSlider" name="vertexSizeSlider">
         <property name="minimum">
-         <number>10</number>
+         <number>20</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>80</number>
         </property>
         <property name="singleStep">
          <number>10</number>
@@ -160,10 +160,10 @@
       <item row="3" column="0" colspan="3">
        <widget class="QSlider" name="strokeSizeSlider">
         <property name="minimum">
-         <number>1</number>
+         <number>2</number>
         </property>
         <property name="maximum">
-         <number>30</number>
+         <number>25</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -229,7 +229,7 @@
        <x>10</x>
        <y>10</y>
        <width>261</width>
-       <height>231</height>
+       <height>131</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
@@ -284,10 +284,10 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>50</number>
+         <number>30</number>
         </property>
         <property name="singleStep">
-         <number>1</number>
+         <number>5</number>
         </property>
         <property name="pageStep">
          <number>10</number>
@@ -303,51 +303,6 @@
         </property>
         <property name="tickInterval">
          <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QLabel" name="headSizeLabel">
-        <property name="text">
-         <string>Wielkość grotu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="3">
-       <widget class="QSlider" name="headWidthSlider">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>50</number>
-        </property>
-        <property name="singleStep">
-         <number>1</number>
-        </property>
-        <property name="pageStep">
-         <number>10</number>
-        </property>
-        <property name="value">
-         <number>1</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="tickPosition">
-         <enum>QSlider::TicksBelow</enum>
-        </property>
-        <property name="tickInterval">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QCheckBox" name="filledHeadCheckbox">
-        <property name="text">
-         <string>Wypełniony</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
         </property>
        </widget>
       </item>

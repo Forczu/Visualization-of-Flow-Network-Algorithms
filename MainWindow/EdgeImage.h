@@ -85,6 +85,7 @@ protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 public:
 	virtual void setCenterPoint() = 0;
+	void setContext(EdgeContext * context) { _context = context; }
 signals:
 	void typeChanged(EdgeImage * edge, QAction * action);
 
