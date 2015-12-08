@@ -261,12 +261,21 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 	// jeœli tak, to uruchom okno z algorytmem
 	if (info.didSucceeded())
 	{
+		// utworzenie nowego okna
 		QDialog * windowPtr = _algorithmInfo.getDialog(graph, item->text());
 		windowPtr->setWindowTitle(item->text());
-		auto copy = graph->createCopy();
+		// zapisanie starego grafu do pliku
+		std::string fileName = "graph.bak";
+		GraphSerializer ser;
+		ser.serialize(*graph, fileName);
+		// wykonanie algorytmu
 		windowPtr->exec();
+		// zwolnienie okna z pamiêci
 		delete windowPtr;
+		// przywrócenie pierwotnego grafu
+		auto copy = ser.deserialize(fileName);
 		_graphTabs->currentGraphView()->setGraphImage(copy);
+		copy->updateScale(_graphTabs->currentGraphView()->getScale());
 	}
 	else
 	{

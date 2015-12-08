@@ -83,6 +83,11 @@ void GraphImage::deleteItem(QGraphicsItem * const item)
 {
 	if (!item)
 		return;
+	if (scene())
+	{
+		item->setParentItem(NULL);
+		scene()->removeItem(item);
+	}
 	delete item;
 }
 

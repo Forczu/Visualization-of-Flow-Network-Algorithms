@@ -28,7 +28,6 @@ void FlowNetworkAlgorithmWindow::createScene()
 
 FlowNetworkAlgorithmWindow::~FlowNetworkAlgorithmWindow()
 {
-	deleteDialog();
 }
 
 void FlowNetworkAlgorithmWindow::setSceneForViews(QGraphicsScene * scene)

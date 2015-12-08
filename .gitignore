@@ -341,3 +341,4 @@ MainWindow/serialized_graph - Copy.xml
 *.3ms
 *.2ac
 *.fzi
+MainWindow/tmp.xml
