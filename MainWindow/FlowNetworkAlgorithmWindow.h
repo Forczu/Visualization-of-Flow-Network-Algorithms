@@ -30,6 +30,7 @@ public:
 		FlowNetworkAlgorithm * algorithm, QWidget *parent = 0);
 	virtual ~FlowNetworkAlgorithmWindow();
 	void setSceneForViews(QGraphicsScene * scene);
+	void configureView(GraphView* view) const;
 	void scaleViews();
 	void setAlgorithm(FlowNetworkAlgorithm * algorithm);
 	void seNetwork(FlowNetwork * network);
@@ -37,7 +38,6 @@ protected:
 	virtual void showEvent(QShowEvent * evt) Q_DECL_OVERRIDE;
 	void closeEvent(QCloseEvent * evt) Q_DECL_OVERRIDE;
 	static int getCurrentFlowToTarget(FlowNetwork * network);
-	void configureView(GraphView * view) const;
 	void createConnections() const;
 	void updateConsole(QString const & message);
 	void deleteDialog() const;

@@ -3,6 +3,7 @@
 #include "EdgeImage.h"
 #include "VertexImage.h"
 #include "DinicAlgorithm.h"
+#include "GraphView.h"
 
 BlockingFlowAlgorithmWindow::BlockingFlowAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent /*= 0*/)
 : FlowNetworkAlgorithmWindow(network, algorithm, parent), _blockingFlowInProgress(false), _blockingFlow(nullptr), _blockingStep(0), _currentCapacity(0)

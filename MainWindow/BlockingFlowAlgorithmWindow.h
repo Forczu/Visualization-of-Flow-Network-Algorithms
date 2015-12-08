@@ -1,6 +1,8 @@
 #pragma once
 #include "FlowNetworkAlgorithmWindow.h"
 
+class GraphView;
+
 class BlockingFlowAlgorithmWindow : public FlowNetworkAlgorithmWindow
 {
 	bool _blockingFlowInProgress;

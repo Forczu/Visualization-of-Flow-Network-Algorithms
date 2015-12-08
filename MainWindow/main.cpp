@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QTextStream>
+#include "Application.h"
 
 #ifdef DEBUG
 #include <vld.h>
@@ -9,11 +10,11 @@ QString loadScrollbarStyle();
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+	Application a(argc, argv);
 	a.setStyleSheet(loadScrollbarStyle());
 	MainWindow w;
 	w.show();
-	return a.exec();
+	a.exec();
 }
 
 QString loadScrollbarStyle()

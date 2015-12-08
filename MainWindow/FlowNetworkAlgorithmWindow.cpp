@@ -3,9 +3,8 @@
 #include "Strings.h"
 #include "EdgeImage.h"
 #include "VertexImage.h"
-#include "DinicAlgorithm.h"
 #include "GraphSerializer.h"
-#include "QFileDialog"
+#include "GraphView.h"
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
 : QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr)
@@ -24,6 +23,7 @@ void FlowNetworkAlgorithmWindow::createScene()
 	QRectF rect = _scene->sceneRect();
 	rect.setWidth(rect.width() * 6);
 	_scene->setSceneRect(rect);
+	_scene->setParent(this);
 }
 
 FlowNetworkAlgorithmWindow::~FlowNetworkAlgorithmWindow()
@@ -256,6 +256,8 @@ void FlowNetworkAlgorithmWindow::finish()
 	connect(_timer, SIGNAL(timeout()), this, SLOT(makeNextStep()));
 	connect(this, SIGNAL(endAlgorithm()), this, SLOT(stopTimer()));
 	_timer->start(500);
+	ui.nextStepButton->setEnabled(false);
+	ui.finishAlgorithmButton->setEnabled(false);
 }
 
 void FlowNetworkAlgorithmWindow::deleteDialog() const
