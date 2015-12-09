@@ -9,7 +9,7 @@ namespace Application
 	{
 		try
 		{
-			_cfg.readFile("Config\\config.cfg");
+			_cfg.readFile("config\\config.cfg");
 			libconfig::Setting const & root = _cfg.getRoot();
 			ReadVertices(root);
 			ReadEdges(root);
@@ -83,7 +83,7 @@ namespace Application
 		strokeColorNode["r"] = color.red();
 		strokeColorNode["g"] = color.green();
 		strokeColorNode["b"] = color.blue();
-		_cfg.writeFile("Config\\config.cfg");
+		_cfg.writeFile("config\\config.cfg");
 	}
 
 	void Config::ReadEdges(libconfig::Setting const & root)
@@ -118,7 +118,7 @@ namespace Application
 		colorNode["r"] = color.red();
 		colorNode["g"] = color.green();
 		colorNode["b"] = color.blue();
-		_cfg.writeFile("Config\\config.cfg");
+		_cfg.writeFile("config\\config.cfg");
 	}
 
 	void Config::ReadAlgorithmMap(libconfig::Setting const & algoritmsNode, QMap<QString, QString> & algoritmMap)

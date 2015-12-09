@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>244</width>
-    <height>148</height>
+    <height>101</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>20</x>
      <y>13</y>
      <width>202</width>
-     <height>81</height>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -33,35 +33,15 @@
     <item row="0" column="1">
      <widget class="QLineEdit" name="graphNameText"/>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="OrderLabel">
-      <property name="text">
-       <string>Rodzaj</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="orderComboBox"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="weightLabel">
-      <property name="text">
-       <string>Wagi</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="weightComboBox"/>
-    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>110</y>
+     <y>54</y>
      <width>201</width>
-     <height>25</height>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

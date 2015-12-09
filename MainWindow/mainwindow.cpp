@@ -14,6 +14,7 @@
 #include "Strings.h"
 #include "WeightedEdgeStrategy.h"
 #include "ZoomTool.h"
+#include "CreateNewGraphDialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -47,24 +48,21 @@ MainWindow::~MainWindow()
 void MainWindow::newFile()
 {
 	int index = _graphTabs->count() + 1;
-#if DEBUG
-	GraphImage * graph = createGraph(FlowNetwork::getInstance, WeightedEdgeStrategy::getInstance);
-#else
+	QString graphName;
+#ifndef DEBUG
 	CreateNewGraphDialog dialog(index);
 	dialog.show();
-	dialog.exec();
-	if (dialog.getResult() != QDialog::Accepted)
+	if (dialog.exec() != QDialog::Accepted)
 		return;
-	GraphImage * graph = createGraph(dialog.getGraphFunc(), dialog.getEdgeStrategy());
+	graphName = dialog.getGraphName();
+#else
+	graphName = "Debug";
 #endif
+	GraphImage * graph = createGraph(FlowNetwork::getInstance, WeightedEdgeStrategy::getInstance);
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	_graphTabs->addTab(graph,
-#if DEBUG
-		"Debug");
-#else
-		dialog.getName());
-#endif
+	_graphTabs->addTab(graph, graphName);
+	graph->setName(graphName);
 }
 
 void MainWindow::open()
@@ -75,12 +73,14 @@ void MainWindow::open()
 #else
 	fileName = QFileDialog::getOpenFileName(this,
 		tr("Open Graph File..."), QString(), tr("XML File (*.xml)")).toStdString();
+	if (fileName.empty())
+		return;
 #endif
 	GraphSerializer serializer;
 	GraphImage * graph = serializer.deserialize(fileName);
 	if (_graphTabs->isHidden())
 		_graphTabs->show();
-	_graphTabs->addTab(graph);
+	_graphTabs->addTab(graph, graph->getName());
 }
 
 void MainWindow::saveAs()

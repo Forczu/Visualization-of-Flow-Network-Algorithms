@@ -14,7 +14,7 @@ Strings * Strings::_pInstance = 0;
 /// </summary>
 Strings::Strings()
 {
-	QFile data("Config\\strings.cfg");
+	QFile data("config\\strings.cfg");
 	if (data.open(QFile::ReadOnly | QFile::Truncate))
 	{
 		QTextStream in(&data);

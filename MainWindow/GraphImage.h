@@ -2,7 +2,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QAction>
-#include <QPointer>
+#include <QString>
 #include "Typedefs.h"
 #include "GraphConfig.h"
 #include "Edges.h"
@@ -25,7 +25,6 @@ protected:
 	VertexImageMap	_vertexMap;
 	EdgeImageMap	_edgeMap;
 	AWeightedStrategyBase * _edgeStrategy;
-
 public:
 	explicit GraphImage(GraphConfig * graphConfig);
 	GraphImage(GraphImage const & graph);

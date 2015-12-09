@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
 QString loadScrollbarStyle()
 {
-	QFile file("Config\\scrollbar.txt");
+	QFile file("config\\scrollbar.txt");
 	QTextStream in(&file);
 	QString scrollbarStyle;
 	if (file.open(QIODevice::ReadOnly))
