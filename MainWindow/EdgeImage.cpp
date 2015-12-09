@@ -186,32 +186,6 @@ void EdgeImage::updateText()
 		_text->setText(capacity);
 }
 
-void EdgeImage::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
-{
-	QString straight = "Linia prosta", bezier = "Linia krzywa";
-	QMenu menu;
-	QAction * changeIntoStraightAction = menu.addAction(straight);
-	changeIntoStraightAction->setCheckable(true);
-	QAction * changeIntoBezierAction = menu.addAction(bezier);
-	changeIntoBezierAction->setCheckable(true);
-	updateContextMenu(menu.actions());
-	QAction * selectedAction = menu.exec(event->screenPos());
-	GraphImage * image = dynamic_cast<GraphImage*>(parent());
-	if (NULL != image)
-	{
-		EdgeType type;
-		if (straight == selectedAction->text())
-		{
-			type = EdgeType::StraightLine;
-		}
-		else if (bezier == selectedAction->text())
-		{
-			type = EdgeType::BezierLine;
-		}
-		image->changeEdge(this, type);
-	}
-}
-
 void EdgeImage::changeText(QString const & str)
 {
 	int value = str.toInt();

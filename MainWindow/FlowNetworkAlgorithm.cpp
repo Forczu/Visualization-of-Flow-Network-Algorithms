@@ -7,6 +7,12 @@ FlowNetworkAlgorithm::FlowNetworkAlgorithm() : _scaleFactor(0.0f), _currentMaxFl
 {
 }
 
+/// <summary>
+/// Tworzy sieæ residualn¹ na podstawie przekazanej sieci przep³ywowej.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <param name="outResidaulNetwork">The residaul network.</param>
+/// <returns></returns>
 int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& outResidaulNetwork)
 {
 	// usuniêcie starych krawêdzi
@@ -51,6 +57,12 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 	return 0;
 }
 
+/// <summary>
+/// Wyszukuje œcie¿kê powiêkszaj¹c¹ w przekazanej sieci i zapisuje jej wartoœæ do capacity.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <param name="capacity">The capacity.</param>
+/// <returns></returns>
 QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * network, int & capacity)
 {
 	QList<EdgeImage*> augumentingPath;
@@ -92,6 +104,12 @@ bool FlowNetworkAlgorithm::checkAugumentingPathExists(FlowNetwork * network, Ver
 	});
 }
 
+/// <summary>
+/// Zwiêksza przep³yw w sieci w zadanej sciê¿ce o wartoœæ <param name="increase">The increase.</param>.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <param name="path">The path.</param>
+/// <param name="increase">The increase.</param>
 void FlowNetworkAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
 {
 	int oldFlow;
@@ -128,11 +146,20 @@ void FlowNetworkAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*
 	}
 }
 
+/// <summary>
+/// Zwraca aktualnie maksymalny przep³yw.
+/// </summary>
+/// <param name="flow">The flow.</param>
 void FlowNetworkAlgorithm::setCurrentMaxFlow(int flow)
 {
 	_currentMaxFlow = flow;
 }
 
+/// <summary>
+/// Sprawdza czy istnieje œcie¿ka ze Ÿród³a w sieci.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <returns>true, je¿eli istnieje, przeciwnie false</returns>
 bool FlowNetworkAlgorithm::checkExistingPathsFromSource(FlowNetwork * network)
 {
 	VertexImage * source = network->getSource();
@@ -151,6 +178,11 @@ bool FlowNetworkAlgorithm::checkExistingPathsFromSource(FlowNetwork * network)
 	return pathExists;
 }
 
+/// <summary>
+/// Sprawdza czy istnieje œcie¿ka do ujœcia w sieci.
+/// </summary>
+/// <param name="network">The network.</param>
+/// <returns>true, je¿eli istnieje, przeciwnie false</returns>
 bool FlowNetworkAlgorithm::checkExistingPathsToTarget(FlowNetwork * network)
 {
 	VertexImage * target = network->getTarget();

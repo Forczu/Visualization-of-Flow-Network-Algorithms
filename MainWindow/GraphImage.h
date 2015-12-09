@@ -83,5 +83,7 @@ public:
 
 	inline int vertexNumber() const { return _vertexMap.size(); }
 	inline int edgeNumber() const { return _edgeMap.size(); }
+
+	int getHighestVertexId();
 };
 

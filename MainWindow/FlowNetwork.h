@@ -45,7 +45,7 @@ public:
 private:
 	void init() override;
 	void createFont();
-	void createLabel(QPointer<TextItem>& label, QString const & text, Qt::AlignmentFlag align) const;
+	void createLabel(QPointer<TextItem>& label, QString const& text, Qt::AlignmentFlag align);
 	void drawLabel(QPointer<TextItem>& label, int key, QPainter * painter);
 };
 

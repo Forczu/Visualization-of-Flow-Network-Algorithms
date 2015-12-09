@@ -44,8 +44,7 @@ void GraphView::init()
 	viewport()->setMouseTracking(true);
 
 	createFont();
-	createLabel(_sourceLabel, Strings::Instance().get(SOURCE), Qt::AlignLeft);
-	createLabel(_targetLabel, Strings::Instance().get(TARGET), Qt::AlignRight);
+	createLabels();
 }
 
 void GraphView::createFont()
@@ -150,6 +149,17 @@ void GraphView::zoom(QPointF const & pos, Qt::KeyboardModifiers const & modifier
 	}
 }
 
+void GraphView::createLabels()
+{
+	createLabel(_sourceLabel, Strings::Instance().get(SOURCE), Qt::AlignLeft);
+	createLabel(_targetLabel, Strings::Instance().get(TARGET), Qt::AlignRight);
+	if (scene())
+	{
+		scene()->addItem(_sourceLabel);
+		scene()->addItem(_targetLabel);
+	}
+}
+
 void GraphView::wheelEvent(QWheelEvent * event)
 {
 	if (_blocked)
@@ -206,6 +216,7 @@ void GraphView::setGraphImage(GraphImage * val, QPointF const & position /*= QPo
 		return;
 	if (scene() && val != _graph.data())
 	{
+		scene()->removeItem(_graph);
 		_graph = val;
 		scene()->addItem(_graph);
 		_graph->setPos(position);
@@ -336,21 +347,21 @@ void GraphView::changeVerticesLabels(QPoint const & position)
 	VertexImage * img = dynamic_cast<VertexImage*>(item);
 	if (NULL == img)
 	{
-		if (_edgeFlag == EdgeFlag::Source && _sourceLabel->isVisible())
+		if (_edgeFlag == EdgeFlag::Source && _sourceLabel && _sourceLabel->isVisible())
 			_sourceLabel->hide();
-		else if (_edgeFlag == EdgeFlag::Target && _targetLabel->isVisible())
+		else if (_edgeFlag == EdgeFlag::Target && _targetLabel && _targetLabel->isVisible())
 			_targetLabel->hide();
 		return;
 	}
 	switch (_edgeFlag)
 	{
 	case EdgeFlag::Source:
-		if (!_sourceLabel->isVisible())
+		if (_sourceLabel && !_sourceLabel->isVisible())
 			_sourceLabel->show();
 		setSourceLabelPost(img);
 		break;
 	case EdgeFlag::Target:
-		if (!_targetLabel->isVisible())
+		if (_targetLabel && !_targetLabel->isVisible())
 			_targetLabel->show();
 		setTargetLabelPos(img);
 		break;

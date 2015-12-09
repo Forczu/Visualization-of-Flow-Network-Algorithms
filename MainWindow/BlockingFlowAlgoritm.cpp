@@ -42,7 +42,7 @@ void BlockingFlowAlgoritm::showHiddenVertices()
 /// <param name="newtork">Siec przep³ywowa.</param>
 void BlockingFlowAlgoritm::createShortestPathsMatrix(FlowNetwork *& newtork)
 {
-	const int n = newtork->vertexNumber();
+	const int n = newtork->getHighestVertexId();
 	_pathMatrix = std::vector<std::vector<float>>(n);
 	for (int i = 0; i < n; ++i)
 	{

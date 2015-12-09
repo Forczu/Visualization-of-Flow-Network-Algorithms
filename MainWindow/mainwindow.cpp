@@ -179,9 +179,6 @@ void MainWindow::createActions() const
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
 	connect(ui.actionZoom, SIGNAL(triggered(bool)), this, SLOT(checkZoomButton(bool)));
-
-	connect(ui.actionStraightLine, SIGNAL(triggered(bool)), this, SLOT(checkStraightLine(bool)));
-	connect(ui.actionBezierLine, SIGNAL(triggered(bool)), this, SLOT(checkBezierCurve(bool)));
 }
 
 void MainWindow::checkButton(Tool * tool, QAction * action, bool b)
@@ -230,28 +227,6 @@ void MainWindow::checkZoomButton(bool b)
 	setCursorForWidget(_graphTabs->currentWidget(), Qt::CrossCursor);
 }
 
-void MainWindow::checkStraightLine(bool b)
-{
-	if (b)
-	{
-		ui.actionBezierLine->setChecked(false);
-		Application::Config::Instance().CurrentEdgeType(EdgeType::StraightLine);
-	}
-	else
-		ui.actionStraightLine->setChecked(true);
-}
-
-void MainWindow::checkBezierCurve(bool b)
-{
-	if (b)
-	{
-		ui.actionStraightLine->setChecked(false);
-		Application::Config::Instance().CurrentEdgeType(EdgeType::BezierLine);
-	}
-	else
-		ui.actionBezierLine->setChecked(true);
-}
-
 void MainWindow::runAlgorithm(QListWidgetItem * item)
 {
 	// wyci¹gnij graf
@@ -264,10 +239,8 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 		// utworzenie nowego okna
 		QDialog * windowPtr = _algorithmInfo.getDialog(graph, item->text());
 		windowPtr->setWindowTitle(item->text());
-		// zapisanie starego grafu do pliku
-		std::string fileName = "graph.bak";
-		GraphSerializer ser;
-		ser.serialize(*graph, fileName);
+		// zachowanie grafu
+		auto copy = graph->clone();
 		// wykonanie algorytmu
 		windowPtr->exec();
 		// zwolnienie okna z pamiêci
@@ -276,8 +249,8 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 		// wyczyszczenie sceny
 		view->scene()->clear();
 		// przywrócenie pierwotnego grafu
-		auto copy = ser.deserialize(fileName);
 		view->setGraphImage(copy);
+		view->createLabels();
 		copy->updateScale(_graphTabs->currentGraphView()->getScale());
 	}
 	else

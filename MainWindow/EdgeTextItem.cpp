@@ -48,6 +48,7 @@ void EdgeTextItem::turnOffEditorMode()
 	{
 		capacity = list[0].toInt();
 		_subjectEdge->setCapacity(capacity);
+		_subjectEdge->setFlow(0);
 	}
 	_oldStr = _text;
 }

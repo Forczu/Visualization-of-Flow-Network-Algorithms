@@ -79,7 +79,6 @@ public:
 protected:
 	void calculateNewLine(QLineF const & newLine);
 	void updateText();
-	void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) Q_DECL_OVERRIDE;
 	virtual void updateContextMenu(QList<QAction*> const & actionList) = 0;
 	void updateArrowHead(float angle);
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;

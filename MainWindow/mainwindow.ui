@@ -111,16 +111,8 @@
     <property name="title">
      <string>Graf</string>
     </property>
-    <widget class="QMenu" name="menuEdgeType">
-     <property name="title">
-      <string>Krawędź</string>
-     </property>
-     <addaction name="actionStraightLine"/>
-     <addaction name="actionBezierLine"/>
-    </widget>
     <addaction name="actionShape"/>
     <addaction name="separator"/>
-    <addaction name="menuEdgeType"/>
    </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuUstawienia"/>
@@ -314,25 +306,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
-   </property>
-  </action>
-  <action name="actionStraightLine">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Linia prosta</string>
-   </property>
-  </action>
-  <action name="actionBezierLine">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Linia krzywa</string>
    </property>
   </action>
   <action name="actionSaveAs">

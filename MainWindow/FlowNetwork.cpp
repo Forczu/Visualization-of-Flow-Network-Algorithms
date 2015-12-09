@@ -41,7 +41,7 @@ void FlowNetwork::createFont()
 	_labelFont.setFamily(QString("Calibri"));
 }
 
-void FlowNetwork::createLabel(QPointer<TextItem>& label, QString const & text, Qt::AlignmentFlag align) const
+void FlowNetwork::createLabel(QPointer<TextItem>& label, QString const & text, Qt::AlignmentFlag align)
 {
 	label = new TextItem(text);
 	label->replaceFont(_labelFont);
@@ -197,10 +197,15 @@ void FlowNetwork::drawLabel(QPointer<TextItem>& label, int key, QPainter * paint
 	}
 }
 
+/// <summary>
+/// Oznacza wybrany wierzcho³ek jako Ÿród³o.
+/// </summary>
+/// <param name="id">The identifier.</param>
+/// <param name="vertex">The vertex.</param>
 void FlowNetwork::markSource(int id, VertexImage * vertex)
 {
 	if (!_sourceLabel)
-		return;
+		createLabel(_sourceLabel, "s", Qt::AlignLeft);
 	_source = id;
 	_sourceLabel->setPos(
 		- vertex->Context()->Size() - _sourceLabel->boundingRect().width() / 2.0f,
@@ -221,7 +226,7 @@ void FlowNetwork::markSource(int id)
 void FlowNetwork::markTarget(int id, VertexImage * vertex)
 {
 	if (!_targetLabel)
-		return;
+		createLabel(_targetLabel, "t", Qt::AlignRight);
 	_target = id;
 	_targetLabel->setPos(
 		+ vertex->Context()->Size() - _targetLabel->boundingRect().width() / 2.0f,

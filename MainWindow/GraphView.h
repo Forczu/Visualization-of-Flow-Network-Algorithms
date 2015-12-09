@@ -87,6 +87,7 @@ public:
 	void addScene(QGraphicsScene * scene);
 	void updateView();
 	void zoom(QPointF const & pos, Qt::KeyboardModifiers const & modifiers);
+	void createLabels();
 
 private:
 	void init();

@@ -49,8 +49,6 @@ private slots:
 	void openGraphShapeDialog();
 	void changeGraphInformation();
 	void updateGraphStatus() const;
-	void checkStraightLine(bool b);
-	void checkBezierCurve(bool b);
 	void runAlgorithm(QListWidgetItem * item);
 
 private:

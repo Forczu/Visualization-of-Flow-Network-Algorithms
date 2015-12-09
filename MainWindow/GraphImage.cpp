@@ -387,3 +387,18 @@ void GraphImage::removeOffsetFromEdge(EdgeImage * const edge)
 		}
 	}
 }
+
+/// <summary>
+/// Zwraca najwiêksze id spoœród istniej¹cych wierzcho³ków.
+/// </summary>
+/// <returns></returns>
+int GraphImage::getHighestVertexId()
+{
+	auto it = std::max_element(_vertexMap.begin(), _vertexMap.end(), [&](VertexImage * v1, VertexImage * v2)
+	{
+		if (v1->getId() < v2->getId())
+			return true;
+		return false;
+	});
+	return (*it)->getId();
+}
