@@ -273,6 +273,7 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 		// zwolnienie okna z pamiêci
 		delete windowPtr;
 		// przywrócenie pierwotnego grafu
+		_graphTabs->currentGraphView()->scene()->clear();
 		auto copy = ser.deserialize(fileName);
 		_graphTabs->currentGraphView()->setGraphImage(copy);
 		copy->updateScale(_graphTabs->currentGraphView()->getScale());
