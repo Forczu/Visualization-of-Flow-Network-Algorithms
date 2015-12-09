@@ -161,24 +161,21 @@ void MainWindow::createActions() const
 {
 	ui.actionClose->setShortcuts(QKeySequence::Close);
 	ui.actionClose->setStatusTip(tr("Zamyka program"));
-
 	connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newFile()));
 	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(ui.actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
 	connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
 	connect(ui.algorithmList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(runAlgorithm(QListWidgetItem*)));
-
 	connect(ui.actionShape, SIGNAL(triggered()), this, SLOT(openGraphShapeDialog()));
-
 	connect(_graphTabs, SIGNAL(currentChanged(int)), this, SLOT(changeGraphInformation()));
 	connect(_graphTabs, SIGNAL(graphChanged()), this, SLOT(updateGraphStatus()));
-
 	connect(ui.actionAddVertex, SIGNAL(triggered(bool)), this, SLOT(checkAddVertexButton(bool)));
 	connect(ui.actionAddEdge, SIGNAL(triggered(bool)), this, SLOT(checkAddEdgeButton(bool)));
 	connect(ui.actionSelect, SIGNAL(triggered(bool)), this, SLOT(checkSelectionButton(bool)));
 	connect(ui.actionPointer, SIGNAL(triggered(bool)), this, SLOT(checkPointerButton(bool)));
 	connect(ui.actionRemove, SIGNAL(triggered(bool)), this, SLOT(checkRemoveButton(bool)));
 	connect(ui.actionZoom, SIGNAL(triggered(bool)), this, SLOT(checkZoomButton(bool)));
+	connect(ui.actionAbout, SIGNAL(triggered(bool)), this, SLOT(showAboutMessageBox()));
 }
 
 void MainWindow::checkButton(Tool * tool, QAction * action, bool b)
@@ -197,15 +194,6 @@ void MainWindow::uncheckButtons(QAction const * action)
 			(*it)->setChecked(false);
 		}
 	}
-}
-
-void MainWindow::grabItem(QPoint const & pos) const
-{
-	_graphTabs->currentGraphView()->grabItem(pos);
-}
-
-void MainWindow::pointItem(QList<QGraphicsItem*> const & item)
-{
 }
 
 GraphImage * MainWindow::createGraph(GraphCreateFunc graphFunc, EdgeStrategyCreateFunc strategyFunc)
@@ -262,6 +250,16 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.exec();
 	}
+}
+
+void MainWindow::showAboutMessageBox()
+{
+	QMessageBox box(
+		QMessageBox::Information,
+		Strings::Instance().get(ABOUT_TITLE),
+		Strings::Instance().get(ABOUT_INFO),
+		QMessageBox::Ok);
+	box.exec();
 }
 
 void MainWindow::updateGraphStatus() const

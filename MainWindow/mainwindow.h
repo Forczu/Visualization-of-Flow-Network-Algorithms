@@ -50,18 +50,13 @@ private slots:
 	void changeGraphInformation();
 	void updateGraphStatus() const;
 	void runAlgorithm(QListWidgetItem * item);
+	void showAboutMessageBox();
 
 private:
 	void createActions() const;
 	void createButtonVector();
 	void checkButton(Tool * tool, QAction * action, bool b = true);
 	void uncheckButtons(QAction const * action);
-
-	void addEdge(std::pair<int, int> const & pair, std::pair<QPointF, QPointF> const & coord);
-	void grabItem(QPoint const & pos) const;
-	static void pointItem(QList<QGraphicsItem*> const & item);
-	void removeItem(QList<QGraphicsItem*> const & item);
-	void hideGraphTab();
 	GraphImage * createGraph(GraphCreateFunc func, EdgeStrategyCreateFunc strategyFunc);
 };
 
