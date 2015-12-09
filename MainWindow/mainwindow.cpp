@@ -276,6 +276,7 @@ void MainWindow::runAlgorithm(QListWidgetItem * item)
 		// wyczyszczenie sceny
 		view->scene()->clear();
 		// przywrócenie pierwotnego grafu
+		_graphTabs->currentGraphView()->scene()->clear();
 		auto copy = ser.deserialize(fileName);
 		view->setGraphImage(copy);
 		copy->updateScale(_graphTabs->currentGraphView()->getScale());
