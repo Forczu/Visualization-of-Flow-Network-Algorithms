@@ -1,0 +1,175 @@
+% !TeX spellcheck = pl_PL
+\documentclass[a4paper]{book}
+\usepackage[utf8]{inputenc}                                      
+\usepackage[OT4]{fontenc}  
+\usepackage[polish]{babel} 
+\usepackage{indentfirst}
+\usepackage{graphicx} 
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage[left=3.00cm, right=2.50cm, top=2.50cm, bottom=2.50cm]{geometry}
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\usepackage[toc, page]{appendix}
+\usepackage[nottoc]{tocbibind}
+\usepackage{subcaption}
+\usepackage{minted}
+
+\usepackage[backend=biber,style=alphabetic]{biblatex} 
+\addbibresource{bibliografia.bib}
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\frenchspacing
+
+% --- Opcje listingu kodu
+\lstset{
+	frame=single,
+	basicstyle=\normalsize\label{key}\ttfamily,
+	commentstyle=\ttfamily\itshape\color{ForestGreen},
+	keywordstyle=\color{blue},
+	stringstyle=\color[rgb]{0.64,0.08,0.08},
+	numberstyle=\color[rgb]{0.205, 0.142, 0.73},
+	frameround=ffff,
+	language=C++,
+	breaklines=true,
+	rulecolor=\color{black},
+	tabsize=3,
+	breaklines=true, %
+	stepnumber=1,
+	numbers=left,
+	% --- Polskie znaki w listingu kodu
+	literate=%
+	{ą}{{\c{a}}}1
+	{ć}{{\'c}}1
+	{ę}{{\c{e}}}1
+	{ł}{{\l{}}}1
+	{ń}{{\'n}}1
+	{ó}{{\'o}}1
+	{ś}{{\'s}}1
+	{ź}{{\'z}}1
+	{ż}{{\.z}}1
+	{Ą}{{\c{A}}}1
+	{Ć}{{\'C}}1
+	{Ę}{{\c{E}}}1
+	{Ł}{{\L{}}}1
+	{Ń}{{\'N}}1
+	{Ó}{{\'O}}1
+	{Ś}{{\'S}}1
+	{Ź}{{\'Z}}1
+	{Ż}{{\.Z}}1
+}
+% --- Opcje minted listingu
+\newmintedfile[cppcode]{cpp} {
+	frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\footnotesize,
+	linenos,
+	breaklines,
+	samepage,
+	style=friendly,
+	tabsize=4,
+}
+\input{todo.tex}
+
+
+\title{Tymczasowa strona tytułowa}
+\author{Mateusz Forczmański}
+
+ %załączniki - polskie nazwy 
+\renewcommand\appendixtocname{Załączniki} %spis treści 
+\renewcommand\appendixpagename{Załączniki} %strona sekcji 
+ %done
+ 
+\begin{document}
+%\kslistofremarks
+
+\cleardoublepage
+
+	
+%	\maketitle
+\input{front.tex}
+
+%\tableofcontents
+
+\mainmatter
+
+\chapter{Wstęp}
+Sieć przepływowa jest abstrakcyjnym modelem danych, który jest wykorzystywany do rozwiązywania problemów związanych z przepływem produktów. Podobnie jak w klasycznym problemie producenta i konsumenta, istnieje w systemie źródło, gdzie produkty są tworzone, oraz ujście, gdzie są konsumowane. W sieci przepływowej zakłada się, że produkty są generowane i użytkowane w tym samym tempie, więc problemem nie jest synchronizacja, ale ilość produktów jakie można maksymalnie przesłać.\\\indent
+Intuicyjnie można wyobrazić sobie sieć przepływową jako układ hydrauliczny, gdzie krawędziami grafu są rury o stałej średnicy, wierzchołki jako połączenia rur, a dwa z nich są wyszczególnione jako miejsce wlewu oraz wylewu cieczy. Średnica każdej rury określa jej przepustowość, czyli maksymalną ilość cieczy jaka może przez nią przepłynąć. Połączenia są jedynie rozgałęzieniami - nie gromadzą płynu, jedynie przekazują go dalej. Innymi słowy, ilość cieczy jaka wpływa do rozgałęzienia musi być równa ilości jaka z niej wypływa. Jest to ta sama zasada co pierwsze prawo Kirchhoffa dla przepływu prądu w obwodzie elektrycznym.\\\indent
+Z siecią przepływową związany jest \textit{problem maksymalnego przepływu}, czyli największej wartości produktów, jaka może przepłynąć w danej sieci ze źródła do ujścia. W swojej pracy inżynierskiej zająłem się implementacją trzech algorytmów służących do znajdowania maksymalnego przepływu w sieci: Forda-Fulkersona, Dinica oraz MKM (Malhortra, Kumar i Mahaswari). Zaprojektowana przeze mnie aplikacja ma mieć charakter edukacyjny: student, który będzie korzystał z programu powinien móc utworzyć własną sieć (wedle swojego zamysłu bądź odwzorować przykład z książki) oraz wykonać na niej jeden z algorytmów. Aplikacja ma na celu umożliwienie mu zrozumienie działania algorytmu krok po kroku, pracę na wielu sieciach oraz zapisanie swojego postępu.
+
+\begin{itemize}
+\item krótkie wprowadzenie (ok. 2 strony)
+\item przewodnik po pracy
+\item wstęp (i zakończenie) najłatwiej jest pisać na końcu
+\end{itemize}
+
+\input{analiza_tematu.tex}
+
+\chapter{Wymagania}
+\begin{itemize}
+\item wymagania funkcjonalne i niefunkcjonalne
+\item przypadki użycia (diagramy UML)
+\end{itemize}
+
+\input{spec_zew.tex}
+\input{spec_wew.tex}
+
+\chapter{Testowanie i uruchamianie}
+Sposób testowania w ramach pracy (organizacja eksperymentów, przypadki testowe, wyniki, zakres testowania -- pełny/niepełny)
+
+\chapter{Uwagi o przebiegu i wynikach prac}
+\begin{itemize}
+\item uzyskane wyniki w świetle postawionych celów
+\item kierunki ewentualnych danych prac (rozbudowa funkcjonalna \ldots)
+\item problemy napotkane w trakcie pracy
+\end{itemize}	
+
+\chapter{Podsumowanie}
+
+
+\nocite{*}
+\printbibliography
+
+\begin{appendices}
+ 	\chapter{Przykład serializacji}\label{add:A}
+ 	\begin{center}
+ 		\includegraphics[width=0.5\textwidth]{./img/serialized_graph.png}
+ 	\end{center}
+ 	\lstinputlisting[language=xml,basicstyle=\small\label{key}\ttfamily]{./listings/serialized_graph.xml}
+ 	\vfill
+ 	\lstinputlisting[language=xml,basicstyle=\small\label{key}\ttfamily,firstnumber=22]{./listings/serialized_graph_model.xml}
+ 	\vfill
+ 	\chapter{Tworzenie sieci residualnej}\label{add:B}
+ 	\vspace{-1cm}
+ 	\cppcode{./listings/makeResidualNetwork.cpp}
+ 	\chapter{Realizacja algorytmu Forda-Fulkersona}\label{add:C}
+ 	\setlength\intextsep{10pt}
+ 	\begin{figure}[H]
+ 		\centering
+ 		\begin{subfigure}{\textwidth}
+ 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_1.png}
+ 		\end{subfigure}\par\bigskip
+ 		\begin{subfigure}{\textwidth}
+ 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_2.png}
+ 		\end{subfigure}
+ 	\end{figure}
+ 	\begin{figure}[H]
+ 		\ContinuedFloat
+ 		\begin{subfigure}{\textwidth}
+ 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_3.png}
+ 		\end{subfigure}\par\bigskip
+ 		\begin{subfigure}{\textwidth}
+ 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_4.png}
+ 		\end{subfigure}\par\bigskip
+ 		\begin{subfigure}{\textwidth}
+ 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_5.png}
+ 		\end{subfigure}
+ 	\end{figure}
+\end{appendices}
+\end{document}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph type="flow_network" source="1" target="3" weighted="true">
+	<Config>
+		<Name>Graf 2</Name>
+		<VertexContext type="normal" size="59" strokeSize="12">
+			<Color type="color" r="255" g="255" b="255"/>
+			<Color type="strokeColor" r="0" g="0" b="0"/>
+			<Font bold="true" size="60" family="Calibri"/>
+		</VertexContext>
+		<VertexContext type="selected" size="59" strokeSize="12">
+			<Color type="color" r="0" g="0" b="255"/>
+			<Color type="strokeColor" r="0" g="0" b="80"/>
+			<Font bold="true" size="60" family="Calibri"/>
+		</VertexContext>
+		<EdgeContext type="normal" size="10">
+			<Color type="color" r="0" g="0" b="0"/>
+		</EdgeContext>
+		<EdgeContext type="selected" size="15">
+			<Color type="color" r="255" g="0" b="0"/>
+		</EdgeContext>
+	</Config>

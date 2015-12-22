@@ -1,0 +1,177 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{entry}{}
+    \entry{id:ZaawansowaneAlgorytmyStruktury}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+    \endentry
+    \entry{id:WzorceProjektowePylek}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{chapter}{PYŁEK (FLYWEIGHT)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+    \endentry
+    \entry{id:IntroductionToAlgorithms}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{2e2ec059ca9420dbc790cb2c3288080b}
+      \strng{fullhash}{2e2ec059ca9420dbc790cb2c3288080b}
+      \field{labelalpha}{Tho09}
+      \field{sortinit}{T}
+      \field{labeltitle}{Introduction to Algorithms}
+      \field{edition}{Third}
+      \field{title}{Introduction to Algorithms}
+      \field{year}{2009}
+    \endentry
+    \entry{id:AlgorytmyStruktury}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \strng{fullhash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \field{labelalpha}{Zbi10}
+      \field{sortinit}{Z}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{year}{Gliwice 2010}
+      \field{pages}{133}
+    \endentry
+  \endsortlist
+  \sortlist{entry}{anyt}
+    \entry{id:ZaawansowaneAlgorytmyStruktury}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+    \endentry
+    \entry{id:WzorceProjektowePylek}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{chapter}{PYŁEK (FLYWEIGHT)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+    \endentry
+    \entry{id:IntroductionToAlgorithms}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{2e2ec059ca9420dbc790cb2c3288080b}
+      \strng{fullhash}{2e2ec059ca9420dbc790cb2c3288080b}
+      \field{labelalpha}{Tho09}
+      \field{sortinit}{T}
+      \field{labeltitle}{Introduction to Algorithms}
+      \field{edition}{Third}
+      \field{title}{Introduction to Algorithms}
+      \field{year}{2009}
+    \endentry
+    \entry{id:AlgorytmyStruktury}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \strng{fullhash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \field{labelalpha}{Zbi10}
+      \field{sortinit}{Z}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{year}{Gliwice 2010}
+      \field{pages}{133}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

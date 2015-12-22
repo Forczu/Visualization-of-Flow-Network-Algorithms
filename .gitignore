@@ -342,3 +342,9 @@ MainWindow/serialized_graph - Copy.xml
 *.2ac
 *.fzi
 MainWindow/tmp.xml
+*.aux
+*.gz
+*.toc
+*.pygtex
+*.css
+*.pygstyle
