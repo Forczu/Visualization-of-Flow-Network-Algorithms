@@ -90,9 +90,31 @@
       \field{labelalpha}{Zbi10}
       \field{sortinit}{Z}
       \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{extraalpha}{1}
       \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{year}{Gliwice 2010}
       \field{pages}{133}
+    \endentry
+    \entry{id:AlgorytmyStrukturyFloydWarshall}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \strng{fullhash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \field{labelalpha}{Zbi10}
+      \field{sortinit}{Z}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{extraalpha}{2}
+      \field{chapter}{Algorytm Floyda-Warshalla}
+      \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{year}{Gliwice 2010}
+      \field{pages}{135\bibrangedash 138}
     \endentry
   \endsortlist
   \sortlist{entry}{anyt}
@@ -167,9 +189,31 @@
       \field{labelalpha}{Zbi10}
       \field{sortinit}{Z}
       \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{extraalpha}{1}
       \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{year}{Gliwice 2010}
       \field{pages}{133}
+    \endentry
+    \entry{id:AlgorytmyStrukturyFloydWarshall}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \strng{fullhash}{159f5a6c85d6911ae6ddf79aa7c6b2d2}
+      \field{labelalpha}{Zbi10}
+      \field{sortinit}{Z}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{extraalpha}{2}
+      \field{chapter}{Algorytm Floyda-Warshalla}
+      \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
+      \field{year}{Gliwice 2010}
+      \field{pages}{135\bibrangedash 138}
     \endentry
   \endsortlist
 \endrefsection

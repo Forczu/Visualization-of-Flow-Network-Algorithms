@@ -6,7 +6,7 @@ Aplikacja działa pod systemami Windows 7 i nowszymi, na architekturze 64-bitowe
 Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z kilku podstawowych sekcji.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\textwidth]{./img/spec_zew01.png}
+	\includegraphics[width=0.85\textwidth]{./img/spec_zew01-1.png}
 	\caption{Interfejs graficzny}
 \end{figure}
 \begin{enumerate}
@@ -28,7 +28,7 @@ Aby utworzyć nową sieć należy z paska menu wybrać \textit{Plik} $ \rightarr
 \subsubsection{Dodanie wierzchołka}
 Aby dodać nowy wierzchołek należy wybrać narzędzie dodawania wierzchołków, a następnie kliknąć lewym przyciskiem myszy na puste miejsce w polu edycyjnym. Pojawi się nowy obiekt, miejsce kliknięcia będzie środkiem wierzchołka. Jeżeli klikniemy istniejący już obiekt, zostanie on zaznaczony.
 \subsubsection{Dodanie łuku}
-Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"}. Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka, gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest trwało przymocowany do wierzchołków i nie można zmienić jego pozycji.
+Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"}. Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka, gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest trwało przymocowany do wierzchołków i nie można zmienić jego pozycji. Etykieta zawiera informację w formacie \emph{"przepływ / przepustowość"}.
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.28\textwidth}
@@ -93,9 +93,9 @@ Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustow
 	\caption{Przedstawienie linii łączącej etykietę z łukiem}
 	\label{fig:grafSelect}
 \end{figure}
-\subsection{Otwieranie i zapisywanie}
-Aby móc zapisać sieć przepływową do pliku w sesji programu musi być otwarta co najmniej jedna karta. Klikając \textit{CTRL+S} lub wybierając \textit{Plik} $ \rightarrow $ \textit{Zapisz jako} można zapisać stan pracy do pliku XML. Program poprosi o wskazanie folderu oraz wpisanie nazwy pliku. Potwierdzenie utworzy nowy plik.\\\indent
-Aby otworzyć plik należy wybrać z paska menu \textit{Plik} $\rightarrow$ \textit{Otwórz} lub skorzystać ze skrótu klawiszowego \textit{CTRL+O}. Program otworzy okno dialogowe i poprosi o wskazanie pliku XML jaki ma otworzyć. Jeżeli ma on poprawny format, sieć przepływowa zostanie wczytana i pokazana w nowej karcie.
+
+\subsubsection{Zmiana parametrów łuku}
+Nad każdym łukiem znajduje się etykieta, która zawiera informację o wartościach kolejno przepływu i przepustowości oddzielone ukośnikiem. Jeżeli w etykiecie znajduje się jedna liczba, oznacza ona przepustowość. Wówczas wartość przepływu jest zerowa i dla czytelności nie jest wyświetlany. Te dwie wartości można w każdej chwili zmienić klikając dwukrotnie lewym przyciskiem myszy na etykietę. Pojawi się pole edycji, gdzie można wprowadzić nowe wartości. Akceptowane są wyłącznie formaty $ <liczba> $ oraz $ <liczba>\;/\;<liczba> $. Zmianę zatwierdza się kliknięciem myszy. Nowy łańcuch w poprawnym formacie spowoduje aktualizację wartości i etykiety. Wprowadzenie czegokolwiek innego powoduje przywrócenie pierwotnych wartości.
 \subsection{Wykonanie algorytmów}
 W momencie utworzenia karty z siecią, nowym lub wczytanym z pliku, w lewym dolnym rogu pojawia się lista dostępnych algorytmów, jakie można wykonać w ramach programu: Forda-Fulkersona, Dinica oraz MKM.
 \subsubsection{Warunki poprawności sieci}
@@ -113,7 +113,7 @@ Jeżeli graf został poprawnie zbudowany, po kliknięciu w jeden z algorytmów p
 	\includegraphics[width=0.85\textwidth]{./img/spec_zew06_1}
 	\caption{Okno ilustrujące przebieg algorytmu Forda-Fulkersona}
 	\label{fig:algorithmWindowStart}
-\end{figure}
+\end{figure}\noindent
 Okno zostało podzielone na 4 obszary:
 \begin{itemize}
 	\item W górnym lewym rogu znajduje się pierwotna sieć przepływowa, której przepływ zostaje zwiększany wraz z kolejnymi krokami.
@@ -133,3 +133,6 @@ Okno zostało podzielone na 4 obszary:
 	\label{fig:algorithmWindowFinished}
 \end{figure}
 Przykładowe przedstawienie krok po kroku wyszukiwania maksymalnego przepływu znajduje się w dodatku \ref{add:C}.
+\subsection{Otwieranie i zapisywanie}
+Aby móc zapisać sieć przepływową do pliku w sesji programu musi być otwarta co najmniej jedna karta. Klikając \textit{CTRL+S} lub wybierając \textit{Plik} $ \rightarrow $ \textit{Zapisz jako} można zapisać stan pracy do pliku XML. Program poprosi o wskazanie folderu oraz wpisanie nazwy pliku. Potwierdzenie utworzy nowy plik.
+Aby otworzyć plik należy wybrać z paska menu \textit{Plik} $\rightarrow$ \textit{Otwórz} lub skorzystać ze skrótu klawiszowego \textit{CTRL+O}. Program otworzy okno dialogowe i poprosi o wskazanie pliku XML jaki ma otworzyć. Jeżeli ma on poprawny format, sieć przepływowa zostanie wczytana i pokazana w nowej karcie.

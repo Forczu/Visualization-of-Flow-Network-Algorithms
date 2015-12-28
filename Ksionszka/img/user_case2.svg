@@ -1,0 +1,171 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Arial" font-size="13" width="620" height="312">
+	<desc>UML diagram model</desc>
+	<g id="_O0P0kIzXEDObLbngn1HMAA">
+		<defs>
+			<linearGradient id="greyGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#E5E5E5" stop-opacity="1" />
+				
+			</linearGradient>
+			<linearGradient id="packageGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#EFE9DE" stop-opacity="1" />
+				
+			</linearGradient>
+			
+		</defs>
+		<g id="_PjxNAIzXEDObLbngn1HMAA">
+			<ellipse cx="336" cy="150" rx="6" ry="6" fill="#FFF" stroke="#888" stroke-width="2.0" />
+			<line x1="336" y1="156" x2="336" y2="187" stroke-width="2.0" stroke="#888" />
+			<line x1="322" y1="168" x2="350" y2="168" stroke-width="2.0" stroke="#888" />
+			<line x1="336" y1="187" x2="325" y2="205" stroke-width="2.0" stroke="#888" />
+			<line x1="336" y1="187" x2="346" y2="205" stroke-width="2.0" stroke="#888" />
+			<text x="336" y="207" text-anchor="middle" font-style="normal" font-weight="normal" fill="black">
+				<tspan x="336" text-anchor="middle" dy="13">Uzytkownik</tspan>
+				
+			</text>
+			
+		</g>
+		<g id="_iZybUIzYEDObLbngn1HMAA">
+			<ellipse cx="470" cy="232" rx="60" ry="30" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(410,219.0)">
+				<text x="60" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="60" text-anchor="middle" dy="13">Zapis i odczyt</tspan>
+					<tspan x="60" text-anchor="middle" dy="13">pracy</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_urNJoIzYEDObLbngn1HMAA">
+			<ellipse cx="350" cy="37" rx="70" ry="35" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(280,17.5)">
+				<text x="70" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="70" text-anchor="middle" dy="13">Śledzenie pracy</tspan>
+					<tspan x="70" text-anchor="middle" dy="13">algorytmu krok po</tspan>
+					<tspan x="70" text-anchor="middle" dy="13">kroku</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_u5wjAIzYEDObLbngn1HMAA">
+			<ellipse cx="480" cy="62" rx="50" ry="30" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(430,49.0)">
+				<text x="50" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="50" text-anchor="middle" dy="13">Wybór</tspan>
+					<tspan x="50" text-anchor="middle" dy="13">algorytmu</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_vKVVoIzYEDObLbngn1HMAA">
+			<ellipse cx="505" cy="147" rx="65" ry="35" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(440,134.0)">
+				<text x="65" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="65" text-anchor="middle" dy="13">Otrzymanie</tspan>
+					<tspan x="65" text-anchor="middle" dy="13">wyniku od razu</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_vaMWkIzYEDObLbngn1HMAA">
+			<ellipse cx="205" cy="232" rx="55" ry="30" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(150,219.0)">
+				<text x="55" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="55" text-anchor="middle" dy="13">Budowa</tspan>
+					<tspan x="55" text-anchor="middle" dy="13">własnej sieci</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_BO2OgIzaEDObLbngn1HMAA">
+			<ellipse cx="215" cy="75" rx="65" ry="33" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(150,51.0)">
+				<text x="65" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="65" text-anchor="middle" dy="13">Poprawienie</tspan>
+					<tspan x="65" text-anchor="middle" dy="13">estetyki sieci</tspan>
+					
+				</text>
+				<line x1="20" y1="32" x2="110" y2="32" stroke-width="1.0" stroke="#CCCCCC" />
+				<text x="65" y="34" text-anchor="middle" font-weight="normal" fill="#033656">
+					<tspan x="65" text-anchor="middle" dy="13">wygląd</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_guWlYI5mEDOQMfIPQVA58g">
+			<ellipse cx="120" cy="147" rx="70" ry="35" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1.0" />
+			<g transform="translate(50,123.5)">
+				<text x="70" y="0" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">
+					<tspan x="70" text-anchor="middle" dy="13">Kontrola</tspan>
+					<tspan x="70" text-anchor="middle" dy="13">poprawności sieci</tspan>
+					
+				</text>
+				<line x1="21" y1="32" x2="119" y2="32" stroke-width="1.0" stroke="#CCCCCC" />
+				<text x="70" y="34" text-anchor="middle" font-weight="normal" fill="#033656">
+					<tspan x="70" text-anchor="middle" dy="13">kontrola</tspan>
+					
+				</text>
+				
+			</g>
+			
+		</g>
+		<g id="_Hw1xUIzZEDObLbngn1HMAA">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="352,187 410,209" />
+			
+		</g>
+		<g id="_KRqvUIzZEDObLbngn1HMAA">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="320,188 260,211" />
+			
+		</g>
+		<g id="_Kx8K0IzZEDObLbngn1HMAA">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="352,178 440,160" />
+			
+		</g>
+		<g id="_LMmGgIzZEDObLbngn1HMAA">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="339,142 346,72" />
+			
+		</g>
+		<g id="_Lmbi0IzZEDObLbngn1HMAA">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="352,168 444,92" />
+			
+		</g>
+		<g id="_Ej1NUIzaEDObLbngn1HMAA">
+			<polyline stroke-dasharray="10, 5" fill="none" stroke-width="1" stroke="#000000" points="206,202 212,107" />
+			<g transform="translate(212,107)">
+				<g transform="rotate(4)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g id="_lsLxUI5mEDOQMfIPQVA58g">
+			<polyline stroke-dasharray="10, 5" fill="none" stroke-width="1" stroke="#000000" points="175,202 155,182" />
+			<g transform="translate(155,182)">
+				<g transform="rotate(-45)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<text x="224" y="145" fill="#000000">« extend »</text>
+		<text x="94" y="220" fill="#000000">« extend »</text>
+		
+	</g>
+	
+</svg>

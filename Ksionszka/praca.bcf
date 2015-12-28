@@ -2244,6 +2244,9 @@
     <bcf:citekey order="2">id:AlgorytmyStruktury</bcf:citekey>
     <bcf:citekey order="3">id:ZaawansowaneAlgorytmyStruktury</bcf:citekey>
     <bcf:citekey order="4">id:WzorceProjektowePylek</bcf:citekey>
+    <bcf:citekey order="5">id:ZaawansowaneAlgorytmyStruktury</bcf:citekey>
+    <bcf:citekey order="6">id:IntroductionToAlgorithms</bcf:citekey>
+    <bcf:citekey order="7">id:AlgorytmyStrukturyFloydWarshall</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="anyt" type="entry" sortscheme="anyt">

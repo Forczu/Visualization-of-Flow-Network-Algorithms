@@ -42,7 +42,7 @@ Plik zaczyna się od korzenia o nazwie \lstinline[language=XML]|<Graph>|. Format
 
 \section{Algorytmy}
 Wszystkie trzy algorytmy wykonane w tej pracy zostały zakapsułkowane do osobnych klas. Ich klasą bazową bazową jest \lstinline|FlowNetworkAlgorithm|, która definiuje interfejs algorytmów oraz zawiera wspólną dla wszystkich funkcjonalność.
-\subsection{Tworzenie sieci residualnej}
+\subsection{Tworzenie sieci residualnej}\label{ssec:tworzenieSieciResAlg}
 Algorytm służący do wygenerowania sieci residualnej jest niezmienny dla wszystkich klas i jest zawarty w metodzie klasy \lstinline|FlowNetworkAlgorithm|.
 \begin{minted}[
 frame=lines,
@@ -75,10 +75,176 @@ Wartością zwracaną jest najkrótsza odległość między źródłem, a ujści
 	\end{algorithmic}
 \end{algorithm}
 Utworzenie tablicy odwiedzonych łuków ma zapewnić, że w sieci residualnej nie zostaną utworzone nadmiarowe łuki gdy pętla dojdzie do sąsiada. Pełny kod algorytmu znajduje się dodatku \ref{add:B}.
-\subsection{Szukanie ścieżki powiększającej}
-%Funkcja przeszukuje przekazaną siec przepływową i szuka w niej możliwej ścieżki powiększającej. Jeżeli ścieżka została znaleziona zwraca uporządkowaną listę wskaźników na łuki, czyli drogę, która jest powiększającą ścieżką, a do referencji \lstinline|capacity| przekazuje wartość o jaką należy zwiększyć przepływ oraz zwiększa maksymalny przepływ o tę wartość. Jeżeli ścieżka nie istnieje, zwracana lista jest pusta, a przypływ pozostaje ten sam. Ponadto, w ramach optymalizacji, funkcja sprawdza czy ścieżki powiększającej w ogóle warto szukać: jeżeli w sieci residualnej nie istnieje łuk prowadzącej ze źródła lub do ujścia, to aktualny przepływ na pewno jest maksymalny.
-\subsection{Zwiększenie przepływu w sieci}
+\subsection{Szukanie ścieżki powiększającej}\label{ssec:szukanieSciezkiAlg}
+Podczas realizacji algorytmów wymagane jest znalezienie pewnej ścieżki pomiędzy źródłem, a ujściem, jednak w literaturze (\cite{id:ZaawansowaneAlgorytmyStruktury},\cite{id:IntroductionToAlgorithms}) nie jest podany żaden konkretny sposób. Udowodniono, że wybór algorytmu do szukania ścieżki nie ma znaczenia na wynik działania omawianych algorytmów - uzyskana wartość przepływu zawsze jest maksymalna. W mojej pracy zastosowałem algorytm poszukiwania ścieżek własnego pomysłu, który zaimplementowałem w uogólnionej metodzie poszukującej drogi pomiędzy dwoma dowolnymi wierzchołkami sieci przepływowej.
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+breaklines
+]{cpp}
+QList<EdgeImage*> FlowNetworkAlgorithm::findPathBetween(FlowNetwork * network, VertexImage * from, VertexImage * to)
+\end{minted}
+Funkcja przyjmuje trzy parametry:
+\begin{itemize}
+	\item \emph{network} jest siecią przepływową, która jest przeszukiwana.
+	\item \emph{from} jest wierzchołkami startowym, z którego rozpoczynane jest szukanie ścieżki.
+	\item \emph{to} jest wierzchołkiem docelowym, do którego dąży algorytm.
+\end{itemize}
+Wartością zwracaną jest lista wskaźników na łuki w sieci, która stanowi reprezentację znalezionej ścieżki. Jeżeli lista jest pusta, ścieżka między wierzchołkami nie istnieje.
+\begin{algorithm}[H]
+	\caption{Poszukiwanie ścieżki między wierzchołkami}\label{poszukiwanieSciezkiMiedzyWierzcholkami}
+	\begin{algorithmic}
+		\Procedure{Znajdź ścieżkę}{Sieć, wierzchołek startowy, wierzchołek docelowy}
+			\State{Aktualnym wierzchołkiem jest startowy}
+			\While{Szukanie się nie zakończyło}
+				\ForAll{łuk wychodzący z aktualnego wierzchołka}
+					\If{jeżeli łuk nie prowadzi do źródła, odrzuconego lub odwiedzonego wierzchołka}
+						\State{Dodaj łuk do listy możliwych łuków}
+					\EndIf
+				\EndFor
+				\If{lista możliwych łuków jest pusta}
+					\If{ostatni łuk jest nullem}
+						\Return{ścieżka}
+					\Else
+						\State{Dodaj aktualny wierzchołek do odrzuconych}
+						\State{Usuń łuk z listy możliwych}
+						\If{ścieżka nie jest pusta}
+							\State{Cofnij się do poprzedniego wierzchołka}
+						\Else
+							\State{Aktualny łuk = null}\Comment{Aktualnym wierzchołkiem jest startowy}
+						\EndIf
+					\EndIf
+				\EndIf
+				\State{Wylosuj jeden z możliwych łuków}
+				\State{Wierzchołek docelowy tego łuku jest aktualnym}
+				\State{Dodaj aktualny wierzchołek do odwiedzonych}
+				\State{Dodaj łuk do ścieżki}
+				\State{Ostatnim łukiem jest aktualny}
+				\If{aktualny wierzchołek jest docelowym}
+					\State{zakończ algorytm}
+				\EndIf
+			\EndWhile\space
+			\Return{ścieżka}	
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+Algorytm jest bardzo prosty. Zaczynając od pierwszego wierzchołka, losowany jest jeden z jego łuków. Jeżeli łuk prowadzi do wierzchołka docelowego, koniec. Jeżeli nie, przechodzimy do tego wierzchołka i losujemy kolejny łuk, tak długo aż cel zostanie znaleziony. W przypadku gdy dalsza droga nie istnieje, następuje cofnięcie się do poprzedniego wierzchołka, aktualny wierzchołek oraz droga do niego zostają oznaczone jako odrzucone. Następnie losowany jest kolejny łuk z dostępnych, jeżeli już ich nie ma, następuje kolejne cofnięcie o wierzchołek. Jeżeli algorytm powróci do wierzchołka startowego, to ścieżka między wierzchołkami nie istnieje i zostaje zwrócona pusta lista. Aby algorytm nie odrzucił pierwszej pętli, sprawdzane jest dodatkowo czy ostatni wybrany łuk nie jest wartością null. Pełny kod algorytmu znajduje się dodatku \ref{add:findPathAlg}.\\\indent 
+Dzięki swojej losowości, za każdym razem droga między wierzchołkami, wyznaczona przez program, będzie inna. Dzięki temu ścieżki powiększające i przepływy blokujące, w trakcie poszukiwania maksymalnego przepływu, również mogą się różnić przy rożnych wykonaniach algorytmu dla tej samej sieci. Nie ma tutaj jedynej słusznej drogi, jest jedynie jeden poprawny wynik.
+\subsection{Zwiększenie przepływu w sieci}\label{ssec:zwiekszeniePrzeplywuAlg}
+Algorytm zwiększania przepływu jest wspólny dla wszystkich algorytmów znajdowania maksymalnego przepływu.
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+breaklines
+]{cpp}
+void FlowNetworkAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
+\end{minted}
+Funkcja przyjmuje trzy parametry:
+\begin{itemize}
+	\item \emph{network} jest siecią przepływową, gdzie przepływ zostanie zwiększony
+	\item \emph{path} to zbiór łuków w których przepływ zostanie zwiększony
+	\item \emph{increase} jest wartością o jaką przepływy zostaną zwiększone
+\end{itemize}
+\begin{algorithm}[H]
+	\caption{Zwiększenie przepływu w sieci}\label{zwiekszenieParzeplywuAlg}
+	\begin{algorithmic}
+		\Procedure{Zwiększ przepływ}{Sieć, ścieżka, wartość powiększająca}
+			\ForAll{łuk w ścieżce}
+				\If{nie istnieje odpowiadający łuk w sieci}
+					\State{Utwórz przepływ zwrotny w sąsiednim łuku}
+				\ElsIf{istnieje odpowiadający łuk w sieci, ale posiada łuk sąsiedni}
+					\State{Wykonaj optymalizację przepływu netto zgodnie z \ref{ssec:netto}}
+				\Else\Comment{łuk istnieje i nie ma sąsiada}
+					\State{Zwiększ przepływ w odpowiadającym łuku w sieci o wartość powiększającą}
+				\EndIf
+			\EndFor
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+Algorytm musi uwzględniać trzy przypadki. Najprostszy występuje wtedy, gdy sieć posiada odpowiadający łuk, a ten nie posiada łuku sąsiedniego. Wówczas wystarczy jedynie zwiększyć przepływ. Jeżeli łuk posiada sąsiada, należy zwiększyć przepływ i dokonać wyrównania wartości. Może też zdarzyć się przypadek, że sieć residualna będzie posiadać łuki, które w sieci przepływowej nie istnieją, zgodnie z \ref{ssec:siecResidualna}. Wówczas należy dokonać przepływu zwrotnego, czyli zmniejszyć wartość przepływu w łuku, którzy dokonuje przepływu między wierzchołkami, ale w przeciwnym kierunku (który zgodnie z założeniami musi istnieć). Pełny kod algorytmu znajduje się dodatku \ref{add:increaseFlowAlg}.
+
 \subsection{Warunki stopu}
-\subsection{Algorytm Forda-Fulkersona}
-\subsection{Algorytm Dinica}
+Poszukiwanie maksymalnego przepływu zostaje zakończone gdy zostanie spełniony jeden z warunków:
+\begin{enumerate}
+	\item Suma przepływów w łukach wychodzących ze źródła jest równa sumie ich przepustowości,
+	\item Suma przepływów w łukach wchodzących do ujścia jest równa sumie ich przepustowości,
+	\item Algorytm znajdowania ścieżki powiększającej [\ref{ssec:szukanieSciezkiAlg}] zwrócił pustą listę łuków.
+\end{enumerate}
+Pełna treść funkcji, które je sprawdzają znajdują się dodatku \ref{add:stopConditionsAlg}.
+
+\subsection{Algorytm Forda-Fulkersona}\label{ssec:fordFulkersonWew}
+Algorytm został zakapsułkowany do klasy \emph{FordFulkersonAlgorithm}, która dziedziczy po \emph{FlowNetworkAlgorithm}. Pseudokod tego algorytmu znajduje się w rozdziale \ref{ssec:FordFulkersonAnaliza}. Jest to najprostsza z metod znajdowania maksymalnego przepływu i korzysta wyłącznie z metod odziedziczonych po klasie \emph{FlowNetworkAlgorithm}:
+\begin{itemize}
+	\item tworzenia sieci residualnej \ref{ssec:tworzenieSieciResAlg},
+	\item znajdowania ścieżki powiększającej \ref{ssec:szukanieSciezkiAlg},
+	\item zwiększania przepływu \ref{ssec:zwiekszeniePrzeplywuAlg}.
+\end{itemize}
+W pętli wykonywane są powyższe trzy instrukcje w kolejności w jakiej zostały wymienione. Efektem działania algorytmu jest sieć z maksymalnym przepływem. Pełny kod klasy tego algorytmu znajduje się dodatku \ref{add:fordFulkersonAlg}.
+\subsection{Przepływ blokujący}\label{ssec:blockingFlowWew}
+W klasie \emph{BlockingFlowAlgoritm} została zakapsułkowana cała logika związana z tworzeniem przepływu blokującego. Znajdują się tutaj wszystkie funkcje, które są wymagane do wykonania przepływu. Zgodnie z teorią zawartą w \ref{ssec:blockingFlowAnaliza} do wykonania przepływu blokującego potrzebna jest informacja o odległościach pomiędzy wierzchołkiem źródłowym, a wszystkimi pozostałymi. Informacja ta jest przechowywana w macierzy liczb zmiennoprzecinkowych $ n\times n $, gdzie $ n $ to liczba wierzchołków.
+\begin{minted}[
+frame=lines,
+framesep=2mm, tabsize=4,
+]{cpp}
+typedef std::vector<std::vector<float>> FloatMatrix;
+class BlockingFlowAlgoritm
+{
+protected:
+	FloatMatrix _pathMatrix;
+}
+\end{minted}
+Z kolei do wyznaczenia odległości między wierzchołkami został wykorzystany algorytm Floyda-Warshalla \cite{id:AlgorytmyStrukturyFloydWarshall}, który wyszukuje odległości między wszystkimi parami wierzchołków. W sieci przepływowej odległość między wierzchołkami połączonymi przez łuk jest równa jeden. Implementacja funkcji znajduje się w dodatku \ref{add:floydWarshallImpl}.
+
+\subsection{Algorytm Dinica}\label{ssec:dinicAlgWew}
+Algorytm został zwarty w klasie \emph{DinicAlgorithm} dziedziczącej po klasach \emph{FlowNetworkAlgorithm} oraz \emph{BlockingFlowAlgoritm}. Implementacja tego algorytmu różni od implementacji algorytmu Forda-Fulkersona \ref{ssec:fordFulkersonWew} tworzeniem sieci residualnej, która jest warstwowa. W efekcie klasa tworzy sieć residualną metodą odziedziczoną po \emph{FlowNetworkAlgorithm}, a następnie usuwa zbędne elementy w metodzie odziedziczonej po \emph{BlockingFlowAlgoritm}.
+\begin{minted}[
+frame=lines,
+framesep=2mm, tabsize=4,breaklines,
+]{cpp}
+int DinicAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& residualNewtork)
+{
+	FlowNetworkAlgorithm::makeResidualNetwork(network, residualNewtork);
+	return removeRedundantElements(residualNewtork);
+}
+\end{minted}
+Funkcja \emph{removeRedundantElements} usuwa z przekazanej sieci residualnej nadmiarowe elementy. W tym celu pobiera z tablicy \lstinline{_pathMatrix} (\ref{ssec:blockingFlowWew}) potrzebne wartości i porównuje je zgodnie z  warunkami opisanymi w \ref{ssec:WSR}. Pełna treść tej funkcji znajduje się w dodatku \ref{add:removeRedundantElements}.\\\indent
+Algorytm Dinica wykorzystuje wyszukiwanie ścieżki powiększającej do zwiększania przepływów w warstwowej sieci residualnej. Po utworzeniu przepływu blokującego, który na początku każdej iteracji jest głęboką kopią warstwowej sieci residualnej, wyszukuje się w nim wszystkich możliwych ścieżek powiększających tym samym fragmentem kodu opisanym w \ref{ssec:szukanieSciezkiAlg}. Uzyskane ścieżki zapisuje się do wektora ścieżek powiększających, a na koniec realizuje je wszystkie zwiększając przepływ w taki sam sposób jaki opisano w \ref{ssec:zwiekszeniePrzeplywuAlg}, z tą tylko różnicą, że wykonuje się je w pętli. Kod tego procesu został przedstawiony w dodatku \ref{add:blockPrzeplywZapel}.
 \subsection{Algorytm MKM}
+Ten algorytm wykorzystuje pojęcie potencjału przepływowego \ref{ssec:mkmAnaliza}, więc jego klasa wymaga utworzenia dodatkowej składowej. Do każdego wierzchołka należy dodać informację o jego trzech potencjałach ( wejściowym, wyjściowym i ogólnym), więc wykorzystałem strukturę \lstinline|std::tuple|. Wartościami są liczby zmiennoprzecinkowe, które umożliwiają stosowanie nieskończoności (\lstinline|std::numeric_limits|).
+\begin{minted}[
+frame=lines,
+framesep=2mm, tabsize=4,breaklines,
+]{cpp}
+typedef QMap<int, std::tuple<float, float, float>> PotentialMap;
+class MkmAlgorithm : public FlowNetworkAlgorithm, public BlockingFlowAlgoritm
+{
+	PotentialMap _potentialMap;
+}
+\end{minted}
+Mapa potencjałów, gdzie kluczem jest id wierzchołka, jest aktualizowana w każdej iteracji, natychmiast po utworzeniu warstwowej sieci residualnej. Ta klasa wymagała gruntowanej zmiany zwiększania przepływu w przepływie blokującym: w każdej iteracji najpierw musi wyszukać wierzchołek o najmniejszym potencjale, z niego poprowadzić dwie ścieżki, do źródła oraz do ujścia, jak również sprawdzić nowy warunek stopu. W aplikacji jest to zrealizowane w następujący sposób:
+\begin{algorithm}[H]
+	\caption{Tworzenie przepływu blokującego algorytmem MKM}\label{mkmZwiekszeniePrzeplywuAlg}
+	\begin{algorithmic}
+		\Procedure{Znajdź ścieżkę powiększającą}{Sieć $ G_f^w $, referencja na przepustowość residualną $ c $}
+		\Repeat
+			\State{Wyczyść obie ścieżki}
+			\State{Znajdź nieodrzucony wierzchołek $ v $ o najmniejszym, niezerowym potencjale w sieci $ G_f^w $}
+			\If{jeżeli taki wierzchołek nie istnieje}
+				\State{Wyjdź z pętli}
+			\EndIf
+			\State{Znajdź ścieżkę z wierzchołka $ v $ do ujścia $ t $}
+			\State{Znajdź ścieżkę ze źródła $ s $ do wierzchołka $ v $}
+			\If{jedna ze ścieżek jest pusta}
+				\State{Odrzuć wierzchołek}
+			\Else
+				\State{$ c= $ potencjał wierzchołka $ v $}
+				\State{Zwiększ maksymalny przepływ o $ c $}
+			\EndIf
+		\Until{ścieżka ze źródła = 0 lub ścieżka do ujścia = 0}
+		\State{\Return{suma ścieżki ze źródła i ścieżki do ujścia}}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+Dwie ścieżki, ze źródła do wierzchołka i z wierzchołka do źródła, jakie zostały opisane w definicji algorytmu (\ref{ssec:mkmAnaliza}), tak naprawdę tworzą razem pojedynczą ścieżkę powiększającą. W implementacji zostało to wykorzystane i w każdej iteracji zwracana jest suma obu zbiorów - tworzona jest pojedyncza ścieżka o jednej przepustowości residualnej. Dzięki temu nie było potrzeby ani zmiany interfejsu ani skorzystania ze wzorca Adaptera.\\\indent
+Algorytm wykonywany jest tak długo aż zostanie znaleziona ścieżka przepływowa, czyli jest droga ze źródła do ujścia prowadzącą przez wierzchołek $ v $. Algorytm kończy swe poszukiwanie również wtedy jeżeli nie istnieje wierzchołek, który miałby niezerowy potencjał. Po każdej iteracji uzyskana ścieżka dodawana do jest listy ścieżek powiększających wraz ze swoją przepustowością residualną, tak jak w implementacji algorytmu Dinica \ref{ssec:dinicAlgWew}.\\\indent
+Wierzchołkami odrzuconymi są te znalezione wierzchołki, przez które nie prowadzi żadna ścieżka powiększająca. Mogą takie się znaleźć w warstwowej sieci residualnej i są dodawane do listy odrzuconych, by nie przechodzić przez nie w kolejnych iteracjach. Pełna treść tej procedury znajduje się w dodatku \ref{add:mkmImpl}.

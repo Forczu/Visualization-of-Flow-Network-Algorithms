@@ -15,6 +15,7 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage{subcaption}
 \usepackage{minted}
+\usepackage[bitstream-charter]{mathdesign}
 
 \usepackage[backend=biber,style=alphabetic]{biblatex} 
 \addbibresource{bibliografia.bib}
@@ -24,6 +25,7 @@
 \usepackage{algpseudocode}
 
 \frenchspacing
+\let\cleardoublepage\clearpage %żeby nie było jebanych podwójnych stron
 
 % --- Opcje listingu kodu
 \lstset{
@@ -36,6 +38,7 @@
 	frameround=ffff,
 	language=C++,
 	breaklines=true,
+	breaklines,
 	rulecolor=\color{black},
 	tabsize=3,
 	breaklines=true, %
@@ -73,8 +76,10 @@
 	samepage,
 	style=friendly,
 	tabsize=4,
+	samepage=false,
+	mathescape
 }
-\input{todo.tex}
+%\input{todo.tex}
 
 
 \title{Tymczasowa strona tytułowa}
@@ -86,44 +91,29 @@
  %done
  
 \begin{document}
-%\kslistofremarks
-
-\cleardoublepage
-
-	
 %	\maketitle
 \input{front.tex}
 
 %\tableofcontents
 
 \mainmatter
-
-\chapter{Wstęp}
-Sieć przepływowa jest abstrakcyjnym modelem danych, który jest wykorzystywany do rozwiązywania problemów związanych z przepływem produktów. Podobnie jak w klasycznym problemie producenta i konsumenta, istnieje w systemie źródło, gdzie produkty są tworzone, oraz ujście, gdzie są konsumowane. W sieci przepływowej zakłada się, że produkty są generowane i użytkowane w tym samym tempie, więc problemem nie jest synchronizacja, ale ilość produktów jakie można maksymalnie przesłać.\\\indent
-Intuicyjnie można wyobrazić sobie sieć przepływową jako układ hydrauliczny, gdzie krawędziami grafu są rury o stałej średnicy, wierzchołki jako połączenia rur, a dwa z nich są wyszczególnione jako miejsce wlewu oraz wylewu cieczy. Średnica każdej rury określa jej przepustowość, czyli maksymalną ilość cieczy jaka może przez nią przepłynąć. Połączenia są jedynie rozgałęzieniami - nie gromadzą płynu, jedynie przekazują go dalej. Innymi słowy, ilość cieczy jaka wpływa do rozgałęzienia musi być równa ilości jaka z niej wypływa. Jest to ta sama zasada co pierwsze prawo Kirchhoffa dla przepływu prądu w obwodzie elektrycznym.\\\indent
-Z siecią przepływową związany jest \textit{problem maksymalnego przepływu}, czyli największej wartości produktów, jaka może przepłynąć w danej sieci ze źródła do ujścia. W swojej pracy inżynierskiej zająłem się implementacją trzech algorytmów służących do znajdowania maksymalnego przepływu w sieci: Forda-Fulkersona, Dinica oraz MKM (Malhortra, Kumar i Mahaswari). Zaprojektowana przeze mnie aplikacja ma mieć charakter edukacyjny: student, który będzie korzystał z programu powinien móc utworzyć własną sieć (wedle swojego zamysłu bądź odwzorować przykład z książki) oraz wykonać na niej jeden z algorytmów. Aplikacja ma na celu umożliwienie mu zrozumienie działania algorytmu krok po kroku, pracę na wielu sieciach oraz zapisanie swojego postępu.
-
-\begin{itemize}
-\item krótkie wprowadzenie (ok. 2 strony)
-\item przewodnik po pracy
-\item wstęp (i zakończenie) najłatwiej jest pisać na końcu
-\end{itemize}
-
+\input{wstep.tex}
 \input{analiza_tematu.tex}
-
-\chapter{Wymagania}
-\begin{itemize}
-\item wymagania funkcjonalne i niefunkcjonalne
-\item przypadki użycia (diagramy UML)
-\end{itemize}
-
+\input{wymagania.tex}
 \input{spec_zew.tex}
 \input{spec_wew.tex}
 
 \chapter{Testowanie i uruchamianie}
+Po zbudowaniu GUI, umożliwieniu budowania sieci przepływowych oraz nakreśleniu interfejsów do wykonywania algorytmów trwała praca nad implementacją esencji pracy inżynierskiej - algorytmów wyznaczania maksymalnego przepływu.
+\\
+
 Sposób testowania w ramach pracy (organizacja eksperymentów, przypadki testowe, wyniki, zakres testowania -- pełny/niepełny)
 
 \chapter{Uwagi o przebiegu i wynikach prac}
+W końcowej wersji aplikacji udało się spełnić wszystkie wymagania opisane w \ref{chap:wymagania}: tworzenie sieci przepływowych, ich serializację oraz algorytmy wyszukiwania maksymalnego przepływu.\\\indent
+Aplikacja była pisana z myślą o potencjalnych zmianach i rozszerzeniach, jakie mogą w niej zajść. W pracy zostały zrealizowane jedynie sieci przepływowe, które są tylko jednym z wielu rodzajów grafów. Dlatego została utworzona klasa nadrzędna \emph{GraphImage} dla wszystkich rodzajów grafów. O tym, czy graf jest ważony (posiada funkcję odwzorowująca jego zbiór krawędzi w zbiór liczb), decyduje odpowiedni obiekt klasy \textbf{\textit{strategii}}, który jest wstrzykiwany do grafu. Sieć przepływowa zawsze posiada strategię grafu ważonego. Zbiór narzędzi do edycji grafu, który przedstawia pasek narzędziowy, został oparty o wzorzec \textbf{\textit{stanu}}. Z punktu widzenia klas zewnętrznych narzędzie jest tylko jedno, pod wpływem naciśnięcia przycisku zmienia ono tylko swój stan wewnętrzny. Dzięki temu, aby dodać kolejne narzędzie, nie trzeba modyfikować istniejącego kodu, wystarczy jedynie utworzyć nową klasę.\\\indent
+Problemy napotkane w trakcie pracy 
+
 \begin{itemize}
 \item uzyskane wyniki w świetle postawionych celów
 \item kierunki ewentualnych danych prac (rozbudowa funkcjonalna \ldots)
@@ -135,41 +125,5 @@ Sposób testowania w ramach pracy (organizacja eksperymentów, przypadki testowe
 
 \nocite{*}
 \printbibliography
-
-\begin{appendices}
- 	\chapter{Przykład serializacji}\label{add:A}
- 	\begin{center}
- 		\includegraphics[width=0.5\textwidth]{./img/serialized_graph.png}
- 	\end{center}
- 	\lstinputlisting[language=xml,basicstyle=\small\label{key}\ttfamily]{./listings/serialized_graph.xml}
- 	\vfill
- 	\lstinputlisting[language=xml,basicstyle=\small\label{key}\ttfamily,firstnumber=22]{./listings/serialized_graph_model.xml}
- 	\vfill
- 	\chapter{Tworzenie sieci residualnej}\label{add:B}
- 	\vspace{-1cm}
- 	\cppcode{./listings/makeResidualNetwork.cpp}
- 	\chapter{Realizacja algorytmu Forda-Fulkersona}\label{add:C}
- 	\setlength\intextsep{10pt}
- 	\begin{figure}[H]
- 		\centering
- 		\begin{subfigure}{\textwidth}
- 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_1.png}
- 		\end{subfigure}\par\bigskip
- 		\begin{subfigure}{\textwidth}
- 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_2.png}
- 		\end{subfigure}
- 	\end{figure}
- 	\begin{figure}[H]
- 		\ContinuedFloat
- 		\begin{subfigure}{\textwidth}
- 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_3.png}
- 		\end{subfigure}\par\bigskip
- 		\begin{subfigure}{\textwidth}
- 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_4.png}
- 		\end{subfigure}\par\bigskip
- 		\begin{subfigure}{\textwidth}
- 			\includegraphics[width=0.9\linewidth]{./img/spec_zew06_5.png}
- 		\end{subfigure}
- 	\end{figure}
-\end{appendices}
+\input{zalaczniki.tex}
 \end{document}
