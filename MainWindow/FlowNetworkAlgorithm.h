@@ -18,7 +18,7 @@ public:
 	virtual int makeResidualNetwork(FlowNetwork * network, FlowNetwork *& outResidaulNetwork);
 	virtual QList<EdgeImage*> findAugumentingPath(FlowNetwork * residualNetwork, int & capacity);
 
-	bool checkAugumentingPathExists(FlowNetwork * residualNetwork, VertexImage * source);
+	bool checkAugumentingPathExists(FlowNetwork * residualNetwork, VertexImage * source, VertexImage * target);
 
 	virtual void increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase);
 	void setCurrentMaxFlow(int flow);

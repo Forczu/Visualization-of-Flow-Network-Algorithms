@@ -9,9 +9,6 @@
 #include "MkmAlgorithm.h"
 
 FlowNetworkAlgorithmState * FlowNetworkAlgorithmState::_pInstance = 0;
-char const * FlowNetworkAlgorithmState::FORD_FULKERSON = "ford_fulkerson";
-char const * FlowNetworkAlgorithmState::DINIC = "dinic";
-char const * FlowNetworkAlgorithmState::MKM = "mkm";
 
 FlowNetworkAlgorithmState::FlowNetworkAlgorithmState()
 {
@@ -30,13 +27,14 @@ QMap<QString, QString> FlowNetworkAlgorithmState::getAlgorithmMap()
 
 FlowNetworkAlgorithm * FlowNetworkAlgorithmState::getAlgorithm(QString const & name)
 {
-	QString algName = _map.key(name);
-	if (algName == FORD_FULKERSON)
-		return FordFulkersonAlgorithm::getInstance();
-	if (algName == DINIC)
-		return DinicAlgorithm::getInstance();
-	if (algName == MKM)
-		return MkmAlgorithm::getInstance();
+	try
+	{
+		return FlowNetworkAlgorithmFactory::Instance().createAlgorithm(_map.key(name));
+	}
+	catch (std::runtime_error const & e)
+	{
+		return nullptr;
+	}
 }
 
 QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const & name)
@@ -44,7 +42,7 @@ QDialog * FlowNetworkAlgorithmState::getDialog(GraphImage * graph, QString const
 	FlowNetworkAlgorithm * algorithm = dynamic_cast<FlowNetworkAlgorithm*>(getAlgorithm(name));
 	FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
 	FlowNetworkAlgorithmWindow * dialog;
-	if (dynamic_cast<FordFulkersonAlgorithm*>(algorithm))
+	if (dynamic_cast<FordFulkerson::FordFulkersonAlgorithm*>(algorithm))
 		dialog = new FlowNetworkAlgorithmWindow(network, algorithm);
 	else
 		dialog = new BlockingFlowAlgorithmWindow(network, algorithm);

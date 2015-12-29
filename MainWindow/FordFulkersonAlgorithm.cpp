@@ -4,52 +4,50 @@
 #include "VertexImage.h"
 #include "Strings.h"
 
-FordFulkersonAlgorithm * FordFulkersonAlgorithm::getInstance()
+namespace FordFulkerson
 {
-	return new FordFulkersonAlgorithm;
-}
-
-int FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& residualNewtork)
-{
-	return FlowNetworkAlgorithm::makeResidualNetwork(network, residualNewtork);
-}
-
-QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
-{
-	return FlowNetworkAlgorithm::findAugumentingPath(residualNetwork, capacity);
-}
-
-void FordFulkersonAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
-{
-	FlowNetworkAlgorithm::increaseFlow(network, path, increase);
-}
-
-QString FordFulkersonAlgorithm::resaidualNetworkFinishedMessage(int value)
-{
-	return Strings::Instance().get(FLOW_NETWORK_RESIDUAL_CREATED);
-}
-
-QString FordFulkersonAlgorithm::augumentingPathFoundMessage(QList<EdgeImage*> const & path, int capacity)
-{
-	QString numbers;
-	numbers.push_back(QString::number(path.first()->VertexFrom()->getId()) + ' ');
-	for (EdgeImage * edge : path)
+	int FordFulkersonAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& residualNewtork)
 	{
-		edge->setSelected(true);
-		numbers.push_back(QString::number(edge->VertexTo()->getId()) + ' ');
+		return FlowNetworkAlgorithm::makeResidualNetwork(network, residualNewtork);
 	}
-	QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_FOUND)
-		.arg(numbers).arg(capacity);
-	return message;
-}
 
-void FordFulkersonAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source, QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices)
-{
-	if (edge->VertexFrom() == currentVertex &&
-		edge->VertexTo() != source &&
-		!visitedVertices.contains(edge->VertexTo()) &&
-		!rejectedVertices.contains(edge->VertexTo()))
+	QList<EdgeImage*> FordFulkersonAlgorithm::findAugumentingPath(FlowNetwork * residualNetwork, int & capacity)
 	{
-		possibleEdges.push_back(edge);
+		return FlowNetworkAlgorithm::findAugumentingPath(residualNetwork, capacity);
+	}
+
+	void FordFulkersonAlgorithm::increaseFlow(FlowNetwork *& network, QList<EdgeImage*> const & path, int increase)
+	{
+		FlowNetworkAlgorithm::increaseFlow(network, path, increase);
+	}
+
+	QString FordFulkersonAlgorithm::resaidualNetworkFinishedMessage(int value)
+	{
+		return Strings::Instance().get(FLOW_NETWORK_RESIDUAL_CREATED);
+	}
+
+	QString FordFulkersonAlgorithm::augumentingPathFoundMessage(QList<EdgeImage*> const & path, int capacity)
+	{
+		QString numbers;
+		numbers.push_back(QString::number(path.first()->VertexFrom()->getId()) + ' ');
+		for (EdgeImage * edge : path)
+		{
+			edge->setSelected(true);
+			numbers.push_back(QString::number(edge->VertexTo()->getId()) + ' ');
+		}
+		QString message = Strings::Instance().get(FLOW_NETWORK_AUGUMENTING_PATH_FOUND)
+			.arg(numbers).arg(capacity);
+		return message;
+	}
+
+	void FordFulkersonAlgorithm::addEdgeToPath(QList<EdgeImage*> & possibleEdges, EdgeImage * edge, VertexImage * currentVertex, VertexImage * source, QList<VertexImage*> const & visitedVertices, QList<VertexImage*> const & rejectedVertices)
+	{
+		if (edge->VertexFrom() == currentVertex &&
+			edge->VertexTo() != source &&
+			!visitedVertices.contains(edge->VertexTo()) &&
+			!rejectedVertices.contains(edge->VertexTo()))
+		{
+			possibleEdges.push_back(edge);
+		}
 	}
 }

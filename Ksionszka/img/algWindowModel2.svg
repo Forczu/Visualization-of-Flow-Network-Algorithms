@@ -1,0 +1,125 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Arial" font-size="13" width="733" height="252">
+	<desc>UML diagram model</desc>
+	<g id="_fNLDoqTtEeWJIdgJ_zFBoQ">
+		<defs>
+			<linearGradient id="greyGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#E5E5E5" stop-opacity="1" />
+				
+			</linearGradient>
+			<linearGradient id="packageGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#EFE9DE" stop-opacity="1" />
+				
+			</linearGradient>
+			
+		</defs>
+		<g id="_efoTMJBXEDOQdvCEMmH3wQ">
+			<rect x="50" y="2" width="163" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="132" y="20" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">FlowNetworkAlgorithm</text>
+			<line x1="50" y1="26" x2="213" y2="26" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="50" y1="30" x2="213" y2="30" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_hTHugJBXEDOQdvCEMmH3wQ">
+			<rect x="330" y="2" width="215" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="438" y="20" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">FlowNetworkAlgorithmWindow</text>
+			<line x1="330" y1="26" x2="545" y2="26" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="330" y1="30" x2="545" y2="30" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_kPZ5cJBXEDOQdvCEMmH3wQ">
+			<rect x="330" y="122" width="220" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="440" y="140" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">BlockingFlowAlgorithmWindow</text>
+			<line x1="330" y1="146" x2="550" y2="146" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="330" y1="150" x2="550" y2="150" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_dLZZQJBZEDOQdvCEMmH3wQ">
+			<rect x="50" y="122" width="168" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="134" y="140" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">BlockingFlowAlgorithm</text>
+			<line x1="50" y1="146" x2="218" y2="146" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="50" y1="150" x2="218" y2="150" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_n8SI8JBZEDOQdvCEMmH3wQ">
+			<rect x="620" y="62" width="63" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="652" y="80" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Window</text>
+			<line x1="620" y1="86" x2="683" y2="86" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="620" y1="90" x2="683" y2="90" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_oV6b0JBXEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="330,42 272,42" />
+			
+		</g>
+		<g id="_oV6b0JBXEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="272,42 271,42" />
+			
+		</g>
+		<g id="_oV6b0JBXEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="271,42 213,42" />
+			
+		</g>
+		<g id="_ht9lgJBZEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="330,162 274,162" />
+			
+		</g>
+		<g id="_ht9lgJBZEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="274,162 274,162" />
+			
+		</g>
+		<g id="_ht9lgJBZEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="274,162 218,162" />
+			
+		</g>
+		<g id="_GvUi4JBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="545,72 582,72" />
+			
+		</g>
+		<g id="_GvUi4JBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="582,72 583,72" />
+			
+		</g>
+		<g id="_GvUi4JBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="583,72 620,72" />
+			<g transform="translate(620,72)">
+				<g transform="rotate(90)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g id="_IDT6UJBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="550,132 585,132" />
+			
+		</g>
+		<g id="_IDT6UJBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="585,132 585,132" />
+			
+		</g>
+		<g id="_IDT6UJBbEDOQdvCEMmH3wQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="585,132 620,132" />
+			<g transform="translate(620,132)">
+				<g transform="rotate(90)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<text x="218" y="56" fill="#000000">algorithm</text>
+		<text x="220" y="29" fill="#000000">1</text>
+		<text x="283" y="35" fill="#000000">window</text>
+		<text x="307" y="59" fill="#000000">1</text>
+		<text x="222" y="176" fill="#000000">algorithm</text>
+		<text x="225" y="149" fill="#000000">1</text>
+		<text x="283" y="155" fill="#000000">window</text>
+		<text x="307" y="179" fill="#000000">1</text>
+		
+	</g>
+	
+</svg>

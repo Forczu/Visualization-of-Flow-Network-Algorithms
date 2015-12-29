@@ -25,7 +25,6 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 	auto edges = network->getEdges();
 	QList<EdgeImage*> visitedNeighbours;
 	EdgeImage *neighbor;
-	for (EdgeImageMap::iterator it = edges.begin(); it != edges.end(); ++it)
 	for (EdgeImage * edge : edges)
 	{
 		int capacity = edge->getCapacity();
@@ -42,16 +41,16 @@ int FlowNetworkAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork
 			residualCapacity = capacity - flow + neighborFlow;
 			int neighborResidualCapacity = neighborCapacity - neighborFlow + flow;
 			if (residualCapacity != 0)
-				outResidaulNetwork->addEdge(vertexFromId, vertexToId, residualCapacity, EdgeType::StraightLine);
+				outResidaulNetwork->addEdge(vertexFromId, vertexToId, residualCapacity);
 			if (neighborResidualCapacity != 0)
-				outResidaulNetwork->addEdge(vertexToId, vertexFromId, neighborResidualCapacity, EdgeType::StraightLine);
+				outResidaulNetwork->addEdge(vertexToId, vertexFromId, neighborResidualCapacity);
 		}
 		else
 		{
 			if (flow != 0)
-				outResidaulNetwork->addEdge(vertexToId, vertexFromId, flow, EdgeType::StraightLine);
+				outResidaulNetwork->addEdge(vertexToId, vertexFromId, flow);
 			if (residualCapacity != 0)
-				outResidaulNetwork->addEdge(vertexFromId, vertexToId, residualCapacity, EdgeType::StraightLine);
+				outResidaulNetwork->addEdge(vertexFromId, vertexToId, residualCapacity);
 		}
 	}
 	return 0;
@@ -68,7 +67,7 @@ QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * networ
 	QList<EdgeImage*> augumentingPath;
 	VertexImage * source = network->getSource();
 	VertexImage * target = network->getTarget();
-	if (!checkAugumentingPathExists(network, source))
+	if (!checkAugumentingPathExists(network, source, target))
 		return augumentingPath;
 	augumentingPath = findPathBetween(network, source, target);
 	if (augumentingPath.size() == 0)
@@ -93,15 +92,22 @@ QList<EdgeImage*> FlowNetworkAlgorithm::findAugumentingPath(FlowNetwork * networ
 /// <param name="network">The network.</param>
 /// <param name="source">The source.</param>
 /// <returns></returns>
-bool FlowNetworkAlgorithm::checkAugumentingPathExists(FlowNetwork * network, VertexImage * source)
+bool FlowNetworkAlgorithm::checkAugumentingPathExists(FlowNetwork * network, VertexImage * source, VertexImage * target)
 {
 	EdgeImageMap edges = network->getEdges();
-	return std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
+	bool exists = std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
 	{
 		if (edge->VertexFrom() == source)
 			return true;
 		return false;
 	});
+	exists &= std::any_of(edges.begin(), edges.end(), [&](EdgeImage * edge)
+	{
+		if (edge->VertexTo() == target)
+			return true;
+		return false;
+	});
+	return exists;
 }
 
 /// <summary>

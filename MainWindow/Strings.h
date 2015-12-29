@@ -47,6 +47,7 @@ static const char * OPEN_GRAPH_FILE = "OPEN_GRAPH_FILE";
 static const char * SAVE_GRAPH_TO_FILE = "SAVE_GRAPH_TO_FILE";
 static const char * ABOUT_TITLE = "ABOUT_TITLE";
 static const char * ABOUT_INFO = "ABOUT_INFO";
+static const char * NO_ROUTE_FROM_SOURCE = "NO_ROUTE_FROM_SOURCE";
 
 class Strings : public Singleton<Strings>
 {

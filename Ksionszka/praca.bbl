@@ -37,6 +37,26 @@
       \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
       \field{year}{Gliwice 2012}
     \endentry
+    \entry{id:WzorceCppFabryka}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{9678835362ed33f14dcf3210cdc6c067}
+      \strng{fullhash}{9678835362ed33f14dcf3210cdc6c067}
+      \field{labelalpha}{And11}
+      \field{sortinit}{A}
+      \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{chapter}{Wytwórnie obiektów}
+      \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{year}{2011}
+      \field{pages}{225\bibrangedash 235}
+    \endentry
     \entry{id:WzorceProjektowePylek}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
@@ -135,6 +155,26 @@
       \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
       \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
       \field{year}{Gliwice 2012}
+    \endentry
+    \entry{id:WzorceCppFabryka}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{9678835362ed33f14dcf3210cdc6c067}
+      \strng{fullhash}{9678835362ed33f14dcf3210cdc6c067}
+      \field{labelalpha}{And11}
+      \field{sortinit}{A}
+      \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{chapter}{Wytwórnie obiektów}
+      \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{year}{2011}
+      \field{pages}{225\bibrangedash 235}
     \endentry
     \entry{id:WzorceProjektowePylek}{inbook}{}
       \name{labelname}{1}{}{%

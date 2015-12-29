@@ -99,7 +99,7 @@ void BlockingFlowAlgorithmWindow::increaseFlowInResidaulNetwork()
 	QString message = Strings::Instance().get(RESIDUAL_NETWORK_FLOW_INCREASED);
 	if (verticesRemoved)
 	{
-		if (dynamic_cast<DinicAlgorithm*>(_algorithm.data()) != NULL)
+		if (dynamic_cast<Dinic::DinicAlgorithm*>(_algorithm.data()) != NULL)
 			message += ' ' + Strings::Instance().get(NULL_DEGREE_VERTICES_REMOVED);
 		else
 			message += ' ' + Strings::Instance().get(NULL_POTENTIAL_VERTICES_REMOVED);
@@ -142,6 +142,11 @@ void BlockingFlowAlgorithmWindow::findAugumentingPathInBlockingFlow()
 	}
 }
 
+/// <summary>
+/// Dodanie nowej œcie¿ki powiêkszaj¹cej do zbioru œcie¿ek.
+/// </summary>
+/// <param name="path">Œcie¿ka.</param>
+/// <param name="capacity">Maksymalna wartoœæ przeputowoœci residualnej.</param>
 void BlockingFlowAlgorithmWindow::pushBlockingSet(QList<EdgeImage*> const & path, int capacity)
 {
 	QList<EdgeImage*> residualPath;

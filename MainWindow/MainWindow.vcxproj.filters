@@ -314,6 +314,9 @@
     <ClCompile Include="MkmAlgorithm.cpp">
       <Filter>Source Files\Algorithms</Filter>
     </ClCompile>
+    <ClCompile Include="FlowNetworkAlgorithmFactory.cpp">
+      <Filter>Source Files\Algorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -534,6 +537,9 @@
     </CustomBuild>
     <CustomBuild Include="Application.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FlowNetworkAlgorithmFactory.h">
+      <Filter>Source Files\Algorithms</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

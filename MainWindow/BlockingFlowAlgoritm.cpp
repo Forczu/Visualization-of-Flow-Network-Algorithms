@@ -43,7 +43,7 @@ void BlockingFlowAlgoritm::showHiddenVertices()
 void BlockingFlowAlgoritm::createShortestPathsMatrix(FlowNetwork *& newtork)
 {
 	const int n = newtork->getHighestVertexId();
-	_pathMatrix = std::vector<std::vector<float>>(n);
+	_pathMatrix = FloatMatrix(n);
 	for (int i = 0; i < n; ++i)
 	{
 		_pathMatrix[i].resize(n);

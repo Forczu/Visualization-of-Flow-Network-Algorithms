@@ -87,7 +87,7 @@ public:
 
 	bool parse(std::string const & filePath);
 	GraphImage * deserialize(std::string const & filePath);
-	bool serialize(GraphImage const & graph, std::string const & fileNam);
+	void serialize(GraphImage const & graph, std::string const & fileName);
 
 private:
 	char * xmlToChar(std::string const & stageFile);

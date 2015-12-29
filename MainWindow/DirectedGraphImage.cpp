@@ -26,7 +26,7 @@ DirectedGraphImage::~DirectedGraphImage()
 {
 }
 
-EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type, int flow /*= 0*/, float scale /*= 1.0f*/)
+EdgeImage * DirectedGraphImage::addEdge(int vertexId1, int vertexId2, int weight, EdgeType type /*= EdgeType::StraightLine*/, int flow /*= 0*/, float scale /*= 1.0f*/)
 {
 	Edge * edge = _graph->addEdge(vertexId1, vertexId2);
 	if (edge == nullptr)
@@ -43,7 +43,7 @@ void DirectedGraphImage::updateVerticesDegree(VertexImage * vertexFrom, VertexIm
 	vertexTo->setToolTip(degree.first, degree.second);
 }
 
-EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type, int weight /*= 0*/, int flow /*= 0*/, float scale /*= 1.0f*/)
+EdgeImage * DirectedGraphImage::createFullEdgeImage(Edge * edge, EdgeType type /*= EdgeType::StraightLine*/, int weight /*= 0*/, int flow /*= 0*/, float scale /*= 1.0f*/)
 {
 	EdgeImage * edgeImg = createEdgeImage(edge, type, weight, scale);
 	if (edgeImg == nullptr)

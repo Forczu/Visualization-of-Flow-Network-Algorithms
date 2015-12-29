@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   font-size="13"
+   width="323"
+   height="81"
+   id="svg35582"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="SOLID_SR.svg"
+   style="font-size:13px;font-family:Arial">
+  <metadata
+     id="metadata35640">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs35638">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#greyGradient"
+       id="linearGradient40114"
+       spreadMethod="pad"
+       x1="45.949817"
+       y1="1.6158933"
+       x2="45.949817"
+       y2="88.874131"
+       gradientTransform="scale(1.0772622,0.92827912)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#greyGradient"
+       id="linearGradient40116"
+       spreadMethod="pad"
+       x1="350.94001"
+       y1="1.3228757"
+       x2="350.94001"
+       y2="72.758161"
+       gradientTransform="scale(0.8819171,1.1338934)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     id="namedview35636"
+     showgrid="false"
+     inkscape:zoom="0.85308057"
+     inkscape:cx="161.5"
+     inkscape:cy="16.5"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg35582"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <desc
+     id="desc35584">UML diagram model</desc>
+  <g
+     id="_fNLDoqTtEeWJIdgJ_zFBoQ"
+     transform="translate(-49.5,-1.5)">
+    <defs
+       id="defs35587">
+      <linearGradient
+         id="greyGradient"
+         x1="0"
+         y1="0"
+         x2="0"
+         y2="1"
+         spreadMethod="pad">
+        <stop
+           offset="0%"
+           stop-color="#FFFFFF"
+           stop-opacity="1"
+           id="stop35590" />
+        <stop
+           offset="100%"
+           stop-color="#E5E5E5"
+           stop-opacity="1"
+           id="stop35592" />
+      </linearGradient>
+      <linearGradient
+         id="packageGradient"
+         x1="0"
+         y1="0"
+         x2="0"
+         y2="1"
+         spreadMethod="pad">
+        <stop
+           offset="0%"
+           stop-color="#FFFFFF"
+           stop-opacity="1"
+           id="stop35595" />
+        <stop
+           offset="100%"
+           stop-color="#EFE9DE"
+           stop-opacity="1"
+           id="stop35597" />
+      </linearGradient>
+    </defs>
+    <g
+       id="_HN4aQJBzEDO4xvknCTOG_w">
+      <rect
+         x="50"
+         y="2"
+         width="93"
+         height="80"
+         rx="5"
+         ry="0"
+         id="rect35600"
+         style="fill:url(#linearGradient40114);stroke:#cccccc;stroke-width:1" />
+      <text
+         x="97"
+         y="20"
+         font-style="normal"
+         font-weight="bold"
+         id="text35602"
+         style="font-style:normal;font-weight:bold;text-anchor:middle;fill:#033656">GraphImage</text>
+      <line
+         x1="50"
+         y1="26"
+         x2="143"
+         y2="26"
+         id="line35604"
+         style="stroke:#cccccc;stroke-width:1" />
+      <line
+         x1="50"
+         y1="30"
+         x2="143"
+         y2="30"
+         id="line35606"
+         style="stroke:#cccccc;stroke-width:1" />
+    </g>
+    <g
+       id="_xGuOgJB1EDO4xvknCTOG_w">
+      <rect
+         x="310"
+         y="2"
+         width="62"
+         height="80"
+         rx="5"
+         ry="0"
+         id="rect35609"
+         style="fill:url(#linearGradient40116);stroke:#cccccc;stroke-width:1" />
+      <text
+         x="341"
+         y="20"
+         font-style="normal"
+         font-weight="bold"
+         id="text35611"
+         style="font-style:normal;font-weight:bold;text-anchor:middle;fill:#033656">Graph</text>
+      <line
+         x1="310"
+         y1="26"
+         x2="372"
+         y2="26"
+         id="line35613"
+         style="stroke:#cccccc;stroke-width:1" />
+      <line
+         x1="310"
+         y1="30"
+         x2="372"
+         y2="30"
+         id="line35615"
+         style="stroke:#cccccc;stroke-width:1" />
+    </g>
+    <g
+       id="_zhWd4JB1EDO4xvknCTOG_w">
+      <polyline
+         points="143,42 226,42"
+         id="polyline35618"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+    </g>
+    <g
+       id="g35620">
+      <polyline
+         points="226,42 227,42"
+         id="polyline35622"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+    </g>
+    <g
+       id="g35624">
+      <polyline
+         points="227,42 310,42"
+         id="polyline35626"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+    </g>
+    <text
+       x="264"
+       y="29"
+       id="text35628"
+       style="fill:#000000">source</text>
+    <text
+       x="277"
+       y="59"
+       id="text35630"
+       style="fill:#000000">1</text>
+    <text
+       x="152"
+       y="56"
+       id="text35632"
+       style="fill:#000000">representation</text>
+    <text
+       x="150"
+       y="29"
+       id="text35634"
+       style="fill:#000000">*</text>
+  </g>
+</svg>

@@ -1,13 +1,10 @@
 #pragma once
 #include "AlgorithmState.h"
 #include "Singleton.h"
+#include "FlowNetworkAlgorithmFactory.h"
 
 class FlowNetworkAlgorithmState : public AlgorithmState, public Singleton<FlowNetworkAlgorithmState>
 {
-protected:
-	static char const * FORD_FULKERSON;
-	static const char * DINIC;
-	static const char * MKM;
 public:
 	explicit FlowNetworkAlgorithmState();
 	QStringList getAlgorithmList() override;

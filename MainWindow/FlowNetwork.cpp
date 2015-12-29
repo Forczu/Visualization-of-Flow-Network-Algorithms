@@ -128,7 +128,7 @@ bool FlowNetwork::checkFlowPreservation(CheckInfo &info)
 /// <returns>True, je¿eli struktura jest w porz¹dku, jeœli nie to false</returns>
 bool FlowNetwork::checkStructure(CheckInfo &info)
 {
-	VertexImage * source;
+	VertexImage * source, * target;
 	bool succeeded = true;
 	for (VertexImage * vertex : _vertexMap)
 	{
@@ -138,6 +138,10 @@ bool FlowNetwork::checkStructure(CheckInfo &info)
 			source = _vertexMap[getSourceId()];
 		else
 			source = NULL;
+		if (_vertexMap.find(getTargetId()) != _vertexMap.end())
+			target = _vertexMap[getTargetId()];
+		else
+			target = NULL;
 		auto it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImage * edge)
 		{
 			if (edge->VertexFrom() == vertex && edge->VertexTo() != source)
@@ -147,6 +151,17 @@ bool FlowNetwork::checkStructure(CheckInfo &info)
 		if (it == _edgeMap.end())
 		{
 			info += Strings::Instance().get(NO_ROUTE_TO_TARGET).arg(vertex->getId());
+			succeeded = false;
+		}
+		it = std::find_if(_edgeMap.begin(), _edgeMap.end(), [&](EdgeImage * edge)
+		{
+			if (edge->VertexTo() == vertex && edge->VertexFrom() != target)
+				return true;
+			return false;
+		});
+		if (it == _edgeMap.end())
+		{
+			info += Strings::Instance().get(NO_ROUTE_FROM_SOURCE).arg(vertex->getId());
 			succeeded = false;
 		}
 	}

@@ -9,7 +9,8 @@ class VertexImage;
 class BlockingFlowAlgoritm
 {
 protected:
-	std::vector<std::vector<float>> _pathMatrix;
+	typedef std::vector<std::vector<float>> FloatMatrix;
+	FloatMatrix _pathMatrix;
 	QList<VertexImage*> _currentHiddenVertices;
 	int _sourceId;
 	int _targetId;

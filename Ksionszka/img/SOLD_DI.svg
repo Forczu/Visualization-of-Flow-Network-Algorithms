@@ -1,0 +1,124 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Arial" font-size="13" width="671" height="302">
+	<desc>UML diagram model</desc>
+	<g id="_fNLDoqTtEeWJIdgJ_zFBoQ">
+		<defs>
+			<linearGradient id="greyGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#E5E5E5" stop-opacity="1" />
+				
+			</linearGradient>
+			<linearGradient id="packageGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#EFE9DE" stop-opacity="1" />
+				
+			</linearGradient>
+			
+		</defs>
+		<g id="_ApXkYJBzEDO4xvknCTOG_w">
+			<rect x="50" y="172" width="200" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="150" y="190" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">FlowNetworkAlgorithmState</text>
+			<line x1="50" y1="196" x2="250" y2="196" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="50" y1="200" x2="250" y2="200" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_E26i4JBzEDO4xvknCTOG_w">
+			<rect x="90" y="2" width="114" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="147" y="20" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">AlgorithmState</text>
+			<line x1="90" y1="26" x2="204" y2="26" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="90" y1="30" x2="204" y2="30" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_HN4aQJBzEDO4xvknCTOG_w">
+			<rect x="310" y="2" width="93" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="357" y="20" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">GraphImage</text>
+			<line x1="310" y1="26" x2="403" y2="26" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="310" y1="30" x2="403" y2="30" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_aXiLsJBzEDO4xvknCTOG_w">
+			<rect x="280" y="172" width="167" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="364" y="190" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">UndirectedGraphImage</text>
+			<line x1="280" y1="196" x2="447" y2="196" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="280" y1="200" x2="447" y2="200" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_oA3IIJBzEDO4xvknCTOG_w">
+			<rect x="470" y="172" width="151" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="546" y="190" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">DirectedGraphImage</text>
+			<line x1="470" y1="196" x2="621" y2="196" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="470" y1="200" x2="621" y2="200" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_GYUrQJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="147,172 147,127" />
+			
+		</g>
+		<g id="_GYUrQJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="147,127 147,127" />
+			
+		</g>
+		<g id="_GYUrQJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="147,127 147,82" />
+			<g transform="translate(147,82)">
+				<g transform="rotate(0)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g id="_WguSMJBzEDO4xvknCTOG_w">
+			<polyline stroke-dasharray="10, 5" fill="none" stroke-width="1" stroke="#000000" points="204,42 310,42" />
+			<g transform="translate(310,42)">
+				<g transform="rotate(90)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g id="_t07_kJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="546,172 546,127" />
+			
+		</g>
+		<g id="_t07_kJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="546,127 357,127" />
+			
+		</g>
+		<g id="_t07_kJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="357,127 357,82" />
+			<g transform="translate(357,82)">
+				<g transform="rotate(0)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g id="_u0sMYJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="356,172 356,127" />
+			
+		</g>
+		<g id="_u0sMYJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="356,127 356,127" />
+			
+		</g>
+		<g id="_u0sMYJBzEDO4xvknCTOG_w">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="356,127 356,82" />
+			<g transform="translate(356,82)">
+				<g transform="rotate(0)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<text x="231" y="30" fill="#000000">« use »</text>
+		
+	</g>
+	
+</svg>

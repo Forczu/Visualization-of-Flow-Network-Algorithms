@@ -109,16 +109,7 @@ Po zbudowaniu GUI, umożliwieniu budowania sieci przepływowych oraz nakreśleni
 
 Sposób testowania w ramach pracy (organizacja eksperymentów, przypadki testowe, wyniki, zakres testowania -- pełny/niepełny)
 
-\chapter{Uwagi o przebiegu i wynikach prac}
-W końcowej wersji aplikacji udało się spełnić wszystkie wymagania opisane w \ref{chap:wymagania}: tworzenie sieci przepływowych, ich serializację oraz algorytmy wyszukiwania maksymalnego przepływu.\\\indent
-Aplikacja była pisana z myślą o potencjalnych zmianach i rozszerzeniach, jakie mogą w niej zajść. W pracy zostały zrealizowane jedynie sieci przepływowe, które są tylko jednym z wielu rodzajów grafów. Dlatego została utworzona klasa nadrzędna \emph{GraphImage} dla wszystkich rodzajów grafów. O tym, czy graf jest ważony (posiada funkcję odwzorowująca jego zbiór krawędzi w zbiór liczb), decyduje odpowiedni obiekt klasy \textbf{\textit{strategii}}, który jest wstrzykiwany do grafu. Sieć przepływowa zawsze posiada strategię grafu ważonego. Zbiór narzędzi do edycji grafu, który przedstawia pasek narzędziowy, został oparty o wzorzec \textbf{\textit{stanu}}. Z punktu widzenia klas zewnętrznych narzędzie jest tylko jedno, pod wpływem naciśnięcia przycisku zmienia ono tylko swój stan wewnętrzny. Dzięki temu, aby dodać kolejne narzędzie, nie trzeba modyfikować istniejącego kodu, wystarczy jedynie utworzyć nową klasę.\\\indent
-Problemy napotkane w trakcie pracy 
-
-\begin{itemize}
-\item uzyskane wyniki w świetle postawionych celów
-\item kierunki ewentualnych danych prac (rozbudowa funkcjonalna \ldots)
-\item problemy napotkane w trakcie pracy
-\end{itemize}	
+\input{uwagi.tex}
 
 \chapter{Podsumowanie}
 

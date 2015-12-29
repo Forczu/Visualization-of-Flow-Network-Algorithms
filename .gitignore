@@ -348,3 +348,6 @@ MainWindow/tmp.xml
 *.pygtex
 *.css
 *.pygstyle
+MainWindow/serialized_graph2.xml
+Ksionszka/img/SOLID_SR.txt
+*.7z

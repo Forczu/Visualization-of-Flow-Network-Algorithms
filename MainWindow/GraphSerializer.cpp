@@ -58,7 +58,7 @@ GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 	return graph;
 }
 
-bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fileName)
+void GraphSerializer::serialize(GraphImage const & graph, std::string const & fileName)
 {
 	// zadeklarowanie xmla
 	xml_node<> * decl = _doc.allocate_node(node_declaration);
@@ -76,7 +76,6 @@ bool GraphSerializer::serialize(GraphImage const & graph, std::string const & fi
 	std::ofstream file_stored(fileName);
 	file_stored << _doc;
 	file_stored.close();
-	return true;
 }
 
 char * GraphSerializer::xmlToChar(std::string const & stageFile)
