@@ -5,7 +5,10 @@
 #include "FlowNetworkAlgorithmFactory.h"
 
 namespace Mkm
-{
+{	
+	/// <summary>
+	/// Klasa reprezentuj¹ca algorytm MKM. Zostaje zarejestrowana w fabryce algorytmów.
+	/// </summary>
 	class MkmAlgorithm : public FlowNetworkAlgorithm, public BlockingFlowAlgoritm
 	{
 		typedef QMap<int, std::tuple<float, float, float>> PotentialMap;

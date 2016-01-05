@@ -3,6 +3,9 @@
 #include "Singleton.h"
 #include "FlowNetworkAlgorithmFactory.h"
 
+/// <summary>
+/// Stan algorytmu Forda-Fulkersona.
+/// </summary>
 class FlowNetworkAlgorithmState : public AlgorithmState, public Singleton<FlowNetworkAlgorithmState>
 {
 public:

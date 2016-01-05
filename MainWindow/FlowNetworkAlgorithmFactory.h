@@ -4,6 +4,9 @@
 
 class FlowNetworkAlgorithm;
 
+/// <summary>
+/// Fabryka obiektów algorytmów dla sieci przep³ywowych.
+/// </summary>
 class FlowNetworkAlgorithmFactory : public Singleton<FlowNetworkAlgorithmFactory>
 {
 	typedef FlowNetworkAlgorithm* (*CreateAlgorithmCallback)();

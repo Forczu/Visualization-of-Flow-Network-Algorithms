@@ -5,6 +5,7 @@
 #include "VertexImage.h"
 #include "GraphSerializer.h"
 #include "GraphView.h"
+#include <chrono>
 
 FlowNetworkAlgorithmWindow::FlowNetworkAlgorithmWindow(FlowNetwork * network, FlowNetworkAlgorithm * algorithm, QWidget *parent)
 : QDialog(parent), _algorithm(algorithm), _network(network), _step(0), _residualNetwork(nullptr)
@@ -251,12 +252,26 @@ void FlowNetworkAlgorithmWindow::saveResult()
 
 void FlowNetworkAlgorithmWindow::finish()
 {
+#if DEBUG
+	using namespace std::chrono;
+	high_resolution_clock::time_point start = high_resolution_clock::now();
+	while (!_finished)
+		makeNextStep();
+#else
 	_timer = new QTimer(this);
 	connect(_timer, SIGNAL(timeout()), this, SLOT(makeNextStep()));
 	connect(this, SIGNAL(endAlgorithm()), this, SLOT(stopTimer()));
 	_timer->start(500);
+#endif
 	ui.nextStepButton->setEnabled(false);
 	ui.finishAlgorithmButton->setEnabled(false);
+#if DEBUG
+	milliseconds result = std::chrono::duration_cast<milliseconds>(high_resolution_clock::now() - start);
+	QMessageBox mbox;
+	mbox.setWindowTitle("Algorytm zosta³ zakoñczony");
+	mbox.setText(QString("Czas wykonywania algorytmu: %1 ms").arg(result.count()));
+	mbox.exec();
+#endif
 }
 
 void FlowNetworkAlgorithmWindow::deleteDialog() const

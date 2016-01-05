@@ -1,12 +1,12 @@
 % !TeX spellcheck = pl_PL 
-\chapter{Specyfikacja wewnętrzna}
+\chapter{Specyfikacja wewnętrzna}\label{chp:specWew}
 \section{Struktura danych}
 Reprezentację grafów w pamięci komputera można wykonać na dwa sposoby:
 \begin{itemize}
-	\item \textit{niskopoziomowy}: grafem jest macierz $ n\times n $ liczb całkowitych, gdzie $ n $ to liczba wierzchołków.\cite{id:AlgorytmyStruktury}
-	\item \textit{wysokopoziomowy}: wierzchołki i łuki grafu są zakapsułkowane do osobnych klas.\cite{id:ZaawansowaneAlgorytmyStruktury}
+	\item \textit{niskopoziomowy}: grafem jest macierz $ n\times n $ liczb całkowitych, gdzie $ n $ to liczba wierzchołków.\cite{id:AlgorytmyStrukturyStrukturaSieci}
+	\item \textit{wysokopoziomowy}: wierzchołki i łuki grafu są wyodrębnione do osobnych klas.
 \end{itemize}
-W swojej pracy wybrałem drugie podejście. Poprawne zdefiniowanie klas i zależności między nimi pozwala mi w intuicyjny sposób implementować algorytmy z pseudokodu: operacje rodzaju \textit{"wykonaj daną instrukcję na wszystkich krawędziach"} można łatwo odwzorować pobierając kolekcję krawędzi i dodając im odpowiednią metodę. Nie ma potrzeby adaptować operacji na zupełnie inną strukturę.
+W pracy inżynierskiej zostało wybrane drugie podejście. Poprawne zdefiniowanie klas i zależności między nimi pozwala mi w intuicyjny sposób implementować algorytmy z pseudokodu: operacje rodzaju \textit{"wykonaj daną instrukcję na wszystkich łukach"} można łatwo odwzorować pobierając kolekcję krawędzi i dodając im odpowiednią metodę. Nie ma potrzeby adaptować operacji na zupełnie inną strukturę.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{./img/dane}
@@ -27,7 +27,7 @@ Wierzchołki i łuki sieci przepływowej podczas wydarzenia rysowania pobierają
 \cppcode{./listings/GraphConfig.cpp}
 Informacje o sposobie rysowania wierzchołka są zawarte w klasie \mintinline{cpp}{VertexContext}, a łuki w klasie \mintinline{cpp}{EdgeContext}. Idea oparta jest o wzorzec \textbf{\textit{Pyłku}}. Każdy obiekt wierzchołka i łuku posiada swój niezmienny stan wewnętrzny, jak identyfikator oraz pozycję, a także stan zewnętrzny, jakim jest kolor i kształt\cite{id:WzorceProjektowePylek}. Kontekst oznacza właśnie stan zewnętrzny, którymi grafy mogą się różnić. Każdy wierzchołek i łuk posiada swój wskaźnik na aktualny kontekst, a w momencie, gdy następuje kliknięcie w elementu graf i mechanizm \textit{Qt} wykrywa zmianę zaznaczenia, wskaźnik wskazuje na przeciwny kontekst.
 \cppcode{./listings/itemChange.cpp}
-\section{Serializacja sieci}
+\section{Serializacja sieci}\label{sec:serializacja}
 Zapis oraz odczyt plików z grafami odbywa się w klasie \lstinline|GraphSerializer|. Posiada ona dwie publiczne metody:
 \begin{itemize}
 	\item \mintinline{cpp}{void serialize(GraphImage const & graph, std::string const & fileName);}\\
@@ -37,11 +37,12 @@ Zapis oraz odczyt plików z grafami odbywa się w klasie \lstinline|GraphSeriali
 \end{itemize}
 Sieci przepływowe są zapisywane do formatu XML. W celu obsługi tego języka, klasa \lstinline|GraphSerializer| korzysta z darmowej biblioteki do parsowania plików XML, \emph{RapidXML}, autorstwa Marcina Kalicińskiego\footnote{Strona domowa \textit{RapidXML}: \url{http://rapidxml.sourceforge.net/}}
 \subsection{Format pliku XML}
-Plik zaczyna się od korzenia o nazwie \lstinline[language=XML]|<Graph>|. Format pliku można podzielić na dwie części, konfiguracyjną (gałąź \lstinline[language=XML]|<Config>|) i modelową (gałąź \lstinline[language=XML]|<Model>|). W pierwszej znajdują się globalne ustawienia wyglądu, jak rozmiary i kolory wierzchołków i łuków. Druga część zawiera model sieci przepływowej - zarówno pozycje i numery wierzchołków, jak i ich połączenia poprzez krawędzie, ich kierunek, przepustowość, przepływ oraz położenie napisu z informacją. Przykładowa sieć przepływowa oraz jej serializacja do pliku znajduje się w dodatku \ref{add:A}.
+Plik zaczyna się od korzenia o nazwie \lstinline[language=XML]|<Graph>|. Format pliku można podzielić na dwie części, konfiguracyjną (gałąź \lstinline[language=XML]|<Config>|) i modelową (gałąź \lstinline[language=XML]|<Model>|). W pierwszej znajdują się globalne ustawienia wyglądu, jak rozmiary i kolory wierzchołków i łuków. Druga część zawiera model sieci przepływowej - zarówno pozycje i numery wierzchołków, jak i ich połączenia poprzez krawędzie, ich kierunek, przepustowość, przepływ oraz położenie napisu z informacją. Przykładowa sieć przepływowa oraz jej serializacja do pliku znajduje się w dodatku \ref{add:A}.\\\indent
+Przy realizacji serializacji konieczne było zapewnienie sprawdzenia poprawności pliku. Jeżeli nie posiada poprawnego formatu XML lub brakuje danych do utworzenia sieci, aplikacja sygnalizuje błąd i nie tworzy nowej karty. Za każdym razem, gdy klasa \emph{GraphSerializer} potrzebuje w czasie deserializacji argumentu lub wartości, która nie istnieje w pliku XML, wyrzucany jest wyjątek \lstinline[language=c++]|std::runtime_error| z odpowiednim komunikatem, który zostaje wyświetlony w nowym oknie dialogowym.
 
 
 \section{Algorytmy}
-Wszystkie trzy algorytmy wykonane w tej pracy zostały zakapsułkowane do osobnych klas. Ich klasą bazową bazową jest \lstinline|FlowNetworkAlgorithm|, która definiuje interfejs algorytmów oraz zawiera wspólną dla wszystkich funkcjonalność.
+Wszystkie trzy algorytmy wykonane w tej pracy zostały wyodrębnione do osobnych klas. Ich klasą bazową bazową jest \lstinline|FlowNetworkAlgorithm|, która definiuje interfejs algorytmów oraz zawiera wspólną dla wszystkich funkcjonalność.
 \subsection{Tworzenie sieci residualnej}\label{ssec:tworzenieSieciResAlg}
 Algorytm służący do wygenerowania sieci residualnej jest niezmienny dla wszystkich klas i jest zawarty w metodzie klasy \lstinline|FlowNetworkAlgorithm|.
 \begin{minted}[
@@ -76,7 +77,7 @@ Wartością zwracaną jest najkrótsza odległość między źródłem, a ujści
 \end{algorithm}
 Utworzenie tablicy odwiedzonych łuków ma zapewnić, że w sieci residualnej nie zostaną utworzone nadmiarowe łuki gdy pętla dojdzie do sąsiada. Pełny kod algorytmu znajduje się dodatku \ref{add:B}.
 \subsection{Szukanie ścieżki powiększającej}\label{ssec:szukanieSciezkiAlg}
-Podczas realizacji algorytmów wymagane jest znalezienie pewnej ścieżki pomiędzy źródłem, a ujściem, jednak w literaturze (\cite{id:ZaawansowaneAlgorytmyStruktury},\cite{id:IntroductionToAlgorithms}) nie jest podany żaden konkretny sposób. Udowodniono, że wybór algorytmu do szukania ścieżki nie ma znaczenia na wynik działania omawianych algorytmów - uzyskana wartość przepływu zawsze jest maksymalna. W mojej pracy zastosowałem algorytm poszukiwania ścieżek własnego pomysłu, który zaimplementowałem w uogólnionej metodzie poszukującej drogi pomiędzy dwoma dowolnymi wierzchołkami sieci przepływowej.
+Podczas realizacji algorytmów wymagane jest znalezienie pewnej ścieżki pomiędzy źródłem, a ujściem, jednak w literaturze (\cite{id:ZaawansowaneAlgorytmySiecPrzeplyw},\cite{id:IntroductionToAlgorithmsFordFulkerson}) nie jest podany żaden konkretny sposób. Udowodniono, że wybór algorytmu do szukania ścieżki nie ma znaczenia na wynik działania omawianych algorytmów - uzyskana wartość przepływu zawsze jest maksymalna. W mojej pracy zastosowałem algorytm poszukiwania ścieżek własnego pomysłu, który został zaimplementowany w uogólnionej metodzie poszukującej drogi pomiędzy dwoma dowolnymi wierzchołkami sieci przepływowej.
 \begin{minted}[
 frame=lines,
 framesep=2mm,
@@ -163,7 +164,7 @@ Funkcja przyjmuje trzy parametry:
 \end{algorithm}
 Algorytm musi uwzględniać trzy przypadki. Najprostszy występuje wtedy, gdy sieć posiada odpowiadający łuk, a ten nie posiada łuku sąsiedniego. Wówczas wystarczy jedynie zwiększyć przepływ. Jeżeli łuk posiada sąsiada, należy zwiększyć przepływ i dokonać wyrównania wartości. Może też zdarzyć się przypadek, że sieć residualna będzie posiadać łuki, które w sieci przepływowej nie istnieją, zgodnie z \ref{ssec:siecResidualna}. Wówczas należy dokonać przepływu zwrotnego, czyli zmniejszyć wartość przepływu w łuku, którzy dokonuje przepływu między wierzchołkami, ale w przeciwnym kierunku (który zgodnie z założeniami musi istnieć). Pełny kod algorytmu znajduje się dodatku \ref{add:increaseFlowAlg}.
 
-\subsection{Warunki stopu}
+\subsection{Warunki stopu}\label{ssec:warunkiStopu}
 Poszukiwanie maksymalnego przepływu zostaje zakończone gdy zostanie spełniony jeden z warunków:
 \begin{enumerate}
 	\item Suma przepływów w łukach wychodzących ze źródła jest równa sumie ich przepustowości,
@@ -173,7 +174,7 @@ Poszukiwanie maksymalnego przepływu zostaje zakończone gdy zostanie spełniony
 Pełna treść funkcji, które je sprawdzają znajdują się dodatku \ref{add:stopConditionsAlg}.
 
 \subsection{Algorytm Forda-Fulkersona}\label{ssec:fordFulkersonWew}
-Algorytm został zakapsułkowany do klasy \emph{FordFulkersonAlgorithm}, która dziedziczy po \emph{FlowNetworkAlgorithm}. Pseudokod tego algorytmu znajduje się w rozdziale \ref{ssec:FordFulkersonAnaliza}. Jest to najprostsza z metod znajdowania maksymalnego przepływu i korzysta wyłącznie z metod odziedziczonych po klasie \emph{FlowNetworkAlgorithm}:
+Algorytm został zamknięty w klasie \emph{FordFulkersonAlgorithm}, która dziedziczy po \emph{FlowNetworkAlgorithm}. Pseudokod tego algorytmu znajduje się w rozdziale \ref{ssec:FordFulkersonAnaliza}. Jest to najprostsza z metod znajdowania maksymalnego przepływu i korzysta wyłącznie z metod odziedziczonych po klasie \emph{FlowNetworkAlgorithm}:
 \begin{itemize}
 	\item tworzenia sieci residualnej \ref{ssec:tworzenieSieciResAlg},
 	\item znajdowania ścieżki powiększającej \ref{ssec:szukanieSciezkiAlg},
@@ -181,7 +182,7 @@ Algorytm został zakapsułkowany do klasy \emph{FordFulkersonAlgorithm}, która 
 \end{itemize}
 W pętli wykonywane są powyższe trzy instrukcje w kolejności w jakiej zostały wymienione. Efektem działania algorytmu jest sieć z maksymalnym przepływem. Pełny kod klasy tego algorytmu znajduje się dodatku \ref{add:fordFulkersonAlg}.
 \subsection{Przepływ blokujący}\label{ssec:blockingFlowWew}
-W klasie \emph{BlockingFlowAlgoritm} została zakapsułkowana cała logika związana z tworzeniem przepływu blokującego. Znajdują się tutaj wszystkie funkcje, które są wymagane do wykonania przepływu. Zgodnie z teorią zawartą w \ref{ssec:blockingFlowAnaliza} do wykonania przepływu blokującego potrzebna jest informacja o odległościach pomiędzy wierzchołkiem źródłowym, a wszystkimi pozostałymi. Informacja ta jest przechowywana w macierzy liczb zmiennoprzecinkowych $ n\times n $, gdzie $ n $ to liczba wierzchołków.
+W klasie \emph{BlockingFlowAlgoritm} została zawarta cała logika związana z tworzeniem przepływu blokującego. Znajdują się tutaj wszystkie funkcje, które są wymagane do wykonania przepływu. Zgodnie z teorią zawartą w \ref{ssec:blockingFlowAnaliza} do wykonania przepływu blokującego potrzebna jest informacja o odległościach pomiędzy wierzchołkiem źródłowym, a wszystkimi pozostałymi. Informacja ta jest przechowywana w macierzy liczb zmiennoprzecinkowych $ n\times n $, gdzie $ n $ to liczba wierzchołków.
 \begin{minted}[
 frame=lines,
 framesep=2mm, tabsize=4,
@@ -210,7 +211,7 @@ int DinicAlgorithm::makeResidualNetwork(FlowNetwork * network, FlowNetwork *& re
 Funkcja \emph{removeRedundantElements} usuwa z przekazanej sieci residualnej nadmiarowe elementy. W tym celu pobiera z tablicy \lstinline{_pathMatrix} (\ref{ssec:blockingFlowWew}) potrzebne wartości i porównuje je zgodnie z  warunkami opisanymi w \ref{ssec:WSR}. Pełna treść tej funkcji znajduje się w dodatku \ref{add:removeRedundantElements}.\\\indent
 Algorytm Dinica wykorzystuje wyszukiwanie ścieżki powiększającej do zwiększania przepływów w warstwowej sieci residualnej. Po utworzeniu przepływu blokującego, który na początku każdej iteracji jest głęboką kopią warstwowej sieci residualnej, wyszukuje się w nim wszystkich możliwych ścieżek powiększających tym samym fragmentem kodu opisanym w \ref{ssec:szukanieSciezkiAlg}. Uzyskane ścieżki zapisuje się do wektora ścieżek powiększających, a na koniec realizuje je wszystkie zwiększając przepływ w taki sam sposób jaki opisano w \ref{ssec:zwiekszeniePrzeplywuAlg}, z tą tylko różnicą, że wykonuje się je w pętli. Kod tego procesu został przedstawiony w dodatku \ref{add:blockPrzeplywZapel}.
 \subsection{Algorytm MKM}
-Ten algorytm wykorzystuje pojęcie potencjału przepływowego \ref{ssec:mkmAnaliza}, więc jego klasa wymaga utworzenia dodatkowej składowej. Do każdego wierzchołka należy dodać informację o jego trzech potencjałach ( wejściowym, wyjściowym i ogólnym), więc wykorzystałem strukturę \lstinline|std::tuple|. Wartościami są liczby zmiennoprzecinkowe, które umożliwiają stosowanie nieskończoności (\lstinline|std::numeric_limits|).
+Ten algorytm wykorzystuje pojęcie potencjału przepływowego \ref{ssec:mkmAnaliza}, więc jego klasa wymaga utworzenia dodatkowej składowej. Do każdego wierzchołka należy dodać informację o jego trzech potencjałach (wejściowym, wyjściowym i ogólnym), więc wykorzystano strukturę \lstinline|std::tuple|. Wartościami są liczby zmiennoprzecinkowe, które umożliwiają stosowanie nieskończoności (\lstinline|std::numeric_limits|).
 \begin{minted}[
 frame=lines,
 framesep=2mm, tabsize=4,breaklines,

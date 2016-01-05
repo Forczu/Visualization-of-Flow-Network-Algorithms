@@ -6,6 +6,9 @@ class GraphImage;
 class FlowNetworkAlgorithm;
 class QDialog;
 
+/// <summary>
+/// Okreœla aktualny stan algorytmu, jaki jest wykonywany.
+/// </summary>
 class AlgorithmState
 {
 protected:

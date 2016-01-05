@@ -100,6 +100,8 @@ private:
 	inline char * readAttribute(xml_node<> * node, char const * name);
 	void createValue(xml_node<>* node, char const * value);
 	char * readValue(xml_node<> * node);
+	xml_node<> * readNode(xml_document<> & doc, const char * nodeName);
+	xml_node<> * readNode(xml_node<> * node, const char * nodeName);
 #pragma region Serializacja
 	bool serializeVertexContext(VertexContext * context, xml_node<> * parentNode, const char * childName);
 	bool serializeEdgeContext(EdgeContext * context, xml_node<> * parentNode, const char * childName);

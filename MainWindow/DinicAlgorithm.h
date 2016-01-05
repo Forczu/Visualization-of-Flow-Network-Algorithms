@@ -5,6 +5,9 @@
 
 namespace Dinic
 {
+	/// <summary>
+	/// Klasa reprezentuj¹ca algorytm Dinica. Zostaje zarejestrowana w fabryce algorytmów.
+	/// </summary>
 	class DinicAlgorithm : public FlowNetworkAlgorithm, public BlockingFlowAlgoritm
 	{
 	public:

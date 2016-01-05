@@ -6,6 +6,9 @@ class FlowNetworkAlgorithmWindow;
 class EdgeImage;
 class VertexImage;
 
+/// <summary>
+/// Klasa nadrzêdna dla wszystkich algorytmów zwi¹zanych z sieciami przep³ywowymi.
+/// </summary>
 class FlowNetworkAlgorithm : public QObject
 {
 	Q_OBJECT

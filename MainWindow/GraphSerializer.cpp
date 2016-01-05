@@ -6,6 +6,7 @@
 #include "UndirectedGraphImage.h"
 #include "FlowNetwork.h"
 #include "VertexBuilder.h"
+#include "Strings.h"
 
 GraphSerializer::GraphSerializer() : _contents(nullptr)
 {
@@ -39,21 +40,21 @@ bool GraphSerializer::parse(std::string const & filePath)
 GraphImage * GraphSerializer::deserialize(std::string const & filePath)
 {
 	parse(filePath);
-	xml_node<> * root = _doc.first_node(ROOT);
-	xml_node<> * configNode = root->first_node(CONFIG_NODE);
+	xml_node<> * root = readNode(_doc, ROOT);
+	xml_node<> * configNode = readNode(root, CONFIG_NODE);
 	GraphConfig * config = deserializeConfig(configNode);
-	xml_node<> * modelNode = root->first_node(MODEL_NODE);
-	std::string graphType = root->first_attribute(TYPE_ATR)->value();
+	xml_node<> * modelNode = readNode(root, MODEL_NODE);
+	std::string graphType = readAttribute(root, TYPE_ATR);
 	GraphImage * graph = deserializeGraphType(graphType, config);
-	std::string strategy = root->first_attribute(WEIGHTED_ATR)->value();
+	std::string strategy = readAttribute(root, WEIGHTED_ATR);
 	AWeightedStrategyBase * weightStrategy = deserializeWeightStrategy(root, strategy);
 	graph->setWeightStrategy(weightStrategy);
 	deserializeModel(modelNode, graph);
 	if (graphType == FLOW_NETWORK_VAL)
 	{
 		FlowNetwork * network = dynamic_cast<FlowNetwork*>(graph);
-		network->markSource(toInt(root->first_attribute(SOURCE_ATR)->value()));
-		network->markTarget(toInt(root->first_attribute(TARGET_ATR)->value()));
+		network->markSource(toInt(readAttribute(root, SOURCE_ATR)));
+		network->markTarget(toInt(readAttribute(root, TARGET_ATR)));
 	}
 	return graph;
 }
@@ -155,6 +156,22 @@ bool GraphSerializer::toBool(char * str)
 	return strcmp(str, TRUE_VAL) == 0;
 }
 
+xml_node<> * GraphSerializer::readNode(xml_document<> & doc, const char * nodeName)
+{
+	auto node = doc.first_node(nodeName);
+	if (!node)
+		throw std::runtime_error(Strings::Instance().get(CORRUPTED_XML_FILE).toStdString().c_str());
+	return node;
+}
+
+xml_node<> * GraphSerializer::readNode(xml_node<> * node, const char * nodeName)
+{
+	auto childNode = node->first_node(nodeName);
+	if (!childNode)
+		throw std::runtime_error(Strings::Instance().get(CORRUPTED_XML_FILE).toStdString().c_str());
+	return childNode;
+}
+
 const char * GraphSerializer::getWeightStrategy(AWeightedStrategyBase * strategy)
 {
 	return dynamic_cast<WeightedEdgeStrategy*>(strategy) != NULL ? TRUE_VAL : FALSE_VAL;
@@ -227,7 +244,10 @@ void GraphSerializer::createAttribute(xml_node<> * node, char const * name, char
 
 char * GraphSerializer::readAttribute(xml_node<> * node, char const * name)
 {
-	return node->first_attribute(name)->value();
+	auto atr = node->first_attribute(name)->value();
+	if (!atr)
+		throw std::runtime_error(Strings::Instance().get(CORRUPTED_XML_FILE).toStdString().c_str());
+	return atr;
 }
 
 void GraphSerializer::createValue(xml_node<>* node, char const * value)
@@ -336,8 +356,8 @@ GraphConfig * GraphSerializer::deserializeConfig(xml_node<> * configNode)
 {
 	VertexContext *normalVertexContext, *selectedVertexContext;
 	EdgeContext *normalEdgeContext, *selectedEdgeContext;
-	QString name = readValue(configNode->first_node(NAME_NODE));
-	for (xml_node<>* node = configNode->first_node(VERTEX_CONTEXT_NODE); node; node = node->next_sibling(VERTEX_CONTEXT_NODE))
+	QString name = readValue(readNode(configNode, NAME_NODE));
+	for (xml_node<>* node = readNode(configNode, VERTEX_CONTEXT_NODE); node; node = node->next_sibling(VERTEX_CONTEXT_NODE))
 	{
 		if (strcmp(readAttribute(node, TYPE_ATR), NORMAL_VAL) == 0)
 		{
@@ -348,7 +368,7 @@ GraphConfig * GraphSerializer::deserializeConfig(xml_node<> * configNode)
 			selectedVertexContext = deserializeVertexContext(node);
 		}
 	}
-	for (xml_node<>* node = configNode->first_node(EDGE_CONTEXT_NODE); node; node = node->next_sibling(EDGE_CONTEXT_NODE))
+	for (xml_node<>* node = readNode(configNode, EDGE_CONTEXT_NODE); node; node = node->next_sibling(EDGE_CONTEXT_NODE))
 	{
 		if (strcmp(readAttribute(node, TYPE_ATR), NORMAL_VAL) == 0)
 		{
@@ -371,7 +391,7 @@ VertexContext * GraphSerializer::deserializeVertexContext(xml_node<> * vertexNod
 	int size = toInt(readAttribute(vertexNode, SIZE_ATR));
 	int strokeSize = toInt(readAttribute(vertexNode, STROKE_SIZE_ATR));
 	QColor color, strokeColor;
-	for (xml_node<>* node = vertexNode->first_node(COLOR_NODE); node; node = node->next_sibling(COLOR_NODE))
+	for (xml_node<>* node = readNode(vertexNode, COLOR_NODE); node; node = node->next_sibling(COLOR_NODE))
 	{
 		if (strcmp(readAttribute(node, TYPE_ATR), COLOR_VAL) == 0)
 		{
@@ -382,7 +402,7 @@ VertexContext * GraphSerializer::deserializeVertexContext(xml_node<> * vertexNod
 			strokeColor = deserializeColor(node);
 		}
 	}
-	QFont font = deserializeFont(vertexNode->first_node(FONT_NODE));
+	QFont font = deserializeFont(readNode(vertexNode, FONT_NODE));
 	VertexBuilder builder(size, strokeSize);
 	builder.color(color)->strokeColor(strokeColor)->font(font);
 	return builder.build();
@@ -411,7 +431,7 @@ QFont GraphSerializer::deserializeFont(xml_node<char> * fontNode)
 EdgeContext * GraphSerializer::deserializeEdgeContext(xml_node<>* edgeNode)
 {
 	int size = toInt(readAttribute(edgeNode, SIZE_ATR));
-	QColor color = deserializeColor(edgeNode->first_node(COLOR_NODE));
+	QColor color = deserializeColor(readNode(edgeNode, COLOR_NODE));
 	return new EdgeContext(size, color);
 }
 
@@ -431,7 +451,7 @@ bool GraphSerializer::deserializeModel(xml_node<> * modelNode, GraphImage * grap
 
 void GraphSerializer::deserializeVertices(xml_node<> * modelNode, GraphImage * graph)
 {
-	for (xml_node<>* node = modelNode->first_node("Vertex"); node; node = node->next_sibling("Vertex"))
+	for (xml_node<>* node = readNode(modelNode, "Vertex"); node; node = node->next_sibling("Vertex"))
 	{
 		deserializeVertex(node, graph);
 	}
@@ -440,9 +460,9 @@ void GraphSerializer::deserializeVertices(xml_node<> * modelNode, GraphImage * g
 void GraphSerializer::deserializeVertex(xml_node<>* vertexNode, GraphImage * graph)
 {
 	int id = toInt(readAttribute(vertexNode, ID_ATR));
-	QPointF position = deserializePosition(vertexNode->first_node(POS_NODE));
+	QPointF position = deserializePosition(readNode(vertexNode, POS_NODE));
 	PointMap points;
-	for (xml_node<>* node = vertexNode->first_node(POINT_NODE); node; node = node->next_sibling(POINT_NODE))
+	for (xml_node<>* node = readNode(vertexNode, POINT_NODE); node; node = node->next_sibling(POINT_NODE))
 	{
 		deserializePoint(node, points);
 	}
@@ -459,7 +479,7 @@ void GraphSerializer::deserializePoint(xml_node<>* pointNode, PointMap & points)
 
 void GraphSerializer::deserializeEdges(xml_node<> * modelNode, GraphImage * graph)
 {
-	for (xml_node<>* node = modelNode->first_node(EDGE_NODE); node; node = node->next_sibling(EDGE_NODE))
+	for (xml_node<>* node = readNode(modelNode, EDGE_NODE); node; node = node->next_sibling(EDGE_NODE))
 	{
 		deserializeEdge(node, graph);
 	}
@@ -482,14 +502,14 @@ void GraphSerializer::deserializeEdge(xml_node<>* node, GraphImage * graph)
 	float offsetValue = toFloat(readAttribute(node, OFFSET_VAL_ATR));
 	edge = graph->addEdge(vertexFrom, vertexTo, capacity, edgeType, flow);
 	edge->setOffset(offsetType, offsetValue);
-	QPointF pos = deserializePosition(node->first_node(POS_NODE));
+	QPointF pos = deserializePosition(readNode(node, POS_NODE));
 	edge->setPos(pos);
-	deserializeTextItem(node->first_node(EDGE_TEXT_ITEM_NODE), edge);
+	deserializeTextItem(readNode(node, EDGE_TEXT_ITEM_NODE), edge);
 }
 
 void GraphSerializer::deserializeTextItem(xml_node<>* node, EdgeImage * edge)
 {
-	QPointF position = deserializePosition(node->first_node(POS_NODE));
+	QPointF position = deserializePosition(readNode(node, POS_NODE));
 	edge->getTextItem()->setPos(position);
 }
 

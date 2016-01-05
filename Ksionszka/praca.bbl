@@ -19,7 +19,7 @@
 
 \refsection{0}
   \sortlist{entry}{}
-    \entry{id:ZaawansowaneAlgorytmyStruktury}{book}{}
+    \entry{id:ZaawansowaneAlgorytmySiecPrzeplyw}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -34,8 +34,95 @@
       \field{labelalpha}{Agn12}
       \field{sortinit}{A}
       \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{1}
+      \field{chapter}{Sieć przepływowa i przepływ w sieci}
       \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
       \field{year}{Gliwice 2012}
+      \field{pages}{46\bibrangedash 50}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyWarstwowaSiec}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{2}
+      \field{chapter}{Zastosowanie przepływu blokującego}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{53\bibrangedash 55}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyFordFulkerson}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{3}
+      \field{chapter}{Algorytm Forda-Fulkersona}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{50\bibrangedash 52}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyDinic}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{4}
+      \field{chapter}{Zastosowanie przepływu blokującego, Algorytm Dinica}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{55\bibrangedash 57}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyMkm}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{5}
+      \field{chapter}{Zastosowanie przepływu blokującego, Algorytm Mkm}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{58\bibrangedash 60}
     \endentry
     \entry{id:WzorceCppFabryka}{inbook}{}
       \name{labelname}{1}{}{%
@@ -52,10 +139,32 @@
       \field{labelalpha}{And11}
       \field{sortinit}{A}
       \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{extraalpha}{1}
       \field{chapter}{Wytwórnie obiektów}
       \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
       \field{year}{2011}
       \field{pages}{225\bibrangedash 235}
+    \endentry
+    \entry{id:WzorceCppSingleton}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{9678835362ed33f14dcf3210cdc6c067}
+      \strng{fullhash}{9678835362ed33f14dcf3210cdc6c067}
+      \field{labelalpha}{And11}
+      \field{sortinit}{A}
+      \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{extraalpha}{2}
+      \field{chapter}{Singletony}
+      \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{year}{2011}
+      \field{pages}{155\bibrangedash 161}
     \endentry
     \entry{id:WzorceProjektowePylek}{inbook}{}
       \name{labelname}{1}{}{%
@@ -72,11 +181,93 @@
       \field{labelalpha}{Eri10}
       \field{sortinit}{E}
       \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{1}
       \field{chapter}{PYŁEK (FLYWEIGHT)}
       \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
       \field{year}{2010}
+      \field{pages}{135\bibrangedash 138}
     \endentry
-    \entry{id:IntroductionToAlgorithms}{book}{}
+    \entry{id:WzorceProjektoweStan}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{2}
+      \field{chapter}{STAN (STATE)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+      \field{pages}{312\bibrangedash 320}
+    \endentry
+    \entry{id:WzorceProjektoweStrategia}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{3}
+      \field{chapter}{STRATEGIA (Strategy)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+      \field{pages}{321\bibrangedash 329}
+    \endentry
+    \entry{id:solidWebsite}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \strng{fullhash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \field{labelalpha}{Rob05}
+      \field{sortinit}{R}
+      \field{labeltitle}{{The Principles of OOD}}
+      \field{month}{maj}
+      \field{title}{{The Principles of OOD}}
+      \field{year}{2005}
+      \verb{url}
+      \verb http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod
+      \endverb
+    \endentry
+    \entry{id:CleanCodeSolid}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \strng{fullhash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \field{labelalpha}{Rob10}
+      \field{sortinit}{R}
+      \field{labeltitle}{Czysty kod. Podręcznik dobrego programisty}
+      \field{title}{Czysty kod. Podręcznik dobrego programisty}
+      \field{year}{2010}
+      \field{pages}{154\bibrangedash 158\bibrangessep 164\bibrangedash 166\bibrangessep 172}
+    \endentry
+    \entry{id:IntroductionToAlgorithmsFordFulkerson}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -91,11 +282,13 @@
       \field{labelalpha}{Tho09}
       \field{sortinit}{T}
       \field{labeltitle}{Introduction to Algorithms}
+      \field{chapter}{The Ford-Fulkerson method}
       \field{edition}{Third}
       \field{title}{Introduction to Algorithms}
       \field{year}{2009}
+      \field{pages}{714\bibrangedash 727}
     \endentry
-    \entry{id:AlgorytmyStruktury}{inbook}{}
+    \entry{id:AlgorytmyStrukturyStrukturaSieci}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -111,6 +304,7 @@
       \field{sortinit}{Z}
       \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{extraalpha}{1}
+      \field{chapter}{Metody reprezentowania grafów w pamięci komputera}
       \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{year}{Gliwice 2010}
       \field{pages}{133}
@@ -138,7 +332,7 @@
     \endentry
   \endsortlist
   \sortlist{entry}{anyt}
-    \entry{id:ZaawansowaneAlgorytmyStruktury}{book}{}
+    \entry{id:ZaawansowaneAlgorytmySiecPrzeplyw}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -153,8 +347,95 @@
       \field{labelalpha}{Agn12}
       \field{sortinit}{A}
       \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{1}
+      \field{chapter}{Sieć przepływowa i przepływ w sieci}
       \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
       \field{year}{Gliwice 2012}
+      \field{pages}{46\bibrangedash 50}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyWarstwowaSiec}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{2}
+      \field{chapter}{Zastosowanie przepływu blokującego}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{53\bibrangedash 55}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyFordFulkerson}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{3}
+      \field{chapter}{Algorytm Forda-Fulkersona}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{50\bibrangedash 52}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyDinic}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{4}
+      \field{chapter}{Zastosowanie przepływu blokującego, Algorytm Dinica}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{55\bibrangedash 57}
+    \endentry
+    \entry{id:ZaawansowaneAlgorytmyMkm}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=6a87761b51616acb1a2864c17f5cec69}{{Agnieszka\bibnamedelimb Debudaj-Grabysz,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Jacek\bibnamedelimb Widuch}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo Politechniki Śląskiej}%
+      }
+      \strng{namehash}{6a87761b51616acb1a2864c17f5cec69}
+      \strng{fullhash}{6a87761b51616acb1a2864c17f5cec69}
+      \field{labelalpha}{Agn12}
+      \field{sortinit}{A}
+      \field{labeltitle}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{extraalpha}{5}
+      \field{chapter}{Zastosowanie przepływu blokującego, Algorytm Mkm}
+      \field{title}{Algorytmy i struktury danych. Wybór zaawansowanych metod}
+      \field{year}{Gliwice 2012}
+      \field{pages}{58\bibrangedash 60}
     \endentry
     \entry{id:WzorceCppFabryka}{inbook}{}
       \name{labelname}{1}{}{%
@@ -171,10 +452,32 @@
       \field{labelalpha}{And11}
       \field{sortinit}{A}
       \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{extraalpha}{1}
       \field{chapter}{Wytwórnie obiektów}
       \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
       \field{year}{2011}
       \field{pages}{225\bibrangedash 235}
+    \endentry
+    \entry{id:WzorceCppSingleton}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=9678835362ed33f14dcf3210cdc6c067}{{Andrei\bibnamedelimb Alexandrescu}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{9678835362ed33f14dcf3210cdc6c067}
+      \strng{fullhash}{9678835362ed33f14dcf3210cdc6c067}
+      \field{labelalpha}{And11}
+      \field{sortinit}{A}
+      \field{labeltitle}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{extraalpha}{2}
+      \field{chapter}{Singletony}
+      \field{title}{Nowoczesne projektowanie w C++. Uogólnione implementacje wzorców projektowych}
+      \field{year}{2011}
+      \field{pages}{155\bibrangedash 161}
     \endentry
     \entry{id:WzorceProjektowePylek}{inbook}{}
       \name{labelname}{1}{}{%
@@ -191,11 +494,93 @@
       \field{labelalpha}{Eri10}
       \field{sortinit}{E}
       \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{1}
       \field{chapter}{PYŁEK (FLYWEIGHT)}
       \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
       \field{year}{2010}
+      \field{pages}{135\bibrangedash 138}
     \endentry
-    \entry{id:IntroductionToAlgorithms}{book}{}
+    \entry{id:WzorceProjektoweStan}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{2}
+      \field{chapter}{STAN (STATE)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+      \field{pages}{312\bibrangedash 320}
+    \endentry
+    \entry{id:WzorceProjektoweStrategia}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c50815b437ccd4072ec72378c9a8113d}{{Erich\bibnamedelimb Gamma,\bibnamedelimb Richard\bibnamedelimb Helm,\bibnamedelimb Ralph\bibnamedelimb Johnson,\bibnamedelimb John\bibnamedelimb Vlissides}}{E\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{c50815b437ccd4072ec72378c9a8113d}
+      \strng{fullhash}{c50815b437ccd4072ec72378c9a8113d}
+      \field{labelalpha}{Eri10}
+      \field{sortinit}{E}
+      \field{labeltitle}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{extraalpha}{3}
+      \field{chapter}{STRATEGIA (Strategy)}
+      \field{title}{Wzorce projektowe. Elementy oprogramowania wielokrotnego użytku}
+      \field{year}{2010}
+      \field{pages}{321\bibrangedash 329}
+    \endentry
+    \entry{id:solidWebsite}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \strng{fullhash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \field{labelalpha}{Rob05}
+      \field{sortinit}{R}
+      \field{labeltitle}{{The Principles of OOD}}
+      \field{month}{maj}
+      \field{title}{{The Principles of OOD}}
+      \field{year}{2005}
+      \verb{url}
+      \verb http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod
+      \endverb
+    \endentry
+    \entry{id:CleanCodeSolid}{inbook}{}
+      \name{labelname}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8ef76a52abb81581da4fd6e4e2e6a53f}{{Robert\bibnamedelimb C.\bibnamedelimi Martin}}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwo HELION}%
+      }
+      \strng{namehash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \strng{fullhash}{8ef76a52abb81581da4fd6e4e2e6a53f}
+      \field{labelalpha}{Rob10}
+      \field{sortinit}{R}
+      \field{labeltitle}{Czysty kod. Podręcznik dobrego programisty}
+      \field{title}{Czysty kod. Podręcznik dobrego programisty}
+      \field{year}{2010}
+      \field{pages}{154\bibrangedash 158\bibrangessep 164\bibrangedash 166\bibrangessep 172}
+    \endentry
+    \entry{id:IntroductionToAlgorithmsFordFulkerson}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=2e2ec059ca9420dbc790cb2c3288080b}{{Thomas\bibnamedelimb H.\bibnamedelimi Corman,\bibnamedelimb Charles\bibnamedelimb E.\bibnamedelimi Leiserson,\bibnamedelimb Ronald\bibnamedelimb L.\bibnamedelimi Rivest,\bibnamedelimb Clifford\bibnamedelimb Stein}}{T\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -210,11 +595,13 @@
       \field{labelalpha}{Tho09}
       \field{sortinit}{T}
       \field{labeltitle}{Introduction to Algorithms}
+      \field{chapter}{The Ford-Fulkerson method}
       \field{edition}{Third}
       \field{title}{Introduction to Algorithms}
       \field{year}{2009}
+      \field{pages}{714\bibrangedash 727}
     \endentry
-    \entry{id:AlgorytmyStruktury}{inbook}{}
+    \entry{id:AlgorytmyStrukturyStrukturaSieci}{inbook}{}
       \name{labelname}{1}{}{%
         {{hash=159f5a6c85d6911ae6ddf79aa7c6b2d2}{{Zbigniew\bibnamedelimb J.\bibnamedelimi Czech,\bibnamedelimb Sebastian\bibnamedelimb Deorowicz,\bibnamedelimb Piotr\bibnamedelimb Fabian}}{Z\bibinitperiod}{}{}{}{}{}{}}%
       }
@@ -230,6 +617,7 @@
       \field{sortinit}{Z}
       \field{labeltitle}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{extraalpha}{1}
+      \field{chapter}{Metody reprezentowania grafów w pamięci komputera}
       \field{title}{Algorytmy i struktury danych. Wybrane zagadnienia}
       \field{year}{Gliwice 2010}
       \field{pages}{133}

@@ -4,6 +4,9 @@
 
 namespace FordFulkerson
 {
+	/// <summary>
+	/// Klasa reprezentuj¹ca algorytm Forda-Fulkersona. Zostaje zarejestrowana w fabryce algorytmów.
+	/// </summary>
 	class FordFulkersonAlgorithm : public FlowNetworkAlgorithm
 	{
 	public:

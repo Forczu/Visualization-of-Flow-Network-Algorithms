@@ -69,7 +69,7 @@ void MainWindow::open()
 {
 	std::string fileName;
 #ifdef DEBUG
-	fileName = "serialized_graph.xml";
+	fileName = "tmp.xml";
 #else
 	fileName = QFileDialog::getOpenFileName(this,
 		tr("Open Graph File..."), QString(), tr("XML File (*.xml)")).toStdString();
@@ -77,10 +77,20 @@ void MainWindow::open()
 		return;
 #endif
 	GraphSerializer serializer;
-	GraphImage * graph = serializer.deserialize(fileName);
-	if (_graphTabs->isHidden())
-		_graphTabs->show();
-	_graphTabs->addTab(graph, graph->getName());
+	try
+	{
+		GraphImage * graph = serializer.deserialize(fileName);
+		if (_graphTabs->isHidden())
+			_graphTabs->show();
+		_graphTabs->addTab(graph, graph->getName());
+	}
+	catch (std::runtime_error const & e)
+	{
+		QMessageBox mbx;
+		mbx.setWindowTitle(Strings::Instance().get(CORRUPTED_XML_FILE_TITLE));
+		mbx.setText((Strings::Instance().get(CORRUPTED_XML_FILE)));
+		mbx.exec();
+	}
 }
 
 void MainWindow::saveAs()

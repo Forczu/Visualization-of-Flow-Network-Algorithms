@@ -17,7 +17,7 @@ Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z
 	\item \textit{Pole edycji grafu} to miejsce robocze, gdzie można umieszczać elementy grafu i pracować nad nim.
 \end{enumerate}
 \subsection{Tworzenie nowej sieci}
-Aby utworzyć nową sieć należy z paska menu wybrać \textit{Plik} $ \rightarrow $ \textit{Nowy} lub skorzystać ze skrótu \textit{CTRL + N}. Następnie pojawi się okienko w które należy wpisać roboczą nazwę sieci (można też pozostawić wygenerowaną domyślną nazwę). Po zatwierdzeniu zostanie dodana nowa karta z pustym polem edycyjnym.
+Aby utworzyć nową sieć należy z paska menu wybrać \menu{Plik > Nowy} lub skorzystać ze skrótu \keys{\ctrl + N}. Następnie pojawi się okienko w które należy wpisać roboczą nazwę sieci (można też pozostawić wygenerowaną domyślną nazwę). Po zatwierdzeniu zostanie dodana nowa karta z pustym polem edycyjnym.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{./img/spec_zew02}
@@ -28,7 +28,7 @@ Aby utworzyć nową sieć należy z paska menu wybrać \textit{Plik} $ \rightarr
 \subsubsection{Dodanie wierzchołka}
 Aby dodać nowy wierzchołek należy wybrać narzędzie dodawania wierzchołków, a następnie kliknąć lewym przyciskiem myszy na puste miejsce w polu edycyjnym. Pojawi się nowy obiekt, miejsce kliknięcia będzie środkiem wierzchołka. Jeżeli klikniemy istniejący już obiekt, zostanie on zaznaczony.
 \subsubsection{Dodanie łuku}
-Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"}. Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka, gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest trwało przymocowany do wierzchołków i nie można zmienić jego pozycji. Etykieta zawiera informację w formacie \emph{"przepływ / przepustowość"}.
+Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"}. Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka, gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest na trwał e przymocowany do wierzchołków i nie można zmienić jego pozycji. Etykieta zawiera informację w formacie \emph{"przepływ / przepustowość"}.
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.28\textwidth}
@@ -52,13 +52,15 @@ Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchoł
 \subsubsection{Usuwanie elementów}
 W każdej chwili można usunąć wierzchołek lub łuk w sieci. W tym celu należy wybrać narzędzie usuwania oraz kliknąć wybrany element. Usunięcie łuku powoduje pozbycie się z sieci tylko niego, z kolei usunięcie wierzchołka powoduje zlikwidowanie wszystkich łuków, które wchodzą lub wychodzą z niego. Można usuwać wiele elementów naraz, narzędzie usuwa wszystko co jest zaznaczone. 
 \subsubsection{Poprawa estetyki sieci}
-Aby poprawić wygląd i czytelność sieci istnieje możliwość wyrównania pozycji wierzchołków. W tym celu należy zaznaczać dwa lub więcej wierzchołków, a następnie kliknąć \textit{SHIFT} + jedną ze strzałek kierunkowych ($ \uparrow,\;\downarrow,\;\rightarrow,\;\leftarrow $). Wszystkie wierzchołki w sieci posiadają te same rozmiary i komendy należy interpretować następująco:
+Aby poprawić wygląd i czytelność sieci istnieje możliwość wyrównania pozycji wierzchołków. Wszystkie wierzchołki w sieci posiadają te same rozmiary i dzięki temu można zastosować kilka sposobów ich wyrównania. W tym celu należy zaznaczać dwa lub więcej wierzchołków, a następnie kliknąć jedną z kombinacji klawiszy:
 \begin{itemize}
-	\item \textit{SHIFT + $ \uparrow $} lub $ \downarrow $ - ustawia pozycję pionową wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego do góry lub na dół.
-	\item \textit{SHIFT + $ \rightarrow $} lub $ \leftarrow $ - ustawia pozycję poziomą wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego na prawo lub na lewo.
+	\item \keys{\shift + \arrowkeyup} - ustawia pozycję pionową wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego do góry.
+	\item \keys{\shift + \arrowkeydown} - ustawia pozycję pionową wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego na dół.
+	\item \keys{\shift + \arrowkeyleft} - ustawia pozycję poziomą wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego na lewo.
+	\item \keys{\shift + \arrowkeyright} - ustawia pozycję poziomą wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego na prawo.
 \end{itemize}
 \subsubsection{Konfiguracja wyglądu grafu}
-Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach. W tym celu należy wybrać z paska menu \textit{Graf} $ \rightarrow $ \textit{Kształt} lub skorzystać ze skrótu klawiszowego \textit{CTRL+SHIFT+K}. Pojawi się okienko z konfiguracją lokalnego grafu.
+Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach. W tym celu należy wybrać z paska menu \menu{Graf > Kształt} lub skorzystać ze skrótu klawiszowego \menu{\ctrl + \shift + K}. Pojawi się okienko z konfiguracją lokalnego grafu.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.45\textwidth}
@@ -76,7 +78,7 @@ Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach.
 \end{figure}
 Oba okienka umożliwiają zmianę koloru i rozmiaru, w przypadku wierzchołka możliwa jest ponadto kontrola nad grubością obrysu oraz jego koloru. Kliknięcie przycisku \textit{OK} lub \textit{Zastosuj} skutkuje zapisaniem konfiguracji i aktualizacją wyglądu. Każda sieć posiada swoją lokalną konfigurację, w przypadku zapisywania jej do pliku, ona również jest zachowywana.
 \subsubsection{Operowanie na sieci}
-Wybierając narzędzie wskaźnika możliwe jest przesuwanie wierzchołków po polu edycyjnym oraz ich zaznaczanie. Można zaznaczyć wiele wierzchołków i łuk przytrzymując klawisz \textit{CTRL} lub skorzystać z myszki - wystarczy kliknąć lewym przyciskiem na pustym polu, przytrzymać i przeciągnąć kursor by pojawił się prostokąt zaznaczający elementy sieci. Jeżeli jest wiele zaznaczonych elementów przesunięcie jednego z nich spowoduje przesunięcie wszystkich.\\\indent
+Wybierając narzędzie wskaźnika możliwe jest przesuwanie wierzchołków po polu edycyjnym oraz ich zaznaczanie. Można zaznaczyć wiele wierzchołków i łuk przytrzymując klawisz \keys{\ctrl} lub skorzystać z myszki - wystarczy kliknąć lewym przyciskiem na pustym polu, przytrzymać i przeciągnąć kursor by pojawił się prostokąt zaznaczający elementy sieci. Jeżeli jest wiele zaznaczonych elementów przesunięcie jednego z nich spowoduje przesunięcie wszystkich.\\\indent
 Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustowości, spowoduje pojawienie się linii przerywanej prowadzącej do środka łuku. Ułatwia to pracę z siecią, gdy łuków i etykiet pojawia się coraz więcej.
 \begin{figure}[H]
 	\centering
@@ -95,7 +97,7 @@ Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustow
 \end{figure}
 
 \subsubsection{Zmiana parametrów łuku}
-Nad każdym łukiem znajduje się etykieta, która zawiera informację o wartościach kolejno przepływu i przepustowości oddzielone ukośnikiem. Jeżeli w etykiecie znajduje się jedna liczba, oznacza ona przepustowość. Wówczas wartość przepływu jest zerowa i dla czytelności nie jest wyświetlany. Te dwie wartości można w każdej chwili zmienić klikając dwukrotnie lewym przyciskiem myszy na etykietę. Pojawi się pole edycji, gdzie można wprowadzić nowe wartości. Akceptowane są wyłącznie formaty $ <liczba> $ oraz $ <liczba>\;/\;<liczba> $. Zmianę zatwierdza się kliknięciem myszy. Nowy łańcuch w poprawnym formacie spowoduje aktualizację wartości i etykiety. Wprowadzenie czegokolwiek innego powoduje przywrócenie pierwotnych wartości.
+Nad każdym łukiem znajduje się etykieta, która zawiera informację o wartościach kolejno przepływu i przepustowości oddzielone ukośnikiem. Jeżeli w etykiecie znajduje się jedna liczba, oznacza ona przepustowość. Wówczas wartość przepływu jest zerowa i dla czytelności nie jest wyświetlany. Te dwie wartości można w każdej chwili zmienić klikając dwukrotnie lewym przyciskiem myszy na etykietę. Pojawi się pole edycji, gdzie można wprowadzić nowe wartości. Akceptowane są wyłącznie formaty \lstinline[language=xml]|<liczba>| oraz  \lstinline[language=xml]|<liczba> / <liczba>|. Zmianę zatwierdza się kliknięciem myszy. Nowy łańcuch w poprawnym formacie spowoduje aktualizację wartości i etykiety. Wprowadzenie czegokolwiek innego powoduje przywrócenie pierwotnych wartości.
 \subsection{Wykonanie algorytmów}
 W momencie utworzenia karty z siecią, nowym lub wczytanym z pliku, w lewym dolnym rogu pojawia się lista dostępnych algorytmów, jakie można wykonać w ramach programu: Forda-Fulkersona, Dinica oraz MKM.
 \subsubsection{Warunki poprawności sieci}
@@ -134,5 +136,5 @@ Okno zostało podzielone na 4 obszary:
 \end{figure}
 Przykładowe przedstawienie krok po kroku wyszukiwania maksymalnego przepływu znajduje się w dodatku \ref{add:C}.
 \subsection{Otwieranie i zapisywanie}
-Aby móc zapisać sieć przepływową do pliku w sesji programu musi być otwarta co najmniej jedna karta. Klikając \textit{CTRL+S} lub wybierając \textit{Plik} $ \rightarrow $ \textit{Zapisz jako} można zapisać stan pracy do pliku XML. Program poprosi o wskazanie folderu oraz wpisanie nazwy pliku. Potwierdzenie utworzy nowy plik.
-Aby otworzyć plik należy wybrać z paska menu \textit{Plik} $\rightarrow$ \textit{Otwórz} lub skorzystać ze skrótu klawiszowego \textit{CTRL+O}. Program otworzy okno dialogowe i poprosi o wskazanie pliku XML jaki ma otworzyć. Jeżeli ma on poprawny format, sieć przepływowa zostanie wczytana i pokazana w nowej karcie.
+Aby móc zapisać sieć przepływową do pliku w sesji programu musi być otwarta co najmniej jedna karta. Klikając \keys{\ctrl+S} lub wybierając \menu{Plik > Zapisz jako} można zapisać stan pracy do pliku XML. Program poprosi o wskazanie folderu oraz wpisanie nazwy pliku. Potwierdzenie utworzy nowy plik.
+Aby otworzyć plik należy wybrać z paska menu \menu{Plik > Otwórz} lub skorzystać ze skrótu klawiszowego \keys{\ctrl+O}. Program otworzy okno dialogowe i poprosi o wskazanie pliku XML jaki ma otworzyć. Jeżeli ma on poprawny format, sieć przepływowa zostanie wczytana i pokazana w nowej karcie.

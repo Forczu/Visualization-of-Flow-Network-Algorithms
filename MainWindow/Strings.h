@@ -48,6 +48,8 @@ static const char * SAVE_GRAPH_TO_FILE = "SAVE_GRAPH_TO_FILE";
 static const char * ABOUT_TITLE = "ABOUT_TITLE";
 static const char * ABOUT_INFO = "ABOUT_INFO";
 static const char * NO_ROUTE_FROM_SOURCE = "NO_ROUTE_FROM_SOURCE";
+static const char * CORRUPTED_XML_FILE = "CORRUPTED_XML_FILE";
+static const char * CORRUPTED_XML_FILE_TITLE = "CORRUPTED_XML_FILE_TITLE";
 
 class Strings : public Singleton<Strings>
 {
