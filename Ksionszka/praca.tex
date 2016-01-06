@@ -26,7 +26,7 @@
 \usepackage{menukeys}
 
 \frenchspacing
-\let\cleardoublepage\clearpage %żeby nie było jebanych podwójnych stron
+%\let\cleardoublepage\clearpage %żeby nie było jebanych podwójnych stron
 
 % --- Opcje listingu kodu
 \lstset{
@@ -90,12 +90,11 @@
 \renewcommand\appendixtocname{Załączniki} %spis treści 
 \renewcommand\appendixpagename{Załączniki} %strona sekcji 
  %done
+ \renewcommand{\listalgorithmname}{Spis algorytmów}
  
 \begin{document}
 %	\maketitle
 \input{front.tex}
-
-%\tableofcontents
 
 \mainmatter
 \input{wstep.tex}
@@ -109,5 +108,10 @@
 
 \nocite{*}
 \printbibliography
+
 \input{zalaczniki.tex}
+\listoffigures
+\listoftables
+\listofalgorithms
+
 \end{document}

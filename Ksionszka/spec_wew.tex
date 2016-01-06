@@ -3,15 +3,15 @@
 \section{Struktura danych}
 Reprezentację grafów w pamięci komputera można wykonać na dwa sposoby:
 \begin{itemize}
-	\item \textit{niskopoziomowy}: grafem jest macierz $ n\times n $ liczb całkowitych, gdzie $ n $ to liczba wierzchołków.\cite{id:AlgorytmyStrukturyStrukturaSieci}
+	\item \textit{niskopoziomowy}: grafem jest macierz $ n\times n $ liczb całkowitych, gdzie $ n $ to liczba wierzchołków.\cite{id:AlgorytmyStruktury}
 	\item \textit{wysokopoziomowy}: wierzchołki i łuki grafu są wyodrębnione do osobnych klas.
 \end{itemize}
-W pracy inżynierskiej zostało wybrane drugie podejście. Poprawne zdefiniowanie klas i zależności między nimi pozwala mi w intuicyjny sposób implementować algorytmy z pseudokodu: operacje rodzaju \textit{"wykonaj daną instrukcję na wszystkich łukach"} można łatwo odwzorować pobierając kolekcję krawędzi i dodając im odpowiednią metodę. Nie ma potrzeby adaptować operacji na zupełnie inną strukturę.
+W pracy inżynierskiej zostało wybrane drugie podejście, zależności między klasami prezentuje rysunek \ref{fig:graphStructure}. Poprawne zdefiniowanie klas i zależności między nimi pozwala mi w intuicyjny sposób implementować algorytmy z pseudokodu: operacje rodzaju \textit{"wykonaj daną instrukcję na wszystkich łukach"} można łatwo odwzorować pobierając kolekcję krawędzi i dodając im odpowiednią metodę. Nie ma potrzeby adaptować operacji na zupełnie inną strukturę.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{./img/dane}
-	\label{fig:graphStructure}
 	\caption{Diagram klas struktury sieci}
+	\label{fig:graphStructure}
 \end{figure}
 Zgodnie z definicją w \ref{ssec:graphDef}, graf (\emph{Graph}) składa się z dwóch zbiorów, wierzchołków (\emph{Vertex}) oraz łuków (\emph{Edge}). Graf jest kompozytem, wierzchołki i łuki stanowią jego ciało, a usunięcie obiektu grafu powoduje usunięcie jego wszystkich podrzędnych elementów. Wierzchołek jest niezależnym elementem, z kolei łuk posiada referencje do dwóch obiektów klasy wierzchołka - łuk nie może istnieć bez pary wierzchołków, które go tworzą, a usunięcie wierzchołka powoduje usunięcie wszystkich łuków wychodzących i wchodzących do niego.
 \section{Konfiguracja wyglądu sieci}
@@ -25,7 +25,7 @@ explicit FlowNetwork(GraphConfig * config);
 \end{minted}
 Wierzchołki i łuki sieci przepływowej podczas wydarzenia rysowania pobierają swoje ustawienia z rodzica. Klasa \lstinline|GraphConfig| zawiera w sobie pięć składowych: nazwę sieci oraz cztery konteksty - sposób rysowania zwykłego elementu oraz zaznaczonego.\vfill
 \cppcode{./listings/GraphConfig.cpp}
-Informacje o sposobie rysowania wierzchołka są zawarte w klasie \mintinline{cpp}{VertexContext}, a łuki w klasie \mintinline{cpp}{EdgeContext}. Idea oparta jest o wzorzec \textbf{\textit{Pyłku}}. Każdy obiekt wierzchołka i łuku posiada swój niezmienny stan wewnętrzny, jak identyfikator oraz pozycję, a także stan zewnętrzny, jakim jest kolor i kształt\cite{id:WzorceProjektowePylek}. Kontekst oznacza właśnie stan zewnętrzny, którymi grafy mogą się różnić. Każdy wierzchołek i łuk posiada swój wskaźnik na aktualny kontekst, a w momencie, gdy następuje kliknięcie w elementu graf i mechanizm \textit{Qt} wykrywa zmianę zaznaczenia, wskaźnik wskazuje na przeciwny kontekst.
+Informacje o sposobie rysowania wierzchołka są zawarte w klasie \mintinline{cpp}{VertexContext}, a łuki w klasie \mintinline{cpp}{EdgeContext}. Idea oparta jest o wzorzec \textbf{\textit{Pyłku}}. Każdy obiekt wierzchołka i łuku posiada swój niezmienny stan wewnętrzny, jak identyfikator oraz pozycję, a także stan zewnętrzny, jakim jest kolor i kształt\cite{id:WzorceProjektowe}. Kontekst oznacza właśnie stan zewnętrzny, którymi grafy mogą się różnić. Każdy wierzchołek i łuk posiada swój wskaźnik na aktualny kontekst, a w momencie, gdy następuje kliknięcie w elementu graf i mechanizm \textit{Qt} wykrywa zmianę zaznaczenia, wskaźnik wskazuje na przeciwny kontekst.
 \cppcode{./listings/itemChange.cpp}
 \section{Serializacja sieci}\label{sec:serializacja}
 Zapis oraz odczyt plików z grafami odbywa się w klasie \lstinline|GraphSerializer|. Posiada ona dwie publiczne metody:
@@ -77,7 +77,7 @@ Wartością zwracaną jest najkrótsza odległość między źródłem, a ujści
 \end{algorithm}
 Utworzenie tablicy odwiedzonych łuków ma zapewnić, że w sieci residualnej nie zostaną utworzone nadmiarowe łuki gdy pętla dojdzie do sąsiada. Pełny kod algorytmu znajduje się dodatku \ref{add:B}.
 \subsection{Szukanie ścieżki powiększającej}\label{ssec:szukanieSciezkiAlg}
-Podczas realizacji algorytmów wymagane jest znalezienie pewnej ścieżki pomiędzy źródłem, a ujściem, jednak w literaturze (\cite{id:ZaawansowaneAlgorytmySiecPrzeplyw},\cite{id:IntroductionToAlgorithmsFordFulkerson}) nie jest podany żaden konkretny sposób. Udowodniono, że wybór algorytmu do szukania ścieżki nie ma znaczenia na wynik działania omawianych algorytmów - uzyskana wartość przepływu zawsze jest maksymalna. W mojej pracy zastosowałem algorytm poszukiwania ścieżek własnego pomysłu, który został zaimplementowany w uogólnionej metodzie poszukującej drogi pomiędzy dwoma dowolnymi wierzchołkami sieci przepływowej.
+Podczas realizacji algorytmów wymagane jest znalezienie pewnej ścieżki pomiędzy źródłem, a ujściem, jednak w literaturze (\cite{id:ZaawansowaneAlgorytmy},\cite{id:IntroductionToAlgorithms}) nie jest podany żaden konkretny sposób. Udowodniono, że wybór algorytmu do szukania ścieżki nie ma znaczenia na wynik działania omawianych algorytmów - uzyskana wartość przepływu zawsze jest maksymalna. W mojej pracy zastosowałem algorytm poszukiwania ścieżek własnego pomysłu, który został zaimplementowany w uogólnionej metodzie poszukującej drogi pomiędzy dwoma dowolnymi wierzchołkami sieci przepływowej.
 \begin{minted}[
 frame=lines,
 framesep=2mm,
@@ -194,7 +194,7 @@ protected:
 	FloatMatrix _pathMatrix;
 }
 \end{minted}
-Z kolei do wyznaczenia odległości między wierzchołkami został wykorzystany algorytm Floyda-Warshalla \cite{id:AlgorytmyStrukturyFloydWarshall}, który wyszukuje odległości między wszystkimi parami wierzchołków. W sieci przepływowej odległość między wierzchołkami połączonymi przez łuk jest równa jeden. Implementacja funkcji znajduje się w dodatku \ref{add:floydWarshallImpl}.
+Z kolei do wyznaczenia odległości między wierzchołkami został wykorzystany algorytm Floyda-Warshalla \cite{id:AlgorytmyStruktury}, który wyszukuje odległości między wszystkimi parami wierzchołków. W sieci przepływowej odległość między wierzchołkami połączonymi przez łuk jest równa jeden. Implementacja funkcji znajduje się w dodatku \ref{add:floydWarshallImpl}.
 
 \subsection{Algorytm Dinica}\label{ssec:dinicAlgWew}
 Algorytm został zwarty w klasie \emph{DinicAlgorithm} dziedziczącej po klasach \emph{FlowNetworkAlgorithm} oraz \emph{BlockingFlowAlgoritm}. Implementacja tego algorytmu różni od implementacji algorytmu Forda-Fulkersona \ref{ssec:fordFulkersonWew} tworzeniem sieci residualnej, która jest warstwowa. W efekcie klasa tworzy sieć residualną metodą odziedziczoną po \emph{FlowNetworkAlgorithm}, a następnie usuwa zbędne elementy w metodzie odziedziczonej po \emph{BlockingFlowAlgoritm}.

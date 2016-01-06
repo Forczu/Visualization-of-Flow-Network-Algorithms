@@ -9,7 +9,7 @@ W ramach testowania poprawności działania algorytmów wyznaczania maksymalnego
 \end{enumerate}
 Wszystkie przypadki testowe zostały sprawdzone poprzez statyczne wprowadzenie sieci do aplikacji oraz ręczne uruchomienie algorytmów. Wyniki zostały przedstawione w tabelach \ref{table:test1}, \ref{table:test2} i \ref{table:test3}. Obliczenia zostały wykonane na komputerze z procesorem \textit{Intel Celeron G530 2 x 2.4 GHz}, 6 GB pamięci RAM i systemem \textit{Windows 7 x64}.
 \section{Wyniki}
-Zgodnie z danymi przedstawionymi w tabelach \ref{table:test1}, \ref{table:test2} i \ref{table:test3} we wszystkich sieciach przepływowych został obliczony maksymalny przepływ, który spełniał teoretyczne założenia opisane w rozdziale \ref{sec:testNetwork}. Z kolumny \textit{czas wykonania} wynika, że najefektywniejszym algorytmem jest algorytm MKM, który dla najcięższego przypadku (zakończenie algorytmu przez zauważenie zapełnienia łuków pośrednich) wykonał się zdecydowanie najszybciej, ponad dwa razy szybciej niż algorytm Forda-Fulkersona. Algorytm Dinica zajmuje drugie miejsce, jest o wiele efektywniejszy niż algorytm Forda-Fulkersona, ale trochę wolniejszy niż MKM. Z kolei dla pierwszej sieci czas wykonania algorytmów jest w przybliżeniu taki sam, ze wskazaniem na algorytm Forda-Fulkersona jako najlepszy. Stało się tak dlatego, że w tym przypadku łuki wychodzące ze źródła szybko się nasycają i algorytm Forda-Fulkersona wykonuje się trochę szybciej, ponieważ tworzy mniej złożone struktury.
+Zgodnie z danymi przedstawionymi w tabelach \ref{table:test1}, \ref{table:test2} i \ref{table:test3} we wszystkich sieciach przepływowych został obliczony maksymalny przepływ, który spełniał teoretyczne założenia opisane w rozdziale \ref{sec:testNetwork}. Z kolumny \textit{czas wykonania} wynika, że najefektywniejszym algorytmem jest algorytm MKM, który dla najbardziej trudnego przypadku (zakończenie algorytmu przez zauważenie zapełnienia łuków pośrednich) wykonał się zdecydowanie najszybciej, ponad dwa razy szybciej niż algorytm Forda-Fulkersona. Algorytm Dinica zajmuje drugie miejsce, jest o wiele efektywniejszy niż algorytm Forda-Fulkersona, ale trochę wolniejszy niż MKM. Z kolei dla pierwszej sieci czas wykonania algorytmów jest w przybliżeniu taki sam, ze wskazaniem na algorytm Forda-Fulkersona jako najlepszy. Stało się tak dlatego, że w tym przypadku łuki wychodzące ze źródła szybko się nasycają i algorytm Forda-Fulkersona wykonuje się trochę szybciej, ponieważ tworzy mniej złożone struktury.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{./img/test1}
@@ -36,7 +36,7 @@ Zgodnie z danymi przedstawionymi w tabelach \ref{table:test1}, \ref{table:test2}
 		Dinica        &       20              &      Tak           &     136           \\[1pt]
 		MKM        &      20               &       Tak          &        137        \\\hline
 	\end{tabular}
-	\caption{Wyniki testu dla sieci \ref{fig:test1}}
+	\caption{Wyniki testu dla sieci na rys. \ref{fig:test1}}
 	\label{table:test1}
 \end{table}
 \begin{table}
@@ -47,7 +47,7 @@ Zgodnie z danymi przedstawionymi w tabelach \ref{table:test1}, \ref{table:test2}
 		Dinica        &       40              &      Tak           &     149           \\[1pt]
 		MKM        &      40               &       Tak          &        144        \\\hline
 	\end{tabular}
-	\caption{Wyniki testu dla sieci \ref{fig:test2}}
+	\caption{Wyniki testu dla sieci na rys. \ref{fig:test2}}
 	\label{table:test2}
 \end{table}
 \begin{table}
@@ -58,6 +58,6 @@ Zgodnie z danymi przedstawionymi w tabelach \ref{table:test1}, \ref{table:test2}
 		Dinica        &       40              &      Tak           &     250           \\[1pt]
 		MKM        &      40               &       Tak          &        201        \\\hline
 	\end{tabular}
-	\caption{Wyniki testu dla sieci \ref{fig:test3}}
+	\caption{Wyniki testu dla sieci na rys. \ref{fig:test3}}
 	\label{table:test3}
 \end{table}

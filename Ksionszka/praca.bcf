@@ -2240,25 +2240,25 @@
     <bcf:datasource type="file" datatype="bibtex">bibliografia.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">id:ZaawansowaneAlgorytmySiecPrzeplyw</bcf:citekey>
-    <bcf:citekey order="2">id:ZaawansowaneAlgorytmySiecPrzeplyw</bcf:citekey>
-    <bcf:citekey order="3">id:ZaawansowaneAlgorytmyWarstwowaSiec</bcf:citekey>
-    <bcf:citekey order="4">id:ZaawansowaneAlgorytmyFordFulkerson</bcf:citekey>
-    <bcf:citekey order="5">id:IntroductionToAlgorithmsFordFulkerson</bcf:citekey>
-    <bcf:citekey order="6">id:ZaawansowaneAlgorytmyWarstwowaSiec</bcf:citekey>
-    <bcf:citekey order="7">id:ZaawansowaneAlgorytmyDinic</bcf:citekey>
-    <bcf:citekey order="8">id:ZaawansowaneAlgorytmyMkm</bcf:citekey>
-    <bcf:citekey order="9">id:AlgorytmyStrukturyStrukturaSieci</bcf:citekey>
-    <bcf:citekey order="10">id:WzorceProjektowePylek</bcf:citekey>
-    <bcf:citekey order="11">id:ZaawansowaneAlgorytmySiecPrzeplyw</bcf:citekey>
-    <bcf:citekey order="12">id:IntroductionToAlgorithmsFordFulkerson</bcf:citekey>
-    <bcf:citekey order="13">id:AlgorytmyStrukturyFloydWarshall</bcf:citekey>
+    <bcf:citekey order="1">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="2">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="3">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="4">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="5">id:IntroductionToAlgorithms</bcf:citekey>
+    <bcf:citekey order="6">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="7">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="8">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="9">id:AlgorytmyStruktury</bcf:citekey>
+    <bcf:citekey order="10">id:WzorceProjektowe</bcf:citekey>
+    <bcf:citekey order="11">id:ZaawansowaneAlgorytmy</bcf:citekey>
+    <bcf:citekey order="12">id:IntroductionToAlgorithms</bcf:citekey>
+    <bcf:citekey order="13">id:AlgorytmyStruktury</bcf:citekey>
     <bcf:citekey order="14">id:CleanCodeSolid</bcf:citekey>
     <bcf:citekey order="15">id:solidWebsite</bcf:citekey>
-    <bcf:citekey order="16">id:WzorceProjektoweStrategia</bcf:citekey>
-    <bcf:citekey order="17">id:WzorceProjektoweStan</bcf:citekey>
-    <bcf:citekey order="18">id:WzorceCppSingleton</bcf:citekey>
-    <bcf:citekey order="19">id:WzorceCppFabryka</bcf:citekey>
+    <bcf:citekey order="16">id:WzorceProjektowe</bcf:citekey>
+    <bcf:citekey order="17">id:WzorceProjektowe</bcf:citekey>
+    <bcf:citekey order="18">id:WzorceCpp</bcf:citekey>
+    <bcf:citekey order="19">id:WzorceCpp</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="anyt" type="entry" sortscheme="anyt">

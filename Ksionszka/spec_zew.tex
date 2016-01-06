@@ -3,11 +3,12 @@
 \section{Wymagania sprzętowe}
 Aplikacja działa pod systemami Windows 7 i nowszymi, na architekturze 64-bitowej. Instalacja nie jest wymagana, wystarczy otworzyć plik aplikacji .exe by móc z niej korzystać. Wszystkie biblioteki i pliki konfiguracyjne nie mogą zostać zmienione.
 \section{Korzystanie z aplikacji}
-Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z kilku podstawowych sekcji.
+Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z kilku podstawowych sekcji, które prezentuje rys. \ref{fig:specZewInterfejs}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{./img/spec_zew01-1.png}
 	\caption{Interfejs graficzny}
+	\label{fig:specZewInterfejs}
 \end{figure}
 \begin{enumerate}
 	\item \textit{Pasek narzędziowy} obejmuje pięć narzędzi do pracy z siecią przepływową: wskaźnik, lupę, dodanie grafu, dodanie krawędzi i usunięcie elementu.
@@ -17,18 +18,18 @@ Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z
 	\item \textit{Pole edycji grafu} to miejsce robocze, gdzie można umieszczać elementy grafu i pracować nad nim.
 \end{enumerate}
 \subsection{Tworzenie nowej sieci}
-Aby utworzyć nową sieć należy z paska menu wybrać \menu{Plik > Nowy} lub skorzystać ze skrótu \keys{\ctrl + N}. Następnie pojawi się okienko w które należy wpisać roboczą nazwę sieci (można też pozostawić wygenerowaną domyślną nazwę). Po zatwierdzeniu zostanie dodana nowa karta z pustym polem edycyjnym.
+Aby utworzyć nową sieć należy z paska menu wybrać \menu{Plik > Nowy} lub skorzystać ze skrótu \keys{\ctrl + N}. Następnie pojawi się okienko (rys. \ref{fig:nowyGrafMsgbox}) w które należy wpisać roboczą nazwę sieci (można też pozostawić wygenerowaną domyślną nazwę). Po zatwierdzeniu zostanie dodana nowa karta z pustym polem edycyjnym.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{./img/spec_zew02}
-	\label{fig:nowyGrafMsgbox}
 	\caption{Okienko z wyborem nazwy}
+	\label{fig:nowyGrafMsgbox}
 \end{figure}
 \subsection{Rysowanie grafu}
 \subsubsection{Dodanie wierzchołka}
 Aby dodać nowy wierzchołek należy wybrać narzędzie dodawania wierzchołków, a następnie kliknąć lewym przyciskiem myszy na puste miejsce w polu edycyjnym. Pojawi się nowy obiekt, miejsce kliknięcia będzie środkiem wierzchołka. Jeżeli klikniemy istniejący już obiekt, zostanie on zaznaczony.
 \subsubsection{Dodanie łuku}
-Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"}. Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka, gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest na trwał e przymocowany do wierzchołków i nie można zmienić jego pozycji. Etykieta zawiera informację w formacie \emph{"przepływ / przepustowość"}.
+Aby móc dodać łuk na polu roboczym muszą istnieć co najmniej dwa wierzchołki. Należy wybrać narzędzie dodawania krawędzi i w pierwszej kolejności kliknąć na wierzchołek który będzie źródłem. Pojawi się nad nim etykieta \textit{"Źródło"}. Potem należy kliknąć drugi wierzchołek, po najechaniu myszką pojawi się nad nim etykieta \textit{"Ujście"} (rys. \ref{fig:addEdge1}). Kliknięcie lewym przyciskiem myszy spowoduje potwierdzenie operacji i pojawienie okienka (rys. \ref{fig:addEdge2}), gdzie należy wpisać przepływ i przepustowość tego łuku, domyślnie zero i jeden. Jeżeli między wierzchołkami już istnieje dane połączenie, operacja zostanie zignorowana. Łuk jest na trwale przymocowany do wierzchołków i nie można zmienić jego pozycji. Etykieta zawiera informację w formacie \emph{"przepływ / przepustowość"} (rys. \ref{fig:addEdge3}).
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.28\textwidth}
@@ -60,7 +61,7 @@ Aby poprawić wygląd i czytelność sieci istnieje możliwość wyrównania poz
 	\item \keys{\shift + \arrowkeyright} - ustawia pozycję poziomą wszystkich wierzchołków równą pozycji wierzchołka najbardziej wysuniętego na prawo.
 \end{itemize}
 \subsubsection{Konfiguracja wyglądu grafu}
-Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach. W tym celu należy wybrać z paska menu \menu{Graf > Kształt} lub skorzystać ze skrótu klawiszowego \menu{\ctrl + \shift + K}. Pojawi się okienko z konfiguracją lokalnego grafu.
+Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach. W tym celu należy wybrać z paska menu \menu{Graf > Kształt} lub skorzystać ze skrótu klawiszowego \menu{\ctrl + \shift + K}. Pojawi się okienko z konfiguracją lokalnego grafu (rys. \ref{fig:grafConfig}).
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.45\textwidth}
@@ -79,7 +80,7 @@ Rozmiar i kolory wierzchołków oraz łuków można modyfikować w ustawieniach.
 Oba okienka umożliwiają zmianę koloru i rozmiaru, w przypadku wierzchołka możliwa jest ponadto kontrola nad grubością obrysu oraz jego koloru. Kliknięcie przycisku \textit{OK} lub \textit{Zastosuj} skutkuje zapisaniem konfiguracji i aktualizacją wyglądu. Każda sieć posiada swoją lokalną konfigurację, w przypadku zapisywania jej do pliku, ona również jest zachowywana.
 \subsubsection{Operowanie na sieci}
 Wybierając narzędzie wskaźnika możliwe jest przesuwanie wierzchołków po polu edycyjnym oraz ich zaznaczanie. Można zaznaczyć wiele wierzchołków i łuk przytrzymując klawisz \keys{\ctrl} lub skorzystać z myszki - wystarczy kliknąć lewym przyciskiem na pustym polu, przytrzymać i przeciągnąć kursor by pojawił się prostokąt zaznaczający elementy sieci. Jeżeli jest wiele zaznaczonych elementów przesunięcie jednego z nich spowoduje przesunięcie wszystkich.\\\indent
-Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustowości, spowoduje pojawienie się linii przerywanej prowadzącej do środka łuku. Ułatwia to pracę z siecią, gdy łuków i etykiet pojawia się coraz więcej.
+Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustowości, spowoduje pojawienie się linii przerywanej prowadzącej do środka łuku (rys. \ref{fig:grafSelect}). Ułatwia to pracę z siecią, gdy łuków i etykiet pojawia się coraz więcej.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.45\textwidth}
@@ -109,7 +110,7 @@ Aby uruchomić algorytm sieć musi być poprawnie zbudowana, tzn. spełniać nas
 \end{itemize}
 Jeżeli któryś z tych warunków nie zostanie spełniony, pojawi się okienko informujące dokładnie o rodzaju błędu oraz w którym miejscu grafu on wystąpił.
 \subsubsection{Okno wykonania}
-Jeżeli graf został poprawnie zbudowany, po kliknięciu w jeden z algorytmów pojawi się nowe okno w którym zostanie on wykonany.
+Jeżeli graf został poprawnie zbudowany, po kliknięciu w jeden z algorytmów pojawi się nowe okno (rys. \ref{fig:algorithmWindowStart}) w którym zostanie on wykonany.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\textwidth]{./img/spec_zew06_1}
@@ -126,7 +127,7 @@ Okno zostało podzielone na 4 obszary:
 		\textit{Skończ algorytm}, realizuje całość zadania, aż maksymalny przepływ zostanie znaleziony. Aplikacja wykonuje wówczas instrukcję \textit{Następny krok} w odstępach równych 0.5 sekundy, aż do zakończenia obliczeń.
 		\item \textit{Zapisz wynik}, przycisk staje się uaktywniony po zakończeniu zadania, umożliwia zapisanie sieci ze znalezionym maksymalnym przepływem do pliku XML.
 	\end{itemize}
-	\item W dolnym prawym rogu znajduje się konsola w której pojawiają się informacje o przebiegu algorytmu. Za każdym razem, gdy instrukcja \textit{Następny krok} zostanie wykonana, w tym polu pojawiają się szczegółowe informacje o utworzonych strukturach, znalezionych przepływach i innych zmianach w sieci.
+	\item W dolnym prawym rogu znajduje się konsola w której pojawiają się informacje o przebiegu algorytmu. Za każdym razem, gdy instrukcja \textit{Następny krok} zostanie wykonana, w tym polu pojawiają się szczegółowe informacje o utworzonych strukturach, znalezionych przepływach i innych zmianach w sieci. Przykładową ilustrację zmian w sieci zawiera rysunek \ref{fig:algorithmWindowFinished}.
 \end{itemize}
 \begin{figure}[H]
 	\centering
