@@ -90,7 +90,11 @@
 \renewcommand\appendixtocname{Załączniki} %spis treści 
 \renewcommand\appendixpagename{Załączniki} %strona sekcji 
  %done
- \renewcommand{\listalgorithmname}{Spis algorytmów}
+\renewcommand{\listalgorithmname}{Spis algorytmów}
+\makeatletter
+\renewcommand{\ALG@name}{Algorytm}
+\makeatother
+
  
 \begin{document}
 %	\maketitle

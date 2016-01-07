@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph type="flow_network" source="1" target="5" weighted="true">
+	<Config>
+		<Name>Graf 2</Name>
+		<VertexContext type="normal" size="59" strokeSize="12">
+			<Color type="color" r="255" g="255" b="255"/>
+			<Color type="strokeColor" r="0" g="0" b="0"/>
+			<Font bold="true" size="60" family="Calibri"/>
+		</VertexContext>
+		<VertexContext type="selected" size="59" strokeSize="12">
+			<Color type="color" r="0" g="0" b="255"/>
+			<Color type="strokeColor" r="0" g="0" b="80"/>
+			<Font bold="true" size="60" family="Calibri"/>
+		</VertexContext>
+		<EdgeContext type="normal" size="10">
+			<Color type="color" r="0" g="0" b="0"/>
+		</EdgeContext>
+		<EdgeContext type="selected" size="15">
+			<Color type="color" r="255" g="0" b="0"/>
+		</EdgeContext>
+	</Config>
+	<Model>
+		<Vertex id="1">
+			<Position x="-244.531250" y="72.376556"/>
+			<Point id="1" x="-215" y="21"/>
+			<Point id="2" x="-193" y="101"/>
+			<Point id="3" x="-244" y="131"/>
+			<Point id="5" x="-244" y="131"/>
+			<Point id="6" x="-244" y="131"/>
+			<Point id="7" x="-274" y="21"/>
+			<Point id="9" x="-193" y="42"/>
+		</Vertex>
+		<Vertex id="2">
+			<Position x="-244.531250" y="-302.734344"/>
+			<Point id="1" x="-215" y="-251"/>
+			<Point id="2" x="-244" y="-243"/>
+			<Point id="3" x="-193" y="-273"/>
+			<Point id="4" x="-185" y="-302"/>
+			<Point id="7" x="-274" y="-251"/>
+			<Point id="8" x="-193" y="-332"/>
+		</Vertex>
+		<Vertex id="3">
+			<Position x="298.898376" y="-302.734344"/>
+			<Point id="3" x="247" y="-273"/>
+			<Point id="4" x="349" y="-273"/>
+			<Point id="5" x="328" y="-251"/>
+			<Point id="6" x="298" y="-243"/>
+			<Point id="8" x="247" y="-332"/>
+			<Point id="10" x="349" y="-332"/>
+			<Point id="11" x="269" y="-251"/>
+		</Vertex>
+		<Vertex id="4">
+			<Position x="299.698364" y="72.376556"/>
+			<Point id="1" x="239" y="71"/>
+			<Point id="2" x="248" y="101"/>
+			<Point id="3" x="298" y="12"/>
+			<Point id="4" x="298" y="12"/>
+			<Point id="5" x="329" y="21"/>
+			<Point id="6" x="344" y="34"/>
+			<Point id="7" x="344" y="33"/>
+			<Point id="8" x="269" y="122"/>
+			<Point id="9" x="248" y="42"/>
+			<Point id="10" x="328" y="122"/>
+			<Point id="11" x="270" y="21"/>
+		</Vertex>
+		<Vertex id="5">
+			<Position x="806.640564" y="-300.670288"/>
+			<Point id="4" x="755" y="-271"/>
+			<Point id="5" x="747" y="-300"/>
+			<Point id="6" x="761" y="-262"/>
+			<Point id="7" x="761" y="-262"/>
+			<Point id="8" x="755" y="-331"/>
+			<Point id="10" x="755" y="-330"/>
+			<Point id="11" x="758" y="-267"/>
+		</Vertex>
+		<Edge type="straight" id="1" vertexFrom="1" vertexTo="2" capacity="30" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="-215.031250" y="21.281057"/>
+			<EdgeTextItem>
+				<Position x="25.544930" y="-180.024979"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="2" vertexFrom="1" vertexTo="4" capacity="40" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="-193.435745" y="101.876556"/>
+			<EdgeTextItem>
+				<Position x="188.534348" y="10.382818"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="7" vertexFrom="2" vertexTo="1" capacity="10" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="-274.031250" y="-251.638840"/>
+			<EdgeTextItem>
+				<Position x="-85.599998" y="83.755455"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="3" vertexFrom="2" vertexTo="3" capacity="30" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="-193.435745" y="-273.234344"/>
+			<EdgeTextItem>
+				<Position x="191.967926" y="9.356255"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="8" vertexFrom="3" vertexTo="2" capacity="10" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="247.802872" y="-332.234344"/>
+			<EdgeTextItem>
+				<Position x="-227.114807" y="-88.000000"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="11" vertexFrom="3" vertexTo="4" capacity="10" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="269.398376" y="-251.638840"/>
+			<EdgeTextItem>
+				<Position x="-74.799995" y="92.555450"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="4" vertexFrom="3" vertexTo="5" capacity="20" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="349.993866" y="-273.234344"/>
+			<EdgeTextItem>
+				<Position x="189.765457" y="8.406631"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="9" vertexFrom="4" vertexTo="1" capacity="10" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="248.602875" y="42.876556"/>
+			<EdgeTextItem>
+				<Position x="-252.314819" y="-85.599998"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="5" vertexFrom="4" vertexTo="3" capacity="15" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="329.198364" y="21.281057"/>
+			<EdgeTextItem>
+				<Position x="8.404681" y="-179.930450"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="6" vertexFrom="4" vertexTo="5" capacity="15" flow="0" offsetType="false" offsetValue="0.000000">
+			<Position x="344.894989" y="34.452087"/>
+			<EdgeTextItem>
+				<Position x="190.437485" y="-118.423042"/>
+			</EdgeTextItem>
+		</Edge>
+		<Edge type="straight" id="10" vertexFrom="5" vertexTo="3" capacity="20" flow="0" offsetType="true" offsetValue="30.000000">
+			<Position x="755.545044" y="-330.170288"/>
+			<EdgeTextItem>
+				<Position x="-216.471100" y="-89.032028"/>
+			</EdgeTextItem>
+		</Edge>
+	</Model>
+</Graph>
+

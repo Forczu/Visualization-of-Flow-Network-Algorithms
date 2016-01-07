@@ -63,11 +63,11 @@ Sieć residualną tworzy się w następujący sposób: dla każdego łuku $ (v_i
 	\label{fig:residual}
 \end{figure}
 Może się zdarzyć, że w sieci residualnej będą istnieć łuki, które nie istnieją w sieci pierwotnej lub będą posiadać przepustowość większą niż łuki odpowiadające w sieci pierwotnej. Należy wówczas w trakcie zwiększania przepływu wykorzystać \textit{przepływ zwrotny}, wynikający z warunku skośnej symetryczności, i zmniejszyć wartość przepływu netto w danym łuku.\newpage\indent
-\textit{\textbf{Ścieżką powiększającą}} $ p $ w sieci residualnej nazywamy zbiór łuków, który stanowi drogę ze źródła $ s $ do ujścia $ t $, musi zawierać co najmniej jeden łuk. Maksymalną wartością o jaką można zwiększyć przepływ dzięki niej jest najmniejsza przepustowość residualna spośród wszystkich łuków należących do tej ścieżki.
+\textit{\textbf{Ścieżką powiększającą}} $ p $ w sieci residualnej nazywamy ścieżkę prostą (zbiór wierzchołków i łuków, gdzie każdy wierzchołek jest różny) ze źródła $ s $ do ujścia $ t $. Maksymalną wartością o jaką można zwiększyć przepływ dzięki niej jest najmniejsza przepustowość residualna spośród wszystkich łuków należących do tej ścieżki.
 $$ c_f(p)=\min\{ c_f(v_i,v_j):\text{łuk } (v_i,v_j) \text{ należy do ścieżki }p\} $$
 Jeżeli ścieżki powiększającej nie da się wyznaczyć w sieci residualnej, to oznacza, że aktualny przepływ $ f $ sieci pierwotnej jest maksymalny.
 \subsection{Warstwowa sieć residualna}\label{ssec:WSR}
-Zoptymalizowana forma sieci residualnej, zapisujemy ją jako $ G_f^w=(V_f^w,E_f^w) $. Oparta jest o ideę, że wyszukiwanie ścieżki powiększającej powinno odbywać się wyłącznie po najkrótszych możliwych ścieżkach, więc pewne wierzchołki i łuki nie będą do sieci należały. Niech $ d_{min}(v,u) $ będzie najkrótszą możliwą odległością między wierzchołkami $ v $ i $ u $ w sieci residualnej $ G=(V,E) $ ($ v,u\in V $), liczoną w liczbie łuków pośredniczących. Z sieci residualnej $ G $ zostają usunięte:
+Inny rodzaj sieci residualnej, zapisujemy ją jako $ G_f^w=(V_f^w,E_f^w) $. Warstwowa sieć residualna oparta jest o ideę, że wyszukiwanie ścieżki powiększającej powinno odbywać się wyłącznie po najkrótszych możliwych ścieżkach, więc pewne wierzchołki i łuki nie będą do sieci należały. Niech $ d_{min}(v,u) $ będzie najkrótszą możliwą odległością między wierzchołkami $ v $ i $ u $ w sieci residualnej $ G=(V,E) $ ($ v,u\in V $), liczoną w liczbie łuków pośredniczących. Z sieci residualnej $ G $ zostają usunięte:
 \begin{itemize}
 	\item Wszystkie wierzchołki inne niż źródło, dla których minimalna odległość ze źródła jest większa niż odległość między źródłem, a ujściem.
 	$$ V_f^w=V\backslash\{v\in V\backslash\{t\} : d_{min}(s,t)\le d_{min}(s,v)\} $$

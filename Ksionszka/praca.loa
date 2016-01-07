@@ -1,0 +1,16 @@
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Wyznaczenie maksymalnego przep\IeC {\l }ywu algorytmem Forda-Fulkersona\relax }}{6}{algorithm.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Wyznaczenie maksymalnego przep\IeC {\l }ywu z wykorzystaniem przep\IeC {\l }ywu blokuj\IeC {\k a}cego\relax }}{6}{algorithm.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {3}{\ignorespaces Wyznaczenie przep\IeC {\l }ywu blokuj\IeC {\k a}cego algorytmem Dinica\relax }}{7}{algorithm.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Wyznaczenie przep\IeC {\l }ywu blokuj\IeC {\k a}cego algorytmem MKM\relax }}{7}{algorithm.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {5}{\ignorespaces Tworzenie nowego \IeC {\l }uku w sieci residualnej\relax }}{19}{algorithm.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {6}{\ignorespaces Poszukiwanie \IeC {\'s}cie\IeC {\.z}ki mi\IeC {\k e}dzy wierzcho\IeC {\l }kami\relax }}{20}{algorithm.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {7}{\ignorespaces Zwi\IeC {\k e}kszenie przep\IeC {\l }ywu w sieci\relax }}{21}{algorithm.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {algorithm}{\numberline {8}{\ignorespaces Tworzenie przep\IeC {\l }ywu blokuj\IeC {\k a}cego algorytmem MKM\relax }}{23}{algorithm.8}

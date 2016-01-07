@@ -15,7 +15,7 @@ Po uruchomieniu programu pojawia się okno z interfejsem graficznym złożonym z
 	\item \textit{Podsumowanie} zawiera informacje na temat aktywnej w danej chwili sieci.
 	\item \textit{Dostępne algorytmy} zawierają listę operacji, jakie można na sieci wykonać.
 	\item \textit{Pasek kart} zawiera listę istniejących sieci w instancji aplikacji między którymi można się przełączać.
-	\item \textit{Pole edycji grafu} to miejsce robocze, gdzie można umieszczać elementy grafu i pracować nad nim.
+	\item \textit{Pole edycji grafu} to miejsce robocze, gdzie można umieszczać elementy grafu i pracować nad nimi.
 \end{enumerate}
 \subsection{Tworzenie nowej sieci}
 Aby utworzyć nową sieć należy z paska menu wybrać \menu{Plik > Nowy} lub skorzystać ze skrótu \keys{\ctrl + N}. Następnie pojawi się okienko (rys. \ref{fig:nowyGrafMsgbox}) w które należy wpisać roboczą nazwę sieci (można też pozostawić wygenerowaną domyślną nazwę). Po zatwierdzeniu zostanie dodana nowa karta z pustym polem edycyjnym.
@@ -98,13 +98,13 @@ Zaznaczenie etykiety łuku, informującej o wartościach przepływu i przepustow
 \end{figure}
 
 \subsubsection{Zmiana parametrów łuku}
-Nad każdym łukiem znajduje się etykieta, która zawiera informację o wartościach kolejno przepływu i przepustowości oddzielone ukośnikiem. Jeżeli w etykiecie znajduje się jedna liczba, oznacza ona przepustowość. Wówczas wartość przepływu jest zerowa i dla czytelności nie jest wyświetlany. Te dwie wartości można w każdej chwili zmienić klikając dwukrotnie lewym przyciskiem myszy na etykietę. Pojawi się pole edycji, gdzie można wprowadzić nowe wartości. Akceptowane są wyłącznie formaty \lstinline[language=xml]|<liczba>| oraz  \lstinline[language=xml]|<liczba> / <liczba>|. Zmianę zatwierdza się kliknięciem myszy. Nowy łańcuch w poprawnym formacie spowoduje aktualizację wartości i etykiety. Wprowadzenie czegokolwiek innego powoduje przywrócenie pierwotnych wartości.
+Nad każdym łukiem znajduje się etykieta, która zawiera informację o wartościach kolejno przepływu i przepustowości oddzielone ukośnikiem. Jeżeli w etykiecie znajduje się jedna liczba, oznacza ona przepustowość. Wówczas wartość przepływu jest zerowa i dla czytelności nie jest wyświetlana. Te dwie wartości można w każdej chwili zmienić klikając dwukrotnie lewym przyciskiem myszy na etykietę. Pojawi się pole edycji, gdzie można wprowadzić nowe wartości. Akceptowane są wyłącznie formaty \lstinline[language=xml]|<liczba>| oraz  \lstinline[language=xml]|<liczba> / <liczba>|. Zmianę zatwierdza się kliknięciem myszy. Nowy łańcuch w poprawnym formacie spowoduje aktualizację wartości i etykiety. Wprowadzenie czegokolwiek innego powoduje przywrócenie pierwotnych wartości.
 \subsection{Wykonanie algorytmów}
 W momencie utworzenia karty z siecią, nowym lub wczytanym z pliku, w lewym dolnym rogu pojawia się lista dostępnych algorytmów, jakie można wykonać w ramach programu: Forda-Fulkersona, Dinica oraz MKM.
 \subsubsection{Warunki poprawności sieci}
 Aby uruchomić algorytm sieć musi być poprawnie zbudowana, tzn. spełniać następujące założenia:
 \begin{itemize}
-	\item wierzchołek źródłowy oraz wierzchołek ujściowy muszą być oznaczone, by móc wyznać maksymalny przepływ. W tym celu należy kliknąć prawym przyciskiem myszki na wierzchołkach i wybrać z menu kontekstowego odpowiednio \textit{oznacz jako źródło} oraz \textit{oznacz jako ujście}. Nad wierzchołkiem źródłowym pojawi się etykieta \textit{\textbf{s}}, a nad wierzchołkiem ujściowym etykieta \textit{\textbf{t}}.
+	\item wierzchołek źródłowy oraz ujście muszą być oznaczone, by móc wyznać maksymalny przepływ. W tym celu należy kliknąć prawym przyciskiem myszki na wierzchołkach i wybrać z menu kontekstowego odpowiednio \textit{oznacz jako źródło} oraz \textit{oznacz jako ujście}. Nad wierzchołkiem źródłowym pojawi się etykieta \textit{\textbf{s}}, a nad wierzchołkiem ujściowym etykieta \textit{\textbf{t}}.
 	\item Nie może istnieć żaden wierzchołek, inny niż źródło i ujście, przez który nie istnieje droga ze źródła do ujścia. Ma to na celu zapewnić, że w zbudowanym grafie istnieje co najmniej jedna ścieżka ze źródła do ujścia. Wystarczy, że dla każdego wierzchołka będą istniały co najmniej dwa łuki, wchodzący i wychodzący z niego.
 	\item Zasada zachowania przepływu nie może zostać złamana. Program nie dopuszcza, żeby łuk mógł mieć większą wartość przepływu niż przepustowość, ale podczas budowania sieci nie można cały czas kontrolować tej zasady. Jest ona sprawdzana dopiero przy próbie uruchomienia algorytmu.
 \end{itemize}
